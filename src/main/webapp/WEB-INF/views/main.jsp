@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/member/myPage.jsp"/>
+	<jsp:include page="common/header.jsp" />
+	<jsp:include page="member/myPage.jsp" />
+	
+
 </body>
 </html>
