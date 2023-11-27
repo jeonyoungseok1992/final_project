@@ -1,0 +1,191 @@
+/* header */
+header {
+    width: 100%;
+    background: #ffffff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #eeeeee;
+    display: flex;
+    align-items: center;
+    height: 72px;
+    box-sizing: border-box;
+    transition: top .2s ease-in-out;
+}
+.inner-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+header .gnb {
+    width: 100%;
+    padding: 0 20px;
+}
+header .gnb h1 a{
+    display: block;
+    width: 100px;
+}
+header .gnb h1 img{
+    width: 100%;
+}
+header .gnb .nav {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+header .gnb .menu{
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+header .gnb .menu > div{
+    width: 150px;
+    display: flex;
+    justify-content: space-between;
+}
+header .gnb .menu > li{
+	padding-right: 20px;
+}
+header .gnb .menu li a{
+    font-weight: 700;
+    font-size: 16px;
+    color: #4d5159;
+}
+header .gnb .menu li a:hover{
+    color: #b2d8b5;
+}
+header .gnb .search {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+header .gnb .search .input {
+    width: 300px;
+    background: #f2f3f6;
+    border: none;
+    border-radius: 0.6rem;
+    padding: 0.8rem 1.4rem;
+    box-sizing: border-box;
+}
+
+header .gnb .search .input:focus {
+    outline: 1px solid #b2d8b5;
+  }
+
+header .gnb .search .button {
+    background: #fff;
+    border: 1px solid #d1d3d8;
+    color: #212124;
+    font-weight: 700;
+    border-radius: 0.4rem;
+    padding: 0.8rem 1.4rem;
+}
+
+.utill{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+}
+.utill > div{
+    position: relative;
+}
+.utill > div:first-child:before {
+    display: none;
+}
+.utill > div:before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: -40px;
+    border-right: 1px solid #d8d8d8;
+    height: 16px;
+    padding-right: 20px;
+}
+.utill a {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -.23px;
+}
+.utill a:hover {
+    text-decoration: underline;
+}
+.utill div.icon a {
+    display: flex;
+    align-items: center;
+    gap:4px;
+}
+.utill div a > img {
+    width: 16px;
+    height: 16px;
+}
+
+/* contents */
+.contents{
+    padding-top: 70px;
+}
+
+/*modal*/
+.modal-title.updatest{
+   font-size: 24px;
+    font-weight: 700;
+    line-height: 35px;
+}
+.btn.updatest{
+   height: 60px;
+    padding: 0 40px;
+    font-weight: 700;
+    border-radius: 0;
+    margin-top: 16px;
+    background-color: #b2d8b5;
+    border: none;
+    font-size: 16px;
+    width: 350px;
+}
+.btn-secondary.updatest:hover{
+   opacity: .8;
+    background-color: #b2d8b5;
+    border-color: #b2d8b5;
+}
+table.update  tbody tr td input{
+   width: 100%;
+    border: 1px solid gainsboro;
+    height: 40px;
+    margin: 15px 0px;
+    padding-left: 15px; 
+ 
+}
+.modal-backdrop{
+	z-index: 999;
+}
+.modal-body.login label{
+    display: block;
+    text-align: left;
+    width: 350px;
+    font-weight :bold;
+    cursor: unset;
+    }
+.modal-body.login input{
+	
+    border: 1px solid gainsboro;
+    height: 40px;
+    margin: 15px 0px;
+    width: 350px;
+    padding-left: 15px;
+	
+}
+#join {
+	display: block;
+    width: 350px;
+    text-align: right;
+    padding-top: 20px;
+    text-decoration: underline;
+    font-weight: bold;
+    padding-bottom: 30px;
+}
