@@ -9,7 +9,7 @@
 <body>
 	<jsp:include page="common/header.jsp" />
 	<jsp:include page="member/myPage.jsp" />
-	
+	asfdfewff
 
 </body>
 </html>
