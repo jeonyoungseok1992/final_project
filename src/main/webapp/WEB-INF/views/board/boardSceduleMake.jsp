@@ -28,7 +28,7 @@
 <body>
     <div class="travel-wrap">
         <div class="header-fixed">
-            <a href="" class="logo"><img src="./resources/images/logo.png" alt=""></a>
+            <a href="" class="logo"><img src="./resources/images/logo_001.png" alt=""></a>
             <div class="dropdown">
                 <button type="button" class="btn btn-primary dropdown-toggle profile" data-bs-toggle="dropdown"><img src="./resources/images/profile.png" alt=""></button>
                 <ul class="dropdown-menu">
