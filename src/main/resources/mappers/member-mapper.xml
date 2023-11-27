@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper">
+
+	<resultMap type="Member" id="memberResult">
+		<result column="MEMBER_NO" property="memberNo"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="MEMBER_PWD" property="memberPwd"/>
+		<result column="MEMBER_NAME" property="memberName"/>
+		<result column="MEMBER_NICKNAME" property="memberNickName"/>
+		<result column="MEMBER_EMAIL" property="memberEmail"/>
+		<result column="MEMBER_PHONE" property="memberPhone"/>
+		<result column="MEMBER_PROFILE_IMG" property="memberProfileImg"/>
+		<result column="MEMBER_CREATE_DATE" property="createDate"/>
+		<result column="MEMBER_MODIFY_DATE" property="modifyDate"/>
+		<result column="MEMBER_RIGHT" property="memberRight"/>
+		<result column="MEMBER_STATUS" property="memberStatus"/>
+		<result column="MEMBER_GRADE" property="memberGrade"/>
+	</resultMap>
+
+	<!-- 로그인 쿼리문 -->
+	<select id="loginMember" resultMap="memberResult">
+		SELECT MEMBER_NO
+            ,MEMBER_ID
+            ,MEMBER_PWD
+            ,MEMBER_NAME
+            ,MEMBER_NICKNAME
+            ,MEMBER_EMAIL
+            ,MEMBER_PHONE
+            ,MEMBER_PROFILE_IMG
+            ,MEMBER_CREATE_DATE
+            ,MEMBER_MODIFY_DATE
+            ,MEMBER_RIGHT
+            ,MEMBER_STATUS
+            ,MEMBER_GRADE
+		FROM MEMBER
+		WHERE MEMBER_ID = #{memberId}
+		and MEMBER_STATUS = 'Y'
+	</select>
+	
+	<!-- 회원가입을 위한 쿼리문 -->
+	<insert id="insertMember">
+		INSERT INTO MEMBER(
+			USER_ID,
+			USER_PWD,
+			USER_NAME,
+			EMAIL,
+			GENDER,
+			AGE,
+			PHONE,
+			ADDRESS
+		)
+		VALUES(
+			#{userId},
+			#{userPwd},
+			#{userName},
+			#{email},
+			#{gender},
+			#{age},
+			#{phone},
+			#{address}
+		)
+	</insert>
+	
+	<update id="updateMember">
+      UPDATE MEMBER
+         SET 
+            USER_NAME = #{userName},
+            EMAIL = #{email},         
+            AGE = #{age},
+            PHONE = #{phone},
+            ADDRESS = #{address},
+            GENDER = #{gender},
+            MODIFY_DATE = SYSDATE
+      WHERE USER_ID = #{userId}
+   </update>
+   
+   	<update id="deleteMember">
+      UPDATE MEMBER
+         SET STATUS = 'N'
+      WHERE USER_ID = #{userId}
+   </update>
+   
+   	<!-- 아이디 중복체크 -->
+	<select id="idCheck" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE USER_ID = #{userId}
+	</select>
+   
+</mapper>
