@@ -1,0 +1,97 @@
+body{
+    margin-top: 72px;
+    position: relative;
+}
+.color-container{
+    min-width: 768px;
+    height: 300px;
+    background-color: #b2d8b5;
+}
+.profile-container{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    align-items: center;
+    top: 19%;
+    margin-top: 100px;
+    width: 100%;
+}
+
+/* 네비 바*/
+
+
+.button-group.line-type>* {
+    height: 48px;
+}
+.button-group>* {
+    position: relative;
+    color: #000;
+    font-weight: 700;
+    transition: .2s;
+    font-size: 20px;
+}
+.button-group>*[aria-checked="true"], .button-group>*[aria-selected="true"] {
+    color: #b2d8b5;
+    font-weight: 700;
+}
+.button-group.line-type>*[aria-checked="true"]:before, .button-group.line-type>*[aria-selected="true"]:before {
+    left: 0;
+    right: 0;
+    background-color: #b2d8b5;
+}
+.button-group.line-type>*:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    right: 50%;
+    height: 2px;
+    transition: .2s;
+}
+.tab-menu2 {
+    width: 800px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.tab-contents2{
+    font-size: 23px;
+    font-weight: 700;
+    margin-top: 50px;
+}
+.button-area{
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#mySchedule{
+    padding: 12px;
+    box-shadow: 0 2px 8px 0 rgba(31,38,135,.08)!important;
+    border-radius: 8px;
+    margin: 8px 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+#mySchedule img{
+    width: 180px;
+    height: 180px;
+    border: none;
+    box-sizing: border-box;
+    border-radius: 8px;
+
+}
+.mySchedule-content{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    justify-content: space-around;
+    height: 120px;
+}
