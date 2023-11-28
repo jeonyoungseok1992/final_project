@@ -6,7 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>error-404-page</title>
-<link rel="stylesheet" href="./resources/css/common.css">
 <link rel="stylesheet" href="./resources/css/404error.css">
 
 </head>
