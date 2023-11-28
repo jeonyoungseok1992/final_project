@@ -1,0 +1,27 @@
+.section1-search-icon{
+    width: 20px;
+    height: 20px;
+    color: aliceblue;
+}
+
+#section1{
+    margin-top: 72px ;
+    height: 150px;
+    width: 1613px;
+    background-color: #b2d8b5;
+}
+
+.section1-search{
+    display: flex;
+    justify-content: center;
+    padding-top: 70px;
+
+
+    
+}
+
+
+.section1-input{
+    border: none;
+    background-color: #b2d8b5;
+}

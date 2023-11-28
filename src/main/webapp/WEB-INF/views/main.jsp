@@ -5,11 +5,19 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="././resources/css/main.css">
 </head>
 <body>
 	<jsp:include page="common/header.jsp" />
-	<jsp:include page="member/myPage.jsp" />
-	asfdfewff
+	<div id="section1">
+        <div class="section1-search">
+            <input class="section1-input">
+            <img class="section1-search-icon" src="././resources/images/search.png"/>
+        </div>
+
+    </div>
+
+	
 
 </body>
 </html>
