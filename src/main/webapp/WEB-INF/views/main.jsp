@@ -7,8 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:include page="common/header.jsp" />
-	<jsp:include page="member/myPage.jsp" />
+	<jsp:include page="board/boardTogetherNotice.jsp" />
 
 </body>
 </html>

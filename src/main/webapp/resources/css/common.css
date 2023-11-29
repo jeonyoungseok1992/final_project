@@ -32,3 +32,33 @@ pre{line-height: 1.5; white-space: pre-wrap; /* CSS3*/
     white-space: -pre-wrap; /* Opera 4-6 */
     white-space: -o-pre-wrap; /* Opera 7 */
     word-wrap: break-all; /* Internet Explorer 5.5+ */}
+
+ /* modal 초기화 */
+ .modal-content.style .modal-header {
+    border: none;
+    align-items: flex-start;
+    padding-bottom: 0;
+}
+.modal-content.style .modal-header .modal-title {
+    font-weight: 700;
+    line-height: 35px;
+    font-size: 24px;
+}
+.modal-content.style .modal-header .modal-title > span{
+    font-size: 16px;
+    padding-left: 5px;
+    color: #b2d8b5;
+}
+.modal-content.style .modal-body{
+    padding: 24px;
+}
+.modal-content.style .modal-body .img-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* aside */
+.aside{overflow:hidden; position: relative; width:0; transition: .3s; box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.05);}
+.aside-show .aside{border-left:1px solid #707070; background-color: #f9f9f9;}
+.aside>*{position: relative; display: none; height: 100%;}
