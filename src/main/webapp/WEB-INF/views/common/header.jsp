@@ -81,12 +81,49 @@
 			                <label align="center">비밀번호</label>
 			                <input type="password" name="memberPwd" placeholder="비밀번호를 입력해주세요" required/>
 		                    <button type="submit" id="mem" class="btn btn-sm btn-secondary updatest">로그인</button>
-		                    <button id="join"><a href="enrollForm.me">회원가입</a> </button>
-        				</form>
+		                    <div id="link-box">
+								<button id="join"><a data-bs-toggle="modal" data-bs-target="#searchId">아이디찾기</a></button>
+								<button id="join"><a href="#">비밀번호찾기</a></button>
+								<button id="join"><a href="#">회원가입</a></button>
+        					</div>
+						</form>
                    </div>
                </div>
            </div>
        </div>
+
+	<!-- 아이디찾기 누르면 뜨는 모달 -->    		
+	<div class="modal fade" id="searchId">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+		
+				<!-- Modal Header -->
+			   <div class="modal-header" style="border-bottom: none;padding: 30px;display: block;">
+					<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 20px;">
+						 <h1 align="center"><img src="resources/images/logo_001.png" alt="mapping logo" style="width:100px"> <span class="sr-only"><span></a></h1>
+						 <h4 class="modal-title updatest">아이디 찾기</h4>
+						 <span >회원가입시 등록한 휴대전화를 인증하여 아이디를 찾을 수 있습니다.</span>
+					</div>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" style="position: absolute; top: 20px; right: 20px;"></button>
+				</div>
+				<!-- Modal body -->
+				<div class="modal-body login" align="center" style="padding: 24px;">
+					 <form action="#" id="search-form" method="post">
+						 <label align="center" for="phone">핸드폰번호</label>
+						<div style="display: flex; width: 100%; gap: 10px;">
+						 	<input type="tel" name="phone" id="phone" placeholder="핸드폰번호를입력해주세요(-없이)" required style="width: 300px;"/>
+						 	<button type="submit" id="mem" class="btn btn-sm btn-secondary updatest edit">인증</button>
+						</div>
+					</form>
+					<form action="#" id="search-form" method="post">
+						 <label align="center" for="serialNum">인증번호</label>
+						 <input type="password" id="serialNum" name="memberPwd" placeholder="비밀번호를 입력해주세요" required/>
+						 <button type="submit" id="mem" class="btn btn-sm btn-secondary updatest">다음</button>
+					 </form>
+				</div>
+			</div>
+		</div>
+	</div>
     </header>
     <!--// header  -->   
 
