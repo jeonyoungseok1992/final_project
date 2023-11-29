@@ -26,7 +26,45 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
     <jsp:include page="/WEB-INF/views/common/header.jsp" />
  
     <div class="schedule-container">
-
+        <div id="map-container"></div>
+        <div id="schedule-area">
+            <div class="nDay-content"> 
+                <div class="nDay">n일차</div>
+                <div class="location">
+                    <div class="location-img"><img src="resources/images/Jeonju.jpeg" alt="전주"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                </div>
+                <div class="nDay">n일차</div>
+                <div class="location">
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                
+                   
+                </div>
+                <div class="nDay">n일차</div>
+                <div class="location">
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                </div>
+                <div class="nDay">n일차</div>
+                <div class="location">
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="notice-up-wrap" align="center">
         <form action="#" id="enroll-form" method="post">
