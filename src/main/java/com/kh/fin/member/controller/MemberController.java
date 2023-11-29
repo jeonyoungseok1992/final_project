@@ -45,10 +45,10 @@ public class MemberController {
 		return mv;
 	}
 	
-//	@RequestMapping(value="/enrollForm.me")
-//	public String enrollForm() {
-//		return "member/memberEnrollForm";
-//	}
+	@RequestMapping(value="/enrollForm.me")
+	public String enrollForm() {
+		return "member/enrollForm";
+	}
 //	@RequestMapping(value="/insert.me")
 //	public String insertMember(Member m, HttpSession session, Model model) {//인코딩 설정은 web.xml에서 해준다
 ////		System.out.println(m);
