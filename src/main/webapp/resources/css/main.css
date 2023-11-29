@@ -53,7 +53,7 @@
 
 
 #section2{
-    margin-top: 40px;
+    padding-top: 75px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,13 +62,14 @@
     max-width: 1200px;
     margin: 0 auto;
 
+
+
 }
 
 .recommend-title{
     font-size: 1.875rem;
     font-weight: 700;
-    height: 50px;
-    margin-top: 20px;
+    height: 80px;
 }
 .recommend-plus{
     width: 100%;
