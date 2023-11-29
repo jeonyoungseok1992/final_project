@@ -1,0 +1,65 @@
+.outer{
+    background: white;
+    color: black;
+    width: 1200px;
+    margin: auto;
+    margin-top: 180px;
+}
+h2{
+    font-size: 28px;
+    font-weight: 700;
+}
+#mem-enroll-form table{margin: auto;}
+#mem-enroll-form input{
+    margin: 10px;
+    width: 384px;
+    height: 45px;
+    border: 1px solid #ced4da;
+    border-radius: 5px; 
+    padding-left: 15px;
+    
+} 
+
+#joinMember{
+
+width: 505px; 
+background: #b2d8b5;
+border: 1px solid;
+border-radius: 5px; 
+color: white; height: 45px;
+margin-right: 5px;
+
+}
+
+#reset{
+width: 66px;
+background:  #b2d8b5;
+color: white;
+border: 1px solid;
+border-radius: 5px; 
+height: 45px;
+margin-left: 5px
+}
+
+#userId, #userNickName{
+    width: 70px; 
+    background:  #b2d8b5;
+    color: white;
+    border: 1px solid;
+    border-radius: 5px; 
+    height: 45px;
+}
+
+.tel{
+
+}
+
+.select{
+    text-align: center;
+    width: 65px; background:  #b2d8b5;
+    color: white;
+    border: 1px solid;
+    border-radius: 5px; 
+    height: 45px;
+}
+

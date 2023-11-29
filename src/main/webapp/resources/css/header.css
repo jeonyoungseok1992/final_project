@@ -182,10 +182,53 @@ table.update  tbody tr td input{
 }
 #join {
 	display: block;
-    width: 350px;
-    text-align: right;
-    padding-top: 20px;
     text-decoration: underline;
     font-weight: bold;
     padding-bottom: 30px;
+}
+#link-box{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 350px;
+    padding-top: 20px;
+    gap: 45px;
+}
+#search-form{
+    display: flex;
+    width: 350px;
+    flex-direction: column;
+}
+.btn.btn-sm.btn-secondary.updatest.edit{
+    width: 50px; 
+    height: 40px; 
+    display: flex; 
+    justify-content: center; 
+    text-align: center; 
+    align-items: center;
+    padding: revert-layer;
+}
+.dropdown .dropdown-menu{
+    background: #fff;
+    text-align: center;
+    font-weight: 600;
+    font-size: 18px;
+}
+.dropdown .profile .dropdown-menu{
+    color: #fff;
+}
+.dropdown .dropdown-menu > li > a{
+    padding: 10px 0;
+    font-weight: 600;
+    font-size: 16px;
+    --bs-dropdown-link-active-bg: none;
+}
+.profile > img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.profile.dropdown-toggle::after{
+    display: none;
 }
