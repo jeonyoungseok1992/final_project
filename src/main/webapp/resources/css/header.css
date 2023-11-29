@@ -207,4 +207,28 @@ table.update  tbody tr td input{
     justify-content: center; 
     text-align: center; 
     align-items: center;
+    padding: revert-layer;
+}
+.dropdown .dropdown-menu{
+    background: #fff;
+    text-align: center;
+    font-weight: 600;
+    font-size: 18px;
+}
+.dropdown .profile .dropdown-menu{
+    color: #fff;
+}
+.dropdown .dropdown-menu > li > a{
+    padding: 10px 0;
+    font-weight: 600;
+    font-size: 16px;
+    --bs-dropdown-link-active-bg: none;
+}
+.profile > img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.profile.dropdown-toggle::after{
+    display: none;
 }

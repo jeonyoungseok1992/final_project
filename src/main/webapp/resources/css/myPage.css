@@ -12,8 +12,7 @@ body{
     flex-direction: column;
     position: absolute;
     align-items: center;
-    top: 12%;
-    margin-top: 100px;
+    top: 207px;
     width: 100%;
     padding-bottom: 60px;
 }
@@ -121,4 +120,9 @@ body{
 #myfriend:first-child{
     display: flex;
     align-items: center;
+}
+
+.dropdown-menu > li > a{
+    --bs-dropdown-link-active-bg: none;
+    --bs-dropdown-link-active-color: #b2d8b5;
 }

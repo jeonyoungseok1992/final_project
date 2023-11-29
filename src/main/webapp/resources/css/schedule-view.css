@@ -1,0 +1,145 @@
+.header-fixed .profile > img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}  
+.schedule-wrap .schedule-menu .btn-wrap{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+}
+.schedule-wrap .schedule-menu .btn-wrap > button{
+    color: #fff;
+    background: #b2d8b5;
+    height: 50px;
+    border-radius: 8px;
+    width: 80px;
+    font-weight: 600;
+}
+.schedule-wrap .schedule-menu .btn-wrap .edit-btn {
+    border: 1.5px solid #b2d8b5;
+    background: #fff;
+    color: #b2d8b5;
+    height: 40px;
+}
+.schedule-wrap-all{
+    width: calc(100% - 80px);
+    overflow: auto;
+    white-space: nowrap;
+    overflow-y: hidden;
+    height: calc(100vh - 145px);
+}
+.scroll {
+    height: calc(100vh - 130px);
+    flex-direction: row;
+    margin-bottom: 0;
+    width: 100%;
+    display: flex;
+}
+.scroll > div{
+    padding: 16px;
+}
+.day-date{
+    padding: 0 8px 16px 8px;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    display: flex;
+}
+.day-date > h5{
+    font-weight: 700;
+}
+.day-date > div {
+    font-size: .75rem;
+    color: #aab1b8;
+}
+.scroll > div > ul{
+    padding: 16px;
+    background: rgba(222, 222, 222, .2);
+    border-radius: 8px;
+    min-width: 255px;
+    min-height: 60px;
+}
+.scroll > div > ul > li {
+    position: relative;
+    padding: 12px;
+    box-shadow: 0 2px 8px 0 rgba(31,38,135,.08)!important;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.scroll > div > ul > li:last-child{
+    margin-bottom: 0;
+}
+.scroll > div > ul > li > span.number {
+    position: absolute;
+    top: -15px;
+    z-index: 100;
+    left: -15px;
+    background: #e5794b;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 12px;
+    color: #fff;
+}
+.scroll > div > ul > li > div{
+    display: flex;
+}
+.scroll > div > ul > li > div > img{
+    width: 48px;
+    height: 48px;
+    border-radius: 5px;
+}
+.scroll > div > ul > li > div > div {
+    padding-right: 150px;
+}
+.scroll > div > ul > li > div > div > h5 {
+    font-weight: 700;
+    font-size: 12px;
+}
+.scroll > div > ul > li > div > div > span {
+    color: #b2d8b5;
+    font-size: 10px;
+    padding-bottom: 5px;
+    display: inline-block;
+}
+/* scroll-bar */
+::-webkit-scrollbar{width:6px; height:6px; background-color: transparent;}
+::-webkit-scrollbar-track{background-color: transparent;}
+::-webkit-scrollbar-thumb{background-color: rgba(0, 0, 0, .2); border-radius:3px;}  
+
+/* 공유하기 */
+.sns-share{display: flex; column-gap: 10px; justify-content: space-between;}
+.sns-share>*{flex:1; height: 100px; border: 1px solid #dedede; font-size: 14px; font-weight: 700;}
+.sns-share [class^="ico-"]{display:block; width: 48px; height: 48px; margin: 0 auto 8px; background: url(../../resources/images/ico_sns.png) no-repeat;}
+.sns-share .ico-kakao{background-position: 0 0;}
+.sns-share .ico-facebook{background-position: 0 -48px;}
+.sns-share .ico-blog{background-position: 0 -96px;}
+.sns-share .ico-twitter{background-position: 0 100%;}
+.sns-share + .form-control{margin-top: 12px;}
+.form-control-map {
+    position: relative;
+    font-size: 14px;
+    border: 1px solid #dedede;
+    margin-top: 12px;
+}
+.form-control-map>input{
+    width: 90%;
+    height: 46px;
+    padding: 14px 16px;
+    border: 0;
+    background-color: #fff;
+    line-height: 1.5;
+    color: #000;
+    font-weight: 600;
+}
+.form-control-map .color {
+    color: #b2d8b5;
+}
