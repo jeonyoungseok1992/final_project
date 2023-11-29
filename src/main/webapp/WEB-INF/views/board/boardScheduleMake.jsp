@@ -9,20 +9,16 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script> -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- jquery 3.7.1 -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
-
 <link rel="stylesheet" href="./resources/css/common.css">
+<link rel="stylesheet" href="./resources/css/font.css">
+<link rel="stylesheet" href="./resources/css/schedule-view.css">
 <link rel="stylesheet" href="./resources/css/schedule-make.css">
-<style>
-
-    
-</style>
 </head>
 <body>
     <div class="travel-wrap">
@@ -38,7 +34,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             </div>
         </div>
         <div class="travel-full">
-            <div class="schedule-wrap">
+            <div class="schedule-wrap early">
                 <div class="schedule-menu">
                     <ul class="tab-menu">
                         <li><button tabindex="0" role="tab" aria-selected="true" aria-controls="tabPanel1" id="tab1" class="active">STEP1<br>날짜 확인</button></li>
@@ -134,18 +130,18 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                                             <button>카페</button>
                                        </div>
                                        <div class="select-wrap">
-                                            <ul>
-                                                <li><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
-                                                <li><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
-                                                <li><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
-                                                <li><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
-                                                <li><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
-                                                <li><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
-                                                <li><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
-                                                <li><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
-                                                <li><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
-                                                <li><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
-                                                <li><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
+                                            <ul class="container-map">
+                                                <li class="draggable" draggable="true"><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
+                                                <li class="draggable" draggable="true"><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
+                                                <li class="draggable" draggable="true"><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
+                                                <li class="draggable" draggable="true"><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
+                                                <li class="draggable" draggable="true"><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
+                                                <li class="draggable" draggable="true"><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
+                                                <li class="draggable" draggable="true"><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
+                                                <li class="draggable" draggable="true"><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
+                                                <li class="draggable" draggable="true"><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
+                                                <li class="draggable" draggable="true"><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
+                                                <li class="draggable" draggable="true"><div><img src="./resources/images/place_sample.jpg" alt=""><div><h5>여행지</h5><span>명소</span></div></div><button>+</button></li>
                                             </ul>
                                        </div>
                                     </div>
@@ -247,12 +243,14 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                     </div>
                 </div>
             </div>
+            
             <div class="map-wrap">
     
             </div>
         </div>
+        
     </div>
-    
+
     <script>
         //step 버튼 tab menu
         $(document).ready(function () {
@@ -355,5 +353,54 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             publicTransportButton.classList.remove("clicked");
         });
     </script>
+    <script>
+        // 일정 드래그
+        const draggables = document.querySelectorAll(".draggable");
+        const containers = document.querySelectorAll(".container-map");
+
+        draggables.forEach(draggable => {
+        draggable.addEventListener("dragstart", () => {
+            draggable.classList.add("dragging");
+        });
+
+        draggable.addEventListener("dragend", () => {
+            draggable.classList.remove("dragging");
+        });
+        });
+
+        containers.forEach(container => {
+        container.addEventListener("dragover", e => {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(container, e.clientX);
+            const draggable = document.querySelector(".dragging");
+            if (afterElement === undefined) {
+            container.appendChild(draggable);
+            } else {
+            container.insertBefore(draggable, afterElement);
+            }
+        });
+        });
+
+        function getDragAfterElement(container, x) {
+        const draggableElements = [
+            ...container.querySelectorAll(".draggable:not(.dragging)"),
+        ];
+
+        return draggableElements.reduce(
+            (closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = x - box.left - box.width / 2;
+            // console.log(offset);
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+            },
+            { offset: Number.NEGATIVE_INFINITY },
+        ).element;
+        }
+    </script>
+
 </body>
 </html>
