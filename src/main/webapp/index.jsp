@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:forward page="WEB-INF/views/common/chat.jsp"/>
+	<jsp:forward page="WEB-INF/views/member/myPage.jsp"/>
 	
 </body>
 </html>

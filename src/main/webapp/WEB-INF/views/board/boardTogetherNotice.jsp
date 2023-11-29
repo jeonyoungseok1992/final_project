@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>같이가요 게시판</title>
-<link rel="stylesheet" href="./resources/css/common.css">
 <link rel="stylesheet" href="./resources/css/board-card.css">
 </head>
 <body>
