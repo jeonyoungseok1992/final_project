@@ -39,9 +39,13 @@ body {
     width: 100%;
     display: flex;
 }
-.schedule-wrap{
+.schedule-wrap.early{
     min-width: 550px;
     width: 550px;
+}
+.schedule-wrap{
+    min-width: 830px;
+    width: 830px;
     background: #fff;
     overflow: hidden;
     position: relative;

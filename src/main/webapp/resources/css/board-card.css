@@ -71,8 +71,8 @@
 .borad-btn-top{
     display: flex;
     justify-content: space-between;
-    margin-top: 15px;
-    margin-bottom: 8px;
+    margin: 40px 88px 0 88px;
+    align-items: center;
 }
 .borad-btn-top div > span{
     font-size: 16px;
@@ -94,7 +94,7 @@
    flex-wrap: wrap;
    width: 100%;
    margin: 0 auto;
-   margin-top: 40px;
+   margin-top: 20px;
    width: 1024px;
    gap: 30px;
 }
