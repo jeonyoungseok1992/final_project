@@ -104,7 +104,7 @@
 			   <div class="modal-header" style="border-bottom: none;padding: 30px;display: block;">
 					<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 20px;">
 						 <h4 class="modal-title updatest">아이디 찾기</h4>
-						 <span >회원가입시 등록한 휴대전화를 인증하여 아이디를 찾을 수 있습니다.</span>
+						 <span style="font-size: 15px;" >회원가입시 등록한 휴대전화를 인증하여 아이디를 찾을 수 있습니다.</span>
 					</div>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" style="position: absolute; top: 20px; right: 20px;"></button>
 				</div>
@@ -139,7 +139,7 @@
 			   <div class="modal-header" style="border-bottom: none;padding: 30px;display: block;">
 					<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 20px;">
 						 <h4 class="modal-title updatest">비밀번호 찾기</h4>
-						 <span >회원가입시 등록한 이메일을 이용하여 비밀번호를 찾을 수 있습니다.</span>
+						 <span style="font-size: 15px;">회원가입시 등록한 이메일을 이용하여 비밀번호를 찾을 수 있습니다.</span>
 					</div>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" style="position: absolute; top: 20px; right: 20px;"></button>
 				</div>

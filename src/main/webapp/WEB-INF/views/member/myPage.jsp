@@ -49,8 +49,8 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 						나의 일정
 						<div class="button-area">
 							<div>
-							<button >전체 일정</button>
-							<button style="margin-left: 15px;">공유된 일정</button>
+							<button class="scheduleTap1">나의 일정</button>
+							<button class="scheduleTap1" style="margin-left: 15px;">공유된 일정</button>
 							</div>
 
 							<div class="dropdown">
@@ -74,12 +74,11 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 								</div>
 
 								<div class="dropdown">
-									<img class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" src="resources/images/moreIcons.png" alt="더보기" 
-									style="transform:rotate(90deg) translateY(50%); width: 30px; height: 30px; cursor: pointer;">
+									<img class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" src="resources/images/moreIcons.png" alt="더보기" >
 									<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 									  <li><a class="dropdown-item" href="#">공유</a></li>
 									  <li><a class="dropdown-item" href="#">삭제</a></li>
-									  <li><a class="dropdown-item" href="#">프린트</a></li>
+									 
 									</ul>
 								  </div>
 
@@ -98,7 +97,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 									<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 									  <li><a class="dropdown-item" href="#">공유</a></li>
 									  <li><a class="dropdown-item" href="#">삭제</a></li>
-									  <li><a class="dropdown-item" href="#">프린트</a></li>
+									  
 									</ul>
 								  </div>
 
@@ -113,11 +112,10 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 								</div>
 
 								<div class="dropdown">
-										<img class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" src="resources/images/moreIcons.png" alt="더보기" style="transform:rotate(90deg) translateY(50%); width: 30px; height: 30px; cursor: pointer;">
+										<img class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" src="resources/images/moreIcons.png" alt="더보기" >
 									<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 									  <li><a class="dropdown-item" href="#">공유</a></li>
 									  <li><a class="dropdown-item" href="#">삭제</a></li>
-									  <li><a class="dropdown-item" href="#">프린트</a></li>
 									</ul>
 								  </div>
 
@@ -152,7 +150,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 								  <li><a class="dropdown-item" href="#">공유</a></li>
 								  <li><a class="dropdown-item" href="#">삭제</a></li>
-								  <li><a class="dropdown-item" href="#">프린트</a></li>
+								  
 								</ul>
 							  </div>
 						</div>
@@ -171,7 +169,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 								  <li><a class="dropdown-item" href="#">공유</a></li>
 								  <li><a class="dropdown-item" href="#">삭제</a></li>
-								  <li><a class="dropdown-item" href="#">프린트</a></li>
+								  
 								</ul>
 							  </div>
 
@@ -190,7 +188,6 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 								  <li><a class="dropdown-item" href="#">공유</a></li>
 								  <li><a class="dropdown-item" href="#">삭제</a></li>
-								  <li><a class="dropdown-item" href="#">프린트</a></li>
 								</ul>
 							  </div>
 
@@ -225,7 +222,6 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 								  <li><a class="dropdown-item" href="#">공유</a></li>
 								  <li><a class="dropdown-item" href="#">삭제</a></li>
-								  <li><a class="dropdown-item" href="#">프린트</a></li>
 								</ul>
 							  </div>
 						</div>
@@ -243,7 +239,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 								  <li><a class="dropdown-item" href="#">공유</a></li>
 								  <li><a class="dropdown-item" href="#">삭제</a></li>
-								  <li><a class="dropdown-item" href="#">프린트</a></li>
+								
 								</ul>
 							  </div>
 						</div>
@@ -261,7 +257,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 								  <li><a class="dropdown-item" href="#">공유</a></li>
 								  <li><a class="dropdown-item" href="#">삭제</a></li>
-								  <li><a class="dropdown-item" href="#">프린트</a></li>
+								 
 								</ul>
 							  </div>
 						</div>
@@ -273,8 +269,8 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 						나의 친구 목록
 						<div class="button-area">
 							<div>
-							<button >친구 목록</button>
-							<button style="margin-left: 15px;">친구 요청 목록</button>
+							<button class="scheduleTap2"  >친구 목록</button>
+							<button class="scheduleTap2" style="margin-left: 15px;">친구 요청 목록</button>
 							</div>
 
 							<div class="dropdown">
@@ -286,7 +282,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 							</div>
 						</div>
 
-						<!-- 목록 ajax 부분(친구목록 버튼 초록글씨로 변경)-->
+						<!-- 목록 ajax 부분-->
 						<div id="myfriend">
 							<div>
 								<img src="resources/images/profile.png" alt="나의프로필" style="border-radius: 45px; width: 50px;">
@@ -327,7 +323,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 								<a href="#" data-bs-toggle="modal" data-bs-target="#myModal"><img src="resources/images/xIcons.png" alt="x" style="width: 30px; height: 30px;"></a>
 							</div>	
 						</div>
-						<!-- 목록 ajax 부분(친구 요청 목록 버튼 초록글씨로 변경)-->
+						<!-- 목록 ajax 부분-->
 						<div id="myfriend">
 							<div>
 								<img src="resources/images/profile.png" alt="나의프로필" style="border-radius: 45px; width: 50px;">
@@ -404,6 +400,55 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                 });
             });
         });
+
+		//나의일정탭 누르면 버튼색 바꿔주는 함수 , 여기서 ajax같이 부르면 될듯
+		var btn = document.getElementsByClassName("scheduleTap1");
+
+		function handleClick(event) {
+
+		if (event.target.classList[1] === "clicked") {
+			event.target.classList.remove("clicked");
+		} else {
+			for (var i = 0; i < btn.length; i++) {
+				btn[i].classList.remove("clicked");
+			}
+
+			event.target.classList.add("clicked");
+		}
+		}
+
+		function init() {
+		for (var i = 0; i < btn.length; i++) {
+			btn[i].addEventListener("click", handleClick);
+		}
+		}
+
+		init();
+	</script>
+	<script>
+		//나의 친구목록탭 누르면 버튼색 바꿔주는 함수 , 여기서 ajax같이 부르면 될듯
+		var btn2 = document.getElementsByClassName("scheduleTap2");
+
+		function handleClick(event) {
+
+		if (event.target.classList[1] === "clicked") {
+			event.target.classList.remove("clicked");
+		} else {
+			for (var i = 0; i < btn2.length; i++) {
+				btn2[i].classList.remove("clicked");
+			}
+
+			event.target.classList.add("clicked");
+		}
+		}
+
+		function init() {
+		for (var i = 0; i < btn2.length; i++) {
+			btn2[i].addEventListener("click", handleClick);
+		}
+		}
+
+		init();
 	</script>
 </body>
 </html>

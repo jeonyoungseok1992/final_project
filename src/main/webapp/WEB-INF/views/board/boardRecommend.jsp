@@ -21,7 +21,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
     <jsp:include page="../common/header.jsp" />
     <main class="contents recommend">
         <div class="inner-wrap">
-            <h4 class="board-title">전체보기</h4>
+            <h4 class="board-title">추천지 전체보기</h4>
             <div class="post-wrap">
                 <a href="#none">
                     <div class="recommend-info">
