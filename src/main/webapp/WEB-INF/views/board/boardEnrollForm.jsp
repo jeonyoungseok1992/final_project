@@ -19,6 +19,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<link rel="stylesheet" href="./resources/css/grade.css">
 <link rel="stylesheet" href="./resources/css/boardEnrollForm.css">
 
 </head>
@@ -26,7 +27,85 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
     <jsp:include page="/WEB-INF/views/common/header.jsp" />
  
     <div class="schedule-container">
-
+        <div id="map-container"></div>
+        <div id="schedule-area">
+            <div class="nDay-content"> 
+                <div class="nDay">n일차</div>
+                <div class="location">
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#gradeModal">
+                        <div class="location-img"><img src="resources/images/Jeonju.jpeg" alt="전주"></div>
+                    </button>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                </div>
+                <div class="nDay">n일차</div>
+                <div class="location">
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                
+                   
+                </div>
+                <div class="nDay">n일차</div>
+                <div class="location">
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                </div>
+                <div class="nDay">n일차</div>
+                <div class="location">
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                    <div class="location-img"></div>
+                </div>
+                <!-- The Modal -->
+        <div class="modal fade" id="gradeModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content style grade">
+            
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+            
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <h4 class="modal-title">성산 일출봉<span>명소</span></h4>
+                        <div class="img-area">
+                            <img src="./resources/images/modal_sample.jpg" alt="">
+                        </div>
+                        <div class="text-area">
+                            <p>성산 일출봉은 명소인가요 안가봐서 모르겠습니다.</p>
+                        </div>
+                        <div class="grade">
+                            <div class="ui-grade half" role="radiogroup">
+                                <button type="button" role="radio" aria-checked="false" class="">1점</button>
+                                <button type="button" role="radio" aria-checked="false" class="">2점</button>
+                                <button type="button" role="radio" aria-checked="false" class="">3점</button>
+                                <button type="button" role="radio" aria-checked="false" class="">4점</button>
+                                <button type="button" role="radio" aria-checked="false" class="">5점</button>
+                                <button type="button" role="radio" aria-checked="false" class="">6점</button>
+                                <button type="button" role="radio" aria-checked="false" class="">7점</button>
+                                <button type="button" role="radio" aria-checked="false" class="">8점</button>
+                                <button type="button" role="radio" aria-checked="false" class="">9점</button>
+                                <button type="button" role="radio" aria-checked="false" class="">10점</button>
+                                <span class="result-text">0점</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
     </div>
     <div class="notice-up-wrap" align="center">
         <form action="#" id="enroll-form" method="post">
@@ -82,6 +161,48 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             frm.submit();
         }
     </script>
+    <script>
+        // 별점주기
+        let $ratings = $('.ui-grade');
 
+		
+        $ratings.each(function(){
+            if( $(this).data('init') ) return;
+            $(this).data('init' , true);
+
+            let $star = $(this).find('button');
+
+            //default
+            let $checkedStar = $(this).find('[aria-checked="true"]');
+            if($checkedStar){
+                $checkedStar.addClass('checked');
+                $checkedStar.prevAll().addClass('checked');
+            }
+
+            //mouseover
+            $star.on('mouseover', function(){
+                $star.not($(this).addClass('hover')).removeClass('hover');
+                $(this).prevAll().addClass('hover');
+            });
+            $star.on('mouseleave', function(){
+                $star.removeClass('hover');
+            });
+
+            //click
+            $star.on('click', function(){
+                let $this = $(this);
+                let txt = $this.text();
+                let $result = $this.parent().find('.result-text');
+
+                $star.not($this.addClass('checked')).removeClass('checked');
+                $this.prevAll().addClass('checked');
+                $star.not($this.attr('aria-checked', true)).attr('aria-checked', false);
+
+                if( txt ){
+                    $result.text(txt);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
