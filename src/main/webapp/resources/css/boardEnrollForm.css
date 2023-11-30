@@ -4,15 +4,13 @@
     margin: 100px auto 0 auto;
     display: flex;
     flex-direction: row;
+    box-shadow: 0 2px 8px 0 rgba(31,38,135,.08)!important;
 }
-#map-container{
-    background: pink;
-    border: 1px solid black;
+#map{
     width: 550px;
 }
 #schedule-area{
     width: 550px;
-    border: 1px solid black;
     overflow-y: auto;
 }
 .nDay-content{
@@ -109,4 +107,23 @@
     color: #fff;
     background: #b2d8b5;
     border: none;
+}
+#editBtn::before{
+   font-size: 2rem;
+   position: absolute;
+   left: 10px;
+   z-index: 1000;
+}
+
+.dropdown-menu > li > a{
+    --bs-dropdown-link-active-bg: none;
+    --bs-dropdown-link-active-color: #b2d8b5;
+}
+.dropdown-toggle:empty::after {
+    position: absolute;
+    right: 10px;
+    display: none;
+}
+.dropdown-menu.show{
+    transform: translate3d(10px, 43.5px, 0px)!important;
 }
