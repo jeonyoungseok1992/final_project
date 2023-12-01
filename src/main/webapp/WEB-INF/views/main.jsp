@@ -106,13 +106,9 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                 <img class="lc-photo" src="./resources/images/recommend photo.PNG">
                 <div class="lc-eng">JEJU</div>
                 <div class="lc-han">제주</div>
-            </div>
-              
-           
+            </div>  
         </div>
     </div>
->>>>>>> 396bf002e356dba4265ed0b818ef685cc1efa63b
-
 </body>
 </html>
 
