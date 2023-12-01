@@ -9,18 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.kh.fin.board.model.service.BoardService;
 import com.kh.fin.board.model.vo.Board;
 
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
 public class BoardController {
 
-	@Autowired
-	private BoardService boardService;
-	
-	@RequestMapping(value="/detail.bo")
-	public String detailBoard() {
-		
-			return "board/boardDetailView";
-
-		
-	}
 	
 	
 }
