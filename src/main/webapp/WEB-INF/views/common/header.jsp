@@ -36,8 +36,8 @@
                     <!-- case1. 로그인 전 -->
 					<ul class="menu">
                         <li><a onclick="hyperlink()">여행지</a></li>
-                        <li><a href="">같이가요</a></li>
-						<li style="margin-right: 40px;"><a href="">여행후기</a></li>
+                        <li><a href="together.bo">같이가요</a></li>
+						<li style="margin-right: 40px;"><a href="review.bo">여행후기</a></li>
 						<div class="menu-notuser">
 						<li><a data-bs-toggle="modal" data-bs-target="#loginModal">로그인</a></li>
 						<li>|</li>
@@ -49,13 +49,13 @@
 					<!-- case2. 로그인 후 -->
 					<ul class="menu">
 					   <li><a onclick="hyperlink()" >여행지</a></li>
-					   <li><a href="">같이가요</a></li>
-					   <li><a href="">여행후기</a></li>
+					   <li><a href="together.bo">같이가요</a></li>
+					   <li><a href="review.bo">여행후기</a></li>
 					   <div class="dropdown">
 						<button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown"><img src="./resources/images/profile.png" alt=""></button>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">1:1 채팅</a></li>
-							<li><a class="dropdown-item" href="#">마이페이지</a></li>
+							<li><a class="dropdown-item" href="chat.bo">1:1 채팅</a></li>
+							<li><a class="dropdown-item" href="mypage.me">마이페이지</a></li>
 							<li><a class="dropdown-item" href="logout.me">로그아웃</a></li>
 						</ul>
 					</div>
@@ -87,7 +87,7 @@
 		                    <div id="link-box">
 								<button id="join"><a data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#searchId">아이디찾기</a></button>
 								<button id="join"><a data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#searchPwd">비밀번호찾기</a></button>
-								<button id="join"><a href="#">회원가입</a></button>
+								<button id="join"><a href="enrollForm.me">회원가입</a></button>
         					</div>
 						</form>
                    </div>

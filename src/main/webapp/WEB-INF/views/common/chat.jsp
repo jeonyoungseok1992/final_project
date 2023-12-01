@@ -184,7 +184,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                            </button>
                                <div class="chat-msg">             
                                    <div class="chat-msg-inner">
-                                       <textarea name="chatting" id="summernote" type="text" class="chat-msg-input" placeholder="메세지를 입력해주세요.">
+                                       <textarea name="chatting" id="summernote" type="text" class="chat-msg-input" placeholder="메세지를 입력해주세요." style="padding-bottom: 20px;">
                                        </textarea>                          
                                    </div>
                                    <button class="send-button" type="button">Button</button>

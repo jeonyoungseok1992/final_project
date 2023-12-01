@@ -35,7 +35,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 
     <div id="section2">
         <div class="recommend-title">추천여행</div>
-        <div class="recommend-plus">더보기</div>
+        <div class="recommend-plus"><a href="recommendList.bo">더보기</a></div>
         <div class="recommend-content">
             <div class="photo_recommend">
                 <img class="rc-photo" src="./resources/images/recommend photo.PNG">
