@@ -35,7 +35,7 @@
                 	<c:when test="${empty loginUser}">
                     <!-- case1. 로그인 전 -->
 					<ul class="menu">
-                        <li><a href="">여행지</a></li>
+                        <li><a onclick="hyperlink()">여행지</a></li>
                         <li><a href="">같이가요</a></li>
 						<li style="margin-right: 40px;"><a href="">여행후기</a></li>
 						<div class="menu-notuser">
@@ -48,7 +48,7 @@
 					<c:otherwise>
 					<!-- case2. 로그인 후 -->
 					<ul class="menu">
-					   <li><a href="">여행지</a></li>
+					   <li><a onclick="hyperlink()" >여행지</a></li>
 					   <li><a href="">같이가요</a></li>
 					   <li><a href="">여행후기</a></li>
 					   <div class="dropdown">
@@ -104,7 +104,7 @@
 			   <div class="modal-header" style="border-bottom: none;padding: 30px;display: block;">
 					<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 20px;">
 						 <h4 class="modal-title updatest">아이디 찾기</h4>
-						 <span >회원가입시 등록한 휴대전화를 인증하여 아이디를 찾을 수 있습니다.</span>
+						 <span style="font-size: 15px;" >회원가입시 등록한 휴대전화를 인증하여 아이디를 찾을 수 있습니다.</span>
 					</div>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" style="position: absolute; top: 20px; right: 20px;"></button>
 				</div>
@@ -139,7 +139,7 @@
 			   <div class="modal-header" style="border-bottom: none;padding: 30px;display: block;">
 					<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 20px;">
 						 <h4 class="modal-title updatest">비밀번호 찾기</h4>
-						 <span >회원가입시 등록한 이메일을 이용하여 비밀번호를 찾을 수 있습니다.</span>
+						 <span style="font-size: 15px;">회원가입시 등록한 이메일을 이용하여 비밀번호를 찾을 수 있습니다.</span>
 					</div>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" style="position: absolute; top: 20px; right: 20px;"></button>
 				</div>
@@ -163,7 +163,11 @@
 	</div>
 
     </header>
-    <!--// header  -->   
-
+    <!--// header  --> 
+	<script>
+		function hyperlink(){
+			window.location.href = 'http://localhost:8009/mapping/#section3';
+		}
+	</script>
 </body>
 </html>

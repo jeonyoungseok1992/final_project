@@ -1,0 +1,157 @@
+::-webkit-scrollbar{width:6px; height:6px; background-color: transparent;}
+::-webkit-scrollbar-track{background-color: transparent;}
+::-webkit-scrollbar-thumb{background-color: rgba(0, 0, 0, .2); border-radius:3px;}
+    .modal-content.style.list .modal-body {
+        padding: 10px;
+    }
+    .contents-wrap{
+      width: 100%;
+      height: auto;
+      overflow-y: overlay;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .travel-list{
+        padding: 0 24px 24px 24px;
+        overflow: hidden;
+    }
+    .travel-list > div{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+    .travel-list > div .tab-menu{
+        padding: 8px 0 16px 0;
+        overflow-x: auto;
+        width: 100%;
+        display: flex;
+    }
+    .travel-list > div .tab-menu > button{
+        min-width: 240px;
+        min-height: 190px;
+        position: relative;
+        margin: 4px 16px 8px 0;
+        background: #ccc;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        border-radius: 8px;
+   
+    }
+    .travel-list > div .tab-menu > button:last-child{
+        margin-right: 0;
+    }
+    .travel-list > div .tab-menu >  button > img{
+        max-width: 100%;
+        height: 100%;
+        object-fit: cover;
+        -webkit-filter: grayscale(100%);
+        -webkit-transition: .5s ease-in-out;
+        -moz-filter: grayscale(100%); 
+        -moz-transition: .5s ease-in-out;
+        -o-filter: grayscale(100%); 
+        -o-transition: .5s ease-in-out;
+        
+    }
+    .travel-list > div .tab-menu > button > img:hover,  .travel-list > div .tab-menu > button.active > img{
+        -webkit-filter: grayscale(0%);
+        -webkit-transition: .5s ease-in-out;
+        -moz-filter: grayscale(0%); 
+        -moz-transition: .5s ease-in-out;
+        -o-filter: grayscale(0%); 
+        -o-transition: .5s ease-in-out;
+    }
+    .travel-list > div .tab-menu > button .travel-list-text {
+        position: absolute;
+        color: #fff;
+        z-index: 1;
+        display: block;
+        text-align: left;
+    }
+    .travel-list > div .tab-menu > button .travel-list-text p {
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+    .travel-list > div .tab-menu > button .travel-list-text h3 {
+        padding-bottom: 24px;
+        font-size: 24px;
+        font-weight: 700;
+    }
+    .travel-detail {
+        padding: 24px;
+    }
+    .travel-detail .tab-contents {
+        padding: 16px;
+        background: rgba(222, 222, 222, .2);
+    }
+    .travel-detail .tab-contents .contents-text h4{
+        font-size: 20px;
+        margin-bottom: 8px;
+        font-weight: 700;
+    }
+    .travel-detail .tab-contents .contents-text p{
+        font-size: 16px;
+    }
+    .travel-location{
+        overflow: hidden;
+    }
+    .travel-location > h4{
+        font-size: 16px;
+        font-weight: 600;
+    }
+    .travel-location > div{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+    .travel-location > div .menu{
+        padding: 8px 0 16px 0;
+        overflow-x: auto;
+        width: 100%;
+        display: flex;
+    }
+    .travel-location > div .menu > .item-wrap{
+        position: relative;
+        margin: 4px 16px 8px 0;
+        min-width: 60px;
+        min-height: 60px;
+        max-height: 60px;
+        max-width: 60px;
+    }
+    .travel-location > div .menu > .item-wrap .img-area{
+        overflow: hidden;
+        border-radius: 8px;
+        height: 60px;
+   
+    }
+    .travel-location > div .menu > .item-wrap .img-area:last-child{
+        margin-right: 0;
+    }
+    .travel-location > div .menu > .item-wrap .img-area > img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        max-width: 100%;
+        
+    }
+    .travel-location > div .menu > .item-wrap > h5{
+        margin-top: 4px;
+        font-size: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .travel-detail .tab-contents > div .btn {
+        height: 50px;
+        padding: 0 40px;
+        width: 100%;
+        background: #b2d8b5;
+        color: #fff;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+    }

@@ -23,7 +23,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <div class="container-500">
-        <span class="etitle">500 Error</span>
+        <span class="etitle" style="font-weight: 700;">500 Error</span>
         <br>
         <span class="etitle">페이지를 찾을 수 없습니다.</span>
         <br><br><br>
