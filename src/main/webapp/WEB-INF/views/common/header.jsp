@@ -35,7 +35,7 @@
                 	<c:when test="${empty loginUser}">
                     <!-- case1. 로그인 전 -->
 					<ul class="menu">
-                        <li><a href="">여행지</a></li>
+                        <li><a href="detail.bo">여행지</a></li>
                         <li><a href="">같이가요</a></li>
 						<li style="margin-right: 40px;"><a href="">여행후기</a></li>
 						<div class="menu-notuser">
