@@ -32,7 +32,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 			<br>
 			<span style="font-size: 20px;">로그인유저 프로필이름입력 자리</span>
 			<br>
-			<a href="#" style="color: #b2d8b5; margin-bottom: 70px;">프로필 관리 <img src="resources/images/gearIcon.png" alt="기어" width="15px" style="margin-top: -4px;"></a>
+			<a href="profileEdit.me" style="color: #b2d8b5; margin-bottom: 70px;">프로필 관리 <img src="resources/images/gearIcon.png" alt="기어" width="15px" style="margin-top: -4px;"></a>
 	
 			<!-- 네비 바-->
 			<div class="ui-tab">
@@ -450,5 +450,6 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 
 		init();
 	</script>
+
 </body>
 </html>

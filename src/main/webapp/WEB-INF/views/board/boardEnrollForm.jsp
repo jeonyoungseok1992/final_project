@@ -173,12 +173,7 @@
                                             <button type="button" role="radio" aria-checked="false" class="">3점</button>
                                             <button type="button" role="radio" aria-checked="false" class="">4점</button>
                                             <button type="button" role="radio" aria-checked="false" class="">5점</button>
-                                            <button type="button" role="radio" aria-checked="false" class="">6점</button>
-                                            <button type="button" role="radio" aria-checked="false" class="">7점</button>
-                                            <button type="button" role="radio" aria-checked="false" class="">8점</button>
-                                            <button type="button" role="radio" aria-checked="false" class="">9점</button>
-                                            <button type="button" role="radio" aria-checked="false"
-                                                class="">10점</button>
+
                                             <span class="result-text">0점</span>
                                         </div>
                                     </div>

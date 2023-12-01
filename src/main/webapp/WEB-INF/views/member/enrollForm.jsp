@@ -111,6 +111,24 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 
         </form>
 		<script>
+            function setEmailDomain(selectedDomain) {
+                document.getElementById('email_domain').value = selectedDomain;
+
+                document.querySelector('.select').selectedIndex = 0;
+     
+}
+
+
+
+
+
+
+
+
+
+
+
+
 	       <!--비밀번호 제약-->
             function checkPwd(){
                 let pwdInput = document.querySelector("#mem-enroll-form input[name=userPwd]");
@@ -122,6 +140,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                 }
             }
             
+            //아이디중복체크
             function idCheck(){
             
 

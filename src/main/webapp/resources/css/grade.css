@@ -34,8 +34,8 @@
 .ui-grade>*.hover,
 .ui-grade>*.checked{background-image: url(../../resources/images/ico_star_on.svg);}
 .ui-grade .result-text{margin-left: 8px; color: #b2d8b5; font-size: 18px; white-space: nowrap;}
-.ui-grade.half>*:not(span){width: 20px; margin: 0; background-position: 5px 50%;}
-.ui-grade.half>*:not(span):nth-child(even){background-position: -15px 50%;}
+.ui-grade.half>*:not(span){width: 45px; margin: 0; background-position: 5px 50%;}
+
 
 
 
