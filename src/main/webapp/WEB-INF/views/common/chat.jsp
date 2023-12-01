@@ -24,11 +24,13 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 <body>
     <jsp:include page="../common/header.jsp" />
     <div class="container">  
-        <div class="chat-page">Chatting</div>
+       
         <div class="chat-inner">
+           
             <div class="chat-inner2">
                 <div class="section1"> 
                     <div class="section1-list">
+                        <div class="chat-page">Chatting</div>
                         <div class="chat-list chat-list-first">
                             <img src="/mapping/resources/images/profile.png" alt="sunil">
                             <div class="list-user">
@@ -62,10 +64,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                             <div class="chat-count">2</div> 
                         </div>
                     </div>
-                    <button class="report">
-                        <div>신고하기</div>
-                        <img class="report-img" src="/mapping/resources/images/report.PNG" alt="">
-                    </button>
+
                 </div>  
                 <div class="section2-outer">
                     <div class="section2">
@@ -73,131 +72,126 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                             <div class="in-msg">           
                                 <img src="/mapping/resources/images/profile.png" alt="sunil">
                                 <div class="received_msg">
-                                    <div>여행 갈려 말려</div>
+                                    <div class="msg">여행 갈려 말려 갈려 말려 갈려 말려 갈려 말려  </div>
                                     <div class="time_date"> 11:01 AM    |    June 9</div>
                                 </div>
                             </div>
                             <div class="out-msg">
                                 <div class="sent_msg">
-                                    <span class="time_date2"> 11:01 AM    |    June 9</span>
-                                    <p>
+                                    <div class="time_date2"> 11:01 AM    |    June 9</div>
+                                    <div class="msg">
                                         언제?
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div> 
-                        <div class="chat-main">
-                            <div class="in-msg">           
-                                <img src="/mapping/resources/images/profile.png" alt="sunil">
-                                <div class="received_msg">
-                                    <div>여행 갈려 말려</div>
-                                    <div class="time_date"> 11:01 AM    |    June 9</div>
-                                </div>
-                            </div>
-                            <div class="out-msg">
-                                <div class="sent_msg">
-                                    <span class="time_date2"> 11:01 AM    |    June 9</span>
-                                    <p>
-                                        언제?
-                                    </p>
-                                </div>
-                            </div>
-                        </div> 
-                        <div class="chat-main">
-                            <div class="in-msg">           
-                                <img src="/mapping/resources/images/profile.png" alt="sunil">
-                                <div class="received_msg">
-                                    <div>여행 갈려 말려</div>
-                                    <div class="time_date"> 11:01 AM    |    June 9</div>
-                                </div>
-                            </div>
-                            <div class="out-msg">
-                                <div class="sent_msg">
-                                    <span class="time_date2"> 11:01 AM    |    June 9</span>
-                                    <p>
-                                        언제?
-                                    </p>
-                                </div>
-                            </div>
-                        </div> 
-                        <div class="chat-main">
-                            <div class="in-msg">           
-                                <img src="/mapping/resources/images/profile.png" alt="sunil">
-                                <div class="received_msg">
-                                    <div>여행 갈려 말려</div>
-                                    <div class="time_date"> 11:01 AM    |    June 9</div>
-                                </div>
-                            </div>
-                            <div class="out-msg">
-                                <div class="sent_msg">
-                                    <span class="time_date2"> 11:01 AM    |    June 9</span>
-                                    <p>
-                                        언제?
-                                    </p>
-                                </div>
-                            </div>
-                        </div> 
-                        <div class="chat-main">
-                            <div class="in-msg">           
-                                <img src="/mapping/resources/images/profile.png" alt="sunil">
-                                <div class="received_msg">
-                                    <div>여행 갈려 말려</div>
-                                    <div class="time_date"> 11:01 AM    |    June 9</div>
-                                </div>
-                            </div>
-                            <div class="out-msg">
-                                <div class="sent_msg">
-                                    <span class="time_date2"> 11:01 AM    |    June 9</span>
-                                    <p>
-                                        언제?
-                                    </p>
-                                </div>
-                            </div>
-                        </div> 
-                        <div class="chat-main">
-                            <div class="in-msg">           
-                                <img src="/mapping/resources/images/profile.png" alt="sunil">
-                                <div class="received_msg">
-                                    <div>여행 갈려 말려</div>
-                                    <div class="time_date"> 11:01 AM    |    June 9</div>
-                                </div>
-                            </div>
-                            <div class="out-msg">
-                                <div class="sent_msg">
-                                    <span class="time_date2"> 11:01 AM    |    June 9</span>
-                                    <p>
-                                        언제?
-                                    </p>
-                                </div>
-                            </div>
-                        </div> 
-                        <div class="chat-main">
-                            <div class="in-msg">           
-                                <img src="/mapping/resources/images/profile.png" alt="sunil">
-                                <div class="received_msg">
-                                    <div>여행 갈려 말려</div>
-                                    <div class="time_date"> 11:01 AM    |    June 9</div>
-                                </div>
-                            </div>
-                            <div class="out-msg">
-                                <div class="sent_msg">
-                                    <span class="time_date2"> 11:01 AM    |    June 9</span>
-                                    <p>
-                                        언제?
-                                    </p>
-                                </div>
-                            </div>
-                        </div>                 
-                    </div>
-                    <form>
-                        <div class="chat-msg">             
-                            <div class="chat-msg-inner">
-                                <textarea name="chatting" id="summernote" type="text" class="chat-msg-input" placeholder="메세지를 입력해주세요.">
-                                </textarea>                          
-                            </div>
-                            <button class="send-button" type="button">Button</button>
                         </div>
-                    </form>
+                        <div class="chat-main">
+                            <div class="in-msg">           
+                                <img src="/mapping/resources/images/profile.png" alt="sunil">
+                                <div class="received_msg">
+                                    <div class="msg">여행 갈려 말려 갈려 말려 갈려 말려 갈려 말려  </div>
+                                    <div class="time_date"> 11:01 AM    |    June 9</div>
+                                </div>
+                            </div>
+                            <div class="out-msg">
+                                <div class="sent_msg">
+                                    <div class="time_date2"> 11:01 AM    |    June 9</div>
+                                    <div class="msg">
+                                        언제?
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-main">
+                            <div class="in-msg">           
+                                <img src="/mapping/resources/images/profile.png" alt="sunil">
+                                <div class="received_msg">
+                                    <div class="msg">여행 갈려 말려 갈려 말려 갈려 말려 갈려 말려  </div>
+                                    <div class="time_date"> 11:01 AM    |    June 9</div>
+                                </div>
+                            </div>
+                            <div class="out-msg">
+                                <div class="sent_msg">
+                                    <div class="time_date2"> 11:01 AM    |    June 9</div>
+                                    <div class="msg">
+                                        언제?
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-main">
+                            <div class="in-msg">           
+                                <img src="/mapping/resources/images/profile.png" alt="sunil">
+                                <div class="received_msg">
+                                    <div class="msg">여행 갈려 말려 갈려 말려 갈려 말려 갈려 말려  </div>
+                                    <div class="time_date"> 11:01 AM    |    June 9</div>
+                                </div>
+                            </div>
+                            <div class="out-msg">
+                                <div class="sent_msg">
+                                    <div class="time_date2"> 11:01 AM    |    June 9</div>
+                                    <div class="msg">
+                                        언제?
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-main">
+                            <div class="in-msg">           
+                                <img src="/mapping/resources/images/profile.png" alt="sunil">
+                                <div class="received_msg">
+                                    <div class="msg">여행 갈려 말려 갈려 말려 갈려 말려 갈려 말려  </div>
+                                    <div class="time_date"> 11:01 AM    |    June 9</div>
+                                </div>
+                            </div>
+                            <div class="out-msg">
+                                <div class="sent_msg">
+                                    <div class="time_date2"> 11:01 AM    |    June 9</div>
+                                    <div class="msg">
+                                        언제?
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-main">
+                            <div class="in-msg">           
+                                <img src="/mapping/resources/images/profile.png" alt="sunil">
+                                <div class="received_msg">
+                                    <div class="msg">여행 갈려 말려 갈려 말려 갈려 말려 갈려 말려  </div>
+                                    <div class="time_date"> 11:01 AM    |    June 9</div>
+                                </div>
+                            </div>
+                            <div class="out-msg">
+                                <div class="sent_msg">
+                                    <div class="time_date2"> 11:01 AM    |    June 9</div>
+                                    <div class="msg">
+                                        언제?
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         
+
+                        
+                
+                    </div>
+                    <div id="text-outer">
+                        <form id="text-form">
+                            <!-- 신고하기 -->
+                           <!-- Button to Open the Modal -->
+                           <button id="report-button" type="button" data-bs-toggle="modal" data-bs-target="#reportModal">
+                               <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
+                           </button>
+                               <div class="chat-msg">             
+                                   <div class="chat-msg-inner">
+                                       <textarea name="chatting" id="summernote" type="text" class="chat-msg-input" placeholder="메세지를 입력해주세요.">
+                                       </textarea>                          
+                                   </div>
+                                   <button class="send-button" type="button">Button</button>
+                               </div>
+                           </form>
+                    </div>
+
                 </div>               
 
             </div>
@@ -206,6 +200,59 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 
 
     </div>
+    
+    
+    
+     <!-- The Modal -->
+        <div class="modal fade" id="reportModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content style">
+            
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">신고하기</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+            
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="layer-contents" id="report">
+                            <div class="dl-type">
+                                <dl>
+                                    <dt><strong>아이디</strong></dt>
+                                    <dd>홍길동</dd>
+                                </dl>
+                                <dl>
+                                    <dt><strong>내용</strong></dt>
+                                    <dd><p>이것도 여행계획이라고 짠건가? ㅉㅉ 이것도 여행계획이라고 짠건가? ㅉㅉ</p></dd>
+                                </dl>
+                            </div>
+                            <br>
+                            <fieldset class="form">
+                                <legend>신고정보입력</legend>
+                                <div class="form-check-map-group">
+                                    <div class="form-check-map checked"><input type="radio" name="report" id="report01" checked=""><label for="report01">광고 / 홍보성 댓글</label></div>
+                                    <div class="form-check-map"><input type="radio" name="report" id="report02"><label for="report02">욕설 / 반말 /부적절한 언어</label></div>
+                                    <div class="form-check-map"><input type="radio" name="report" id="report03"><label for="report03">음란성 메시지</label></div>
+                                    <div class="form-check-map"><input type="radio" name="report" id="report04"><label for="report04">기타</label></div>
+                                </div>
+                                <div class="form-control-map">
+                                    <textarea name="" id="" title="신고사유 입력" cols="" rows="7" placeholder="기타 신고사유를 입력해주세요."></textarea>
+                                    <div class="bytes">0 / 500 자</div>
+                                </div>
+                                <p class="report-text">댓글 신고 사유를 선택해주세요.<br>
+                                    신고 후 관리자에게 신고 사항이 전달됩니다.</p>
+                            </fieldset>
+                        </div>
+                        <div class="layer-btns">
+                            <button type="button" class="btn-lg-line cancel" data-bs-dismiss="modal">취소</button>
+                            <button type="button" class="btn-lg-solid confirm">신고하기</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
     <script>
         //서머노트 그려주는 함수
@@ -213,7 +260,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
         $('#summernote').summernote({
             lang: 'ko-KR',
             tabsize: 2,
-            width: 870,
+            width: 667,
             height: 100,
             toolbar: [
                 ['style', ['style']],
@@ -240,6 +287,18 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             }
             frm.submit();
         }
+        
+        
+        
+        
+
+        
+       
+        
+        
+        
+        
+        
 
     </script>
 </body>

@@ -20,6 +20,10 @@ h2{
     
 } 
 
+#mem-enroll-form{
+    position: relative;
+}
+
 #joinMember{
 
 width: 505px; 
@@ -32,7 +36,7 @@ margin-right: 5px;
 }
 
 #reset{
-width: 66px;
+width: 70px;
 background:  #b2d8b5;
 color: white;
 border: 1px solid;
@@ -52,12 +56,111 @@ margin-left: 5px
 
 
 
+#email_domain{
+    position: relative;
+}
+
+
 .select{
     text-align: center;
-    width: 65px; background:  #b2d8b5;
+    width: 44px;
+    background: #b2d8b5;
     color: white;
     border: 1px solid;
-    border-radius: 5px; 
-    height: 45px;
+    border-radius: 5px;
+    height: 37px;
+    position: absolute;
+    right: 403px;
+    bottom: 123px;
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 별점주기 모달 */
+.modal-content.style .modal-body .modal-title {
+    font-weight: 700;
+    line-height: 35px;
+    font-size: 24px;
+    padding-bottom: 24px;
+}
+.modal-content.style .modal-body .modal-title > span{
+    font-size: 16px;
+    padding-left: 5px;
+    color: #b2d8b5;
+}
+.modal-content.grade .modal-body {
+    padding: 0 24px 24px 24px;
+}
+.modal-content.grade .modal-body .img-area > img{
+    max-width: 100%;
+    border-radius: 8px;
+}
+.modal-content.grade .modal-body .text-area{
+    margin-top: 16px;
+    padding: 4px 0;
+}
+.modal-content.grade .modal-body .text-area > p{
+    font-size: 14px;
+    color: #707070;
+}
+.modal-content.grade .modal-body .grade {   
+    padding: 24px 0;
+}
+/* 별점주기 */
+.ui-grade{display: flex; align-items: center; justify-content: center;}
+.ui-grade>*:not(span){overflow:hidden; width: 40px; height: 40px; background:url(../../resources/images/ico_star.svg) no-repeat center; background-size: 30px; color: transparent;}
+.ui-grade>*.hover,
+.ui-grade>*.checked{background-image: url(../../resources/images/ico_star_on.svg);}
+.ui-grade .result-text{margin-left: 8px; color: #b2d8b5; font-size: 18px; white-space: nowrap;}
+.ui-grade.half>*:not(span){width: 20px; margin: 0; background-position: 5px 50%;}
+.ui-grade.half>*:not(span):nth-child(even){background-position: -15px 50%;}
+
+
+
+/* 신고하기 모달 */
+.dl-type {display: table; width: 100%;}
+.dl-type>dl {display: table-row;}
+.dl-type>dl>*{display: table-cell; padding:6px 0; vertical-align: top; line-height: 1.5;}
+.dl-type>dl>dt{padding-right: 1rem; white-space: nowrap;}
+.form-check-map{position: relative; display:flex; height: 48px; padding:0 14px; align-items: center; border: 1px solid #dedede; background-color: #fff; column-gap: 10px;}
+.form-check-map input[type="radio"] {border-radius: 50%; transition: .2s;}
+.form-check-map input[type="radio"]:checked {border-width: 6px; border-color: #b2d8b5;}
+.form-check-map input {width: 20px; height: 20px; border: 1px solid #dedede; border-radius: 4px; cursor: pointer; background-color: #fff;}
+.form-check-map label {flex: 1 1 auto; font-size: 14px; font-weight: 700; white-space: nowrap;}
+.form-control-map {position: relative; font-size: 14px; border: 1px solid #dedede; margin-top: 16px;}
+.form-control-map>textarea {display: block; height: auto; width: 100%; padding:14px 16px; border: 0; background-color: #fff; line-height: 1.5; color: #000; font-weight: 600;}
+.form-control-map .bytes {position: absolute; bottom: 16px; right: 16px; font-size: 12px; color: #707070;}
+.report-text {color: #707070; font-size: 14px; line-height: 1.5; margin-top: 8px; padding-bottom: 24px;}
+.layer-btns{display: flex;}
+[class^="btn"][class*="-line"] {border: 1px solid #b2d8b5; color: #b2d8b5;}
+.layer-btns>* {flex: 1;}
+[class^="btn"] {font-weight: 700;white-space: nowrap;}
+[class^="btn"][class*="-lg"] {height: 60px; padding: 0 40px; background-color: #fff; border: 1px solid #dedede;}
+[class^="btn-"] {position: relative;}
+[class^="btn"] + [class^="btn"] {margin-left: 13px;}
+[class^="btn"][class*="-solid"] {border-color: #b2d8b5; background-color: #b2d8b5; color: #fff;}
 
