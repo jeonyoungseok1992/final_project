@@ -193,14 +193,15 @@
 
 .send-button{
     position: absolute;
-    bottom: 15px;
-    right: 3px;
+    bottom: 8px;
+    right: 21px;
     background-color: #b2d8b5;
     height: 30px;
     width: 60px;
     border-radius: 10px;
     color: white;
     font-weight: 700;
+
 }
 
 .section1-list{
@@ -234,7 +235,9 @@
     bottom: -240px;
 }
 
-
+.note-resizebar{
+    display: none;
+}
 
 
 
