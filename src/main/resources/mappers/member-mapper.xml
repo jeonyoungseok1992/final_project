@@ -44,8 +44,6 @@
 	
 	
 	
-	
-	
 	<update id="updateMember">
       UPDATE MEMBER
          SET 
@@ -243,6 +241,81 @@
 		SELECT COUNT(*)
 		FROM MEMBER
 		WHERE MEMBER_NICKNAME = #{memberNickName}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+   	<!-- 아이디 이메일 중복체크 -->
+	<select id="idEmailCheck" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE MEMBER_ID = #{memberId}
+		AND MEMBER_EMAIL = #{memberEmail}
 	</select>
+	
+	<!-- 임시비번 업데이트  -->
+	<update id="setTemPwd">
+      UPDATE MEMBER
+         SET 
+            MEMBER_PWD = #{memberPwd},
+            MEMBER_MODIFY_DATE = SYSDATE
+      WHERE MEMBER_EMAIL = #{memberEmail}
+   </update>
+	
    
 </mapper>

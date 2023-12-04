@@ -4,6 +4,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.fin.member.model.vo.Mail;
 import com.kh.fin.member.model.vo.Member;
 import com.kh.fin.member.model.dao.MemberDao;
 
@@ -53,6 +54,71 @@ public class MemberServiceImpl implements MemberService{
 	public int nickNameCheck(String checkNickName) {
 		return memberDao.nickNameCheck(sqlSession, checkNickName);
 
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@Override
+	public int idEmailCheck(Member m) {
+		
+		return memberDao.idEmailCheck(sqlSession, m);
+	}
+
+	@Override
+	public int setTemPwd(Member m) {
+	
+		return memberDao.setTemPwd(sqlSession,m);
 	}
 
 }
