@@ -83,11 +83,11 @@
 			                <input type="text" name="memberId" placeholder="아이디를 입력해주세요" required/>
 			                <label align="center">비밀번호</label>
 			                <input type="password" name="memberPwd" placeholder="비밀번호를 입력해주세요" required/>
-		                    <button type="submit" id="mem" class="btn btn-sm btn-secondary updatest">로그인</button>
+		                    <button type="submit" class="btn btn-sm btn-secondary updatest">로그인</button>
 		                    <div id="link-box">
-								<button id="join"><a data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#searchId">아이디찾기</a></button>
-								<button id="join"><a data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#searchPwd">비밀번호찾기</a></button>
-								<button id="join"><a href="enrollForm.me">회원가입</a></button>
+								<button class="join"><a data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#searchId">아이디찾기</a></button>
+								<button class="join"><a data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#searchPwd">비밀번호찾기</a></button>
+								<button class="join"><a href="enrollForm.me">회원가입</a></button>
         					</div>
 						</form>
                    </div>
@@ -110,19 +110,19 @@
 				</div>
 				<!-- Modal body -->
 				<div class="modal-body login" align="center" style="padding: 24px;">
-					 <form action="#" id="search-form" method="post">
+					 <form action="#" class="search-form" method="post">
 						 <label align="center" for="phone">핸드폰번호</label>
 						<div style="display: flex; width: 100%; gap: 10px;">
 						 	<input type="tel" name="phone" id="phone" placeholder="핸드폰번호를입력해주세요(-없이)" required style="width: 300px;"/>
-						 	<button type="submit" id="mem" class="btn btn-sm btn-secondary updatest edit">인증</button>
+						 	<button type="submit" class="btn btn-sm btn-secondary updatest edit">인증</button>
 						</div>
 					</form>
 
 					<!-- if문 걸어서 인증번호 맞으면 아이디 알려주기(구현하세요!!!!문의는 임동건에게)-->
-					<form action="#" id="search-form" method="post">
+					<form action="#" class="search-form" method="post">
 						 <label align="center" for="serialNum">인증번호</label>
 						 <input type="password" id="serialNum" name="memberPwd" placeholder="인증번호를 입력해주세요" required/>
-						 <button type="submit" id="mem" class="btn btn-sm btn-secondary updatest">다음</button>
+						 <button type="submit" class="btn btn-sm btn-secondary updatest">다음</button>
 					 </form>
 
 				</div>
@@ -139,20 +139,19 @@
 			   <div class="modal-header" style="border-bottom: none;padding: 30px;display: block;">
 					<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 20px;">
 						 <h4 class="modal-title updatest">비밀번호 찾기</h4>
-						 <span style="font-size: 15px;">회원가입시 등록한 이메일을 이용하여 비밀번호를 찾을 수 있습니다.</span>
+						 <span style="font-size: 15px;">회원가입시 등록한 이메일에 임시비밀번호를 보내드립니다.</span>
 					</div>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" style="position: absolute; top: 20px; right: 20px;"></button>
 				</div>
 				<!-- Modal body -->
 				<div class="modal-body login" align="center" style="padding: 24px;">
-					 <form action="#" id="search-form" method="post">
-						<form action="#" method="post">
+					 <form action="sendEmail" id="search-form" method="post" name="sendEmail">
 			                <label align="center" for="memberId">아이디</label>
-			                <input type="text" name="memberId" placeholder="아이디를 입력해주세요" required/>
+			                <input type="text" name="memberId" id="userId" placeholder="아이디를 입력해주세요" required/>
 			                <label align="center" for="memberEmail">이메일</label>
-			                <input type="email" name="memberEmail" placeholder="이메일을 입력해주세요" required/>
-		                    <button type="submit" id="mem" class="btn btn-sm btn-secondary updatest">다음</button>
-						</form>
+			                <input type="email" name="memberEmail" id="userEmail" placeholder="이메일을 입력해주세요" required/>
+		                    <button type="button" id="checkEmail" data-bs-dismiss="modal" class="btn btn-sm btn-secondary updatest">제출</button>
+					</form>
 
 					<!-- 다음을 누르면 아이디,이메일정보가 db에 있는지 확인하고, 있다면 view상에서 이메일에 임시비번 보내주었다고 말해주면 됩니다.-->
 					
@@ -163,11 +162,45 @@
 	</div>
 
     </header>
-    <!--// header  --> 
-	<script>
+    <!--// header  -->     
+    <script>
 		function hyperlink(){
 			window.location.href = 'http://localhost:8009/mapping/#section3';
 		}
-	</script>
+    </script>
+    <script>
+	    $("#checkEmail").click(function () {
+	        const memberEmail = $("#userEmail").val();
+	        const memberId = $("#userId").val();
+	        
+	        const sendEmail = document.forms["sendEmail"];
+	        $.ajax({
+	            type: 'post',
+	            url: 'emailDuplication',
+	            data: {
+	            	'memberId' : memberId,
+	                'memberEmail': memberEmail,
+	            },
+	            dataType: "text",
+	            success: function (res) {
+	            	console.log(res);
+	                if(res == "success"){
+	                    alert('임시비밀번호를 전송 했습니다. 임시비밀번호로 로그인 후 비밀번호를 변경하세요. ');
+	                    sendEmail.submit();
+	                }else {
+	                    alert('가입되지 않은 이메일입니다.');
+	                }
+	
+	            },error: function () {
+	                console.log('에러 체크!!')
+	            }
+	        })
+	    });
+    </script>
+    
+
+
+	
+
 </body>
 </html>

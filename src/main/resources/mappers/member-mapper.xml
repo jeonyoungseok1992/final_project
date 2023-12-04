@@ -38,54 +38,81 @@
 		and MEMBER_STATUS = 'Y'
 	</select>
 	
-	<!-- 회원가입을 위한 쿼리문 -->
-	<insert id="insertMember">
-		INSERT INTO MEMBER(
-			USER_ID,
-			USER_PWD,
-			USER_NAME,
-			EMAIL,
-			GENDER,
-			AGE,
-			PHONE,
-			ADDRESS
-		)
-		VALUES(
-			#{userId},
-			#{userPwd},
-			#{userName},
-			#{email},
-			#{gender},
-			#{age},
-			#{phone},
-			#{address}
-		)
-	</insert>
 	
-	<update id="updateMember">
-      UPDATE MEMBER
-         SET 
-            USER_NAME = #{userName},
-            EMAIL = #{email},         
-            AGE = #{age},
-            PHONE = #{phone},
-            ADDRESS = #{address},
-            GENDER = #{gender},
-            MODIFY_DATE = SYSDATE
-      WHERE USER_ID = #{userId}
-   </update>
-   
-   	<update id="deleteMember">
-      UPDATE MEMBER
-         SET STATUS = 'N'
-      WHERE USER_ID = #{userId}
-   </update>
-   
-   	<!-- 아이디 중복체크 -->
-	<select id="idCheck" resultType="_int">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+   	<!-- 아이디 이메일 중복체크 -->
+	<select id="idEmailCheck" resultType="_int">
 		SELECT COUNT(*)
 		FROM MEMBER
-		WHERE USER_ID = #{userId}
+		WHERE MEMBER_ID = #{memberId}
+		AND MEMBER_EMAIL = #{memberEmail}
 	</select>
+	
+	<!-- 임시비번 업데이트  -->
+	<update id="setTemPwd">
+      UPDATE MEMBER
+         SET 
+            MEMBER_PWD = #{memberPwd},
+            MEMBER_MODIFY_DATE = SYSDATE
+      WHERE MEMBER_EMAIL = #{memberEmail}
+   </update>
+	
    
 </mapper>
