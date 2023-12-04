@@ -180,7 +180,7 @@ table.update  tbody tr td input{
     padding-left: 15px;
 	
 }
-#join {
+.join {
 	display: block;
     text-decoration: underline;
     font-weight: bold;
@@ -195,7 +195,7 @@ table.update  tbody tr td input{
     padding-top: 20px;
     gap: 45px;
 }
-#search-form{
+.search-form{
     display: flex;
     width: 350px;
     flex-direction: column;

@@ -1,25 +1,21 @@
 package com.kh.fin.board.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.kh.fin.board.model.service.BoardService;
-import com.kh.fin.board.model.vo.Board;
-
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.kh.fin.board.model.service.BoardService;
+import com.kh.fin.common.model.vo.PageInfo;
+import com.kh.fin.common.template.Pagenation;
 
 @Controller
 public class BoardController {
-
-	@RequestMapping(value="/together.bo")
-	public String moveTogether() {
-		return "board/boardTogetherNotice";
-	}
+	
+	@Autowired
+	private BoardService boardService;
+	
 	
 	@RequestMapping(value="/review.bo")
 	public String moveReview() {
@@ -45,4 +41,67 @@ public class BoardController {
 		return "member/profileEdit";
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping("together.bo")
+	public ModelAndView selectTogetherList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv){
+		
+		PageInfo pi = Pagenation.getPageInfo(boardService.selectTogetherListCount(), currentPage, 5, 12);
+		
+		mv.addObject("pi",pi)
+			.addObject("list", boardService.selectTogetherList(pi))
+			.setViewName("board/boardTogetherNotice");
+		
+		return mv;
+	}
 }
