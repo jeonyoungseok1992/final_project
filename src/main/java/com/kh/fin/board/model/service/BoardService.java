@@ -7,14 +7,13 @@ import com.kh.fin.common.model.vo.PageInfo;
 
 public interface BoardService {
 
-
 	//게시글 상세조회
 	Board selectBoard(int boardNo);
 	
 	//게시글 조회수증가(update)
 	int increaseCount(int boardNo);
 	
-		
+
 	
 	
 	

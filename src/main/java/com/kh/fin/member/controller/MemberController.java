@@ -19,38 +19,38 @@ import com.kh.fin.member.model.vo.Member;
 
 @Controller
 public class MemberController {
-	
+
 	@Autowired
 	private MemberService memberService;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
-	
-	//로그인 기능
-	@RequestMapping(value="/login.me")
+
+	// 로그인 기능
+	@RequestMapping(value = "/login.me")
 	public ModelAndView loginMember(Member m, ModelAndView mv, HttpSession session) {
-		
+
 		Member loginUser = memberService.loginMember(m);
-		
-		if(loginUser==null || !bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd()) ) {
-		mv.addObject("errorMsg","로그인에 실패 하였습니다. 회원 정보를 다시 확인해주세요.");
-		mv.setViewName("errorPage/loginErrorPage");
-	}else {
-		session.setAttribute("loginUser", loginUser);
-		mv.setViewName("redirect:/");
-	}
-		
+
+		if (loginUser == null || !bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
+			mv.addObject("errorMsg", "로그인에 실패 하였습니다. 회원 정보를 다시 확인해주세요.");
+			mv.setViewName("errorPage/loginErrorPage");
+		} else {
+			session.setAttribute("loginUser", loginUser);
+			mv.setViewName("redirect:/");
+		}
+
 		return mv;
 	}
-	
-	@RequestMapping(value="/logout.me")
+
+	@RequestMapping(value = "/logout.me")
 	public ModelAndView logoutMember(ModelAndView mv, HttpSession session) {
 		session.removeAttribute("loginUser");
 		mv.setViewName("redirect:/");
 		return mv;
 	}
-	
-	@RequestMapping(value="/enrollForm.me")
+
+	@RequestMapping(value = "/enrollForm.me")
 	public String enrollForm() {
 		return "member/enrollForm";
 	}

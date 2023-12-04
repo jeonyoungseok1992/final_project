@@ -117,5 +117,4 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.selectTogetherList(sqlSession,pi);
 	}
 	
-
 }
