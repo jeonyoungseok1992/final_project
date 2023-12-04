@@ -20,47 +20,31 @@
 
 	<!-- 로그인 쿼리문 -->
 	<select id="loginMember" resultMap="memberResult">
-		SELECT MEMBER_NO
-            ,MEMBER_ID
-            ,MEMBER_PWD
-            ,MEMBER_NAME
-            ,MEMBER_NICKNAME
-            ,MEMBER_EMAIL
-            ,MEMBER_PHONE
-            ,MEMBER_PROFILE_IMG
-            ,MEMBER_CREATE_DATE
-            ,MEMBER_MODIFY_DATE
-            ,MEMBER_RIGHT
-            ,MEMBER_STATUS
-            ,MEMBER_GRADE
+		SELECT   MEMBER_NO
+	            ,MEMBER_ID
+	            ,MEMBER_PWD
+	            ,MEMBER_NAME
+	            ,MEMBER_NICKNAME
+	            ,MEMBER_EMAIL
+	            ,MEMBER_PHONE
+	            ,MEMBER_PROFILE_IMG
+	            ,MEMBER_CREATE_DATE
+	            ,MEMBER_MODIFY_DATE
+	            ,MEMBER_RIGHT
+	            ,MEMBER_STATUS
+	            ,MEMBER_GRADE
 		FROM MEMBER
 		WHERE MEMBER_ID = #{memberId}
 		and MEMBER_STATUS = 'Y'
 	</select>
 	
-	<!-- 회원가입을 위한 쿼리문 -->
-	<insert id="insertMember">
-		INSERT INTO MEMBER(
-			USER_ID,
-			USER_PWD,
-			USER_NAME,
-			EMAIL,
-			GENDER,
-			AGE,
-			PHONE,
-			ADDRESS
-		)
-		VALUES(
-			#{userId},
-			#{userPwd},
-			#{userName},
-			#{email},
-			#{gender},
-			#{age},
-			#{phone},
-			#{address}
-		)
-	</insert>
+
+	
+	
+	
+	
+	
+	
 	
 	<update id="updateMember">
       UPDATE MEMBER
@@ -81,11 +65,184 @@
       WHERE USER_ID = #{userId}
    </update>
    
+   
+   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+   
+   
+   	<!-- 회원가입을 위한 쿼리문 -->
+	<insert id="insertMember">
+		INSERT INTO MEMBER(
+			MEMBER_NO,
+			MEMBER_ID,
+			MEMBER_PWD,
+			MEMBER_NAME,
+			MEMBER_NICKNAME,
+			MEMBER_EMAIL,
+			MEMBER_PHONE
+		
+			
+		)
+		VALUES(
+			SEQ_MNO.NEXTVAL,	
+			#{memberId},
+			#{memberPwd},
+			#{memberName},
+			#{memberNickName},
+			
+			replace(#{memberEmail}, ',', '@'),	
+			
+			#{memberPhone}
+			
+		)
+		
+		
+	</insert>
+	
+   
+   
+   
    	<!-- 아이디 중복체크 -->
 	<select id="idCheck" resultType="_int">
 		SELECT COUNT(*)
 		FROM MEMBER
-		WHERE USER_ID = #{userId}
+		WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<!-- 닉네임 중복체크 -->
+	<select id="nickNameCheck" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE MEMBER_NICKNAME = #{memberNickName}
 	</select>
    
 </mapper>

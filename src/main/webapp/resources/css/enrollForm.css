@@ -45,7 +45,7 @@ height: 45px;
 margin-left: 5px
 }
 
-#userId, #userNickName{
+#memberId, #memberNickName{
     width: 70px; 
     background:  #b2d8b5;
     color: white;
