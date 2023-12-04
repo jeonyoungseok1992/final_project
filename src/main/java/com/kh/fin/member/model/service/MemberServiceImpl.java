@@ -4,9 +4,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.fin.member.model.vo.Mail;
-import com.kh.fin.member.model.vo.Member;
 import com.kh.fin.member.model.dao.MemberDao;
+import com.kh.fin.member.model.vo.Member;
 
 @Service
 public class MemberServiceImpl implements MemberService{

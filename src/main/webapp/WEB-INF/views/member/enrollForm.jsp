@@ -35,7 +35,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                     <br>
                     <td>
                         <input type="text" name="memberId" maxlength="12"  placeholder="아이디를 입력해주세요."required>
-                        <button id = "memberId" type = "button" onclick="idCheck()">중복확인</button>
+                        <button id = "memberId" name="checkIdBtn" type = "button" onclick="idCheck()">중복확인</button>
                     </td>
                     <td></td>
                     <!-- <td><button type="button" style="background-color: #FF8B3D;  border: 1px solid;
@@ -63,7 +63,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                     <td>닉네임</td>
                     <td>
                         <input type="text" name="memberNickName"  maxlength="6" placeholder="넥네임을 입력해주세요." required>
-                        <button id = "memberNickName" type = "button" onclick="nickNameCheck()">중복확인</button>
+                        <button id = "memberNickName" name="checkNickNameBtn" type = "button" onclick="nickNameCheck()">중복확인</button>
                     </td>
                     <td></td>
                 </tr> 
@@ -82,13 +82,13 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                     <input type="text" id="email_domain" name="memberEmail"  class="form_w200" value="" title="이메일 도메인" placeholder="이메일 도메인" maxlength="18" style="width: 240px;" /> 
                     <select class="select" title="이메일 도메인 주소 선택" onclick="setEmailDomain(this.value);return false;">
                         <option value="">선택</option>
-                        <option value="@naver.com">naver.com</option>
-                        <option value="@gmail.com">gmail.com</option>
-                        <option value="@hanmail.net">hanmail.net</option>
-                        <option value="@hotmail.com">hotmail.com</option>
-                        <option value="@korea.com">korea.com</option>
-                        <option value="@nate.com">nate.com</option>
-                        <option value="@yahoo.com">yahoo.com</option>
+                        <option value="naver.com">naver.com</option>
+                        <option value="gmail.com">gmail.com</option>
+                        <option value="hanmail.net">hanmail.net</option>
+                        <option value="hotmail.com">hotmail.com</option>
+                        <option value="korea.com">korea.com</option>
+                        <option value="nate.com">nate.com</option>
+                        <option value="yahoo.com">yahoo.com</option>
                     </select>
                     
                     
@@ -125,14 +125,6 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 
 
 
-
-
-
-
-
-
-
-
 	       <!--비밀번호 제약-->
             function checkPwd(){
                 let pwdInput = document.querySelector("#mem-enroll-form input[name=memberPwd]");
@@ -145,81 +137,85 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             }
             
             //아이디중복체크
-            function idCheck(){
-            
+            function idCheck() {
+                const inInput = document.querySelector("#mem-enroll-form input[name=memberId]");
+                const checkBtnId = document.querySelector("#mem-enroll-form button[name=checkIdBtn]");
 
-            	const inInput = document.querySelector("#mem-enroll-form input[name=memberId]");
+                if (inInput.value.length == 0) {
+                    alert("아이디를 입력해주세요.");
+                    return;
+                }
 
-                if(inInput.value.length == 0){
-            		alert("아이디를 입력해주세요.");
-            		return;
-            	}
-
-            	$.ajax({
-            		url : "idCheck.me",
-            		data : {
-            			"checkId" : inInput.value
-            		},
-            		success : function(res){
-            			if(res === "NNNNY"){
-            				if(confirm("사용가능한 아이디입니다. 사용하시겠습니까?")){
-            					let submitBtn = document.querySelector("#mem-enroll-form button[type=submit]");
-            					submitBtn.removeAttribute("disabled");
-                                disabled.setAttribute("readonly", true);
-                            } else{
-                                inInput.focus();
-                            }
-                        } else{
-                            alert("사용하실 수 없는 아이디입니다. 다시 입력해주세요.");
-                            inInput.focus();
-                        }
+                $.ajax({
+                    url: "idCheck.me",
+                    data: {
+                    "checkId": inInput.value
                     },
-                    error : function(){
-                        console.log("아이디 중복체크용 ajax 통신 실패");
-                    }	
-            		
-            	})
-            }
+                    success: function (res) {
+                    if (res === "NNNNY") {
+                        if (confirm("사용 가능한 아이디입니다. 사용하시겠습니까?")) {
+                        let submitBtn = document.querySelector("#mem-enroll-form button[type=submit]");
+                        submitBtn.removeAttribute("disabled");
+                        inInput.setAttribute("readonly", true);
+                        checkBtnId.setAttribute("disabled", true); // 중복 확인 버튼을 읽기 전용으로 설정
+                        } else {
+                        inInput.focus();
+                        }
+                    } else {
+                        alert("사용하실 수 없는 아이디입니다. 다시 입력해주세요.");
+                        inInput.focus();
+                    }
+                    },
+                    error: function () {
+                    console.log("아이디 중복체크용 ajax 통신 실패");
+                    }
+                });
+                }
+
 
 
 
 
             //닉네임 중복확인 
-            function nickNameCheck(){
+            function nickNameCheck(){  
             
 
             const inInput = document.querySelector("#mem-enroll-form input[name=memberNickName]");
+            const checkBtnNick = document.querySelector("#mem-enroll-form button[name=checkNickNameBtn]");
 
-            if(inInput.value.length == 0){
-                alert("닉네임을 입력해주세요.");
-                return;
-            }
 
-            $.ajax({
-                url : "nickNameCheck.me",
-                data : {
-                    "checkNickName" : inInput.value
-                },
-                success : function(res){
-                    if(res === "NNNNY"){
-                        if(confirm("사용가능한 닉네임입니다. 사용하시겠습니까?")){
-                            let submitBtn = document.querySelector("#mem-enroll-form button[type=submit]");
-                            submitBtn.removeAttribute("disabled");
-                            disabled.setAttribute("readonly", true);
-                        } else{
-                            inInput.focus();
+           
+            if (inInput.value.length == 0) {
+                    alert("닉네임 입력해주세요.");
+                    return;
+                }
+
+                $.ajax({
+                    url: "nickNameCheck.me",
+                    data: {
+                    "checkId": inInput.value
+                    },
+                    success: function (res) {
+                    if (res === "NNNNY") {
+                        if (confirm("사용 가능한 닉네임입니다. 사용하시겠습니까?")) {
+                        let submitBtn = document.querySelector("#mem-enroll-form button[type=submit]");
+                        submitBtn.removeAttribute("disabled");
+                        inInput.setAttribute("readonly", true);
+                        checkBtnNick.setAttribute("disabled", true); // 중복 확인 버튼을 읽기 전용으로 설정
+                        } else {
+                        inInput.focus();
                         }
-                    } else{
+                    } else {
                         alert("사용하실 수 없는 닉네임입니다. 다시 입력해주세요.");
                         inInput.focus();
                     }
-                },
-                error : function(){
+                    },
+                    error: function () {
                     console.log("닉네임 중복체크용 ajax 통신 실패");
-                }	
-                
-            })
-        }
+                    }
+                });
+                }
+
         </script>
 
         <!--핸드폰 번호 스크립트-->
