@@ -107,4 +107,16 @@ public class MemberDao {
 	public int setTemPwd(SqlSessionTemplate sqlSession,Member m) {
 		return sqlSession.update("memberMapper.setTemPwd",m);
 	}
+	
+	public int insertMember(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.insert("memberMapper.insertMember",m);
+		}
+	public int idCheck(SqlSessionTemplate sqlSession,String checkId) {
+		return sqlSession.selectOne("memberMapper.idCheck",checkId);
+	}
+	
+	public int nickNameCheck(SqlSessionTemplate sqlSession,String checkNickName) {
+		return sqlSession.selectOne("memberMapper.nickNameCheck",checkNickName);
+	}
+
 }

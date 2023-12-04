@@ -23,16 +23,19 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
    <%@ include file="../common/header.jsp"%>
 
     <div class="outer">
+    
+    
+    	
         <br>
         <h2 align="center" style="font-size: 24px; font-weight: 700; line-height: 35px;">회원가입</h2>  
-             <form action="/insert.me" id="mem-enroll-form" >
+             <form action="insert.me" method="post"  id="mem-enroll-form" >
             <table style="width:auto;">
                 <tr>
                     <td>아이디 *  </td> 
                     <br>
                     <td>
-                        <input type="text" name="userId" maxlength="12"  placeholder="아이디를 입력해주세요."required>
-                        <button id = "userId" type = "button" onclick="idCheck()">중복확인</button>
+                        <input type="text" name="memberId" maxlength="12"  placeholder="아이디를 입력해주세요."required>
+                        <button id = "memberId" type = "button" onclick="idCheck()">중복확인</button>
                     </td>
                     <td></td>
                     <!-- <td><button type="button" style="background-color: #FF8B3D;  border: 1px solid;
@@ -41,59 +44,58 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                 </tr>
                 <tr> 
                     <td>비밀번호*</td>
-                    <td><input type="password" name="userPwd" maxlength="15" placeholder="비밀번호를 입력해주세요." required></td>
+                    <td><input type="password" id="memberPwd" name="memberPwd" maxlength="15" placeholder="비밀번호를 입력해주세요." required></td>
                     <td></td>
                 </tr>
-                <tr>
+                
+                 <tr>
                     <td>비밀번호 확인*</td>
-                    <td><input type="password" name="userPwdCheck" maxlength="15" placeholder="비밀번호를 한 번 더 입력해주세요." required></td>
+                    <td><input type="password"  name="memberPwdCheck" maxlength="15" placeholder="비밀번호를 한 번 더 입력해주세요." required></td>
                     <td></td>
                 </tr>
+               
                 <tr>
                     <td>이름  *</td>
-                    <td><input type="text" name="userName" maxlength="6" placeholder="이름을 입력해주세요." required></td>
+                    <td><input type="text" id="memberName" name="memberName" maxlength="6" placeholder="이름을 입력해주세요." required></td>
                     <td></td>
                 </tr> 
                 <tr>
                     <td>닉네임</td>
                     <td>
-                        <input type="text" name="userNickName" maxlength="6" placeholder="넥네임을 입력해주세요." required>
-                        <button id = "userNickName" type = "button" onclick="nickNameCheck()">중복확인</button>
+                        <input type="text" name="memberNickName"  maxlength="6" placeholder="넥네임을 입력해주세요." required>
+                        <button id = "memberNickName" type = "button" onclick="nickNameCheck()">중복확인</button>
                     </td>
                     <td></td>
                 </tr> 
                 <tr>
-                    <form name="frm" method="post" action="">
                         <td>핸드폰번호</td>
-                        <td><input type="text" class="tel" maxlength="13" placeholder="핸드폰번호를 입력해주세요(-제외)"></td>
+                        <td><input type="text" id="memberPhone" name="memberPhone" class="tel" maxlength="13" placeholder="핸드폰번호를 입력해주세요(-제외)"></td>
                         <td></td>
-                    </form>
+                    
                 </tr>
 
 
                 <tr>
                     <td scope="row">이메일</td>
                     <td>
-                    <input type="text" id="email_id" class="form_w200" value="" title="이메일 아이디" placeholder="이메일" maxlength="18" style="width: 100px;" /> @ 
-                    <input type="text" id="email_domain" class="form_w200" value="" title="이메일 도메인" placeholder="이메일 도메인" maxlength="18" style="width: 240px;" /> 
+                    <input type="text" id="memberEmail" name="memberEmail" class="form_w200" value="" title="이메일 아이디" placeholder="이메일" maxlength="18" style="width: 100px;" /> @ 
+                    <input type="text" id="email_domain" name="memberEmail"  class="form_w200" value="" title="이메일 도메인" placeholder="이메일 도메인" maxlength="18" style="width: 240px;" /> 
                     <select class="select" title="이메일 도메인 주소 선택" onclick="setEmailDomain(this.value);return false;">
                         <option value="">선택</option>
-                        <option value="naver.com">naver.com</option>
-                        <option value="gmail.com">gmail.com</option>
-                        <option value="hanmail.net">hanmail.net</option>
-                        <option value="hotmail.com">hotmail.com</option>
-                        <option value="korea.com">korea.com</option>
-                        <option value="nate.com">nate.com</option>
-                        <option value="yahoo.com">yahoo.com</option>
+                        <option value="@naver.com">naver.com</option>
+                        <option value="@gmail.com">gmail.com</option>
+                        <option value="@hanmail.net">hanmail.net</option>
+                        <option value="@hotmail.com">hotmail.com</option>
+                        <option value="@korea.com">korea.com</option>
+                        <option value="@nate.com">nate.com</option>
+                        <option value="@yahoo.com">yahoo.com</option>
                     </select>
+                    
+                    
+                    
                     </td>
                 </tr>
-                    
-                
-
-
-
-                
+             
                
                 
             </table>
@@ -110,6 +112,8 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             <br><br>
 
         </form>
+        
+         </div>
 		<script>
             function setEmailDomain(selectedDomain) {
                 document.getElementById('email_domain').value = selectedDomain;
@@ -131,8 +135,8 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 
 	       <!--비밀번호 제약-->
             function checkPwd(){
-                let pwdInput = document.querySelector("#mem-enroll-form input[name=userPwd]");
-                let pwdCheckInput = document.querySelector("#mem-enroll-form input[name=userPwdCheck]");
+                let pwdInput = document.querySelector("#mem-enroll-form input[name=memberPwd]");
+                let pwdCheckInput = document.querySelector("#mem-enroll-form input[name=memberPwdCheck]");
                
                 if(pwdInput.value !== pwdCheckInput.value){
                     alert("비밀번호가 일치하지않습니다.");
@@ -144,7 +148,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             function idCheck(){
             
 
-            	const inInput = document.querySelector("#mem-enroll-form input[name=userId]");
+            	const inInput = document.querySelector("#mem-enroll-form input[name=memberId]");
 
                 if(inInput.value.length == 0){
             		alert("아이디를 입력해주세요.");
@@ -184,7 +188,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             function nickNameCheck(){
             
 
-            const inInput = document.querySelector("#mem-enroll-form input[name=userNickName]");
+            const inInput = document.querySelector("#mem-enroll-form input[name=memberNickName]");
 
             if(inInput.value.length == 0){
                 alert("닉네임을 입력해주세요.");
@@ -235,6 +239,6 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                 return (key == 8 || key == 9 || key == 46 || (key >= 48 && key <= 57) || (key >= 96 && key <= 105));          
             });
         </script>
-    </div>
+   
 </body>
 </html>
