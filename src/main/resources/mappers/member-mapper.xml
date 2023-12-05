@@ -524,7 +524,7 @@
 		WHERE MEMBER_NICKNAME = #{memberNickName}
 	</select>
 	
-	</select>
+
 	
 	
 	
