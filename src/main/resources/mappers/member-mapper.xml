@@ -311,7 +311,6 @@
       WHERE MEMBER_NO = #{memberNo}
    </update>
    
-<<<<<<< HEAD
    	<select id="UpdateImgMember" resultMap="memberResult">
 		SELECT MEMBER_NO
             ,MEMBER_ID
