@@ -4,22 +4,23 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.servlet.ServletException;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import com.google.gson.Gson;
+
 import com.kh.fin.member.model.service.MemberService;
 import com.kh.fin.member.model.vo.Member;
 
@@ -333,6 +334,7 @@ public class MemberController {
 			m.setMemberProfileImg("resources/member_upfile/" + changeName);
 		}
 		Member updateMember = memberService.updateProfileImg(m);
+		System.out.println(updateMember);
 		session.setAttribute("loginUser", updateMember);
 		
 		return updateMember;

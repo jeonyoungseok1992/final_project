@@ -21,10 +21,12 @@ public class Board {
 	private Date boardCreateDate;
 	private Date boardModifyDate;
 	private String boardReport;
-	private String boardWirter;
+	private String boardWriter;
 	private int boardTripPlanNo;
 	private int boardCategory;
 	private String attachement;
+	private Date tripStartDate;
+	private Date tripEndDate;
 	
 	
 }
