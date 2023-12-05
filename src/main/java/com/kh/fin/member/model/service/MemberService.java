@@ -101,7 +101,6 @@ public interface MemberService {
 	
 	
 	
-<<<<<<< HEAD
 	
 	
 	
@@ -307,12 +306,12 @@ public interface MemberService {
 	
 	//회원탈퇴 서비스 (update)
 	int deleteMember(Member m);
-=======
+
 	//이메일과 아이디 있는지 체크 후 임시비번 보내주는 메서드
 	int idEmailCheck(Member m);
 	
 	// 임시 비밀번호를 기존 멤버정보에 업데이트 해줌
 	int setTemPwd(Member m);
->>>>>>> fd87a56e440cb1ed5591375ae768394466500b85
+
 	
 }
