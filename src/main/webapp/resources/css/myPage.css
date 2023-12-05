@@ -138,3 +138,10 @@ body{
 .clicked {
     color: #b2d8b5;
   }
+
+
+#title-img{
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+}
