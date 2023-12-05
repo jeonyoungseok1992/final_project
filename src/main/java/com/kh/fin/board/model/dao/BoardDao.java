@@ -114,6 +114,14 @@ public class BoardDao {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectTogetherList",null,rowBounds);
 	}
 	
+	public ArrayList<Board> togetherSearchList(SqlSessionTemplate sqlSession, Board b,PageInfo pi){
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		int limit= pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		
+		return (ArrayList)sqlSession.selectList("boardMapper.togetherSearchList",b,rowBounds);
+	}
+	
 	
 	
 }

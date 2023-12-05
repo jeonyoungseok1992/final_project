@@ -241,7 +241,7 @@
 		SELECT COUNT(*)
 		FROM MEMBER
 		WHERE MEMBER_NICKNAME = #{memberNickName}
-	
+	</select>
 	
 	
 	

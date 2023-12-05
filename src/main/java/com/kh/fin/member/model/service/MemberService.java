@@ -1,6 +1,6 @@
 package com.kh.fin.member.model.service;
 
-import com.kh.fin.member.model.vo.Mail;
+
 import com.kh.fin.member.model.vo.Member;
 
 public interface MemberService {
