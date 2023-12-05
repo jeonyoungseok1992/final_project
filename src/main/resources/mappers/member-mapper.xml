@@ -39,6 +39,266 @@
 	</select>
 	
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 프로필이미지 등록 -->
+	<update id="updateProfileImg">
 	
 	
 	
@@ -47,16 +307,37 @@
 	<update id="updateMember">
       UPDATE MEMBER
          SET 
-            USER_NAME = #{userName},
-            EMAIL = #{email},         
-            AGE = #{age},
-            PHONE = #{phone},
-            ADDRESS = #{address},
-            GENDER = #{gender},
-            MODIFY_DATE = SYSDATE
-      WHERE USER_ID = #{userId}
+            MEMBER_PROFILE_IMG = #{memberProfileImg}
+      WHERE MEMBER_NO = #{memberNo}
    </update>
    
+   	<select id="UpdateImgMember" resultMap="memberResult">
+		SELECT MEMBER_NO
+            ,MEMBER_ID
+            ,MEMBER_PWD
+            ,MEMBER_NAME
+            ,MEMBER_NICKNAME
+            ,MEMBER_EMAIL
+            ,MEMBER_PHONE
+            ,MEMBER_PROFILE_IMG
+            ,MEMBER_CREATE_DATE
+            ,MEMBER_MODIFY_DATE
+            ,MEMBER_RIGHT
+            ,MEMBER_STATUS
+            ,MEMBER_GRADE
+		FROM MEMBER
+		WHERE MEMBER_NO = #{memberNo}
+		and MEMBER_STATUS = 'Y'
+	</select>
+	
+	
+<!-- 회원탈퇴 -->	
+	<update id="deleteMember">
+		UPDATE MEMBER
+		    SET MEMBER_STATUS = 'N'
+		WHERE MEMBER_ID = #{memberId}
+	</update>
+	
    	<update id="deleteMember">
       UPDATE MEMBER
          SET STATUS = 'N'
