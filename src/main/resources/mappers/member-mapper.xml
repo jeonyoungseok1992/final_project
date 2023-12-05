@@ -338,7 +338,7 @@
 		    SET MEMBER_STATUS = 'N'
 		WHERE MEMBER_ID = #{memberId}
 	</update>
-=======
+	
    	<update id="deleteMember">
       UPDATE MEMBER
          SET STATUS = 'N'
@@ -599,6 +599,5 @@
       WHERE MEMBER_EMAIL = #{memberEmail}
    </update>
 	
->>>>>>> fd87a56e440cb1ed5591375ae768394466500b85
    
 </mapper>
