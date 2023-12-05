@@ -52,7 +52,7 @@
 					   <li><a href="together.bo">같이가요</a></li>
 					   <li><a href="review.bo">여행후기</a></li>
 					   <div class="dropdown">
-						<button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown"><img src="./resources/images/profile.png" alt=""></button>
+						<button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown"><img src="${loginUser.memberProfileImg}" alt=""></button>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="chat.bo">1:1 채팅</a></li>
 							<li><a class="dropdown-item" href="mypage.me">마이페이지</a></li>
