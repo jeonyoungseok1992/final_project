@@ -117,6 +117,12 @@ public class BoardServiceImpl implements BoardService{
 
 		return boardDao.selectTogetherList(sqlSession,pi);
 	}
+
+	@Override
+	public ArrayList<Board> togetherSearchList(Board b, PageInfo pi) {
+		
+		return boardDao.togetherSearchList(sqlSession,b,pi);
+	}
 	
 	
 	

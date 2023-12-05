@@ -305,7 +305,10 @@
       WHERE MEMBER_NO = #{memberNo}
    </update>
    
+<<<<<<< HEAD
 
+=======
+>>>>>>> bb2121a1ddaac57d4856286dccee91f4519f5ed2
    	<select id="UpdateImgMember" resultMap="memberResult">
 		SELECT MEMBER_NO
             ,MEMBER_ID
@@ -332,6 +335,12 @@
 		    SET MEMBER_STATUS = 'N'
 		WHERE MEMBER_ID = #{memberId}
 	</update>
+
+   	<update id="deleteMember">
+      UPDATE MEMBER
+         SET STATUS = 'N'
+      WHERE USER_ID = #{userId}
+   </update>
 
    
    
@@ -512,9 +521,9 @@
 		SELECT COUNT(*)
 		FROM MEMBER
 		WHERE MEMBER_NICKNAME = #{memberNickName}
-	
-	
 	</select>
+	
+
 	
 	
 	
@@ -588,6 +597,7 @@
       WHERE MEMBER_EMAIL = #{memberEmail}
    </update>
 	
+
 </mapper>
 
    

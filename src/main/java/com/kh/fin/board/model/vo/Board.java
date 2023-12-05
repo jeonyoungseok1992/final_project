@@ -27,6 +27,10 @@ public class Board {
 	private String attachement;
 	private Date tripStartDate;
 	private Date tripEndDate;
+	private String keyword;
+	private String condition;
+	private String boardStatus;
+
 	
 	
 }

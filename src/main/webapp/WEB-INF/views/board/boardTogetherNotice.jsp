@@ -28,20 +28,32 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             <h2>같이가요</h2>
             <p>함께면 더 좋은여행, 같이가요 우리</p>
         </div>
-        <div class="search-area">
-            <div class="sel-search">
-                <select class="form-select">
-                    <option>제목+내용</option>
-                    <option>제목</option>
-                    <option>내용</option>
-                    <option>작성자</option>
-                </select>
-            </div>
-            <div class="inp-search">
-                <input type="text" placeholder="검색어를 입력하세요">
-                <button>검색</button>
-            </div>
-        </div>
+        
+        <form action="togetherSearch.bo" method="get">
+       		 <div class="search-area">
+	            <div class="sel-search">
+	                <select class="form-select" name="condition">
+	                    <option value="combine">제목+내용</option>
+	                    <option value="title">제목</option>
+	                    <option value="content">내용</option>
+	                    <option value="writer">작성자</option>
+	                </select>
+	            </div>
+	            <div class="inp-search">
+	                <input type="text" name="keyword" value="${keyword}" placeholder="검색어를 입력하세요">
+	                <button type="submit">검색</button>
+	            </div>
+	           </div>
+            </form>
+        
+        <c:if test="${not empty condition}">
+	        <script type="text/javascript">
+	        	window.onload = function(){
+	        		const opt = document.querySelector(".search-area[value=${condition}]");
+	        		opt.setAttribute("selected", true);
+	        	}
+	        </script>
+        </c:if>
         <div class="borad-btn-top">
             <div><span>총</span><span>${fn:length(list)}</span><span>건</span></div>
             <button type="button" data-bs-toggle="modal" data-bs-target="#myschedulelistModal">글쓰기</button>
