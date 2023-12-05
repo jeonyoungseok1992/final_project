@@ -1,5 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="boardMapper">
+	<resultMap type="Board" id="boardResult">
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="BOARD_CREATE_DATE" property="boardCreateDate"/>
+		<result column="BOARD_MODIFY_DATE" property="boardModifyDate"/>
+		<result column="BOARD_REPORT" property="boardReport"/>
+		<result column="MEMBER_ID" property="boardWirter"/>
+		<result column="BOARD_TRIP_PLAN_NO" property="boardTripPlanNo"/>
+		<result column="BOARD_CATEGORY" property="boardCategory"/>
+		<result column="ATTACHMENT_CHANGE_NAME" property="attachement"/>
+	</resultMap>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 같이가요 게시글의 총 갯수 조회하는 쿼리문 -->
+	<select id="selectTogetherListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD
+		WHERE BOARD_CATEGORY = 2
+	</select>
+	
+	<!-- 같이가요 게시글 조회 쿼리문 -->
+	<select id="selectTogetherList" resultMap="boardResult">
+		select  BOARD_NO
+		        ,BOARD_CONTENT
+		        ,MEMBER_ID
+		        ,BOARD_CREATE_DATE
+		        ,ATTACHMENT_CHANGE_NAME
+		from board
+		join member on (BOARD_WRITER = MEMBER_NO)
+		join ATTACHMENT on (ATTACHMENT_BOARD_NO = BOARD_NO)
+		where ATTACHMENT_IMG_LEVEL = 1
+		and BOARD_CATEGORY = 2
+		ORDER BY BOARD_CREATE_DATE DESC
+	</select>
+	
 	
 </mapper>

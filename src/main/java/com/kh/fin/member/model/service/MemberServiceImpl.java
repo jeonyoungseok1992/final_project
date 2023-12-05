@@ -6,8 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.fin.member.model.vo.Member;
 import com.kh.fin.member.model.dao.MemberDao;
+import com.kh.fin.member.model.vo.Member;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -23,11 +23,7 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.loginMember(sqlSession,m);
 	}
 
-	@Override
-	public int insertMember(Member m) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 
 	@Override
 	public int updateMember(Member m) {
@@ -37,10 +33,89 @@ public class MemberServiceImpl implements MemberService{
 
 
 
+	
+	
+	@Override
+	public int insertMember(Member m) {
+		return memberDao.insertMember(sqlSession, m);
+
+	}
+	
 	@Override
 	public int idCheck(String checkId) {
-		// TODO Auto-generated method stub
-		return 0;
+		return memberDao.idCheck(sqlSession, checkId);
+
+	}
+
+	@Override
+	public int nickNameCheck(String checkNickName) {
+		return memberDao.nickNameCheck(sqlSession, checkNickName);
+
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@Override
+	public int idEmailCheck(Member m) {
+		
+		return memberDao.idEmailCheck(sqlSession, m);
+	}
+
+	@Override
+	public int setTemPwd(Member m) {
+	
+		return memberDao.setTemPwd(sqlSession,m);
 	}
 	
 	
