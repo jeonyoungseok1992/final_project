@@ -25,6 +25,9 @@ public class Board {
 	private int boardTripPlanNo;
 	private int boardCategory;
 	private String attachement;
+	private String keyword;
+	private String condition;
+	private String boardStatus;
 	
 	
 }
