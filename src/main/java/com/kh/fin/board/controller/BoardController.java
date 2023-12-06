@@ -23,11 +23,6 @@ public class BoardController {
 	private BoardService boardService;
 	
 	
-	@RequestMapping(value="/review.bo")
-	public String moveReview() {
-		return "board/boardReviewNotice";
-	}
-	
 	@RequestMapping(value="/chat.bo")
 	public String moveChat() {
 		return "common/chat";
@@ -112,7 +107,7 @@ public class BoardController {
 	}
 	
 	
-	@RequestMapping("togetherSearch.bo")
+@RequestMapping("togetherSearch.bo")
 	public ModelAndView searchTogetherList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv , Board b){
 		
 		PageInfo pi = Pagenation.getPageInfo(boardService.selectTogetherListCount(), currentPage, 5, 12);
@@ -125,6 +120,7 @@ public class BoardController {
 		return mv;
 	}
 	
+
 	@ResponseBody
 	@RequestMapping(value="scheduleList.bo", produces="application/json; charset=utf-8")
 	public String selectReplyList(int memberNo) {
@@ -132,6 +128,115 @@ public class BoardController {
 		
 		return new Gson().toJson(list);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping("review.bo")
+	public ModelAndView selectReviewList(@RequestParam(value="cpage",defaultValue = "1")int currentPage, 
+			ModelAndView mv)	{
+		
+		PageInfo pi = Pagenation.getPageInfo(boardService.selectReviewListCount(), currentPage, 5, 12);
+		
+		
+		mv.addObject("pi", pi)
+		.addObject("list", boardService.selectReviewList(pi))
+		.setViewName("board/boardReviewNotice");
+		
+		return mv;
+
+	}
+	
+	
+	
+
+	
 	
 	
 	
