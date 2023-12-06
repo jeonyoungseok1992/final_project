@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.fin.board.model.service.BoardService;
 import com.kh.fin.board.model.vo.Board;
+import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.common.template.Pagenation;
 
@@ -121,4 +124,15 @@ public class BoardController {
 		
 		return mv;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="scheduleList.bo", produces="application/json; charset=utf-8")
+	public String selectReplyList(int memberNo) {
+		ArrayList<Plan> list = boardService.selectPlanList(memberNo);
+		
+		return new Gson().toJson(list);
+	}
+	
+	
+	
 }

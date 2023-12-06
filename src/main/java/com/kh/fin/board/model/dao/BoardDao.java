@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.fin.board.model.vo.Board;
+import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.common.model.vo.PageInfo;
 
 @Repository
@@ -122,6 +123,9 @@ public class BoardDao {
 		return (ArrayList)sqlSession.selectList("boardMapper.togetherSearchList",b,rowBounds);
 	}
 	
+	public ArrayList<Plan> selectPlanList(SqlSessionTemplate sqlSession, int memberNo){
+		return (ArrayList)sqlSession.selectList("boardMapper.selectPlanList",memberNo);
+	}
 	
 	
 }
