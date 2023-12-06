@@ -8,10 +8,11 @@
 		<result column="BOARD_CREATE_DATE" property="boardCreateDate"/>
 		<result column="BOARD_MODIFY_DATE" property="boardModifyDate"/>
 		<result column="BOARD_REPORT" property="boardReport"/>
-		<result column="MEMBER_ID" property="boardWirter"/>
+		<result column="BOARD_WRITER" property="boardWriter"/>
 		<result column="BOARD_TRIP_PLAN_NO" property="boardTripPlanNo"/>
 		<result column="BOARD_CATEGORY" property="boardCategory"/>
 		<result column="ATTACHMENT_CHANGE_NAME" property="attachement"/>
+		
 	</resultMap>
 	
 	
@@ -152,6 +153,115 @@
         </choose>
         ORDER BY B.BOARD_NO DESC
 	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 후기 게시글의 총 갯수 조회하는 쿼리문 -->
+	<select id="selectReviewListCount" resultType="_int">
+	
+		SELECT COUNT(*)
+		FROM BOARD
+		WHERE BOARD_CATEGORY = 1
+		
+	</select>
+	
+	<!-- 후기 게시글 조회 쿼리문 -->
+	<select id="selectReviewList" resultMap="boardResult">
+	    SELECT 	BOARD_NO,
+		      	BOARD_TITLE,
+		       	BOARD_WRITER,
+		       	TO_CHAR(BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "BOARD_CREATE_DATE"
+		FROM   	BOARD
+		
+		JOIN MEMBER ON (BOARD_WRITER = MEMBER_NO)
+		
+		WHERE  	BOARD_STATUS = 'Y'
+		AND		BOARD_CATEGORY = 1
+		ORDER  	BY BOARD_NO DESC
+		
+	</select>
+	
+	
+	
+	<select id="selectListBoard" resultMap="boardResult"> <!-- 객체여서 MAP -->
+		
+	</select>
+	
 	
 	
 </mapper>
