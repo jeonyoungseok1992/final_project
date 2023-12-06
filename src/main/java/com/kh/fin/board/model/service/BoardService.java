@@ -7,8 +7,6 @@ import com.kh.fin.common.model.vo.PageInfo;
 
 public interface BoardService {
 
-	//게시글 상세조회
-	Board selectBoard(int boardNo);
 	
 	//게시글 조회수증가(update)
 	int increaseCount(int boardNo);
@@ -103,4 +101,107 @@ public interface BoardService {
 
 	// 같이가요 게시글 리스트 조회
 	ArrayList<Board> selectTogetherList(PageInfo pi);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//게시글 총 갯수 가져오기
+	int selectReviewListCount();
+	
+	//게시글 리스트 조회
+	ArrayList<Board> selectReviewList(PageInfo pi);
+	
+	
+	//게시글상세조회
+	Board selectListBoard(int boardNo);
 }

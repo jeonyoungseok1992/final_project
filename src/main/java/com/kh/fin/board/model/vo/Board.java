@@ -9,22 +9,24 @@ import lombok.Setter;
 import lombok.ToString;
 
 @NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-@ToString
-public class Board {
-	
-	private int boardNo;
-	private String boardTitle;
-	private String boardContent;
-	private Date boardCreateDate;
-	private Date boardModifyDate;
-	private String boardReport;
-	private String boardWirter;
-	private int boardTripPlanNo;
-	private int boardCategory;
-	private String attachement;
-	
-	
-}
+	@AllArgsConstructor
+	@Getter
+	@Setter
+	@ToString
+	public class Board {
+		
+		private int boardNo;
+		private String boardTitle;
+		private String boardContent;
+		private Date boardCreateDate;
+		private Date boardModifyDate;
+		private String boardReport;
+		private String boardWriter;
+		private int boardTripPlanNo;
+		private int boardCategory;
+		private String attachement;
+		
+		
+	}
+
+

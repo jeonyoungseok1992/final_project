@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<form%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,23 +27,38 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             <h2>Review</h2>
             <p>소중한 고객님의 후기를 기다립니다.</p>
         </div>
-        <div class="search-area">
+
+
+
+        <form class="search-area" method="get" action="search.bo" name="condition" id="searchForm">
             <div class="sel-search">
                 <select class="form-select">
-                    <option>제목+내용</option>
-                    <option>제목</option>
-                    <option>내용</option>
-                    <option>작성자</option>
+                    <option value="region">지역</option>
+                    <option value="title">제목</option>
+                    <option value="content">내용</option>
+                    <option value="writer">작성자</option>
                 </select>
             </div>
             <div class="inp-search">
-                <input type="text" placeholder="검색어를 입력하세요">
+                <input type="text" placeholder="검색어를 입력하세요" name="keyword">
                 <button>검색</button>
             </div>
-        </div>
+        </form>
+
+
+
+
         <div class="borad-btn-top">
-            <div><span>총</span><span>157</span><span>건</span></div>
-            <button type="button" data-bs-toggle="modal" data-bs-target="#myschedulelistModal">글쓰기</button>
+            
+            <div><span>총</span>
+                   ${pi.listCount}
+                <span>건</span></div>
+
+
+              <c:if test="${not empty loginUser}">
+       				<button type="button" data-bs-toggle="modal" data-bs-target="#myschedulelistModal">글쓰기</button>
+              </c:if>
+
             <!-- 글쓰기버튼 클릭시 나의 모든일정 보여주는 modal -->
             <div class="modal fade" id="myschedulelistModal">
               <div class="modal-dialog modal-dialog-centered">
@@ -67,6 +84,8 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                                 </div>
                               </div>
                             </div>
+
+
                             <div class="travel-detail">
                                 <div class="tab-contents">
                                     <!-- tab1에 대한 contents -->
@@ -103,6 +122,8 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                                               </div>
                                             </div>
                                         </div>
+
+
                                         <!-- tab1에 대한 선택한 숙소 -->
                                         <div class="travel-location" style="padding : 24px 0 32px 0;">
                                             <h4>선택한 숙소</h4>
@@ -125,6 +146,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                                           </div>
                                         <button class="btn">일정선택</button>
                                     </div>
+
                                     <!-- tab2에 대한 contents -->
                                     <div tabindex="0" role="tabpanel" id="tabPanel2" aria-labelledby="tab2" hidden="hidden">
                                         <div>
@@ -184,6 +206,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                                                   </div>
                                                 </div>
                                             </div>
+
                                             <!-- tab2에 대한 선택한 숙소 -->
                                             <div class="travel-location" style="padding : 24px 0 32px 0;">
                                                 <h4>선택한 숙소</h4>
@@ -219,6 +242,8 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                                             <button class="btn">일정선택</button>
                                         </div>
                                     </div>
+
+
                                     <!-- tab3에 대한 contents -->
                                     <div tabindex="0" role="tabpanel" id="tabPanel3" aria-labelledby="tab3" hidden="hidden">
                                         <div>
@@ -261,254 +286,80 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                   </div>
               </div>
           </div>
-          <!-- 글쓰기버튼 클릭시 나의 모든일정 보여주는 modal -->
+          		<!-- 글쓰기버튼 클릭시 나의 모든일정 보여주는 modal -->
+        	</div>
+        	
+        	
+		<div >
+		   
+	          <div class="cards-wrap">
+	          <c:forEach var="b" items="${list}">
+	              <div class="cards"  onclick="location.href='detail.bo?bno=${b.boardNo}'">
+	                <a>
+	                    <div class="card-photo ">
+	                      <img src="./resources/images/card_samplex`_01.jpg">
+	                  </div>
+	                <div class="card-desc">
+	                    <h2 class="card-title">${b.boardTitle}</h2>
+	                    <div class="card-text">
+	                      ${b.boardContent}
+	                    </div>
+	                    <div class="card-counts">
+	                        <span>
+	                          ${b.boardWriter}
+	                        </span>
+	                        <span style="padding: 0 1px;">|</span>
+	                        <span>
+	                          ${b.boardCreateDate}
+	                        </span>
+	                    </div>
+	                  </div>
+	                </a>
+	              </div>
+	            </c:forEach>
+	              
+         	</div>   
+		
+		
+		</div>
+     
+        
+        
+ 
+        <div>
+       		<ul class="tr-pagination">
+              
+                 <c:choose>
+                    <c:when test="${pi.currentPage eq 1 }">
+                   <li class="tr-page-prev disabled"><a class="page-link" href="#">이전</a></li>
+                       </c:when>
+                       <c:otherwise>
+                          <li class="tr-page-prev"><a class="page-link" href="list.bo?cpage=${pi.currentPage - 1}">이전</a></li>
+                       </c:otherwise>
+             </c:choose>
+             <c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
+                       <li class="tr-current"><a class="page-link" href="list.bo?cpage=${p}">${p}</a></li>
+                  </c:forEach>
+                  
+                  <c:choose>
+                     <c:when test="${pi.currentPage eq pi.maxPage}">
+                         <li class="tr-page-next disabled"><a class="page-link" href="#">다음</a></li>
+                    </c:when>
+                    <c:otherwise>
+                          <li class="tr-page-next"><a class="page-link" href="list.bo?cpage=${pi.currentPage + 1}">다음</a></li>
+                       </c:otherwise>
+                 </c:choose>
+              </ul>
         </div>
-        <div class="cards-wrap">
-            <div class="cards">
-               <a>
-                  <div class="card-photo ">
-                    <img src="./resources/images/card_sample_01.jpg">
-                </div>
-               <div class="card-desc">
-                  <h2 class="card-title">제목입니다. 제목은 한줄만 가능합니다.</h2>
-                  <div class="card-text">
-                    내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                    내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                  </div>
-                  <div class="card-counts">
-                      <span>
-                        작성자
-                      </span>
-                      <span style="padding: 0 1px;">|</span>
-                      <span>
-                        2023.11.13  
-                      </span>
-                  </div>
-                </div>
-               </a>
-            </div>
-            <div class="cards">
-                <a>
-                   <div class="card-photo ">
-                     <img src="./resources/images/card_sample_01.jpg">
-                 </div>
-                <div class="card-desc">
-                   <h2 class="card-title">제목입니다. 제목은 한줄만 가능합니다.</h2>
-                   <div class="card-text">
-                     내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                     내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                   </div>
-                   <div class="card-counts">
-                       <span>
-                         작성자
-                       </span>
-                       <span style="padding: 0 1px;">|</span>
-                       <span>
-                         2023.11.13  
-                       </span>
-                   </div>
-                 </div>
-                </a>
-             </div>
-             <div class="cards">
-                <a>
-                   <div class="card-photo ">
-                     <img src="./resources/images/card_sample_01.jpg">
-                 </div>
-                <div class="card-desc">
-                   <h2 class="card-title">제목입니다. 제목은 한줄만 가능합니다.</h2>
-                   <div class="card-text">
-                     내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                     내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                   </div>
-                   <div class="card-counts">
-                       <span>
-                         작성자
-                       </span>
-                       <span style="padding: 0 1px;">|</span>
-                       <span>
-                         2023.11.13  
-                       </span>
-                   </div>
-                 </div>
-                </a>
-             </div>
-             <div class="cards">
-                <a>
-                   <div class="card-photo ">
-                     <img src="./resources/images/card_sample_01.jpg">
-                 </div>
-                <div class="card-desc">
-                   <h2 class="card-title">제목입니다. 제목은 한줄만 가능합니다.</h2>
-                   <div class="card-text">
-                     내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                     내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                   </div>
-                   <div class="card-counts">
-                       <span>
-                         작성자
-                       </span>
-                       <span style="padding: 0 1px;">|</span>
-                       <span>
-                         2023.11.13  
-                       </span>
-                   </div>
-                 </div>
-                </a>
-             </div>
-             <div class="cards">
-                <a>
-                   <div class="card-photo ">
-                     <img src="./resources/images/card_sample_01.jpg">
-                 </div>
-                <div class="card-desc">
-                   <h2 class="card-title">제목입니다. 제목은 한줄만 가능합니다.</h2>
-                   <div class="card-text">
-                     내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                     내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                   </div>
-                   <div class="card-counts">
-                       <span>
-                         작성자
-                       </span>
-                       <span style="padding: 0 1px;">|</span>
-                       <span>
-                         2023.11.13  
-                       </span>
-                   </div>
-                 </div>
-                </a>
-             </div>
-             <div class="cards">
-                <a>
-                   <div class="card-photo ">
-                     <img src="./resources/images/card_sample_01.jpg">
-                 </div>
-                <div class="card-desc">
-                   <h2 class="card-title">제목입니다. 제목은 한줄만 가능합니다.</h2>
-                   <div class="card-text">
-                     내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                     내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                   </div>
-                   <div class="card-counts">
-                       <span>
-                         작성자
-                       </span>
-                       <span style="padding: 0 1px;">|</span>
-                       <span>
-                         2023.11.13  
-                       </span>
-                   </div>
-                 </div>
-                </a>
-             </div>
-             <div class="cards">
-                <a>
-                   <div class="card-photo ">
-                     <img src="./resources/images/card_sample_01.jpg">
-                 </div>
-                <div class="card-desc">
-                   <h2 class="card-title">제목입니다. 제목은 한줄만 가능합니다.</h2>
-                   <div class="card-text">
-                     내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                     내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                   </div>
-                   <div class="card-counts">
-                       <span>
-                         작성자
-                       </span>
-                       <span style="padding: 0 1px;">|</span>
-                       <span>
-                         2023.11.13  
-                       </span>
-                   </div>
-                 </div>
-                </a>
-             </div>
-             <div class="cards">
-                <a>
-                   <div class="card-photo ">
-                     <img src="./resources/images/card_sample_01.jpg">
-                 </div>
-                <div class="card-desc">
-                   <h2 class="card-title">제목입니다. 제목은 한줄만 가능합니다.</h2>
-                   <div class="card-text">
-                     내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                     내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                   </div>
-                   <div class="card-counts">
-                       <span>
-                         작성자
-                       </span>
-                       <span style="padding: 0 1px;">|</span>
-                       <span>
-                         2023.11.13  
-                       </span>
-                   </div>
-                 </div>
-                </a>
-             </div>
-             <div class="cards">
-                <a>
-                   <div class="card-photo ">
-                     <img src="./resources/images/card_sample_01.jpg">
-                 </div>
-                <div class="card-desc">
-                   <h2 class="card-title">제목입니다. 제목은 한줄만 가능합니다.</h2>
-                   <div class="card-text">
-                     내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                     내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                   </div>
-                   <div class="card-counts">
-                       <span>
-                         작성자
-                       </span>
-                       <span style="padding: 0 1px;">|</span>
-                       <span>
-                         2023.11.13  
-                       </span>
-                   </div>
-                 </div>
-                </a>
-             </div>
-             <div class="cards">
-                <a>
-                   <div class="card-photo ">
-                     <img src="./resources/images/card_sample_01.jpg">
-                 </div>
-                <div class="card-desc">
-                   <h2 class="card-title">제목입니다. 제목은 한줄만 가능합니다.</h2>
-                   <div class="card-text">
-                     내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                     내용입니다. 내용은 세줄을 허용합니다.내용입니다. 내용은 세줄을 허용합니다.
-                   </div>
-                   <div class="card-counts">
-                       <span>
-                         작성자
-                       </span>
-                       <span style="padding: 0 1px;">|</span>
-                       <span>
-                         2023.11.13  
-                       </span>
-                   </div>
-                 </div>
-                </a>
-             </div>
-        </div>    
-        <ul class="tr-pagination">
-            <li class="tr-page-prev"><a href="#none">이전</a></li>
-            <li class="tr-current"><a href="#none">1<span class="sr-only">현재 페이지</span></a></li>
-            <li><a href="#none">2</a></li>
-            <li><a href="#none">3</a></li>
-            <li><a href="#none">4</a></li>
-            <li><a href="#none">5</a></li>
-            <li><a href="#none">6</a></li>
-            <li><a href="#none">7</a></li>
-            <li><a href="#none">8</a></li>
-            <li><a href="#none">9</a></li>
-            <li><a href="#none">10</a></li>
-            <li class="tr-page-next"><a href="#none">다음</a></li>
-        </ul>
+        
+        
+         
+        
+        
+        
+        
+        
+        
     </main>
     <script>
       $(document).ready(function () {
