@@ -18,8 +18,8 @@ public class Board {
 	private int boardNo;
 	private String boardTitle;
 	private String boardContent;
-	private Date boardCreateDate;
-	private Date boardModifyDate;
+	private String boardCreateDate;
+	private String boardModifyDate;
 	private String boardReport;
 	private String boardWirter;
 	private int boardTripPlanNo;
@@ -28,6 +28,7 @@ public class Board {
 	private String keyword;
 	private String condition;
 	private String boardStatus;
+	private String tripPlanThumbnail;
 	
 	
 }

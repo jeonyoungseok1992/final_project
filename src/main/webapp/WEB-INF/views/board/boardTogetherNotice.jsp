@@ -20,6 +20,9 @@
 integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="./resources/css/scheduleListModal.css">
 <link rel="stylesheet" href="./resources/css/board-card.css">
+<script src="./resources/js/board-api.js"></script>
+<script src="./resources/js/boardTogetherNotice.js"></script>
+
 </head>
 <body>
 	<jsp:include page="../common/header.jsp" />
@@ -56,7 +59,9 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
         </c:if>
         <div class="borad-btn-top">
             <div><span>총</span><span>${fn:length(list)}</span><span>건</span></div>
-            <button type="button" data-bs-toggle="modal" data-bs-target="#myschedulelistModal">글쓰기</button>
+            <c:if test="${!(empty loginUser) }">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#myschedulelistModal" onclick="pickupSchedule(${loginUser.memberNo})">글쓰기</button>
+            </c:if>
             <!-- 글쓰기버튼 클릭시 나의 모든일정 보여주는 modal -->
             <div class="modal fade" id="myschedulelistModal">
               <div class="modal-dialog modal-dialog-centered">
@@ -75,10 +80,8 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                             <div class="travel-list">
                               <div>
                                 <!-- 여행지 클릭 버튼-->
-                                <div class="tab-menu button-group button-type" role="tablist" aria-label="여행지 클릭 버튼">
-                                    <button role="tab" aria-selected="true" aria-controls="tabPanel1" id="tab1" class="active"><div class="travel-list-text"><p>2023.11.30-2023.12.01</p><h3>여행지 1</h3></div><img src="./resources/images/vancouver_sample.jpg" alt=""></button>
-                                    <button role="tab" aria-selected="false" aria-controls="tabPanel2" id="tab2" class=""><div class="travel-list-text"><p>2023.11.30-2023.12.01</p><h3>여행지 2</h3></div><img src="./resources/images/vancouver_sample.jpg" alt=""></button>
-                                    <button role="tab" aria-selected="false" aria-controls="tabPanel3" id="tab3" class=""><div class="travel-list-text"><p>2023.11.30-2023.12.01</p><h3>여행지 3</h3></div><img src="./resources/images/vancouver_sample.jpg" alt=""></button>
+                                <div class="tab-menu button-group button-type" role="tablist" aria-label="여행지 클릭 버튼" >
+                                    
                                 </div>
                               </div>
                             </div>
@@ -86,189 +89,14 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                                 <div class="tab-contents">
                                     <!-- tab1에 대한 contents -->
                                     <div tabindex="0" role="tabpanel" id="tabPanel1" aria-labelledby="tab1">
-                                        <!-- tab1에 대한 선택한 일정 -->
-                                        <div class="travel-location">
-                                            <h4>선택한 장소</h4>
-                                            <div>
-                                                <div class="menu">
-                                                    <div class="item-wrap">
-                                                        <div class="img-area">
-                                                            <img src="./resources/images/place_sample.jpg" alt="">
-                                                        </div>
-                                                        <h5>장소명입니다.</h5>
-                                                    </div>
-                                                    <div class="item-wrap">
-                                                        <div class="img-area">
-                                                            <img src="./resources/images/place_sample.jpg" alt="">
-                                                        </div>
-                                                        <h5>장소명입니다.</h5>
-                                                    </div>
-                                                    <div class="item-wrap">
-                                                        <div class="img-area">
-                                                            <img src="./resources/images/place_sample.jpg" alt="">
-                                                        </div>
-                                                        <h5>장소명입니다.</h5>
-                                                    </div>
-                                                    <div class="item-wrap">
-                                                        <div class="img-area">
-                                                            <img src="./resources/images/place_sample.jpg" alt="">
-                                                        </div>
-                                                        <h5>장소명입니다.</h5>
-                                                    </div>
-                                              </div>
-                                            </div>
-                                        </div>
-                                        <!-- tab1에 대한 선택한 숙소 -->
-                                        <div class="travel-location" style="padding : 24px 0 32px 0;">
-                                            <h4>선택한 숙소</h4>
-                                            <div>
-                                                <div class="menu">
-                                                    <div class="item-wrap">
-                                                        <div class="img-area">
-                                                            <img src="./resources/images/modal_sample.jpg" alt="">
-                                                        </div>
-                                                        <h5>숙소명입니다.</h5>
-                                                    </div>
-                                                    <div class="item-wrap">
-                                                        <div class="img-area">
-                                                            <img src="./resources/images/modal_sample.jpg" alt="">
-                                                        </div>
-                                                        <h5>숙소명입니다.</h5>
-                                                    </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        <button class="btn">일정선택</button>
+                                        
+                                        
                                     </div>
-                                    <!-- tab2에 대한 contents -->
-                                    <div tabindex="0" role="tabpanel" id="tabPanel2" aria-labelledby="tab2" hidden="hidden">
-                                        <div>
-                                            <!-- tab2에 대한 선택한 일정 -->
-                                            <div class="travel-location">
-                                                <h4>선택한 장소</h4>
-                                                <div>
-                                                    <div class="menu">
-                                                        <div class="item-wrap">
-                                                            <div class="img-area">
-                                                                <img src="./resources/images/place_sample.jpg" alt="">
-                                                            </div>
-                                                            <h5>장소명입니다.</h5>
-                                                        </div>
-                                                        <div class="item-wrap">
-                                                            <div class="img-area">
-                                                                <img src="./resources/images/place_sample.jpg" alt="">
-                                                            </div>
-                                                            <h5>장소명입니다.</h5>
-                                                        </div>
-                                                        <div class="item-wrap">
-                                                            <div class="img-area">
-                                                                <img src="./resources/images/place_sample.jpg" alt="">
-                                                            </div>
-                                                            <h5>장소명입니다.</h5>
-                                                        </div>
-                                                        <div class="item-wrap">
-                                                            <div class="img-area">
-                                                                <img src="./resources/images/place_sample.jpg" alt="">
-                                                            </div>
-                                                            <h5>장소명입니다.</h5>
-                                                        </div>
-                                                        <div class="item-wrap">
-                                                            <div class="img-area">
-                                                                <img src="./resources/images/place_sample.jpg" alt="">
-                                                            </div>
-                                                            <h5>장소명입니다.</h5>
-                                                        </div>
-                                                        <div class="item-wrap">
-                                                            <div class="img-area">
-                                                                <img src="./resources/images/place_sample.jpg" alt="">
-                                                            </div>
-                                                            <h5>장소명입니다.</h5>
-                                                        </div>
-                                                        <div class="item-wrap">
-                                                            <div class="img-area">
-                                                                <img src="./resources/images/place_sample.jpg" alt="">
-                                                            </div>
-                                                            <h5>장소명입니다.</h5>
-                                                        </div>
-                                                        <div class="item-wrap">
-                                                            <div class="img-area">
-                                                                <img src="./resources/images/place_sample.jpg" alt="">
-                                                            </div>
-                                                            <h5>장소명입니다.</h5>
-                                                        </div>
-                                                  </div>
-                                                </div>
-                                            </div>
-                                            <!-- tab2에 대한 선택한 숙소 -->
-                                            <div class="travel-location" style="padding : 24px 0 32px 0;">
-                                                <h4>선택한 숙소</h4>
-                                                <div>
-                                                    <div class="menu">
-                                                        <div class="item-wrap">
-                                                            <div class="img-area">
-                                                                <img src="./resources/images/modal_sample.jpg" alt="">
-                                                            </div>
-                                                            <h5>숙소명입니다.</h5>
-                                                        </div>
-                                                        <div class="item-wrap">
-                                                            <div class="img-area">
-                                                                <img src="./resources/images/modal_sample.jpg" alt="">
-                                                            </div>
-                                                            <h5>숙소명입니다.</h5>
-                                                        </div>
-                                                        <div class="item-wrap">
-                                                            <div class="img-area">
-                                                                <img src="./resources/images/modal_sample.jpg" alt="">
-                                                            </div>
-                                                            <h5>숙소명입니다.</h5>
-                                                        </div>
-                                                        <div class="item-wrap">
-                                                            <div class="img-area">
-                                                                <img src="./resources/images/modal_sample.jpg" alt="">
-                                                            </div>
-                                                            <h5>숙소명입니다.</h5>
-                                                        </div>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            <button class="btn">일정선택</button>
-                                        </div>
-                                    </div>
-                                    <!-- tab3에 대한 contents -->
-                                    <div tabindex="0" role="tabpanel" id="tabPanel3" aria-labelledby="tab3" hidden="hidden">
-                                        <div>
-                                            <!-- tab3에 대한 선택한 일정 -->
-                                            <div class="travel-location">
-                                                <h4>선택한 장소</h4>
-                                                <div>
-                                                    <div class="menu">
-                                                        <div class="item-wrap">
-                                                            <div class="img-area">
-                                                                <img src="./resources/images/place_sample.jpg" alt="">
-                                                            </div>
-                                                            <h5>장소명입니다.</h5>
-                                                        </div>
-                                                  </div>
-                                                </div>
-                                            </div>
-                                            <!-- tab3에 대한 선택한 숙소 -->
-                                            <div class="travel-location" style="padding : 24px 0 32px 0;">
-                                                <h4>선택한 숙소</h4>
-                                                <div>
-                                                    <div class="menu">
-                                                        <div class="item-wrap">
-                                                            <div class="img-area">
-                                                                <img src="./resources/images/modal_sample.jpg" alt="">
-                                                            </div>
-                                                            <h5>숙소명입니다.</h5>
-                                                        </div>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            <button class="btn">일정선택</button>
-                                        </div>
+                                    
+                                    
                                     </div>
                                 </div>
+                                <button class="btn">일정선택</button>
                             </div>
                           </div>
                       </div>
@@ -285,7 +113,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             <div class="cards">
                <a>
                   <div class="card-photo ">
-                    <img src="${b.attachement}">
+                    <img src="${b.tripPlanThumbnail}">
                 </div>
                <div class="card-desc">
                   <h2 class="card-title">${b.boardTitle}</h2>
@@ -294,7 +122,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                   </div>
                   <div class="card-counts">
                       <span>
-                        ${b.boardWirter }
+                        ${b.boardWirter}
                       </span>
                       <span style="padding: 0 1px;">|</span>
                       <span>
@@ -304,9 +132,12 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                 </div>
                </a>
             </div>
-         
-        </c:forEach>  
+            
+        </c:forEach> 
         </div>  
+            <c:if test="${empty list}" >
+                <div style="margin-bottom: 200px; padding-top: 200px; display: flex; justify-content: center; align-items: center;">리스트가 존재하지 않습니다.</div>
+            </c:if> 
             
         <ul class="tr-pagination">
 	        <c:choose>
@@ -333,24 +164,5 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
         </ul>
     </main>
     
-    
-    <script>
-        $(document).ready(function () {
-            var $tabBtn = $('.tab-menu button[role="tab"]');
-            var $tabContents = $('.travel-detail .tab-contents > div');
-
-            $tabBtn.on('click', function (e) {
-                e.preventDefault();
-
-                var indexNum = $tabBtn.index(this);
-                var $tabContent = $tabContents.eq(indexNum);
-
-                $tabBtn.removeClass('active').attr('aria-selected', false);
-                $(this).addClass('active').attr('aria-selected', true);
-                $tabContents.attr('hidden', true);
-                $tabContent.removeAttr('hidden');
-            });
-        });
-    </script>
 </body>
 </html>
