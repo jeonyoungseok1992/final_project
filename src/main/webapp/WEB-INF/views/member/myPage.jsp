@@ -20,17 +20,33 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 	<link rel="stylesheet" href="./resources/css/myPage.css">
 
 </head>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+
 		<!-- 초록색 영역부분-->
 		<div class="color-container"></div>
 
 		<!-- 프로필 정보쪽-->
 		<div class="profile-container">
-			<img src="resources/images/profile.png" alt="나의프로필" style="border-radius: 45px;">
+			<c:choose>
+			    <c:when test="${!empty loginUser.memberProfileImg}">
+			        <img src="${loginUser.memberProfileImg}" id="title-img" onclick="chooseFile()">
+			    </c:when>
+			    <c:otherwise>
+			        <img src="resources/images/profile.png" id="title-img"  alt="나의프로필" style="border-radius: 45px;" onclick="chooseFile()">
+			    </c:otherwise>
+			</c:choose>
+
+            <form method="post"enctype="multipart/form-data">
+               <input style="display : none" id="file" type="file" name="upfile" onchange="loadImg(this)" > <br>
+            </form>
+
+            
+            
 			<br>
-			<span style="font-size: 20px;">로그인유저 프로필이름입력 자리</span>
+			<span style="font-size: 20px;">${loginUser.memberName}</span>
 			<br>
 			<a href="profileEdit.me" style="color: #b2d8b5; margin-bottom: 70px;">프로필 관리 <img src="resources/images/gearIcon.png" alt="기어" width="15px" style="margin-top: -4px;"></a>
 	
@@ -449,6 +465,49 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 		}
 
 		init();
+		
+
+	</script>
+	<script>
+	//프로필 사진누를때 function
+	function loadImg(inputFile){
+		
+		 const formData = new FormData();
+		    formData.append('upfile', inputFile.files[0]);
+		    formData.append('memberNo', '${loginUser.memberNo}');
+		    
+		    console.log(inputFile.files[0]);
+		    console.log('${loginUser.memberNo}');
+		    
+           $.ajax({  
+        	   type: "POST",
+        		enctype: 'multipart/form-data',	// 필수
+        		url: "updateImg.me",
+        		data: formData,	// 필수
+        		processData: false,	// 필수
+        		contentType: false,	// 필수
+        		cache: false,
+               success: function(mem){
+               	
+   				//ajax로 이미지변경 요청
+                 if(mem !== null){
+ 					 document.getElementById('title-img').src = mem.memberProfileImg; 
+
+                        
+                 } else {   
+                   document.getElementById('title-img').src = null;
+                   }        
+
+               },
+               error: function(){
+				console.log("loadImg.me ajax통신 실패");
+               }
+           })
+	}
+	
+    function chooseFile(){
+        document.getElementById("file").click();
+    }
 	</script>
 
 </body>

@@ -102,6 +102,8 @@ public interface BoardService {
 	// 같이가요 게시글 리스트 조회
 	ArrayList<Board> selectTogetherList(PageInfo pi);
 	
+	//같이가요 키워드 검색
+	ArrayList<Board> togetherSearchList(Board b, PageInfo pi);
 	
 	
 	
@@ -204,4 +206,6 @@ public interface BoardService {
 	
 	//게시글상세조회
 	Board selectListBoard(int boardNo);
+	
+
 }

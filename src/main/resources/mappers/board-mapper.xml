@@ -104,6 +104,7 @@
 		SELECT COUNT(*)
 		FROM BOARD
 		WHERE BOARD_CATEGORY = 2
+		AND BOARD_STATUS = 'Y'
 	</select>
 	
 	<!-- 같이가요 게시글 조회 쿼리문 -->
@@ -118,7 +119,39 @@
 		join ATTACHMENT on (ATTACHMENT_BOARD_NO = BOARD_NO)
 		where ATTACHMENT_IMG_LEVEL = 1
 		and BOARD_CATEGORY = 2
+		AND BOARD_STATUS = 'Y'
 		ORDER BY BOARD_CREATE_DATE DESC
+	</select>
+	
+	<!-- 같이가요 게시글 키워드 검색 쿼리문 -->
+	<select id="togetherSearchList" resultMap="boardResult">
+		select  B.BOARD_NO
+		        ,B.BOARD_CONTENT
+		        ,M.MEMBER_ID
+		        ,B.BOARD_CREATE_DATE
+		        ,B.BOARD_CREATE_DATE
+                ,A.ATTACHMENT_CHANGE_NAME
+		from board B
+		join member M on (B.BOARD_WRITER = M.MEMBER_NO)
+		join ATTACHMENT A on (A.ATTACHMENT_BOARD_NO = B.BOARD_NO)
+		where A.ATTACHMENT_IMG_LEVEL = 1
+		and B.BOARD_CATEGORY = 2
+		AND B.BOARD_STATUS = 'Y'
+		<choose>
+			<when test="condition == 'writer'">
+	  		AND M.MEMBER_ID LIKE '%' || #{keyword} || '%'
+	  		</when>
+	  		<when test="condition == 'title'">
+	        AND B.BOARD_TITLE LIKE '%' || #{keyword} || '%' 
+	        </when>
+	        <when test="condition == 'combine'">
+	        AND (B.BOARD_TITLE LIKE '%' || #{keyword} || '%') OR (B.BOARD_CONTENT LIKE '%' || #{keyword} || '%')
+	        </when>
+	        <otherwise>
+	        AND BOARD_CONTENT LIKE '%' || #{keyword} || '%'
+      	 	</otherwise>
+        </choose>
+        ORDER BY B.BOARD_NO DESC
 	</select>
 	
 	
