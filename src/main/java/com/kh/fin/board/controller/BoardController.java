@@ -1,15 +1,26 @@
 package com.kh.fin.board.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.kh.fin.board.model.service.BoardService;
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
@@ -128,8 +139,81 @@ public class BoardController {
 		
 		return new Gson().toJson(list);
 	}
+	@RequestMapping("togetherEdit.bo")
+	public ModelAndView moveTogetherEnrollForm(@RequestParam(value="ppage") int tripPlanNo, ModelAndView mv){
+
+		
+		mv.addObject("list", boardService.selectOneTripPlan(tripPlanNo))
+		.addObject("maxNday",boardService.countMaxPlanDay(tripPlanNo))
+		.setViewName("board/togetherEnrollForm");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/uploadSummernoteImageFile", produces = "application/json; charset=utf8")
+	@ResponseBody
+	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile, HttpSession session )  {
+		String cName = saveFile(multipartFile, session);
+		String changeName = "resources/uploadFiles/" + cName;
+       
+		return new Gson().toJson(changeName);
+	}
+	@RequestMapping(value="/deleteSummernoteImageFile", produces = "application/json; charset=utf8")
+	@ResponseBody
+	public String deleteSummernoteImageFile(@RequestParam("file") String file, HttpSession session )  {
+	
+		new File(session.getServletContext().getRealPath("resources/uploadFiles/"+file)).delete();
+		
+		return "yes!";
+	}
 	
 	
+	public String saveFile(MultipartFile upfile, HttpSession session) {
+		//파일명 수정 후 서버 업로드 시키기(기존파일명 -> 202311091027+5자리랜덤숫자+파일형식)
+		//년월일시분초 + 랜덤숫자 5개 + 확장자 
+		
+		//원래파일명
+		String originName = upfile.getOriginalFilename();
+		
+		//시간정보(년월일시분초)
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		
+		//랜덤숫자 5자리
+		int ranNum = (int)(Math.random()* 90000) + 10000;// 10000부터 99999까지
+		
+		//확장자
+		String ext = originName.substring(originName.lastIndexOf("."));
+		
+		//변경된 이름
+		String changeName = currentTime + ranNum + ext;
+		
+		//첨부파일 저장할 폴더의 물리적인 경로
+		String savePath = session.getServletContext().getRealPath("/resources/uploadFiles/");
+		
+		try {
+			upfile.transferTo(new File(savePath + changeName));//업로드 파일의 정보를 변경해서넣어줘 
+		} catch (IllegalStateException | IOException e) {
+			
+			e.printStackTrace();
+		}
+		return changeName;
+	}
+	
+	@RequestMapping("togetherInsert.bo")
+	public String insertTogetherBoard(Board b, HttpSession session, Model model) {
+		System.out.println(b);
+		int result = boardService.insertTogetherBoard(b);
+		if(result > 0) { //성공 => 같이가요 리스트 페이지 재요청
+			session.setAttribute("alertMsg", "같이가요 게시글 작성 완료");
+			return "redirect:together.bo";
+		}else {
+			model.addAttribute("errorMsg", "게시글 작성 실패");
+			return "errorPage/500page";
+		}
+		
+		
+		
+	}
 	
 	
 	

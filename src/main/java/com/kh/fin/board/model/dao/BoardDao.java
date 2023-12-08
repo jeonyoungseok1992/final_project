@@ -126,6 +126,15 @@ public class BoardDao {
 	public ArrayList<Plan> selectPlanList(SqlSessionTemplate sqlSession, int memberNo){
 		return (ArrayList)sqlSession.selectList("boardMapper.selectPlanList",memberNo);
 	}
+	public ArrayList<Plan> selectOneTripPlan(SqlSessionTemplate sqlSession, int tripPlanNo){
+		return (ArrayList)sqlSession.selectList("boardMapper.selectOneTripPlan",tripPlanNo);
+	}
+	public int countMaxPlanDay(SqlSessionTemplate sqlSession, int tripPlanNo) {
+		return sqlSession.selectOne("boardMapper.countMaxPlanDay",tripPlanNo);
+	}
+	public int insertTogetherBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.insertTogetherBoard",b);
+	}
 	
 	
 	

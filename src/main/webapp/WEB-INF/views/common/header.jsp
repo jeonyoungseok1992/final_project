@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+   String alertMsg = (String)session.getAttribute("alertMsg");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,12 +21,12 @@
 </head>
 <body style="width: 100%; min-width: 1200px; min-height: 100%;">
 
-    <c:if test="${ !empty alertMsg }">
+	<% if(alertMsg != null){ %>
 		<script>
-		alertify.alert('알림', "${alertMsg}");
+		   alert("<%=alertMsg%>");
 		</script>
-		<c:remove var="alertMsg" scope="session"/>
-	</c:if>
+		<% session.removeAttribute("alertMsg");%>
+	 <% }%>
 	
 	<!-- header -->
     <header class="header" id="header">

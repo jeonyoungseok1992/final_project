@@ -21,7 +21,7 @@ public class Board {
 	private String boardCreateDate;
 	private String boardModifyDate;
 	private String boardReport;
-	private String boardWirter;
+	private String boardWriter;
 	private int boardTripPlanNo;
 	private int boardCategory;
 	private String attachement;
@@ -29,6 +29,7 @@ public class Board {
 	private String condition;
 	private String boardStatus;
 	private String tripPlanThumbnail;
+	private String boardRegionNo;
 	
 	
 }

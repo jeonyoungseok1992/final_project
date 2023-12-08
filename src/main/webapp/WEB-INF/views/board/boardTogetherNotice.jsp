@@ -36,7 +36,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
        		 <div class="search-area">
 	            <div class="sel-search">
 	                <select class="form-select" name="condition">
-	                    <option value="combine">제목+내용</option>
+	                    <option value="region">지역</option>
 	                    <option value="title">제목</option>
 	                    <option value="content">내용</option>
 	                    <option value="writer">작성자</option>
@@ -96,7 +96,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                                     
                                     </div>
                                 </div>
-                                <button class="btn">일정선택</button>
+                                <button class="btn" id="writeBtn" onclick="moveWritePage()">일정선택</button>
                             </div>
                           </div>
                       </div>
@@ -117,12 +117,16 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                 </div>
                <div class="card-desc">
                   <h2 class="card-title">${b.boardTitle}</h2>
-                  <div class="card-text">
-                    ${b.boardContent}
-                  </div>
+                
+                    <div class="card-text" >
+                        ${b.boardContent}
+                    </div>
+        <script>
+            $('.card-text > p > img').css("display", "none" );
+        </script>
                   <div class="card-counts">
                       <span>
-                        ${b.boardWirter}
+                        ${b.boardWriter}
                       </span>
                       <span style="padding: 0 1px;">|</span>
                       <span>

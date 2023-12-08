@@ -28,5 +28,6 @@ public class Plan {
 	private int regionNo;
 	private String regionName;
 	private int tripNday;
+	private int maxNday;
 
 }
