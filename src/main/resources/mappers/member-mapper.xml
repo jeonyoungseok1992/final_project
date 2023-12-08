@@ -298,7 +298,7 @@
 
 
 <!-- 프로필이미지 등록 -->
-	<update id="updateMember">
+	<update id="updateProfileImg">
       UPDATE MEMBER
          SET 
             MEMBER_PROFILE_IMG = #{memberProfileImg}
@@ -333,12 +333,10 @@
 		WHERE MEMBER_ID = #{memberId}
 	</update>
 
-
    
   
   
   
-
   <!-- 아이디찾기 -->
  	<select id="phoneIdCheck" resultMap="memberResult">
 		SELECT   MEMBER_NO
@@ -396,7 +394,6 @@
         SET FRIEND_STATUS = 'N'
     WHERE FRIEND_MEMBER_NO = #{memberNo}
    </update>
-
   
   
      <!-- 마이페이지 삭제 후 친구목록 -->
@@ -581,6 +578,9 @@
 		FROM MEMBER
 		WHERE MEMBER_NICKNAME = #{memberNickName}
 	</select>
+	
+
+	
 	
 	
 	
