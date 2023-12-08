@@ -123,8 +123,10 @@ function loadImg(inputFile, memberNo) {
 
             //ajax로 이미지변경 요청
             if (mem !== null) {
-                document.querySelector('.title-img').src = mem.memberProfileImg;
-
+                let len = document.querySelectorAll('.title-img');
+                for (var index = 0; index < len.length; index++) {        
+                len[index].src = mem.memberProfileImg;
+                }
 
             } else {
                 document.querySelector('.title-img').src = null;

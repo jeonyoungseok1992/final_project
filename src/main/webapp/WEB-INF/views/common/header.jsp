@@ -57,7 +57,7 @@
 					   <div class="dropdown">
 					   <c:choose>
 						   <c:when test="${not empty loginUser.memberProfileImg}">
-						   <button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown"><img id="title-img2" src="${loginUser.memberProfileImg}" alt=""></button>
+						   <button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown"><img class="title-img" src="${loginUser.memberProfileImg}" alt=""></button>
 						   </c:when>
 						   <c:otherwise>
 						   <button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown"><img src="/mapping/resources/images/profile.png" alt=""></button>
