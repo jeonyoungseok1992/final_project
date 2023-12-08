@@ -3,6 +3,7 @@ package com.kh.fin.member.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.mail.MessagingException;
@@ -17,11 +18,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import com.google.gson.Gson;
-
 
 import com.kh.fin.member.model.service.MemberService;
 import com.kh.fin.member.model.vo.Member;
@@ -111,6 +112,75 @@ public class MemberController {
 
 	
 	
+	@Autowired
+    private JavaMailSender sender;
+	
+	
+	// 일단 아이디 이메일 유효한지 찾아
+	@ResponseBody
+	@RequestMapping(value="/emailDuplication")
+	public String emailDuplication(Member m){
+		
+		int result = memberService.idEmailCheck(m);
+		if(result > 0 ) {
+			return "success";
+		}else {
+			return "fail";
+		}
+		
+	}
+
+    //랜덤함수로 임시비밀번호 구문 만들기
+    public String getTempPassword(){
+        char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+
+        String str = "";
+
+        // 문자 배열 길이의 값을 랜덤으로 10개를 뽑아 구문을 작성함
+        int idx = 0;
+        for (int i = 0; i < 10; i++) {
+            idx = (int) (charSet.length * Math.random());
+            str += charSet[idx];
+        }
+        return str;
+    }
+    
+    @RequestMapping("sendEmail")
+	public ModelAndView hyperMail(Member m,ModelAndView mv) throws MessagingException {
+    	String temPwd = getTempPassword();
+    	
+    	String encPwd = bcryptPasswordEncoder.encode(temPwd);
+    	
+    	m.setMemberPwd(encPwd);
+    	
+    	int result = memberService.setTemPwd(m);
+    	
+    	if(result > 0 ) {
+    		MimeMessage message = sender.createMimeMessage();
+    			
+    		MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
+    			
+			String[] to = {m.getMemberEmail()};
+			
+			helper.setTo(to);
+			
+			helper.setSubject("[mapping] 임시 비밀번호 전송");
+			helper.setText("임시비밀번호는 "+ temPwd+ " 입니다. 로그인 후 비밀번호를 변경하여 이용해주세요.");
+			
+			sender.send(message);
+			
+			mv.setViewName("redirect:/");
+		
+		}else {
+			mv.setViewName("errorPage/500page");
+			
+		}
+    	
+    	return mv;
+   
+	
+}
 	
 	
 	
@@ -401,83 +471,72 @@ public class MemberController {
 		}
 	}
 
-	@Autowired
-    private JavaMailSender sender;
 	
-	
-	// 일단 아이디 이메일 유효한지 찾아
+	//핸드폰 인증할 때 번호 체크
+	@RequestMapping(value = "/phoneCheck", method = RequestMethod.GET)
 	@ResponseBody
-	@RequestMapping(value="/emailDuplication")
-	public String emailDuplication(Member m){
+	public String sendSMS(@RequestParam("phone") String userPhoneNumber) { // 휴대폰 문자보내기
+		int randomNumber = (int)((Math.random()* (9999 - 1000 + 1)) + 1000);//난수 생성
+
+		memberService.certifiedPhoneNumber(userPhoneNumber,randomNumber);
 		
-		int result = memberService.idEmailCheck(m);
-		if(result > 0 ) {
-			return "success";
-		}else {
-			return "fail";
-		}
+		return Integer.toString(randomNumber);
+	}
+	
+	//핸드폰 인증할 때 아이디 체크
+	@ResponseBody
+	@RequestMapping(value="phoneIdCheck.me", produces="application/json; charset=UTF-8")
+	public Member phoneIdCheck(Member m) {
+		System.out.println(m);
+		System.out.println(memberService.phoneIdCheck(m));
 		
+		return memberService.phoneIdCheck(m);
 	}
 
-    //랜덤함수로 임시비밀번호 구문 만들기
-    public String getTempPassword(){
-        char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
-                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+	
+	
+	//마이페이지 나의 친구목록 눌렀을 때 친구리스트
+	@ResponseBody
+	@RequestMapping(value="friendList.me", produces="application/json; charset=UTF-8")
+	public ArrayList<Member> friendList(Member m) {
 
-        String str = "";
+		System.out.println(memberService.friendList(m));
+		return memberService.friendList(m);
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="friendRequest.me", produces="application/json; charset=UTF-8")
+	public ArrayList<Member> friendRequest(Member m) {
 
-        // 문자 배열 길이의 값을 랜덤으로 10개를 뽑아 구문을 작성함
-        int idx = 0;
-        for (int i = 0; i < 10; i++) {
-            idx = (int) (charSet.length * Math.random());
-            str += charSet[idx];
-        }
-        return str;
-    }
-    
-    @RequestMapping("sendEmail")
-	public ModelAndView hyperMail(Member m,ModelAndView mv) throws MessagingException {
-    	String temPwd = getTempPassword();
-    	
-    	String encPwd = bcryptPasswordEncoder.encode(temPwd);
-    	
-    	m.setMemberPwd(encPwd);
-    	
-    	int result = memberService.setTemPwd(m);
-    	
-    	if(result > 0 ) {
-    		MimeMessage message = sender.createMimeMessage();
-    			
-    		MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
-    			
-			String[] to = {m.getMemberEmail()};
-			
-			helper.setTo(to);
-			
-			helper.setSubject("[mapping] 임시 비밀번호 전송");
-			helper.setText("임시비밀번호는 "+ temPwd+ " 입니다. 로그인 후 비밀번호를 변경하여 이용해주세요.");
-			
-			sender.send(message);
-			
-			mv.setViewName("redirect:/");
 		
-		}else {
-			mv.setViewName("errorPage/500page");
-			
+		return memberService.friendRequest(m);
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="refriendDelete.me", produces="application/json; charset=UTF-8")
+	public ArrayList<Member> refriendDelete(Member m, HttpSession session) {
+		ArrayList<Member> list = null;
+		int mno = ((Member)session.getAttribute("loginUser")).getMemberNo();
+		int del = memberService.friendDelete(m);
+		if(del > 0) {
+			list = memberService.refriendDelete(mno);
 		}
-    	
-    	return mv;
-   
-	
-}
+		
+		return list;
+	}
 	
 	
 	
 	
-	
-	
-	
-	
+//	@ResponseBody
+//	@RequestMapping(value="friendDelete.me", produces="application/json; charset=UTF-8")
+//	public int friendDelete(Member m, @RequestParam(value="memberNo") int memberNo) {
+//		System.out.println("도착");
+//		System.out.println(memberNo);
+//		return memberService.friendDelete(m);
+//	}
 	
 	
 	

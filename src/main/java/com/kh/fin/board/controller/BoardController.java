@@ -1,7 +1,6 @@
 package com.kh.fin.board.controller;
 
-import java.util.ArrayList;
-
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -305,27 +304,32 @@ public class BoardController {
 	//마이페이지 같이 가요 리스트업
 	@ResponseBody
 	@RequestMapping(value="myTogetherList.bo", produces="application/json; charset=UTF-8")
-	public String myTogetherList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv, Member m){
+	public JSONObject myTogetherList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv, Member m){
 
 		PageInfo pi = Pagenation.getPageInfo(boardService.myTogetherListCount(m), currentPage, 10, 5);
 
-		mv.addObject("pi",pi)
-			.addObject("list", boardService.myTogetherList(pi, m));
+		JSONObject obb = new JSONObject();
+		obb.put("pi",pi);
+		obb.put("list",boardService.myTogetherList(pi, m));
+		System.out.println(boardService.myTogetherList(pi, m));
 
-		return new Gson().toJson(boardService.myTogetherList(pi, m));
+
+		return obb;
 	}
 	
 	//마이페이지 후기 리스트업
 	@ResponseBody
 	@RequestMapping(value="myReviewList.bo", produces="application/json; charset=UTF-8")
-	public String myReviewList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv, Member m){
+	public JSONObject myReviewList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv, Member m){
 
 		PageInfo pi = Pagenation.getPageInfo(boardService.myReviewListCount(m), currentPage, 10, 5);
 
-		mv.addObject("pi",pi)
-			.addObject("list", boardService.myReviewList(pi, m));
+		JSONObject obj = new JSONObject();
+		obj.put("pi",pi);
+		obj.put("list",boardService.myReviewList(pi, m));
 
-		return new Gson().toJson(boardService.myReviewList(pi, m));
+
+		return obj;
 	}
 	
 	
@@ -342,5 +346,25 @@ public class BoardController {
 		
 		return mv;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

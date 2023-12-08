@@ -18,6 +18,7 @@
 integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="./resources/css/myPage.css">
+<link rel="stylesheet" href="./resources/css/board-card.css">
 <script src="./resources/js/myPage.js"></script>
 
 </head>
@@ -33,10 +34,10 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 		<div class="profile-container">
 			<c:choose>
 			    <c:when test="${!empty loginUser.memberProfileImg}">
-			        <img src="${loginUser.memberProfileImg}" id="title-img" onclick="chooseFile()">
+			        <img src="${loginUser.memberProfileImg}" class="title-img" onclick="chooseFile()">
 			    </c:when>
 			    <c:otherwise>
-			        <img src="resources/images/profile.png" id="title-img"  alt="나의프로필" style="border-radius: 45px;" onclick="chooseFile()">
+			        <img src="resources/images/profile.png" class="title-img"  alt="나의프로필" onclick="chooseFile()">
 			    </c:otherwise>
 			</c:choose>
 
@@ -57,7 +58,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 				<button role="tab2" aria-selected="true" aria-controls="tabPanel10" id="tab10">나의 일정</button>
 				<button role="tab2" aria-selected="false" aria-controls="tabPanel11" id="tab11" onclick="together(${loginUser.memberNo})">같이 가요</button>
 				<button role="tab2" aria-selected="false" aria-controls="tabPanel12" id="tab12" onclick="review(${loginUser.memberNo})">여행 후기</button>
-				<button role="tab2" aria-selected="false" aria-controls="tabPanel13" id="tab13" >나의 친구 목록</button>
+				<button role="tab2" aria-selected="false" aria-controls="tabPanel13" id="tab13" onclick="fdList(${loginUser.memberNo})" >나의 친구 목록</button>
 				</div>
 
 				<!-- 나의 일정 탭 시작-->
@@ -183,8 +184,8 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 						나의 친구 목록
 						<div class="button-area">
 							<div>
-							<button class="scheduleTap2"  >친구 목록</button>
-							<button class="scheduleTap2" style="margin-left: 15px;">친구 요청 목록</button>
+							<button class="scheduleTap2" onclick="fdList(${loginUser.memberNo})">친구 목록</button>
+							<button class="scheduleTap2" style="margin-left: 15px;" onclick="fdRequest(${loginUser.memberNo})">친구 요청 목록</button>
 							</div>
 
 							<div class="dropdown">
@@ -197,58 +198,11 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 						</div>
 
 						<!-- 목록 ajax 부분-->
-						<div id="myfriend">
-							<div>
-								<img src="resources/images/profile.png" alt="나의프로필" style="border-radius: 45px; width: 50px;">
-								<span style="font-size: 20px; margin-left: 10px;">userId</span>
-							</div>
-							<div>
-								<a href="#"><img src="resources/images/talkIcons.png" alt="채팅" style="width: 30px; height: 30px;"></a>
-								<a href="#" data-bs-toggle="modal" data-bs-target="#myModal"><img src="resources/images/xIcons.png" alt="x" style="width: 30px; height: 30px;"></a>
-							</div>	
-						</div>
-						<div id="myfriend">
-							<div>
-								<img src="resources/images/profile.png" alt="나의프로필" style="border-radius: 45px; width: 50px;">
-								<span style="font-size: 20px; margin-left: 10px;">userId</span>
-							</div>
-							<div>
-								<a href="#"><img src="resources/images/talkIcons.png" alt="채팅" style="width: 30px; height: 30px;"></a>
-								<a href="#" data-bs-toggle="modal" data-bs-target="#myModal"><img src="resources/images/xIcons.png" alt="x" style="width: 30px; height: 30px;"></a>
-							</div>	
-						</div>
-						<div id="myfriend">
-							<div>
-								<img src="resources/images/profile.png" alt="나의프로필" style="border-radius: 45px; width: 50px;">
-								<span style="font-size: 20px; margin-left: 10px;">userId</span>
-							</div>
-							<div>
-								<a href="#"><img src="resources/images/talkIcons.png" alt="채팅" style="width: 30px; height: 30px;"></a>
-								<a href="#" data-bs-toggle="modal" data-bs-target="#myModal"><img src="resources/images/xIcons.png" alt="x" style="width: 30px; height: 30px;"></a>
-							</div>	
-						</div>
-						<div id="myfriend">
-							<div>
-								<img src="resources/images/profile.png" alt="나의프로필" style="border-radius: 45px; width: 50px;">
-								<span style="font-size: 20px; margin-left: 10px;">userId</span>
-							</div>
-							<div>
-								<a href="#"><img src="resources/images/talkIcons.png" alt="채팅" style="width: 30px; height: 30px;"></a>
-								<a href="#" data-bs-toggle="modal" data-bs-target="#myModal"><img src="resources/images/xIcons.png" alt="x" style="width: 30px; height: 30px;"></a>
-							</div>	
-						</div>
+						<div id="fdList"></div>
+						
 						<!-- 목록 ajax 부분-->
-						<div id="myfriend">
-							<div>
-								<img src="resources/images/profile.png" alt="나의프로필" style="border-radius: 45px; width: 50px;">
-								<span style="font-size: 20px; margin-left: 10px;">userId</span>
-							</div>
-							<div>
-								<a href="#" style="font-size: 18px;">수락</a>
-								<span style="font-size: 18px;">|</span>
-								<a href="#" style="font-size: 18px;">거절</a>
-							</div>	
-						</div>
+						<div id="fdRequest"></div>
+
 
 
 
@@ -273,7 +227,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 						<!-- Modal footer -->
 						<div class="modal-footer" style="display: flex; justify-content: center;">
 							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background: lightgray; width: 200px; height: 50px; border: none; ">Cancle</button>
-							<button type="button" onclick="location.href=''" class="btn btn-secondary" style="background: #b2d8b5; width: 200px; height: 50px; border: none;">Ok</button>
+							<button id="footerBtn" type="button" onclick="friendDelete()" class="btn btn-secondary" style="background: #b2d8b5; width: 200px; height: 50px; border: none;">Ok</button>
 						</div>
 				
 					</div>
