@@ -1,3 +1,5 @@
+const boardValue = {};
+
 $(document).ready(function () {
     var $tabBtn = $('.tab-menu button[role="tab"]');
     var $tabContents = $('.travel-detail .tab-contents > div');
@@ -63,7 +65,7 @@ function transScheduleList(list){
             })
         }
     }
-    // console.log(tmpList);
+   
 
     return tmpList;
 }
@@ -80,6 +82,7 @@ function drawPlan(tmpList){
     
     
     $(".active").on("click",function(){
+        boardValue.selectPlan = tmpList[this.getAttribute("index")];
         drawPlanChild(tmpList[this.getAttribute("index")])
     });
     $(".active:first-child").trigger("click");
@@ -89,7 +92,6 @@ function drawPlan(tmpList){
 //큰 플랜버튼 누르면 밑에 각 장소들 나오게 하는 함수
 function drawPlanChild(tripPlan){
     let str2 = "";
-    let str3 = "";
     const attractionList = tripPlan.attractionList;
     // console.log(attractionList);
     for(let i in attractionList){
@@ -122,3 +124,7 @@ function drawPlanChild(tripPlan){
       
 
     }
+
+function moveWritePage(){
+        location.href="togetherEdit.bo?ppage=" + boardValue.selectPlan.tripPlanNo;
+}

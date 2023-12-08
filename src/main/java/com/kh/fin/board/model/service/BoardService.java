@@ -109,6 +109,9 @@ public interface BoardService {
 
 	//글쓰기 누르면 ajax호출해서 나의 일정리스트 가져오기
 	ArrayList<Plan> selectPlanList(int memberNo);
+	
+	//같이가요 게시판 글작성
+	int insertTogetherBoard(Board b);
 
 	
 	
@@ -212,6 +215,11 @@ public interface BoardService {
 	//게시글상세조회
 	Board selectListBoard(int boardNo);
 	
+	// 기존 일정 가지고 글쓰기 페이지로 가기
+	ArrayList<Plan> selectOneTripPlan(int tripPlanNo);
+	
+	// plan max day가져오기
+	int countMaxPlanDay(int tripPlanNo);
 
 
 }

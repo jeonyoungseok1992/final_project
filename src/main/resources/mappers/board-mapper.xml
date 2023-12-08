@@ -9,10 +9,12 @@
 		<result column="BOARD_MODIFY_DATE" property="boardModifyDate"/>
 		<result column="BOARD_REPORT" property="boardReport"/>
 		<result column="BOARD_WRITER" property="boardWriter"/>
+		<result column="MEMBER_ID" property="boardWriter"/>
 		<result column="BOARD_TRIP_PLAN_NO" property="boardTripPlanNo"/>
 		<result column="BOARD_CATEGORY" property="boardCategory"/>
 		<result column="TRIP_PLAN_THUMBNAIL" property="tripPlanThumbnail"/>
 		<result column="ATTACHMENT_CHANGE_NAME" property="attachement"/>
+		<result column="BOARD_REGION_NO" property="boardRegionNo"/>
 	</resultMap>
 		<resultMap type="Plan" id="planResult">
 		<result column="TRIP_PLAN_NO" property="tripPlanNo"/>
@@ -149,22 +151,24 @@
 		from board B
 		join member M on (B.BOARD_WRITER = M.MEMBER_NO)
 		join TRIP_PLAN T on (B.BOARD_TRIP_PLAN_NO = T.TRIP_PLAN_NO)
+		join REGION R on (R.REGION_NO = B.BOARD_REGION_NO)
 		where B.BOARD_CATEGORY = 2
 		AND B.BOARD_STATUS = 'Y'
 		<choose>
 			<when test="condition == 'writer'">
-	  		AND M.MEMBER_ID LIKE '%' || #{keyword} || '%'
+	  		AND M.MEMBER_ID 
 	  		</when>
 	  		<when test="condition == 'title'">
 	        AND B.BOARD_TITLE LIKE '%' || #{keyword} || '%' 
 	        </when>
-	        <when test="condition == 'combine'">
-	        AND (B.BOARD_TITLE LIKE '%' || #{keyword} || '%') OR (B.BOARD_CONTENT LIKE '%' || #{keyword} || '%')
+	        <when test="condition == 'region'">
+	        AND R.REGION_NAME
 	        </when>
 	        <otherwise>
-	        AND B.BOARD_CONTENT LIKE '%' || #{keyword} || '%'
+	        AND B.BOARD_CONTENT
       	 	</otherwise>
         </choose>
+        LIKE '%' || #{keyword} || '%'
         ORDER BY B.BOARD_NO DESC
 	</select>
 	
@@ -189,6 +193,57 @@
         join REGION on(ATTRACTION_REGION_NO =REGION_NO)
 		where TRIP_PLANNER_NO = #{memberNo}
 	</select>
+	
+	<!-- plan 정보가지고 글쓰기 페이지에 가져오기 -->
+	<select id="selectOneTripPlan" resultMap="planResult">
+ 		        select  TRIP_PLAN_NO
+				,TRIP_PLAN_TITLE
+                ,LOCATION_NO
+                ,TRIP_PLAN_THUMBNAIL
+                ,ATTRACTION_NO
+                ,ATTRACTION_NAME
+                ,ATTRACTION_X
+                ,ATTRACTION_Y
+                ,ATTRACTION_CHANGE_NAME_IMG
+                ,TRIP_N_DAY
+                ,REGION_NO
+		from TRIP_PLAN
+		join member on (TRIP_PLANNER_NO = MEMBER_NO)
+        join location using (TRIP_PLAN_NO)
+        join ATTRACTION on (LOCATION_ATTRACTION_NO = ATTRACTION_NO)
+        join REGION on (REGION_NO = ATTRACTION_REGION_NO)
+		where TRIP_PLAN_NO = #{tripPlanNo}
+	</select>
+	
+	<!-- plan max day 조회하는 쿼리문 -->
+	<select id="countMaxPlanDay" resultType="_int">
+		select  MAX(TRIP_N_DAY)
+		from TRIP_PLAN
+        join location using (TRIP_PLAN_NO)
+		where TRIP_PLAN_NO = #{tripPlanNo}
+        ORDER BY TRIP_N_DAY
+	</select>
+	
+	<!-- 같이가요 게시글 작성 쿼리문 -->
+	<insert id="insertTogetherBoard">
+		INSERT INTO BOARD 
+				(BOARD_NO
+				,BOARD_TITLE
+                ,BOARD_CONTENT
+				,BOARD_WRITER
+				,BOARD_TRIP_PLAN_NO
+                ,BOARD_CATEGORY
+                ,BOARD_REGION_NO
+				)
+		VALUES (SEQ_BNO.NEXTVAL
+				,#{boardTitle}
+				,#{boardContent}
+				,#{boardWriter}
+				,#{boardTripPlanNo}
+                ,2
+                ,#{boardRegionNo}
+							)
+		</insert>
 	
 	
 	
