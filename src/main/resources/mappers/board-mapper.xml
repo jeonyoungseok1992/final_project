@@ -14,7 +14,10 @@
 		<result column="BOARD_CATEGORY" property="boardCategory"/>
 		<result column="TRIP_PLAN_THUMBNAIL" property="tripPlanThumbnail"/>
 		<result column="ATTACHMENT_CHANGE_NAME" property="attachement"/>
+		<result column="TRIP_START_DATE" property="tripStartDate"/>
+		<result column="TRIP_END_DATE" property="tripEndDate"/>
 		<result column="BOARD_REGION_NO" property="boardRegionNo"/>
+
 	</resultMap>
 		<resultMap type="Plan" id="planResult">
 		<result column="TRIP_PLAN_NO" property="tripPlanNo"/>
@@ -353,6 +356,242 @@
 		
 	</select>
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 마이페이지 같이가요 게시글의 총 갯수 조회하는 쿼리문 -->
+	<select id="myTogetherListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD
+		JOIN MEMBER ON (MEMBER_NO = BOARD_WRITER)
+		JOIN TRIP_PLAN ON (TRIP_PLAN_NO = BOARD_TRIP_PLAN_NO)
+		WHERE BOARD_CATEGORY = 2
+			AND BOARD_WRITER = #{memberNo}
+	</select>
+	
+	<!-- 마이페이지 같이가요 게시글 조회 쿼리문 -->
+	<select id="myTogetherList" resultMap="boardResult">
+		select  BOARD_NO
+				,BOARD_TITLE
+		        ,BOARD_CONTENT
+		        ,BOARD_WRITER
+		        ,BOARD_MODIFY_DATE      
+		        ,TRIP_START_DATE
+		        ,TRIP_END_DATE
+		from board
+		join member on (BOARD_WRITER = MEMBER_NO)
+		JOIN TRIP_PLAN ON(BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
+		where BOARD_CATEGORY = 2
+			AND BOARD_WRITER = #{memberNo}
+		ORDER BY BOARD_NO DESC
+
+	</select>
+	
+	
+	
+	
+	<!-- 마이페이지 후기 게시글의 총 갯수 조회하는 쿼리문 -->
+	<select id="myReviewListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD
+		JOIN MEMBER ON (MEMBER_NO = BOARD_WRITER)
+		JOIN TRIP_PLAN ON (TRIP_PLAN_NO = BOARD_TRIP_PLAN_NO)
+		WHERE BOARD_CATEGORY = 1
+			AND BOARD_WRITER = #{memberNo}
+	</select>
+	
+	<!-- 마이페이지 후기 게시글 조회 쿼리문 -->
+	<select id="myReviewList" resultMap="boardResult">
+		select  BOARD_NO
+				,BOARD_TITLE
+		        ,BOARD_CONTENT
+		        ,BOARD_WRITER
+		        ,BOARD_MODIFY_DATE       
+		        ,TRIP_START_DATE
+		        ,TRIP_END_DATE
+		from board
+		join member on (BOARD_WRITER = MEMBER_NO)
+		JOIN TRIP_PLAN ON(BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
+		where BOARD_CATEGORY = 1
+			AND BOARD_WRITER = #{memberNo}
+		ORDER BY BOARD_NO DESC
+
+	</select>
 	
 	
 </mapper>

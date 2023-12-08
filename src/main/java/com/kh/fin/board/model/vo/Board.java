@@ -25,11 +25,14 @@ public class Board {
 	private int boardTripPlanNo;
 	private int boardCategory;
 	private String attachement;
+	private Date tripStartDate;
+	private Date tripEndDate;
 	private String keyword;
 	private String condition;
 	private String boardStatus;
 	private String tripPlanThumbnail;
 	private String boardRegionNo;
+
 	
 	
 }
