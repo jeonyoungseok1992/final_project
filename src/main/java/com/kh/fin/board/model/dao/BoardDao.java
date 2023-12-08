@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.fin.board.model.vo.Board;
+import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.member.model.vo.Member;
 
@@ -122,6 +123,144 @@ public class BoardDao {
 		
 		return (ArrayList)sqlSession.selectList("boardMapper.togetherSearchList",b,rowBounds);
 	}
+	
+	public ArrayList<Plan> selectPlanList(SqlSessionTemplate sqlSession, int memberNo){
+		return (ArrayList)sqlSession.selectList("boardMapper.selectPlanList",memberNo);
+	}
+	public ArrayList<Plan> selectOneTripPlan(SqlSessionTemplate sqlSession, int tripPlanNo){
+		return (ArrayList)sqlSession.selectList("boardMapper.selectOneTripPlan",tripPlanNo);
+	}
+	public int countMaxPlanDay(SqlSessionTemplate sqlSession, int tripPlanNo) {
+		return sqlSession.selectOne("boardMapper.countMaxPlanDay",tripPlanNo);
+	}
+	public int insertTogetherBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.insertTogetherBoard",b);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public int selectReviewListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("boardMapper.selectReviewListCount");
+	}
+	
+	
+	public ArrayList<Board> selectReviewList(SqlSessionTemplate sqlSession, PageInfo pi){
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("boardMapper.selectReviewList", null, rowBounds);
+	}
+	
+	
+	
+	public Board selectListBoard(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("boardMapper.selectListBoard", boardNo);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

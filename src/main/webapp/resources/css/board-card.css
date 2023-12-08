@@ -149,6 +149,9 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
 }
+.card-text{
+    height: 30px;
+}
 .card-desc .card-counts{
   color: #868e96;
    font-size: 13px;
