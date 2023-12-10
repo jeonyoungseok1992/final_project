@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
+import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.common.model.vo.PageInfo;
 
 @Repository
@@ -136,7 +137,22 @@ public class BoardDao {
 		return sqlSession.insert("boardMapper.insertTogetherBoard",b);
 	}
 	
+	public ArrayList<Board> selectTogetherBoard(SqlSessionTemplate sqlSession, int boardNo) {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectTogetherBoard", boardNo);
+	}
+	public int updateTogetherBoard(SqlSessionTemplate sqlSession,Board b) {
+		return sqlSession.update("boardMapper.updateTogetherBoard",b);
+	}
+	public int togetherDeleteBoard(SqlSessionTemplate sqlSession,int boardNo) {
+		return sqlSession.update("boardMapper.togetherDeleteBoard",boardNo);
+	}
+	public ArrayList<Reply> selectTogetherReplyList(SqlSessionTemplate sqlSession,int boardNo){
+		return (ArrayList)sqlSession.selectList("boardMapper.selectTogetherReplyList",boardNo);
+	}
 	
+	public int ajaxInsertTogetherReply(SqlSessionTemplate sqlSession,Reply r) {
+		return sqlSession.insert("boardMapper.ajaxInsertTogetherReply",r);
+	}
 	
 	
 	

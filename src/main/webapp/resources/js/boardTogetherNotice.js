@@ -1,4 +1,4 @@
-const boardValue = {};
+var boardValue = {};
 
 $(document).ready(function () {
     var $tabBtn = $('.tab-menu button[role="tab"]');
@@ -128,3 +128,5 @@ function drawPlanChild(tripPlan){
 function moveWritePage(){
         location.href="togetherEdit.bo?ppage=" + boardValue.selectPlan.tripPlanNo;
 }
+
+

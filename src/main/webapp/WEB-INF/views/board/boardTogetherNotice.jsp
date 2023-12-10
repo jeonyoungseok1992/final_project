@@ -111,7 +111,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
         <c:forEach var="b" items="${list }">
         
             <div class="cards">
-               <a>
+               <a href="togetherDetail.bo?boardNo=${b.boardNo}">
                   <div class="card-photo ">
                     <img src="${b.tripPlanThumbnail}">
                 </div>
