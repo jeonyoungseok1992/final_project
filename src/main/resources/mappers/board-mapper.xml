@@ -10,6 +10,7 @@
 		<result column="BOARD_REPORT" property="boardReport"/>
 		<result column="BOARD_WRITER" property="boardWriter"/>
 		<result column="MEMBER_ID" property="boardWriter"/>
+		<result column="MEMBER_NO" property="memberNo"/>
 		<result column="BOARD_TRIP_PLAN_NO" property="boardTripPlanNo"/>
 		<result column="BOARD_CATEGORY" property="boardCategory"/>
 		<result column="TRIP_PLAN_THUMBNAIL" property="tripPlanThumbnail"/>
@@ -17,7 +18,14 @@
 		<result column="TRIP_START_DATE" property="tripStartDate"/>
 		<result column="TRIP_END_DATE" property="tripEndDate"/>
 		<result column="BOARD_REGION_NO" property="boardRegionNo"/>
-
+		<result column="BOARD_REGION_NO" property="regionNo"/>
+		<result column="BOARD_TRIP_PLAN_NO" property="tripPlanNo"/>
+		<result column="LOCATION_NO" property="locationNo"/>
+		<result column="TRIP_N_DAY" property="tripNday"/>
+		<result column="ATTRACTION_NO" property="attractionNo"/>
+		<result column="ATTRACTION_NAME" property="attracionName"/>
+		<result column="ATTRACTION_CHANGE_NAME_IMG" property="attractionChangeNameImg"/>
+		 
 	</resultMap>
 		<resultMap type="Plan" id="planResult">
 		<result column="TRIP_PLAN_NO" property="tripPlanNo"/>
@@ -34,6 +42,18 @@
 		<result column="REGION_NO" property="regionNo"/>
 		<result column="REGION_NAME" property="regionName"/>
 		<result column="TRIP_N_DAY" property="tripNday"/>
+	</resultMap>
+	
+	<resultMap type="Reply" id="replyResult">
+		<result column="REPLY_NO" property="replyNo"/>
+		<result column="REPLY_BOARD_NO" property="replyBoardNo"/>
+		<result column="REPLY_WRITER" property="replyWriter"/>
+		<result column="REPLY_CONTENT" property="replyContent"/>
+		<result column="REPLY_CREATE_DATE" property="replyCreateDate"/>
+		<result column="REPLY_MODIFY_DATE" property="replyModifyDate"/>
+		<result column="REPLY_REPORT" property="replyReport"/>
+		<result column="REPLY_STATUS" property="replyStatus"/>
+		<result column="MEMBER_PROFILE_IMG" property="memberProfileImg"/>
 	</resultMap>
 				
 	
@@ -205,8 +225,6 @@
                 ,TRIP_PLAN_THUMBNAIL
                 ,ATTRACTION_NO
                 ,ATTRACTION_NAME
-                ,ATTRACTION_X
-                ,ATTRACTION_Y
                 ,ATTRACTION_CHANGE_NAME_IMG
                 ,TRIP_N_DAY
                 ,REGION_NO
@@ -216,6 +234,7 @@
         join ATTRACTION on (LOCATION_ATTRACTION_NO = ATTRACTION_NO)
         join REGION on (REGION_NO = ATTRACTION_REGION_NO)
 		where TRIP_PLAN_NO = #{tripPlanNo}
+		order by TRIP_N_DAY
 	</select>
 	
 	<!-- plan max day 조회하는 쿼리문 -->
@@ -247,10 +266,84 @@
                 ,#{boardRegionNo}
 							)
 		</insert>
+		
+		<!-- 같이가요 게시판 디테일 페이지 -->
+		<select id="selectTogetherBoard" resultMap="boardResult">
+			SELECT  BOARD_NO
+				,	BOARD_TITLE
+				,	BOARD_CONTENT
+				,	TO_CHAR(BOARD_MODIFY_DATE, 'YYYY-MM-DD') AS "BOARD_MODIFY_DATE"
+                ,   BOARD_REPORT
+                , 	MEMBER_NO
+                ,	MEMBER_ID
+                ,   BOARD_TRIP_PLAN_NO
+                ,   BOARD_REGION_NO
+                ,   TRIP_PLAN_NO
+                ,   TRIP_PLAN_THUMBNAIL
+                ,   LOCATION_NO
+                ,   TRIP_N_DAY
+                ,   ATTRACTION_NO
+                ,   ATTRACTION_NAME
+                ,   ATTRACTION_CHANGE_NAME_IMG
+			FROM 	BOARD   
+            join member on (MEMBER_NO = BOARD_WRITER)
+            join TRIP_PLAN on (BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
+            join LOCATION using (TRIP_PLAN_NO)
+            join ATTRACTION on (ATTRACTION_NO=LOCATION_ATTRACTION_NO)
+			WHERE BOARD_NO = #{boardNo}
+            AND BOARD_CATEGORY = 2
+			AND BOARD_STATUS = 'Y'
+            order by TRIP_N_DAY
+		</select>
 	
 	
+		<!-- 같이가요 게시글 수정 관련 sql -->
+		<update id="updateTogetherBoard">
+			UPDATE BOARD
+				SET BOARD_TITLE = #{boardTitle},
+					BOARD_CONTENT = #{boardContent},
+					BOARD_TRIP_PLAN_NO = #{boardTripPlanNo},
+					BOARD_MODIFY_DATE = SYSDATE,
+					BOARD_REGION_NO = #{boardRegionNo}
+			WHERE BOARD_NO = #{boardNo}
+		</update>
 	
-	
+		<!-- 같이가요 게시글 삭제 관련 sql -->
+		<update id="togetherDeleteBoard">
+			UPDATE BOARD
+				SET BOARD_STATUS ='N'
+			WHERE BOARD_NO = #{boardNo}
+		</update>
+		
+		<!-- 같이가요 댓글 조회 쿼리문 -->
+	<select id="selectTogetherReplyList" resultMap="replyResult">
+		SELECT REPLY_NO
+				,REPLY_CONTENT
+				,MEMBER_ID AS "REPLY_WRITER"
+				,TO_CHAR(REPLY_MODIFY_DATE, 'YYYY-MM-DD') AS "REPLY_MODIFY_DATE"
+				,MEMBER_PROFILE_IMG
+		FROM REPLY
+		JOIN MEMBER ON (REPLY_WRITER = MEMBER_NO)
+		WHERE REPLY_STATUS = 'Y'
+		AND REPLY_BOARD_NO = #{boardNo}
+		ORDER BY REPLY_NO
+	</select>
+	<!-- 같이가요 댓글추가 -->
+	<insert id="ajaxInsertTogetherReply">
+		INSERT INTO REPLY
+		(
+				REPLY_NO,
+				REPLY_CONTENT,
+				REPLY_BOARD_NO,
+				REPLY_WRITER
+		)
+		VALUES( 
+				SEQ_RNO.NEXTVAL,
+				#{replyContent},
+				#{replyBoardNo},
+				#{replyWriter}
+		)
+	</insert>
 	
 	
 	

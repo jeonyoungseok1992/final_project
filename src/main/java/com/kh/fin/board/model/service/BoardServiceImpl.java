@@ -11,6 +11,7 @@ import com.kh.fin.board.model.dao.BoardDao;
 
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
+import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.member.model.vo.Member;
 
@@ -142,8 +143,29 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.insertTogetherBoard(sqlSession,b);
 	}
 	
+	@Override
+	public ArrayList<Board> selectTogetherBoard(int boardNo) {
+		return boardDao.selectTogetherBoard(sqlSession,boardNo);
+	}
+	@Override
+	public int updateTogetherBoard(Board b) {
+		return boardDao.updateTogetherBoard(sqlSession,b);
+	}
+
+	@Override
+	public int togetherDeleteBoard(int boardNo) {
+		return boardDao.togetherDeleteBoard(sqlSession,boardNo);
+	}
 	
-	
+	@Override
+	public ArrayList<Reply> selectTogetherReplyList(int boardNo) {
+		return boardDao.selectTogetherReplyList(sqlSession,boardNo);
+	}
+
+	@Override
+	public int ajaxInsertTogetherReply(Reply r) {
+		return boardDao.ajaxInsertTogetherReply(sqlSession,r);
+	}
 	
 	
 	
@@ -234,6 +256,376 @@ public class BoardServiceImpl implements BoardService{
 		
 		return boardDao.selectListBoard(sqlSession, boardNo);
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -27,13 +27,13 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
         <br>
         <span class="etitle">페이지를 찾을 수 없습니다.</span>
         <br><br><br>
-        <span class="econtent">입력하신 주소가 정확한지 다시 한 번 확인해주세요.</span>
+        <span class="econtent">입력하신 주소가 정확한지 다시 한 번 확인해주세요.<br>${errorMsg}</span>
         <br><br><br><br>
         <div><img src="resources/images/errorIcon.png" alt="경고사진" style="width: 100px;" ></div>
         <br><br><br><br>
         <div id="ebutton">
-            <button class="btn btn-light">이전페이지</button>
-            <button class="btn btn-success" style="background: #b2d8b5; border: none;">홈</button>
+            <button class="btn btn-light" onclick="history.back();">이전페이지</button>
+            <button class="btn btn-success" style="background: #b2d8b5; border: none;" onclick="location.href='${pageContext.request.contextPath}'">홈</button>
         </div>
     </div>
 </body>

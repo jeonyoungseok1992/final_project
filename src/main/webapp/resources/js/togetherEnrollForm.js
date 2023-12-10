@@ -84,3 +84,167 @@ $(document).ready(function()
             })
         }
 
+        function sumReset(){
+          // 서머노트 리셋
+          $('#summernote').summernote('reset');
+        }
+var boardValue = {};
+
+
+// ajax로 넘겨주는 함수
+function pickupSchedule(num){
+  boardApi.getScheduleList({
+      memberNo : num,
+  }, function(list){
+      const tansList = transScheduleList(list);
+      drawPlan(tansList);
+  })
+}
+//db에서 가져온 데이터 가공하는 함수
+function transScheduleList(list){
+  let tmpList = []
+  // console.log(list);
+  for(plan of list){
+      if (tmpList.filter(t => t.tripPlanNo === plan.tripPlanNo).length > 0){
+          tmpList = tmpList.map( t => {
+              if(t.tripPlanNo === plan.tripPlanNo ){
+                  if (t.attractionList[plan.tripNday]) {
+                      t.attractionList[plan.tripNday].push({
+                          attractionName: plan.attractionName,
+                          attractionChangeNameImg: plan.attractionChangeNameImg
+                          });
+                  } else {
+                      t.attractionList[plan.tripNday]= [{
+                          attractionName: plan.attractionName,
+                          attractionChangeNameImg: plan.attractionChangeNameImg
+                          }];
+                  }
+              }
+              return t;
+          })
+      } else {
+          tmpList.push({
+              tripPlanNo : plan.tripPlanNo,
+              tripPlanThumbnail : plan.tripPlanThumbnail,
+              tripStartDate : plan.tripStartDate,
+              tripEndDate : plan.tripEndDate,
+              regionName : plan.regionName,
+              attractionList : {
+                  [plan.tripNday] : [
+                  {
+                      attractionName: plan.attractionName,
+                      attractionChangeNameImg: plan.attractionChangeNameImg
+                  }]
+              },
+          })
+      }
+  }
+ 
+
+  return tmpList;
+}
+
+//큰 플랜 버튼 그리는 함수
+function drawPlan(tmpList){
+  let str1 ="";
+  for(let i in tmpList){
+      str1 += `<button index="`+i+`" role="tab" aria-selected="true" aria-controls="tabPanel1" id="tab1" class="active"><div class="travel-list-text" >
+      <p>${tmpList[i].tripStartDate}-${tmpList[i].tripEndDate}</p><h3>${tmpList[i].regionName}</h3></div><img src="${tmpList[i].tripPlanThumbnail}" alt=""></button>`
+  }
+  
+  $(".tab-menu.button-group.button-type").html(str1);
+  
+  
+  $(".active").on("click",function(){
+      boardValue.selectPlan = tmpList[this.getAttribute("index")];
+      drawPlanChild(tmpList[this.getAttribute("index")])
+  });
+  $(".active:first-child").trigger("click");
+}
+
+//큰 플랜버튼 누르면 밑에 각 장소들 나오게 하는 함수
+function drawPlanChild(tripPlan){
+  let str2 = "";
+  const attractionList = tripPlan.attractionList;
+  // console.log(attractionList);
+  for(let i in attractionList){
+          str2 += `
+          <div class="travel-location">
+              <h4>${i}일차</h4>
+              <div>
+              <div class="menu">`;
+             
+              
+
+          for(let p of attractionList[i]){
+              str2 +=  
+                  `<div class="item-wrap">
+                              <div class="img-area">
+                                  <img src="${p.attractionChangeNameImg}" alt="">
+                              </div>
+                              <h5>${p.attractionName}</h5>
+                  </div>`;
+      
+          }
+          str2 +=`</div>
+              </div>
+          </div>`;
+      
+      } 
+      $("#tabPanel1").html(str2);
+   
+      
+    
+
+  }
+
+
+
+
+  function reDraw() {
+    $.ajax({
+        url: "reDraw.bo",
+        data : {"tripPlanNo" : boardValue.selectPlan.tripPlanNo,
+        },
+        anyne: true,
+        type: "POST",
+        contentType: 'application/json',
+        dataType: "json",
+        success: function (list) {
+          console.log(list)
+            const tansList = transScheduleList(list);
+            console.log(tansList)
+            reDrawPlan(tansList);
+        },
+        error: function () {
+            console.log("reDraw.bo ajax 통신 실패");
+        }
+    });
+}
+
+function reDrawPlan(tmpList) {
+    let str3 = "";
+    let str4 = "";
+    let map = document.getElementById('map');
+    let ndayContent = document.getElementById('ndayContent');
+    map.empty();
+    ndayContent.empty();
+    str3 += `<img src="${tmpList[0].tripPlanThumbnail}" alt="" style="width: 100%; height: 100%;">`;
+    for (let i in tmpList) {
+        str4 +=
+            `<c:forEach var="i" begin="1" end="${tmpList[tmpList.size() - 1].tripNday}" step="1">
+                <div class="nDay">i일차</div>
+                <div class="location">
+                    <c:forEach var="p" items="${tmpList}">
+                        <c:choose>
+                            <c:when test ="i eq p.tripNday}">
+                                <div class="location-img"><img src="${p.attractionChangeNameImg}" alt="전주"></div>
+                            </c:when>
+                        </c:choose>
+                    </c:forEach>
+                </div>
+            </c:forEach>`;
+    }
+    map.innerHTML = str3;
+    ndayContent.innerHTML = str4;
+}

@@ -8,9 +8,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
 
 
@@ -29,11 +28,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import com.kh.fin.board.model.service.BoardService;
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
+import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.common.template.Pagenation;
 import com.kh.fin.member.model.vo.Member;
@@ -448,9 +447,110 @@ public class BoardController {
 			return "errorPage/500page";
 		}
 		
+	}
+	
+	
+	@RequestMapping("togetherDetail.bo")
+	public String selectTogetherBoard(int boardNo, Model model){
+		
+		ArrayList<Board> list = boardService.selectTogetherBoard(boardNo);
+		
+		if(!(list == null) ) {
+			
+			model.addAttribute("list",list);
+			
+			return "board/boardTogetherDetailView";
+		}else {
+			model.addAttribute("errorMsg", "같이가요 게시글 조회 실패");
+			return "errorPage/500page";
+		}
+	}
+	
+	@RequestMapping("updateTogetherForm.bo")
+	public String updateTogetherForm(int boardNo, Model model ) {
+		//현재 내가 수정하기를 클릭한 같이가요 게시글에 대한 정보를 가지고 이동
+		model.addAttribute("list",boardService.selectTogetherBoard(boardNo));
+		
+		return "board/togetherUpdateForm";
+	}
+	
+	@RequestMapping("togetherUpdate.bo")
+	public String updateTogetherBoard(Board b, HttpSession session, Model model) {
+		int result = boardService.updateTogetherBoard(b);
+		//b객체 update
+		
+		//성공유무 확인 후 페이지 리턴
+		if(result >0) {
+			session.setAttribute("alertMsg", "게시글 수정 완료");
+			return "redirect:togetherDetail.bo?boardNo="+b.getBoardNo();
+		}else {
+			model.addAttribute("errorMsg", "게시글 수정 실패"); // model은 리퀘스트 영역이라 재요청 방식으로는 데이터를 담아 보내줄 수 없다.
+			return "errorPage/500page";
+		}
+		
+	}
+	@RequestMapping("togetherDelete.bo")
+	public String togetherDeleteBoard(int boardNo, HttpSession session, Model model) {
+		
+		int result = boardService.togetherDeleteBoard(boardNo);
+		
+		if(result > 0) {//삭제 성공
+			
+			session.setAttribute("alertMsg", "게시글 삭제에 성공하였습니다.");
+			return "redirect:together.bo";
+			
+		}else {
+			model.addAttribute("errorMsg", "게시글 삭제 실패");
+			return "errorPage/500page";
+		}
 		
 		
 	}
+	//일정 수정 버튼 눌렀을때 다시 그려주는
+	@ResponseBody
+	@RequestMapping(value="reDraw.bo", produces="application/json; charset=utf-8")
+	public String ajaxReDrawSchedule(@RequestParam(value="tripPlanNo") int tripPlanNo) {
+		
+		ArrayList<Plan> list = boardService.selectOneTripPlan(tripPlanNo);
+		
+		return new Gson().toJson(list);
+	}
+	
+	// 같이가요 댓글 그려주기 
+	@ResponseBody
+	@RequestMapping(value="togetherRlist.bo", produces="application/json; charset=utf-8")
+	public String selectTogetherReplyList(@RequestParam(value="boardNo") int boardNo) {
+		ArrayList<Reply> rlist = boardService.selectTogetherReplyList(boardNo);
+		
+		return new Gson().toJson(rlist);
+	}
+	//같이가요 댓글 넣어주기
+	@ResponseBody
+	@RequestMapping(value="togetherRinsert.bo")
+	public String ajaxInsertTogetherReply(Reply r) {
+		int result = boardService.ajaxInsertTogetherReply(r);
+		
+		if(result > 0 ) {
+			return "success";
+		}else {
+			return "fail";
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 	
