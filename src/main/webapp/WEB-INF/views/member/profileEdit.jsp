@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +17,7 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="./resources/css/profileEdit.css">
+<script src="./resources/js/profileEdit.js"></script>
 </head>
 <body>
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
@@ -26,33 +27,43 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             <!-- 프로필 정보쪽-->
             <div class="profile-container">
                 <!--프로필 이미지 클릭시에 프로필 사진 수정가능해야함 !-->
-                <img src="${loginUser.memberProfileImg}" id="title-img" alt="나의프로필" ">
-                <br>
-                <span style="font-size: 20px; height: 30px;">${loginUser.memberName}</span>
+                <c:choose>
+                    <c:when test="${!empty loginUser.memberProfileImg}">
+                        <img src="${loginUser.memberProfileImg}" class="title-img" onclick="chooseFile()">
+                    </c:when>
+                    <c:otherwise>
+                        <img src="resources/images/profile.png" class="title-img"  alt="나의프로필" onclick="chooseFile()">
+                    </c:otherwise>
+                </c:choose>
+    
+                <form method="post"enctype="multipart/form-data">
+                   <input style="display : none" id="file" type="file" name="upfile" onchange="loadImg(this, ${loginUser.memberNo})" > <br>
+                </form>
         
             <div class="edit-container">
                 <div id="edit-title">프로필 설정</div>
                 <div>
                 
-                <form action="#" method="" style="min-width: 448px;">
+                <form action="update.me" method="post" style="min-width: 448px;">
                     <div id="edit-input">
                         <label for="nickname" style="margin-bottom: 15px;">닉네임</label>
-                        <input class="form-control" type="text" placeholder="${loginUser.memberNickName}" id="nickname" style="margin-bottom: 20px;">
+                        <input class="form-control" type="text" placeholder="${loginUser.memberNickName}" name="memberNickName" value="${loginUser.memberNickName}" id="nickname" style="margin-bottom: 20px;">
                         <label for="email" style="margin-bottom: 15px;">이메일</label>
-                        <input class="form-control" type="email" placeholder="${loginUser.memberEmail}" id="email">
+                        <input class="form-control" type="email" placeholder="${loginUser.memberEmail}" name="memberEmail" id="email" value="${loginUser.memberEmail}">
                         <label for="phone" style="margin-bottom: 24px; padding-top: 23px;">핸드폰번호</label>
-                        <input type="text" class="form-control tel" maxlength="13" id="phone" placeholder="${loginUser.memberPhone}">
+                        <input type="text" class="form-control tel" maxlength="13" id="phone" placeholder="${loginUser.memberPhone}" name="memberPhone" value="${loginUser.memberPhone}">
+                        <input type="hidden" name="memberId" value="${loginUser.memberId}"/> 
                     </div>
                        
                         
 
-                </form>
+                
                     <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#myModal" style="width: 448px; margin-bottom: 25px;">회원탈퇴</button>
                     <div class="edit-btns">
                         <input type="button" class="btn btn-light" value="뒤로가기" onclick="history.back(-1);" style="width: 216px;">
                         <button type="submit" class="btn btn-secondary" style="width: 216px; padding-left: 16px; ">저장</button>
                     </div>
-
+                </form>
                 </div>
 
             </div>
@@ -88,25 +99,5 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 			</div>
 
 
-
-
-
-                    <!--핸드폰 번호 스크립트-->
-        <script type="text/javascript">
-            $('.tel').keydown(function(event) {
-                var key = event.charCode || event.keyCode || 0;
-                $text = $(this);
-                if (key !== 8 && key !== 9) {
-                    if ($text.val().length === 3) {
-                        $text.val($text.val() + '-');
-                    }
-                    if ($text.val().length === 8) {
-                        $text.val($text.val() + '-');
-                    }
-                }
-        
-                return (key == 8 || key == 9 || key == 46 || (key >= 48 && key <= 57) || (key >= 96 && key <= 105));          
-            });
-        </script>
 </body>
 </html>

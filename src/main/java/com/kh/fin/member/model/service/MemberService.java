@@ -13,10 +13,6 @@ public interface MemberService {
 	//회원가입 서비스 (insert)
 	int insertMember(Member m);
 	
-	//회원정보수정서비스 (update)
-	int updateMember(Member m);
-	
-
 	
 	//아이디중복체크 서비스 (select)
 	int idCheck(String checkId);
@@ -329,9 +325,17 @@ public interface MemberService {
 	//친구삭제
 	public int friendDelete(Member m);
 	
+	//친구 삭제 후 친구리스트
 	public ArrayList refriendDelete(int mno);
 	
+	//프로필 수정페이지 저장버튼 눌렀을 때
+	int updateMember(Member m);
 	
+	//프로필 수정 후 다시그려주는 메서드 (select)
+	Member reloginMember(String memberId);
+	
+	//친구요청 거절 눌렀을 때
+	int rejectFriend(Member m, int friendNo);
 	
 	
 }

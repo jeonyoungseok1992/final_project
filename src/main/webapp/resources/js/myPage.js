@@ -330,11 +330,11 @@ function fdList(memberNo) {
 
 
 //받은 친구요청 리스트
-function fdRequest(memberNo) {
+function fdRequest(mNo) {
     $.ajax({
         url: "friendRequest.me",
         data: {
-            memberNo: memberNo
+            memberNo: mNo
         },
         success: function (list) {
 
@@ -350,9 +350,9 @@ function fdRequest(memberNo) {
                         <span style="font-size: 20px; margin-left: 10px;">${m.memberNickName}</span>
                     </div>
                     <div>
-                        <a href="#" style="font-size: 18px;">수락</a>
+                        <a href="acceptFriend.me" style="font-size: 18px;">수락</a>
                         <span style="font-size: 18px;">|</span>
-                        <a href="#" style="font-size: 18px;">거절</a>
+                        <a href="" onclick="rejectFriend(${m.memberNo})" style="font-size: 18px;">거절</a>
                     </div>	
                 </div>
                 `
@@ -365,6 +365,42 @@ function fdRequest(memberNo) {
             console.log("friendList ajax통신 실패");
         }
     })
+}
+
+function rejectFriend(memberNo){
+    console.log(memberNo);
+    $.ajax({
+        url: "rejectFriend.me",
+        data: {
+            friendNo: memberNo
+        },
+        success: function (list) {
+            let profileImg = m.memberProfileImg ? m.memberProfileImg : "/mapping/resources/images/profile.png";
+
+            let str = "";
+            for (m of list) {
+                str += `
+                    <div id="myfriend">
+                    <div>
+                        <img class="title-img2" src="${profileImg}" >
+
+                        <span style="font-size: 20px; margin-left: 10px;">${m.memberNickName}</span>
+                    </div>
+                    <div>
+                        <a href="acceptFriend.me" style="font-size: 18px;">수락</a>
+                        <span style="font-size: 18px;">|</span>
+                        <a href="" onclick="rejectFriend(${m.memberNo})" style="font-size: 18px;">거절</a>
+                    </div>	
+                </div>
+                `
+            }
+
+        },
+        error: function () {
+            console.log("friendList ajax통신 실패");
+        }
+    })
+
 }
 
 

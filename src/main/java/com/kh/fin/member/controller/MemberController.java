@@ -406,7 +406,6 @@ public class MemberController {
 			m.setMemberProfileImg("resources/member_upfile/" + changeName);
 		}
 		Member updateMember = memberService.updateProfileImg(m);
-		System.out.println(updateMember);
 		session.setAttribute("loginUser", updateMember);
 		
 		return updateMember;
@@ -443,17 +442,11 @@ public class MemberController {
 //회원탈퇴
 	@RequestMapping("/delete.me")
 	public String deleteMember(Member m, HttpSession session, String userPwd) {
-		System.out.println(111);
 		//1. 암호화된 비밀번호 가져오기
 		String encPwd = ((Member)session.getAttribute("loginUser")).getMemberPwd();
-		System.out.println(encPwd);
-		System.out.println(m.getMemberPwd());
-		System.out.println(userPwd);
 		if(bcryptPasswordEncoder.matches(userPwd, encPwd)) {
 			// 비밀번호 일치 => 탈퇴가능
-			System.out.println(222);
 			int result = memberService.deleteMember(m);
-			System.out.println(result);
 			if(result > 0) { // 탈퇴처리 성공
 				session.removeAttribute("loginUser");
 				session.setAttribute("alertMsg", "탈퇴가 성공적으로 이루어졌습니다.");
@@ -487,8 +480,6 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value="phoneIdCheck.me", produces="application/json; charset=UTF-8")
 	public Member phoneIdCheck(Member m) {
-		System.out.println(m);
-		System.out.println(memberService.phoneIdCheck(m));
 		
 		return memberService.phoneIdCheck(m);
 	}
@@ -499,12 +490,10 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value="friendList.me", produces="application/json; charset=UTF-8")
 	public ArrayList<Member> friendList(Member m) {
-
-		System.out.println(memberService.friendList(m));
 		return memberService.friendList(m);
 	}
 	
-	
+	//마이페이지 친구요청 목록 리스트
 	@ResponseBody
 	@RequestMapping(value="friendRequest.me", produces="application/json; charset=UTF-8")
 	public ArrayList<Member> friendRequest(Member m) {
@@ -513,7 +502,7 @@ public class MemberController {
 		return memberService.friendRequest(m);
 	}
 	
-	
+	//마이페이지 친구삭제 눌렀을 때 친구목록 리스트
 	@ResponseBody
 	@RequestMapping(value="refriendDelete.me", produces="application/json; charset=UTF-8")
 	public ArrayList<Member> refriendDelete(Member m, HttpSession session) {
@@ -527,16 +516,49 @@ public class MemberController {
 		return list;
 	}
 	
+	//프로필 회원정보 수정페이지 저장버튼 눌렀을 때
+	@RequestMapping("/update.me")
+	public String updateMember(Member m, HttpSession session, Model model, String memberId) {
+	
+	
+		
+		int result= memberService.updateMember(m);
+		
+		
+		
+			if(result > 0) {
+				session.setAttribute("alertMsg", "성공적으로 회원정보가 수정되었습니다.");
+				Member loginUser = memberService.reloginMember(memberId);
+				session.setAttribute("loginUser", loginUser);
+				
+				return "redirect:/profileEdit.me";
+			} else {
+				model.addAttribute("errorMsg", "회원정보수정 실패");
+				return "common/errorPage";
+		  }
+	    }
+	
+	//친구 거절버튼 눌렀을 때
+	@ResponseBody
+	@RequestMapping(value="rejectFriend.me", produces="application/json; charset=UTF-8")
+	public ArrayList<Member> rejectFriend(int friendNo, HttpSession session) {
+		ArrayList<Member> list = null;
+		Member m = ((Member)session.getAttribute("loginUser"));
+		int res = memberService.rejectFriend(m, friendNo);
+		System.out.println(res);
+		if(res > 0) {
+			System.out.println("옴");
+			list = memberService.friendRequest(m);
+		}
+		
+		return list;
+	}
+
+
 	
 	
 	
-//	@ResponseBody
-//	@RequestMapping(value="friendDelete.me", produces="application/json; charset=UTF-8")
-//	public int friendDelete(Member m, @RequestParam(value="memberNo") int memberNo) {
-//		System.out.println("도착");
-//		System.out.println(memberNo);
-//		return memberService.friendDelete(m);
-//	}
+	
 	
 	
 	
