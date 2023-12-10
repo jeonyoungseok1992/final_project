@@ -1,5 +1,8 @@
 package com.kh.fin.board.controller;
 
+
+import org.json.simple.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -9,22 +12,30 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+
 import com.kh.fin.board.model.service.BoardService;
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.common.template.Pagenation;
+import com.kh.fin.member.model.vo.Member;
 
 @Controller
 public class BoardController {
@@ -117,7 +128,232 @@ public class BoardController {
 	}
 	
 	
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//마이페이지 같이 가요 리스트업
+	@ResponseBody
+	@RequestMapping(value="myTogetherList.bo", produces="application/json; charset=UTF-8")
+	public JSONObject myTogetherList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv, Member m){
+
+		PageInfo pi = Pagenation.getPageInfo(boardService.myTogetherListCount(m), currentPage, 10, 5);
+
+		JSONObject obb = new JSONObject();
+		obb.put("pi",pi);
+		obb.put("list",boardService.myTogetherList(pi, m));
+		System.out.println(boardService.myTogetherList(pi, m));
+
+
+		return obb;
+	}
+	
+	//마이페이지 후기 리스트업
+	@ResponseBody
+	@RequestMapping(value="myReviewList.bo", produces="application/json; charset=UTF-8")
+	public JSONObject myReviewList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv, Member m){
+
+		PageInfo pi = Pagenation.getPageInfo(boardService.myReviewListCount(m), currentPage, 10, 5);
+
+		JSONObject obj = new JSONObject();
+		obj.put("pi",pi);
+		obj.put("list",boardService.myReviewList(pi, m));
+
+
+		return obj;
+	}
+	
+	
+
 @RequestMapping("togetherSearch.bo")
+
 	public ModelAndView searchTogetherList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv , Board b){
 		
 		PageInfo pi = Pagenation.getPageInfo(boardService.selectTogetherListCount(), currentPage, 5, 12);
@@ -130,6 +366,7 @@ public class BoardController {
 		return mv;
 	}
 	
+
 
 	@ResponseBody
 	@RequestMapping(value="scheduleList.bo", produces="application/json; charset=utf-8")
@@ -315,7 +552,7 @@ public class BoardController {
 	
 	
 	
-	
+
 	
 	
 	
@@ -406,4 +643,5 @@ public class BoardController {
 	
 	
 	
+
 }

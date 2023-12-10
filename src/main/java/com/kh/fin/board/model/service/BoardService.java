@@ -6,6 +6,7 @@ import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.common.model.vo.PageInfo;
+import com.kh.fin.member.model.vo.Member;
 
 public interface BoardService {
 
@@ -104,8 +105,218 @@ public interface BoardService {
 	// 같이가요 게시글 리스트 조회
 	ArrayList<Board> selectTogetherList(PageInfo pi);
 	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 마이페이지 같이가요 리스트업을 위한 카운트 함수
+	int myTogetherListCount(Member m);
+
+	// 마이페이지 같이가요 게시글 리스트 조회
+	ArrayList<Board> myTogetherList(PageInfo pi, Member m);
+	
+	
+	// 마이페이지 후기 리스트업을 위한 카운트 함수
+	int myReviewListCount(Member m);
+
+	// 마이페이지 후기 게시글 리스트 조회
+	ArrayList<Board> myReviewList(PageInfo pi, Member m);
+
 	//같이가요 키워드 검색
 	ArrayList<Board> togetherSearchList(Board b, PageInfo pi);
+
 	
 
 	//글쓰기 누르면 ajax호출해서 나의 일정리스트 가져오기
@@ -232,6 +443,7 @@ public interface BoardService {
 	ArrayList<Plan> selectOneTripPlan(int tripPlanNo);
 	
 	
+
 
 
 }

@@ -25,6 +25,8 @@ public class Board {
 	private int boardTripPlanNo;
 	private int boardCategory;
 	private String attachement;
+	private Date tripStartDate;
+	private Date tripEndDate;
 	private String keyword;
 	private String condition;
 	private String boardStatus;
@@ -38,6 +40,7 @@ public class Board {
 	private String attractionChangeNameImg;
 	private int memberNo;
 	private int regionNo;
+
 	
 	
 }
