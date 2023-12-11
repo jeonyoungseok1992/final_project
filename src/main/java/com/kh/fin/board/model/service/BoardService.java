@@ -343,9 +343,11 @@ public interface BoardService {
 	//같이가요 게시판 댓글 추가
 	int ajaxInsertTogetherReply(Reply r);
 	
+	//같이가요 게시판 댓글 삭제
+	int ajaxDeleteTogetherReply(Reply r);
 	
-	
-	
+	//같이가요 게시판 댓글 수정
+	int ajaxUpdateTogetherReply(Reply r);
 	
 	
 	

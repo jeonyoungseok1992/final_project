@@ -204,12 +204,8 @@ function drawPlanChild(tripPlan){
   function reDraw() {
     $.ajax({
         url: "reDraw.bo",
-        data : {"tripPlanNo" : boardValue.selectPlan.tripPlanNo,
+        data : {tripPlanNo : boardValue.selectPlan.tripPlanNo,
         },
-        anyne: true,
-        type: "POST",
-        contentType: 'application/json',
-        dataType: "json",
         success: function (list) {
           console.log(list)
             const tansList = transScheduleList(list);
@@ -227,23 +223,26 @@ function reDrawPlan(tmpList) {
     let str4 = "";
     let map = document.getElementById('map');
     let ndayContent = document.getElementById('ndayContent');
-    map.empty();
-    ndayContent.empty();
-    str3 += `<img src="${tmpList[0].tripPlanThumbnail}" alt="" style="width: 100%; height: 100%;">`;
-    for (let i in tmpList) {
-        str4 +=
-            `<c:forEach var="i" begin="1" end="${tmpList[tmpList.size() - 1].tripNday}" step="1">
-                <div class="nDay">i일차</div>
-                <div class="location">
-                    <c:forEach var="p" items="${tmpList}">
-                        <c:choose>
-                            <c:when test ="i eq p.tripNday}">
-                                <div class="location-img"><img src="${p.attractionChangeNameImg}" alt="전주"></div>
-                            </c:when>
-                        </c:choose>
-                    </c:forEach>
-                </div>
-            </c:forEach>`;
+    const attractions = tmpList[0].attractionList;
+    console.log(attractions);
+    map.innerHTML = str3;
+    ndayContent.innerHTML = str4;
+    str3 += `<img src="`+tmpList[0].tripPlanThumbnail+`" alt="" style="width: 100%; height: 100%;">`;
+
+    for(let a in attractions){
+       str4 += `
+                 <div class="nDay">${a}일차
+                 <div class="location">`;
+
+            for(b of attractions[a]){
+                str4 += `
+                    <div class="location-img"><img src="`+b.attractionChangeNameImg+`" alt="장소"></div>
+                    
+                     `;
+                
+            }   
+         str4 += `</div>
+                    </div>`;   
     }
     map.innerHTML = str3;
     ndayContent.innerHTML = str4;

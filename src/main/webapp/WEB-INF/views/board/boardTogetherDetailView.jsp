@@ -90,9 +90,9 @@
                  
     
                 
-                <section id="title-area">
+            <section id="title-area">
                      <!--제목-->
-                    <div id="board-title">
+                <div id="board-title">
                         <c:if test="${loginUser.memberNo eq list[0].memberNo}">
                         <div class="dropdown">
                             <i class="bi bi-pencil-square dropdown-toggle" type="button" data-bs-toggle="dropdown"
@@ -103,6 +103,8 @@
                             </ul>
                         </div>
                         </c:if>
+
+                        <!--board제목부분 컨텐츠 영역-->
                         <table class="detail-content">
                             <tr id="detail-category">
                                 <th id="main-category">같이가요 게시판</th>
@@ -142,17 +144,14 @@
                                     <th><span class="board-createDate">${list[0].boardModifyDate}</span></th>
                                 </tr>
                             </tr>
-
                         </table>
 
-
-
-                            <!--내용-->
-                        <div id="main-content">
-                            <p class="bd-content">
-                                <span>${list[0].boardContent}</span>
-                            </p>
+                    <!--내용-->
+                    <div id="main-content">
+                        <div class="bd-content" >
+                            <span>${list[0].boardContent}</span>
                         </div>
+                    
 
                         <div id="like-warn">
                             <tr>
@@ -168,13 +167,10 @@
                                     </button>
                                 </th>
                             </tr>
-                         
-
                         </div>
 
-
+                     
                         <table id="replyArea" class="table" align="center">
-                            <thead>
                                 <c:choose>
                                     <c:when test="${ empty loginUser }">
                                         <tr>
@@ -194,100 +190,40 @@
 
                                             <th style="vertical-align:middle; width: 80px;" >
                                                 <button class="btn btn-secondary" style="background: #b2d8b5; border: #b2d8b5;" onclick="addReply()">
-                                                 	   등록
+                                                        등록
                                                 </button>
                                             </th>
                                         </tr>
-                                        </form>
                                     </c:otherwise>
                                 </c:choose>  
 
                                 <tr>
                                     <th style="border: none; vertical-align:middle;"
-                                     colspan="3">댓글(<span id="rcount">${rlist.size()}</span>)</th>
+                                     colspan="3">댓글(<span id="rcount"></span>)</th>
                                 </tr>   
-
-                               <table align="center"  class="reply-area" style="vertical-align:middle;">
-                                
-                                       
-                                        
-                                        <!-- The Modal -->
-                                        <div class="modal fade" id="reportModal">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content style">
-                                            
-                                                    <!-- Modal Header -->
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">신고하기</h4>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                    </div>
-                                            
-                                                    <!-- Modal body -->
-                                                    <div class="modal-body">
-                                                        <div class="layer-contents" id="report">
-                                                            <div class="dl-type">
-                                                                <dl>
-                                                                    <dt><strong>아이디</strong></dt>
-                                                                    <dd>홍길동</dd>
-                                                                </dl>
-                                                                <dl>
-                                                                    <dt><strong>내용</strong></dt>
-                                                                    <dd><p>이것도 여행계획이라고 짠건가? ㅉㅉ 이것도 여행계획이라고 짠건가? ㅉㅉ</p></dd>
-                                                                </dl>
-                                                            </div>
-                                                            <br>
-                                                            <fieldset class="form">
-                                                                <legend>신고정보입력</legend>
-                                                                <div class="form-check-map-group">
-                                                                    <div class="form-check-map checked"><input type="radio" name="report" id="report01" checked=""><label for="report01">광고 / 홍보성 댓글</label></div>
-                                                                    <div class="form-check-map"><input type="radio" name="report" id="report02"><label for="report02">욕설 / 반말 /부적절한 언어</label></div>
-                                                                    <div class="form-check-map"><input type="radio" name="report" id="report03"><label for="report03">음란성 메시지</label></div>
-                                                                    <div class="form-check-map"><input type="radio" name="report" id="report04"><label for="report04">기타</label></div>
-                                                                </div>
-                                                                <div class="form-control-map">
-                                                                    <textarea name="" id="" title="신고사유 입력" cols="" rows="7" placeholder="기타 신고사유를 입력해주세요."></textarea>
-                                                                    <div class="bytes">0 / 500 자</div>
-                                                                </div>
-                                                                <p class="report-text">댓글 신고 사유를 선택해주세요.<br>
-                                                                    신고 후 관리자에게 신고 사항이 전달됩니다.</p>
-                                                            </fieldset>
-                                                        </div>
-                                                        <div class="layer-btns">
-                                                            <button type="button" class="btn-lg-line cancel" data-bs-dismiss="modal">취소</button>
-                                                            <button type="button" class="btn-lg-solid confirm">신고하기</button>
-                                                        </div>
-                                                    </div>
-                                
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                    
-
+                            </table>
+                               
+                                <!--댓글영역-->
+                                <table align="center"  class="reply-area" style="vertical-align:middle;">
 
                                </table> 
 
-                              
-                            </thead>
+                    
+                    </div>      
+                    <!--메인 영역 끝-->
 
-                            
 
 
-                            
-                        </table>
-
-                     </div>
-
-                     
+             
     
 
-
+                    </div>
+                    <!--board-title 영역 끝-->
                 </section>
 
                 
                 <script>
-
+                    var listlength ='';
                 function selectReply(){
                     $.ajax({
                         url : "togetherRlist.bo",
@@ -295,7 +231,7 @@
                             boardNo : '${list[0].boardNo}'
                         },
                         success : function(rlist){
-                            console.log(rlist);
+                            $('#rcount').text(rlist.length);
                             let str = '';
 
                             if(rlist.length === 0){
@@ -303,10 +239,10 @@
                             } 
                             for(reply of rlist){
                                str += `
-                                    <tr id="reply-profile">    
-                                        <th id="rp-profile-img" style="width: 80px; "> 
+                                        <tr class="reply-profile">
+                                        <th class="rp-profile-img" style="width: 80px; "> 
                                             <div>
-                                            <img src="` + reply.memberProfileImg + `" 
+                                            <img  src="` + reply.memberProfileImg + `" alt="프로필없음" 
                                             type="button" class="btn btn-primary dropdown-toggle" 
                                             data-bs-toggle="dropdown"
                                             style="background: none; border: none;
@@ -321,21 +257,28 @@
                                                 <li><a class="dropdown-item" href="#">대화화기</a></li>
                                             </ul>
                                         </div></th>
-                                        <th>`+reply.replyWriter+`</th>
-                                        <th style="width: 100px;">`+reply.replyModifyDate+`</th>
-                                    </tr>
 
-                                    <tr>
-                                        <td id="reply-content" colspan="2">`+reply.replyContent+`</td>
-                                          
-                                        <td colspan="1" >
-                                           
-
-                                            <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="reply-warn">
+                                        <th>` +reply.replyWriter+ `</th>
+                                        <th style="width: 150px;">`+ reply.replyModifyDate + `</th>
+                                </tr>
+                               
+                                    <tr>`+
+                                        `<td class="reply-content" colspan="2">` + reply.replyContent+ `</td>`;
+                                   
+                                   
+                                 if(!(reply.replyWriter === "${loginUser.memberId}")) {         
+                                   str += ` <td colspan="1" id="reply-warn-area">
+                                         <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="reply-warn">
                                                 <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
                                             </button>
-                                        </td>
-                                </tr>
+
+
+
+
+                                            
+                                        </td>`;
+                                    }
+                                str += ` </tr>
 
     
 
@@ -344,10 +287,24 @@
                                     <button class="btn btn-secondary" style="background: #b2d8b5; border: #b2d8b5;">
                                             답글
                                     </button>
+                                    `;
+
+
+                            if(reply.replyWriter === "${loginUser.memberId}") {
+                                str +=`
+                                <button class="btn btn-secondary" data-bs-toggle='modal' data-bs-target='#replyUpdateModal' style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+reply.replyNo+`)">수정</button>
+                                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myModal" style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+reply.replyNo+`)">
+                                            삭제
+                                        </button>`;
+                            }
+                            
+                                    
+                            str +=`
                                 </th>
                             </tr>
-                            `
+                            `;
                             }
+                         
                             $(".reply-area").html(str);
                     
                         },
@@ -356,6 +313,8 @@
                         }
                     })
                 }
+
+                
                 
 
                 //댓글을 추가해주는 메서드
@@ -380,11 +339,142 @@
                     })
                 }
                 </script>
+                <script>
+                    function togetherReplyDelete(num) {
+                    $.ajax({
+                        url : "togetherReplyDelete.bo",
+                        data : {
+                            replyBoardNo : '${list[0].boardNo}',
+                            replyNo : num,
+                        },
+                        success : function(res){
+                            if(res === "success")
+                            selectReply();
+                        },
+                        error:function(){
+                            console.log("togetherRlist.bo ajax 통신 실패");
+                        }
+                    })
+                }
 
-              
+                </script>
+
+              <!-- The Modal -->
+              <div class="modal fade" id="reportModal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content style">
+                
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">신고하기</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="layer-contents" id="report">
+                                <div class="dl-type">
+                                    <dl>
+                                        <dt><strong>아이디</strong></dt>
+                                        <dd>홍길동</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt><strong>내용</strong></dt>
+                                        <dd><p>이것도 여행계획이라고 짠건가? ㅉㅉ 이것도 여행계획이라고 짠건가? ㅉㅉ</p></dd>
+                                    </dl>
+                                </div>
+                                <br>
+                                <fieldset class="form">
+                                    <legend>신고정보입력</legend>
+                                    <div class="form-check-map-group">
+                                        <div class="form-check-map checked"><input type="radio" name="report" id="report01" checked=""><label for="report01">광고 / 홍보성 댓글</label></div>
+                                        <div class="form-check-map"><input type="radio" name="report" id="report02"><label for="report02">욕설 / 반말 /부적절한 언어</label></div>
+                                        <div class="form-check-map"><input type="radio" name="report" id="report03"><label for="report03">음란성 메시지</label></div>
+                                        <div class="form-check-map"><input type="radio" name="report" id="report04"><label for="report04">기타</label></div>
+                                    </div>
+                                    <div class="form-control-map">
+                                        <textarea name="" id="" title="신고사유 입력" cols="" rows="7" placeholder="기타 신고사유를 입력해주세요."></textarea>
+                                        <div class="bytes">0 / 500 자</div>
+                                    </div>
+                                    <p class="report-text">댓글 신고 사유를 선택해주세요.<br>
+                                        신고 후 관리자에게 신고 사항이 전달됩니다.</p>
+                                </fieldset>
+                            </div>
+                            <div class="layer-btns">
+                                <button type="button" class="btn-lg-line cancel" data-bs-dismiss="modal">취소</button>
+                                <button type="button" class="btn-lg-solid confirm">신고하기</button>
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
         
-
+            <!-- 댓글 삭제 모달 Modal -->
+            <div class="modal fade" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content" style="margin-top: 300px;">
+                
+                        <!-- Modal body -->
+                        <div class="modal-body" style="font-size: 18px; font-weight: 500; text-align: center;">
+                            댓글을 정말 삭제하시겠습니까?
+                        </div>
+                
+                        <!-- Modal footer -->
+                        <div class="modal-footer" style="display: flex; justify-content: center;">
+                            <input type="hidden" name="replyNo" class="updateReplyNo">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background: lightgray; width: 200px; height: 50px; border: none; ">Cancle</button>
+                            <button id="footerBtn" type="button" onclick="togetherReplyDelete(document.querySelector('.updateReplyNo').value)" class="btn btn-secondary" style="background: #b2d8b5; width: 200px; height: 50px; border: none;" data-bs-dismiss="modal">Ok</button>
+                        </div>
+                
+                    </div>
+                </div>
+            </div>
           
+             <!-- 댓글 수정용 Modal -->
+				    <div class="modal fade" id="replyUpdateModal">
+				        <div class="modal-dialog modal-dialog-centered">
+			               <div class="modal-content">
+			           				
+				                   <!-- Modal Header -->
+				                   <div class="modal-header" style="border-bottom: none; padding: 24px;">
+				                   		<h4 class="modal-title updatest" style="display: block; text-align: center; width: 100%;">댓글 수정</h4>
+						                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+						           </div>
+						        
+					                <!-- Modal body -->
+					                <div class="modal-body delete" align="center" style="padding: 24px;">
+                                            <input type="hidden" name="replyNo" class="updateReplyNo">
+					                    	 <textarea name="replyContent" rows="10" style="resize: none;width: 350px;" placeholder="수정할 댓글 내용을 입력하세요" required></textarea>
+					                    	<button type="submit" data-bs-dismiss="modal" class="btn btn-sm btn-danger updatest" onclick="updateTogetherReply(document.querySelector('.updateReplyNo').value)">수정하기</button>
+					                </div>
+					            </div>
+				        </div>
+				    </div> 
+                    
+                  <script>
+                    function updateTogetherReply (replyNo){
+                        $.ajax({
+                            url : "togetherReplyUpdate.bo",
+                            data : {
+                                replyBoardNo : '${list[0].boardNo}',
+                                replyNo : replyNo,
+                                replyContent : document.querySelector('[name="replyContent"]').value,
+                            },
+                            success : function(res){
+                                if(res === "success")
+                                selectReply();
+                                document.querySelector('[name="replyContent"]').value = '';
+                            },
+                            error:function(){
+                                console.log("togetherRlist.bo ajax 통신 실패");
+                            }
+                        })
+                    }
+                    function numinit(num){
+                        document.querySelector('.updateReplyNo').value = num;
+                    }
+                  </script>  
 
 
         </body>
