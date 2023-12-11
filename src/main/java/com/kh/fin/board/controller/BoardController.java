@@ -1,37 +1,22 @@
 package com.kh.fin.board.controller;
 
 
-import org.json.simple.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
-
-
-import javax.servlet.http.HttpSession;
-
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-
 import org.springframework.web.servlet.ModelAndView;
-
 import com.google.gson.Gson;
-
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.google.gson.Gson;
-
 import com.kh.fin.board.model.service.BoardService;
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
@@ -739,6 +724,31 @@ public class BoardController {
 	
 	
 	
+	
+	
+	
+	
+	@RequestMapping(value="/goPlan.bo")
+	public String goPlan() {
+		return "board/boardScheduleMake2";
+	}
+	
+	
+	
+	
+	
+	
+	
+//	@RequestMapping("makePlan.bo")
+//	public ModelAndView makePlan(LocationInfomation loca, Member m, HttpSession session, ModelAndView mv){
+//		HashMap<String,Object> map = new HashMap();
+//		map.put("loca", loca);
+//		map.put("m", m);
+//		mv.addObject("list", boardService.makePlan(map))
+//		.setViewName("board/togetherEnrollForm");
+//		
+//		return mv;
+//	}
 	
 
 	

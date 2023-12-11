@@ -2,6 +2,7 @@ package com.kh.fin.board.model.service;
 
 import java.util.ArrayList;
 
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,10 +13,9 @@ import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.common.model.vo.PageInfo;
 
-import com.kh.fin.board.model.vo.Board;
+
 import com.kh.fin.board.model.vo.Plan;
-import com.kh.fin.board.model.vo.Reply;
-import com.kh.fin.common.model.vo.PageInfo;
+
 import com.kh.fin.member.model.vo.Member;
 
 @Service
@@ -1226,6 +1226,12 @@ public class BoardServiceImpl implements BoardService{
 
 	
 	
+
+//	public ArrayList<LocationInfomation> makePlan(HashMap<String,Object> map){
+//	
+//	return boardDao.makePlan(sqlSession, map);
+//	}
+
 	
 	@Override
 	public Board selectReviewBoard(int boardNo) {
@@ -1394,4 +1400,5 @@ public class BoardServiceImpl implements BoardService{
 	
 	
 	
+
 }

@@ -7,7 +7,6 @@ import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.common.model.vo.PageInfo;
 
-
 import com.kh.fin.member.model.vo.Member;
 
 public interface BoardService {
@@ -461,6 +460,7 @@ public interface BoardService {
 
 
 
-
+	// 메인페이지 일정만들기 시작
+//	ArrayList<LocationInfomation> makePlan(HashMap<String,Object> map);
 
 }
