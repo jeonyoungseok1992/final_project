@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<form%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,35 +29,47 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
         </div>
 
 
-
-        <form class="search-area" method="get" action="search.bo" name="condition" id="searchForm">
-            <div class="sel-search">
-                <select class="form-select">
-                    <option value="region">지역</option>
-                    <option value="title">제목</option>
-                    <option value="content">내용</option>
-                    <option value="writer">작성자</option>
-                </select>
-            </div>
-            <div class="inp-search">
-                <input type="text" placeholder="검색어를 입력하세요" name="keyword">
-                <button>검색</button>
+        <form action="reviewSearch.bo" method="get">
+            <div class="search-area" >
+                <div class="sel-search">
+                    <select class="form-select" name="condition">
+                        <option value="region">지역</option>
+                        <option value="title">제목</option>
+                        <option value="content">내용</option>
+                        <option value="writer">작성자</option>
+                    </select>
+                </div>
+                <div class="inp-search">
+                    <input type="text" placeholder="검색어를 입력하세요" name="keyword" value="${keyword}">
+                    <button type="submit">검색</button>
+                </div>
             </div>
         </form>
 
-
-
+        <c:if test="${not empty condition}">
+	        <script type="text/javascript">
+	        	window.onload = function(){
+	        		const opt = document.querySelector(".search-area[value=${condition}]");
+	        		opt.setAttribute("selected", true);
+	        	}
+	        </script>
+        </c:if>
 
         <div class="borad-btn-top">
             
             <div><span>총</span>
-                   ${pi.listCount}
-                <span>건</span></div>
+                ${fn:length(list)}
+                <span>건</span>
+            </div>
+
+            <c:if test="${not empty loginUser}">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#myschedulelistModal" id="writeBtn">글쓰기</button>
+                <br>
+            </c:if>
 
 
-              <c:if test="${not empty loginUser}">
-       				<button type="button" data-bs-toggle="modal" data-bs-target="#myschedulelistModal">글쓰기</button>
-              </c:if>
+           
+           
 
             <!-- 글쓰기버튼 클릭시 나의 모든일정 보여주는 modal -->
             <div class="modal fade" id="myschedulelistModal">
@@ -285,43 +297,44 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 
                   </div>
               </div>
-          </div>
-          		<!-- 글쓰기버튼 클릭시 나의 모든일정 보여주는 modal -->
-        	</div>
+            </div>
+                    <!-- 글쓰기버튼 클릭시 나의 모든일정 보여주는 modal -->
+            </div>
         	
         	
-		<div >
+	
 		   
-	          <div class="cards-wrap">
-	          <c:forEach var="b" items="${list}">
-	              <div class="cards"  onclick="location.href='detail.bo?bno=${b.boardNo}'">
-	                <a>
-	                    <div class="card-photo ">
-	                      <img src="./resources/images/card_samplex`_01.jpg">
-	                  </div>
-	                <div class="card-desc">
-	                    <h2 class="card-title">${b.boardTitle}</h2>
-	                    <div class="card-text">
-	                      ${b.boardContent}
-	                    </div>
-	                    <div class="card-counts">
-	                        <span>
-	                          ${b.boardWriter}
-	                        </span>
-	                        <span style="padding: 0 1px;">|</span>
-	                        <span>
-	                          ${b.boardCreateDate}
-	                        </span>
-	                    </div>
-	                  </div>
-	                </a>
-	              </div>
-	            </c:forEach>
-	              
-         	</div>   
+        <div class="cards-wrap">
+            <c:forEach var="b" items="${list}">
+                <div class="cards" onclick="location.href='detail.bo?bno=${b.boardNo}'">
+                <a>
+                    
+                    <div class="card-photo ">
+                        <img src="resources/images/card_samplex`_01.jpg">
+                    </div>
+                <div class="card-desc">
+                    <h2 class="card-title">${b.boardTitle}</h2>
+                    <div class="card-text">
+                        ${b.boardContent}
+                    </div>
+                    <div class="card-counts">
+                        <span>
+                            ${b.boardWriter}
+                        </span>
+                        <span style="padding: 0 1px;">|</span>
+                        <span>
+                            ${b.boardCreateDate}
+                        </span>
+                    </div>
+                    </div>
+                </a>
+                </div>
+            </c:forEach>
+                
+        </div>   
 		
 		
-		</div>
+		
      
         
         
@@ -334,11 +347,11 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                    <li class="tr-page-prev disabled"><a class="page-link" href="#">이전</a></li>
                        </c:when>
                        <c:otherwise>
-                          <li class="tr-page-prev"><a class="page-link" href="list.bo?cpage=${pi.currentPage - 1}">이전</a></li>
+                          <li class="tr-page-prev"><a class="page-link" href="review.bo?cpage=${pi.currentPage - 1}">이전</a></li>
                        </c:otherwise>
              </c:choose>
              <c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
-                       <li class="tr-current"><a class="page-link" href="list.bo?cpage=${p}">${p}</a></li>
+                       <li class="tr-current"><a class="page-link" href="review.bo?cpage=${p}">${p}</a></li>
                   </c:forEach>
                   
                   <c:choose>
@@ -346,19 +359,11 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                          <li class="tr-page-next disabled"><a class="page-link" href="#">다음</a></li>
                     </c:when>
                     <c:otherwise>
-                          <li class="tr-page-next"><a class="page-link" href="list.bo?cpage=${pi.currentPage + 1}">다음</a></li>
+                          <li class="tr-page-next"><a class="page-link" href="review.bo?cpage=${pi.currentPage + 1}">다음</a></li>
                        </c:otherwise>
                  </c:choose>
               </ul>
         </div>
-        
-        
-         
-        
-        
-        
-        
-        
         
     </main>
     <script>

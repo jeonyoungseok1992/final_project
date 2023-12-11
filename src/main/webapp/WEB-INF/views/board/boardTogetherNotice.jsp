@@ -47,7 +47,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 	                <button type="submit">검색</button>
 	            </div>
 	           </div>
-            </form>
+        </form>
         
         <c:if test="${not empty condition}">
 	        <script type="text/javascript">
@@ -59,6 +59,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
         </c:if>
         <div class="borad-btn-top">
             <div><span>총</span><span>${fn:length(list)}</span><span>건</span></div>
+
             <c:if test="${!(empty loginUser) }">
                 <button type="button" data-bs-toggle="modal" data-bs-target="#myschedulelistModal" onclick="pickupSchedule(${loginUser.memberNo})">글쓰기</button>
             </c:if>

@@ -1,34 +1,22 @@
 package com.kh.fin.board.controller;
 
 
-import org.json.simple.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
-
-
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import org.springframework.web.servlet.ModelAndView;
-
 import com.google.gson.Gson;
-
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.google.gson.Gson;
-
 import com.kh.fin.board.model.service.BoardService;
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
@@ -126,7 +114,6 @@ public class BoardController {
 		
 		return mv;
 	}
-	
 	
 
 
@@ -352,8 +339,7 @@ public class BoardController {
 	
 	
 
-@RequestMapping("togetherSearch.bo")
-
+	@RequestMapping("togetherSearch.bo")
 	public ModelAndView searchTogetherList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv , Board b){
 		
 		PageInfo pi = Pagenation.getPageInfo(boardService.selectTogetherListCount(), currentPage, 5, 12);
@@ -661,6 +647,107 @@ public class BoardController {
 	}
 	
 	
+	@RequestMapping("reviewSearch.bo")
+	public ModelAndView searchReviewList(@RequestParam(value="cpage",defaultValue = "1")int currentPage, 
+			ModelAndView mv, Board b)	{
+		
+		PageInfo pi = Pagenation.getPageInfo(boardService.selectReviewListCount(), currentPage, 5, 12);
+		
+		
+		mv.addObject("pi", pi)
+		.addObject("list", boardService.searchReviewList(b,pi))
+		.setViewName("board/boardReviewNotice");
+		
+		return mv;
+	}
+	
+	
+	@RequestMapping("detail.bo")
+	public String detailReview(int bno, HttpSession session) {
+		
+		
+		
+			Board b = boardService.selectReviewBoard(bno);
+			
+			session.setAttribute("b", b);
+			
+			return "board/boardDetailView";
+
+	
+		}
+	
+	
+	
+	
+
+
+	@ResponseBody
+	@RequestMapping(value="reviewRlist.bo", produces = "application/json; charset = UTF-8")
+	public String ajaxSelectReplyList(int bno) {
+		 ArrayList<Reply>list= boardService.selectReply(bno);
+		 
+		 return new Gson().toJson(list);
+	}
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(value="rinsert.bo")
+	public String ajaxInsertReply(Reply r) {
+
+	
+		
+		
+		return  boardService.insertReviewReply(r) > 0 ? "success" :"fail";
+	}
+	
+	
+	
+	//후기 댓글 수정하기
+	@ResponseBody
+	@RequestMapping(value="reviewReplyUpdate.bo")
+	public String ajaxUpdateReviewReply(Reply r)  {
+		int result = boardService.updateReivewReply(r);
+		
+		System.out.println(result);
+		if(result > 0 ) {
+			return "success";
+		}else {
+			return "fail";
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value="/goPlan.bo")
+	public String goPlan() {
+		return "board/boardScheduleMake2";
+	}
+	
+	
+	
+	
+	
+	
+	
+//	@RequestMapping("makePlan.bo")
+//	public ModelAndView makePlan(LocationInfomation loca, Member m, HttpSession session, ModelAndView mv){
+//		HashMap<String,Object> map = new HashMap();
+//		map.put("loca", loca);
+//		map.put("m", m);
+//		mv.addObject("list", boardService.makePlan(map))
+//		.setViewName("board/togetherEnrollForm");
+//		
+//		return mv;
+//	}
 	
 
 	
