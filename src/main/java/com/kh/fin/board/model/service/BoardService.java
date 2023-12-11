@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.common.model.vo.PageInfo;
+import com.kh.fin.board.model.vo.Reply;
 
 public interface BoardService {
 
 	
-	//게시글 조회수증가(update)
-	int increaseCount(int boardNo);
+
 	
 
 	
@@ -197,15 +197,29 @@ public interface BoardService {
 	
 	
 	
-	//게시글 총 갯수 가져오기
+	//Review게시글 총 갯수 가져오기
 	int selectReviewListCount();
 	
-	//게시글 리스트 조회
+	//Review게시글 리스트 조회
 	ArrayList<Board> selectReviewList(PageInfo pi);
 	
+	//Review게시글 키워드로 조회
+	ArrayList<Board> searchReviewList(Board b,PageInfo pi);
 	
-	//게시글상세조회
-	Board selectListBoard(int boardNo);
+	//Review게시글 상세조회
+	Board selectReviewBoard(int boardNo);
 	
+	
+	//댓글리스트 조회
+		ArrayList<Reply> selectReply(int bno);
+		
+	//댓글 작성
+	int insertReviewReply(Reply r);
+	
+	//댓글 업데이트
+	int updateReivewReply(Reply r);
+	
+
+
 
 }

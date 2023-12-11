@@ -73,6 +73,7 @@
     justify-content: space-between;
     margin: 40px 88px 0 88px;
     align-items: center;
+    position: relative;
 }
 .borad-btn-top div > span{
     font-size: 16px;
@@ -171,4 +172,9 @@
 }
 .tr-page-next.disabled{
 	display: none;
+}
+
+#writeBtn{
+position: absolute;
+right: 15px;
 }
