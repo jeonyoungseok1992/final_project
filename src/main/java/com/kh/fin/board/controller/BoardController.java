@@ -437,7 +437,6 @@ public class BoardController {
 	
 	@RequestMapping("togetherInsert.bo")
 	public String insertTogetherBoard(Board b, HttpSession session, Model model) {
-		System.out.println(b);
 		int result = boardService.insertTogetherBoard(b);
 		if(result > 0) { //성공 => 같이가요 리스트 페이지 재요청
 			session.setAttribute("alertMsg", "같이가요 게시글 작성 완료");
