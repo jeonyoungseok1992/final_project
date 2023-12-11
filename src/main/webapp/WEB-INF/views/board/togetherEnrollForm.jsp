@@ -57,7 +57,7 @@
                 <c:forEach var="i" begin = "1" end = "${maxNday}" step="1">
 
                         <div class="nDay">${i}일차</div>
-                
+                        
 
                         <div class="location">
                             <c:forEach var="p" items="${list }">

@@ -89,7 +89,7 @@ display: flex;
 
 #board-title {
     width: 1100px;
-    height: 1200px;
+    min-height: 1200px;
     margin: 0 auto;
     position: relative;
     border-radius: 8px;          
@@ -145,7 +145,7 @@ th{
 
 #main-content{
     width: 1100px;
-    height: 500px;
+    min-height: 500px;
     padding: 30px;
     
 }
@@ -153,6 +153,7 @@ th{
 .bd-content{
     font-size: 24px;
     line-height: 1.6;
+    min-height: 350px;
     
 }
 
@@ -209,20 +210,20 @@ th{
     position: relative;
 }
 
-#reply-profile{
+.reply-profile{
     resize: none;
 }
 
-#rp-profile-img{
+.rp-profile-img{
     padding: 5px;
 }
 
-#reply-content{
+.reply-content{
     padding: 15px;
     width: 920px;
 }
 
-#re-reply{
+.re-reply{
 padding: 15px;
 vertical-align:middle;
 width: 80px;
@@ -230,11 +231,15 @@ width: 80px;
 }
 
 
-#reply-warn{
+.reply-warn{
     display: flex;
     position: absolute;
     bottom: 20px;
     right: 30px;
+}
+#reply-warn-area{
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -437,4 +442,5 @@ transform: translate3d(10px, 205.5px, 0px)!important;
     height: 50px;
     border-radius: 50%; 
 }
+
     

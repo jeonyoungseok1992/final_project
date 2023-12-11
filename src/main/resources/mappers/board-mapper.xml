@@ -346,8 +346,21 @@
 	</insert>
 	
 	
+	<!-- 같이가요 댓글 삭제 관련 sql -->
+		<update id="ajaxDeleteTogetherReply">
+			UPDATE REPLY
+				SET REPLY_STATUS ='N'
+			WHERE REPLY_BOARD_NO = #{replyBoardNo}
+			AND REPLY_NO = #{replyNo} 
+		</update>
 	
-	
+	<!-- 같이가요 댓글 수정 관련 sql -->
+		<update id="ajaxUpdateTogetherReply">
+			UPDATE REPLY
+				SET REPLY_CONTENT =#{replyContent}
+			WHERE REPLY_BOARD_NO = #{replyBoardNo}
+			AND REPLY_NO = #{replyNo} 
+		</update>
 	
 	
 	

@@ -167,6 +167,18 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.ajaxInsertTogetherReply(sqlSession,r);
 	}
 	
+	@Override
+	public int ajaxDeleteTogetherReply(Reply r) {
+		return boardDao.ajaxDeleteTogetherReply(sqlSession,r);
+	}
+	
+	@Override
+	public int ajaxUpdateTogetherReply(Reply r) {
+		
+		return boardDao.ajaxUpdateTogetherReply(sqlSession,r);
+	}
+	
+	
 	
 	
 	
@@ -1063,6 +1075,156 @@ public class BoardServiceImpl implements BoardService{
 
 		return boardDao.myReviewList(sqlSession,pi, m);
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
 	

@@ -155,8 +155,13 @@ public class BoardDao {
 		return sqlSession.insert("boardMapper.ajaxInsertTogetherReply",r);
 	}
 	
+	public int ajaxDeleteTogetherReply(SqlSessionTemplate sqlSession,Reply r) {
+		return sqlSession.update("boardMapper.ajaxDeleteTogetherReply",r);
+	}
 	
-	
+	public int ajaxUpdateTogetherReply(SqlSessionTemplate sqlSession,Reply r) {
+		return sqlSession.update("boardMapper.ajaxUpdateTogetherReply",r);
+	}
 	
 	
 	

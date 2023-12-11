@@ -510,7 +510,6 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value="reDraw.bo", produces="application/json; charset=utf-8")
 	public String ajaxReDrawSchedule(@RequestParam(value="tripPlanNo") int tripPlanNo) {
-		
 		ArrayList<Plan> list = boardService.selectOneTripPlan(tripPlanNo);
 		
 		return new Gson().toJson(list);
@@ -538,7 +537,33 @@ public class BoardController {
 		
 	}
 	
+	//같이가요 댓글 삭제하기
+	@ResponseBody
+	@RequestMapping(value="togetherReplyDelete.bo")
+	public String ajaxDeleteTogetherReply(Reply r)  {
+		int result = boardService.ajaxDeleteTogetherReply(r);
+		
+		if(result > 0 ) {
+			return "success";
+		}else {
+			return "fail";
+		}
+		
+	}
 	
+	//같이가요 댓글 수정하기
+		@ResponseBody
+		@RequestMapping(value="togetherReplyUpdate.bo")
+		public String ajaxUpdateTogetherReply(Reply r)  {
+			int result = boardService.ajaxUpdateTogetherReply(r);
+			
+			if(result > 0 ) {
+				return "success";
+			}else {
+				return "fail";
+			}
+			
+		}
 	
 	
 	
