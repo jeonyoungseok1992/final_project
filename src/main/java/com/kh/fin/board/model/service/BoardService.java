@@ -1,10 +1,12 @@
 package com.kh.fin.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.common.model.vo.PageInfo;
+import com.kh.fin.data.vo.LocationInfomation;
 import com.kh.fin.member.model.vo.Member;
 
 public interface BoardService {
@@ -432,6 +434,7 @@ public interface BoardService {
 	// plan max day가져오기
 	int countMaxPlanDay(int tripPlanNo);
 
-
+	// 메인페이지 일정만들기 시작
+//	ArrayList<LocationInfomation> makePlan(HashMap<String,Object> map);
 
 }

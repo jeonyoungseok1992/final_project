@@ -1,6 +1,7 @@
 package com.kh.fin.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import com.kh.fin.board.model.dao.BoardDao;
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.common.model.vo.PageInfo;
+import com.kh.fin.data.vo.LocationInfomation;
 import com.kh.fin.member.model.vo.Member;
 
 @Service
@@ -673,7 +675,8 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	
-	
-	
-	
+//	public ArrayList<LocationInfomation> makePlan(HashMap<String,Object> map){
+//	
+//	return boardDao.makePlan(sqlSession, map);
+//	}
 }

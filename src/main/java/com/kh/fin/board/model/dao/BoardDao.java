@@ -1,6 +1,7 @@
 package com.kh.fin.board.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.common.model.vo.PageInfo;
+import com.kh.fin.data.vo.LocationInfomation;
 import com.kh.fin.member.model.vo.Member;
 
 @Repository
@@ -471,6 +473,8 @@ public class BoardDao {
 		return (ArrayList)sqlSession.selectList("boardMapper.myReviewList",m,rowBounds);
 	}
 	
-	
+//	public ArrayList<LocationInfomation> makePlan(SqlSessionTemplate sqlSession, HashMap<String,Object> map){
+//		return sqlSession.insert("boardMapper.makePlan", map);
+//	}
 	
 }
