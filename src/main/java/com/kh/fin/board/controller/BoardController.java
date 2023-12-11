@@ -1,39 +1,26 @@
 package com.kh.fin.board.controller;
 
 
-import org.json.simple.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
-
-
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import org.springframework.web.servlet.ModelAndView;
-
 import com.google.gson.Gson;
-
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
 import com.kh.fin.board.model.service.BoardService;
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
+import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.common.template.Pagenation;
 import com.kh.fin.member.model.vo.Member;
@@ -127,7 +114,6 @@ public class BoardController {
 		
 		return mv;
 	}
-	
 	
 
 
@@ -353,8 +339,7 @@ public class BoardController {
 	
 	
 
-@RequestMapping("togetherSearch.bo")
-
+	@RequestMapping("togetherSearch.bo")
 	public ModelAndView searchTogetherList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv , Board b){
 		
 		PageInfo pi = Pagenation.getPageInfo(boardService.selectTogetherListCount(), currentPage, 5, 12);
@@ -438,7 +423,6 @@ public class BoardController {
 	
 	@RequestMapping("togetherInsert.bo")
 	public String insertTogetherBoard(Board b, HttpSession session, Model model) {
-		System.out.println(b);
 		int result = boardService.insertTogetherBoard(b);
 		if(result > 0) { //성공 => 같이가요 리스트 페이지 재요청
 			session.setAttribute("alertMsg", "같이가요 게시글 작성 완료");
@@ -448,9 +432,135 @@ public class BoardController {
 			return "errorPage/500page";
 		}
 		
+	}
+	
+	
+	@RequestMapping("togetherDetail.bo")
+	public String selectTogetherBoard(int boardNo, Model model){
+		
+		ArrayList<Board> list = boardService.selectTogetherBoard(boardNo);
+		
+		if(!(list == null) ) {
+			
+			model.addAttribute("list",list);
+			
+			return "board/boardTogetherDetailView";
+		}else {
+			model.addAttribute("errorMsg", "같이가요 게시글 조회 실패");
+			return "errorPage/500page";
+		}
+	}
+	
+	@RequestMapping("updateTogetherForm.bo")
+	public String updateTogetherForm(int boardNo, Model model ) {
+		//현재 내가 수정하기를 클릭한 같이가요 게시글에 대한 정보를 가지고 이동
+		model.addAttribute("list",boardService.selectTogetherBoard(boardNo));
+		
+		return "board/togetherUpdateForm";
+	}
+	
+	@RequestMapping("togetherUpdate.bo")
+	public String updateTogetherBoard(Board b, HttpSession session, Model model) {
+		int result = boardService.updateTogetherBoard(b);
+		//b객체 update
+		
+		//성공유무 확인 후 페이지 리턴
+		if(result >0) {
+			session.setAttribute("alertMsg", "게시글 수정 완료");
+			return "redirect:togetherDetail.bo?boardNo="+b.getBoardNo();
+		}else {
+			model.addAttribute("errorMsg", "게시글 수정 실패"); // model은 리퀘스트 영역이라 재요청 방식으로는 데이터를 담아 보내줄 수 없다.
+			return "errorPage/500page";
+		}
+		
+	}
+	@RequestMapping("togetherDelete.bo")
+	public String togetherDeleteBoard(int boardNo, HttpSession session, Model model) {
+		
+		int result = boardService.togetherDeleteBoard(boardNo);
+		
+		if(result > 0) {//삭제 성공
+			
+			session.setAttribute("alertMsg", "게시글 삭제에 성공하였습니다.");
+			return "redirect:together.bo";
+			
+		}else {
+			model.addAttribute("errorMsg", "게시글 삭제 실패");
+			return "errorPage/500page";
+		}
 		
 		
 	}
+	//일정 수정 버튼 눌렀을때 다시 그려주는
+	@ResponseBody
+	@RequestMapping(value="reDraw.bo", produces="application/json; charset=utf-8")
+	public String ajaxReDrawSchedule(@RequestParam(value="tripPlanNo") int tripPlanNo) {
+		ArrayList<Plan> list = boardService.selectOneTripPlan(tripPlanNo);
+		
+		return new Gson().toJson(list);
+	}
+	
+	// 같이가요 댓글 그려주기 
+	@ResponseBody
+	@RequestMapping(value="togetherRlist.bo", produces="application/json; charset=utf-8")
+	public String selectTogetherReplyList(@RequestParam(value="boardNo") int boardNo) {
+		ArrayList<Reply> rlist = boardService.selectTogetherReplyList(boardNo);
+		
+		return new Gson().toJson(rlist);
+	}
+	//같이가요 댓글 넣어주기
+	@ResponseBody
+	@RequestMapping(value="togetherRinsert.bo")
+	public String ajaxInsertTogetherReply(Reply r) {
+		int result = boardService.ajaxInsertTogetherReply(r);
+		
+		if(result > 0 ) {
+			return "success";
+		}else {
+			return "fail";
+		}
+		
+	}
+	
+	//같이가요 댓글 삭제하기
+	@ResponseBody
+	@RequestMapping(value="togetherReplyDelete.bo")
+	public String ajaxDeleteTogetherReply(Reply r)  {
+		int result = boardService.ajaxDeleteTogetherReply(r);
+		
+		if(result > 0 ) {
+			return "success";
+		}else {
+			return "fail";
+		}
+		
+	}
+	
+	//같이가요 댓글 수정하기
+		@ResponseBody
+		@RequestMapping(value="togetherReplyUpdate.bo")
+		public String ajaxUpdateTogetherReply(Reply r)  {
+			int result = boardService.ajaxUpdateTogetherReply(r);
+			
+			if(result > 0 ) {
+				return "success";
+			}else {
+				return "fail";
+			}
+			
+		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 	
@@ -537,6 +647,107 @@ public class BoardController {
 	}
 	
 	
+	@RequestMapping("reviewSearch.bo")
+	public ModelAndView searchReviewList(@RequestParam(value="cpage",defaultValue = "1")int currentPage, 
+			ModelAndView mv, Board b)	{
+		
+		PageInfo pi = Pagenation.getPageInfo(boardService.selectReviewListCount(), currentPage, 5, 12);
+		
+		
+		mv.addObject("pi", pi)
+		.addObject("list", boardService.searchReviewList(b,pi))
+		.setViewName("board/boardReviewNotice");
+		
+		return mv;
+	}
+	
+	
+	@RequestMapping("detail.bo")
+	public String detailReview(int bno, HttpSession session) {
+		
+		
+		
+			Board b = boardService.selectReviewBoard(bno);
+			
+			session.setAttribute("b", b);
+			
+			return "board/boardDetailView";
+
+	
+		}
+	
+	
+	
+	
+
+
+	@ResponseBody
+	@RequestMapping(value="reviewRlist.bo", produces = "application/json; charset = UTF-8")
+	public String ajaxSelectReplyList(int bno) {
+		 ArrayList<Reply>list= boardService.selectReply(bno);
+		 
+		 return new Gson().toJson(list);
+	}
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(value="rinsert.bo")
+	public String ajaxInsertReply(Reply r) {
+
+	
+		
+		
+		return  boardService.insertReviewReply(r) > 0 ? "success" :"fail";
+	}
+	
+	
+	
+	//후기 댓글 수정하기
+	@ResponseBody
+	@RequestMapping(value="reviewReplyUpdate.bo")
+	public String ajaxUpdateReviewReply(Reply r)  {
+		int result = boardService.updateReivewReply(r);
+		
+		System.out.println(result);
+		if(result > 0 ) {
+			return "success";
+		}else {
+			return "fail";
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value="/goPlan.bo")
+	public String goPlan() {
+		return "board/boardScheduleMake2";
+	}
+	
+	
+	
+	
+	
+	
+	
+//	@RequestMapping("makePlan.bo")
+//	public ModelAndView makePlan(LocationInfomation loca, Member m, HttpSession session, ModelAndView mv){
+//		HashMap<String,Object> map = new HashMap();
+//		map.put("loca", loca);
+//		map.put("m", m);
+//		mv.addObject("list", boardService.makePlan(map))
+//		.setViewName("board/togetherEnrollForm");
+//		
+//		return mv;
+//	}
 	
 
 	

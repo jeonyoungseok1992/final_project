@@ -26,14 +26,14 @@
         <link rel="stylesheet" href="./resources/css/grade.css">
         <link rel="stylesheet" href="./resources/css/scheduleListModal.css">
         <link rel="stylesheet" href="./resources/css/board-card.css">
-        <link rel="stylesheet" href="./resources/css/boardEnrollForm.css">
+        <link rel="stylesheet" href="./resources/css/togetherUpdateForm.css">
         
-
         <!--카카오 지도 api 토큰-->
         <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46465c1e54053b370d7b004cf8ed3df6"></script>
-        <script src="./resources/js/togetherEnrollForm.js"></script>
+        <script src="./resources/js/togetherUpdateForm.js"></script>
         <script src="./resources/js/board-api.js"></script>
+        <script src="./resources/js/boardTogetherNotice.js"></script>
     </head>
 
     <body>
@@ -54,10 +54,10 @@
 
                 <div class="nDay-content" id="ndayContent">
 
-                <c:forEach var="i" begin = "1" end = "${maxNday}" step="1">
+                <c:forEach var="i" begin = "1" end = "${list[list.size() - 1].tripNday}" step="1">
 
                         <div class="nDay">${i}일차</div>
-                        
+                
 
                         <div class="location">
                             <c:forEach var="p" items="${list }">
@@ -81,23 +81,23 @@
 
         </div>
         <div class="notice-up-wrap" align="center">
-            <form action="togetherInsert.bo" id="enroll-form" method="post">
-                <input type="hidden" name="boardWriter" value="${loginUser.memberNo}">
-                <input type="hidden" name="boardTripPlanNo" value="${list[0].tripPlanNo}">
-                <input type="hidden" name="boardRegionNo" value="${list[0].regionNo}">
+            <form action="togetherUpdate.bo" id="enroll-form" method="post">
+                <input type="hidden" name="boardNo" value="${list[0].boardNo}">
+                <input type="hidden" name="boardTripPlanNo" value="${list[0].boardTripPlanNo}">
+                <input type="hidden" name="boardRegionNo" value="${list[0].boardRegionNo}">
                 <dl class="title">
                     <dt><label>제목</label></dt>
-                    <dd><input type="text" name="boardTitle" required></dd>
+                    <dd><input type="text" name="boardTitle" id="titlebox" value="${list[0].boardTitle}" required></dd>
                 </dl>
                 <dl class="content">
                     <dt><label>내용</label></dt>
-                    <dd><textarea name="boardContent" id="summernote" rows="10" style="resize: none;" required></textarea>
+                    <dd><textarea name="boardContent" id="summernote" rows="10" style="resize: none;" required>${list[0].boardContent}</textarea>
                     </dd>
                 </dl>
                 <div class="btn-wrap">
                     <button type="button" onclick="history.back();">뒤로가기</button>
-                    <button type="reset" onclick="sumReset()">초기화</button>
-                    <button type="submit" class="submit">등록하기</button>
+                    <button type="button" onclick="sumReset()">초기화</button>
+                    <button type="submit" class="submit">수정하기</button>
                 </div>
             </form>
         </div>
@@ -143,11 +143,12 @@
 
                 </div>
             </div>
-        </div>
         <!-- 글쓰기버튼 클릭시 나의 모든일정 보여주는 modal -->
 
-    </body>
 
+
+
+    </body>
 
 
     </html>

@@ -22,7 +22,7 @@ map-view박스 가운데정렬, 글자가운데 정렬 */
     display: flex;
     position: absolute;
     right: 15px;
-    top: 0.5;
+    top: 15px;
     z-index: 1;    
 }
 
@@ -35,7 +35,7 @@ map-view박스 가운데정렬, 글자가운데 정렬 */
     display: flex;
     position: absolute;
     right: 10px;
-    top: 0.5;
+    top: 15px;
     z-index: 1; 
 }
 
@@ -219,7 +219,8 @@ th{
 
 #reply-content{
     padding: 15px;
-    width: 920px;
+    max-width: 890px;
+    height: 100%;
 }
 
 #re-reply{
@@ -233,8 +234,10 @@ width: 80px;
 #reply-warn{
     display: flex;
     position: absolute;
-    bottom: 20px;
-    right: 30px;
+    right: 17px;
+    
+    
+
 }
 
 
@@ -252,4 +255,21 @@ width: 80px;
 .dropdown-item:active {
     color:b2d8b5 ; /* 활성 드롭다운 링크의 텍스트 색상을 설정 */
     background-color: white; /* 활성 드롭다운 링크의 배경 색상을 없애기 */
+}
+
+
+#reply-warn-area{
+    display: flex;
+}
+
+.reply-modify{
+    display: flex;
+    float: right;
+ 
+}
+.createDate{
+    max-width: 800px;
+    width: 800px;
+    
+    
 }
