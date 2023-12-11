@@ -30,6 +30,8 @@ public class Board {
 	private String keyword;
 	private String condition;
 	private String boardStatus;
+	private String nameRegion;
+	private int goodCount;
 	private String tripPlanThumbnail;
 	private String boardRegionNo;
 	private int tripPlanNo;

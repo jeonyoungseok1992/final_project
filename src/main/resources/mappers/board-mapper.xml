@@ -25,6 +25,21 @@
 		<result column="ATTRACTION_NO" property="attractionNo"/>
 		<result column="ATTRACTION_NAME" property="attracionName"/>
 		<result column="ATTRACTION_CHANGE_NAME_IMG" property="attractionChangeNameImg"/>
+		 </resultMap>
+
+	<resultMap type="Reply" id="replyResult">
+		<result column="REPLY_NO" property="replyNo"/>
+		<result column="REPLY_BOARD_NO" property="replyBno"/>
+		<result column="REPLY_BOARD_NO" property="replyBoardNo"/>
+		<result column="REPLY_WRITER" property="replyWriter"/>
+		<result column="REPLY_CONTENT" property="replyContent"/>
+		<result column="REPLY_CREATE_DATE" property="replyCreateDate"/>
+		<result column="REPLY_MODIFY_DATE" property="replyModifyDate"/>
+		<result column="REPLY_REPORT" property="replyReport"/>
+		<result column="REPLY_STATUS" property="replyStatus"/>
+		<result column="MEMBER_PROFILE_IMG" property="memberProfileImg"/>
+		<result column="GOOD_NO" property="goodNo"/>
+		
 		 
 	</resultMap>
 		<resultMap type="Plan" id="planResult">
@@ -43,18 +58,7 @@
 		<result column="REGION_NAME" property="regionName"/>
 		<result column="TRIP_N_DAY" property="tripNday"/>
 	</resultMap>
-	
-	<resultMap type="Reply" id="replyResult">
-		<result column="REPLY_NO" property="replyNo"/>
-		<result column="REPLY_BOARD_NO" property="replyBoardNo"/>
-		<result column="REPLY_WRITER" property="replyWriter"/>
-		<result column="REPLY_CONTENT" property="replyContent"/>
-		<result column="REPLY_CREATE_DATE" property="replyCreateDate"/>
-		<result column="REPLY_MODIFY_DATE" property="replyModifyDate"/>
-		<result column="REPLY_REPORT" property="replyReport"/>
-		<result column="REPLY_STATUS" property="replyStatus"/>
-		<result column="MEMBER_PROFILE_IMG" property="memberProfileImg"/>
-	</resultMap>
+
 				
 	
 	
@@ -437,30 +441,128 @@
 		SELECT COUNT(*)
 		FROM BOARD
 		WHERE BOARD_CATEGORY = 1
+		AND BOARD_STATUS = 'Y'
 		
 	</select>
 	
 	<!-- 후기 게시글 조회 쿼리문 -->
 	<select id="selectReviewList" resultMap="boardResult">
-	    SELECT 	BOARD_NO,
+		SELECT   BOARD_NO
+				,BOARD_TITLE
+		        ,BOARD_CONTENT
+		        ,MEMBER_ID
+		        ,BOARD_CREATE_DATE
+		FROM 	BOARD
+		join member on (BOARD_WRITER = MEMBER_NO)
+		where BOARD_CATEGORY = 1
+		AND BOARD_STATUS = 'Y'
+		
+		ORDER BY BOARD_CREATE_DATE DESC
+	</select>
+	
+	
+	
+	<select id="searchReviewList" resultMap="boardResult">
+		select   B.BOARD_NO
+				,B.BOARD_TITLE
+		        ,B.BOARD_CONTENT
+		        ,M.MEMBER_ID
+		        ,B.BOARD_CREATE_DATE
+		        ,R.REGION_NAME
+		      
+		from board B
+		join member M on (B.BOARD_WRITER = M.MEMBER_NO)
+		join REGION R on (B.BOARD_REGION_NO= R.REGION_NO)
+		
+		where B.BOARD_CATEGORY = 1
+		AND B.BOARD_STATUS = 'Y'
+		<choose>
+			<when test="condition == 'writer'">
+	  			AND M.MEMBER_ID
+	  		</when>
+	  		
+	  		<when test="condition == 'title'">
+	       		 AND B.BOARD_TITLE 
+	        </when>
+	        
+	        <when test="condition == 'region'">
+	    		 AND R.REGION_NAME 
+	        </when>
+	        
+	        <otherwise>
+	        AND BOARD_CONTENT 
+      	 	</otherwise>
+        </choose>
+        LIKE '%' || #{keyword} || '%'
+        ORDER BY B.BOARD_NO DESC
+	</select>
+	
+	
+	<select id="selectReviewBoard" resultMap="boardResult"> <!-- 객체여서 MAP -->
+		SELECT  BOARD_NO,
 		      	BOARD_TITLE,
-		       	BOARD_WRITER,
-		       	TO_CHAR(BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "BOARD_CREATE_DATE"
-		FROM   	BOARD
+		       	MEMBER_ID,
+		       	BOARD_CONTENT,
+		       	BOARD_CREATE_DATE
+		       	
+		       	
+		FROM    BOARD
+		JOIN 	MEMBER ON (BOARD_WRITER = MEMBER_NO)
 		
-		JOIN MEMBER ON (BOARD_WRITER = MEMBER_NO)
-		
-		WHERE  	BOARD_STATUS = 'Y'
-		AND		BOARD_CATEGORY = 1
-		ORDER  	BY BOARD_NO DESC
-		
+		WHERE   BOARD_STATUS = 'Y'
+		AND		BOARD_NO = #{boardNo}
 	</select>
 	
 	
 	
-	<select id="selectListBoard" resultMap="boardResult"> <!-- 객체여서 MAP -->
-		
+		<!-- 같이가요 댓글 조회 쿼리문 -->
+	<select id="selectReplyList" resultMap="replyResult">
+		SELECT REPLY_NO
+				,REPLY_CONTENT
+				,MEMBER_ID AS "REPLY_WRITER"
+				,TO_CHAR(REPLY_CREATE_DATE, 'YYYY-MM-DD') AS "REPLY_CREATE_DATE"
+				,MEMBER_PROFILE_IMG
+		FROM REPLY
+		JOIN MEMBER ON (REPLY_WRITER = MEMBER_NO)
+		WHERE REPLY_STATUS = 'Y'
+		AND REPLY_BOARD_NO = #{bno}
+		ORDER BY REPLY_NO
 	</select>
+	<!-- 같이가요 댓글추가 -->
+	<insert id="insertReviewReply">
+		INSERT INTO REPLY
+		(
+				REPLY_NO,
+				REPLY_BOARD_NO,
+				REPLY_WRITER,
+				REPLY_CONTENT,
+				REPLY_MODIFY_DATE
+				
+				
+				
+		)
+		VALUES( 
+				SEQ_RNO.NEXTVAL,
+				#{replyBno},
+				#{replyWriter},
+				#{replyContent},
+				#{replyModifyDate}
+				
+				
+		)
+	</insert>
+	
+	
+	
+	<update id="updateReivewReply">
+		UPDATE REPLY
+		
+		SET REPLY_CONTENT = #{replyContent}
+		
+		WHERE REPLY_BOARD_NO = #{replyBno}
+		AND   REPLY_NO = #{replyNo}	
+	
+	</update>
 	
 	
 	
