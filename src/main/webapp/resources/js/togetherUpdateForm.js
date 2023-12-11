@@ -87,8 +87,9 @@ $(document).ready(function()
         function sumReset(){
           // 서머노트 리셋
           $('#summernote').summernote('reset');
+          document.getElementById('titlebox').value='';
         }
-var boardValue = {};
+        var boardValue = {};
 
 
 // ajax로 넘겨주는 함수

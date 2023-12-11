@@ -87,7 +87,7 @@
                    		<button type="button" class="btn-close" data-bs-dismiss="modal" style="position: absolute; top: 20px; right: 20px;"></button>
                    </div>
                    <!-- Modal body -->
-                   <div class="modal-body login" align="center" style="padding: 24px;">
+                   <div class="modal-body login" align="center" style="padding: 24px; ">
 				        <form action="login.me" id="login-form" method="post">
 			                <label align="center">아이디</label>
 			                <input type="text" name="memberId" placeholder="아이디를 입력해주세요" required/>
@@ -190,8 +190,8 @@
     </script>
     <script>
 	    $("#checkEmail").click(function () {
-	        const memberEmail = $("#userEmail").val();
-	        const memberId = $("#userId").val();
+	        const memberEmail = $("#memberEmail").val();
+	        const memberId = $("#memberId").val();
 	        
 	        const sendEmail = document.forms["sendEmail"];
 	        $.ajax({

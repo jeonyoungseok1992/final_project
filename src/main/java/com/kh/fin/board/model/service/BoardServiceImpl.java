@@ -1,7 +1,7 @@
 package com.kh.fin.board.model.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +9,13 @@ import org.springframework.stereotype.Service;
 
 
 import com.kh.fin.board.model.dao.BoardDao;
-
 import com.kh.fin.board.model.vo.Board;
-import com.kh.fin.board.model.vo.Plan;
+import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.common.model.vo.PageInfo;
-import com.kh.fin.data.vo.LocationInfomation;
+
+
+import com.kh.fin.board.model.vo.Plan;
+
 import com.kh.fin.member.model.vo.Member;
 
 @Service
@@ -28,11 +30,6 @@ public class BoardServiceImpl implements BoardService{
 	
 
 
-	@Override
-	public int increaseCount(int boardNo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	
 	
@@ -144,7 +141,40 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.insertTogetherBoard(sqlSession,b);
 	}
 	
+	@Override
+	public ArrayList<Board> selectTogetherBoard(int boardNo) {
+		return boardDao.selectTogetherBoard(sqlSession,boardNo);
+	}
+	@Override
+	public int updateTogetherBoard(Board b) {
+		return boardDao.updateTogetherBoard(sqlSession,b);
+	}
+
+	@Override
+	public int togetherDeleteBoard(int boardNo) {
+		return boardDao.togetherDeleteBoard(sqlSession,boardNo);
+	}
 	
+	@Override
+	public ArrayList<Reply> selectTogetherReplyList(int boardNo) {
+		return boardDao.selectTogetherReplyList(sqlSession,boardNo);
+	}
+
+	@Override
+	public int ajaxInsertTogetherReply(Reply r) {
+		return boardDao.ajaxInsertTogetherReply(sqlSession,r);
+	}
+	
+	@Override
+	public int ajaxDeleteTogetherReply(Reply r) {
+		return boardDao.ajaxDeleteTogetherReply(sqlSession,r);
+	}
+	
+	@Override
+	public int ajaxUpdateTogetherReply(Reply r) {
+		
+		return boardDao.ajaxUpdateTogetherReply(sqlSession,r);
+	}
 	
 	
 	
@@ -231,11 +261,382 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.selectReviewList(sqlSession, pi);
 	}
 
+
+
 	@Override
-	public Board selectListBoard(int boardNo) {
-		
-		return boardDao.selectListBoard(sqlSession, boardNo);
+	public ArrayList<Board> searchReviewList(Board b, PageInfo pi) {
+		return boardDao.searchReviewList(sqlSession,b,pi);
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -673,10 +1074,331 @@ public class BoardServiceImpl implements BoardService{
 
 		return boardDao.myReviewList(sqlSession,pi, m);
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
+
 //	public ArrayList<LocationInfomation> makePlan(HashMap<String,Object> map){
 //	
 //	return boardDao.makePlan(sqlSession, map);
 //	}
+
+	
+	@Override
+	public Board selectReviewBoard(int boardNo) {
+		return boardDao.selectReviewBoard(sqlSession, boardNo);
+	}
+
+	
+
+	
+	
+	@Override
+	public ArrayList<Reply> selectReply(int bno) {
+		return	boardDao.selectReplyList(sqlSession, bno);
+
+	}
+
+	@Override
+	public int insertReviewReply(Reply r) {
+		
+		return boardDao.insertReviewReply(sqlSession, r);
+	}
+
+	
+	@Override
+	public int updateReivewReply(Reply r) {
+		
+		return boardDao.updateReivewReply(sqlSession, r);
+	}
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+
 }
