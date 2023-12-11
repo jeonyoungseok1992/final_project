@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+   String alertMsg = (String)session.getAttribute("alertMsg");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,17 +16,17 @@
    <link rel="stylesheet" href="./resources/css/common.css">
    <link rel="stylesheet" href="./resources/css/font.css">
 	<link rel="stylesheet" href="./resources/css/header.css">
-
+<script src="./resources/js/header.js"></script>
     
 </head>
 <body style="width: 100%; min-width: 1200px; min-height: 100%;">
 
-    <c:if test="${ !empty alertMsg }">
+	<% if(alertMsg != null){ %>
 		<script>
-		alertify.alert('알림', "${alertMsg}");
+		   alert("<%=alertMsg%>");
 		</script>
-		<c:remove var="alertMsg" scope="session"/>
-	</c:if>
+		<% session.removeAttribute("alertMsg");%>
+	 <% }%>
 	
 	<!-- header -->
     <header class="header" id="header">
@@ -52,7 +55,14 @@
 					   <li><a href="together.bo">같이가요</a></li>
 					   <li><a href="review.bo">여행후기</a></li>
 					   <div class="dropdown">
-						<button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown"><img src="${loginUser.memberProfileImg}" alt=""></button>
+					   <c:choose>
+						   <c:when test="${not empty loginUser.memberProfileImg}">
+						   <button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown"><img class="title-img" src="${loginUser.memberProfileImg}" alt=""></button>
+						   </c:when>
+						   <c:otherwise>
+						   <button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown"><img src="/mapping/resources/images/profile.png" alt=""></button>
+						   </c:otherwise>	   
+					   </c:choose>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="chat.bo">1:1 채팅</a></li>
 							<li><a class="dropdown-item" href="mypage.me">마이페이지</a></li>
@@ -101,7 +111,7 @@
 			<div class="modal-content">
 		
 				<!-- Modal Header -->
-			   <div class="modal-header" style="border-bottom: none;padding: 30px;display: block;">
+			   <div id="modal-header" style="border-bottom: none;padding: 30px;display: block;">
 					<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 20px;">
 						 <h4 class="modal-title updatest">아이디 찾기</h4>
 						 <span style="font-size: 15px;" >회원가입시 등록한 휴대전화를 인증하여 아이디를 찾을 수 있습니다.</span>
@@ -109,23 +119,33 @@
 						<button type="button" class="btn-close" data-bs-dismiss="modal" style="position: absolute; top: 20px; right: 20px;"></button>
 				</div>
 				<!-- Modal body -->
-				<div class="modal-body login" align="center" style="padding: 24px;">
-					 <form action="#" class="search-form" method="post">
-						 <label align="center" for="phone">핸드폰번호</label>
-						<div style="display: flex; width: 100%; gap: 10px;">
-						 	<input type="tel" name="phone" id="phone" placeholder="핸드폰번호를입력해주세요(-없이)" required style="width: 300px;"/>
-						 	<button type="submit" class="btn btn-sm btn-secondary updatest edit">인증</button>
-						</div>
-					</form>
-
-					<!-- if문 걸어서 인증번호 맞으면 아이디 알려주기(구현하세요!!!!문의는 임동건에게)-->
-					<form action="#" class="search-form" method="post">
-						 <label align="center" for="serialNum">인증번호</label>
-						 <input type="password" id="serialNum" name="memberPwd" placeholder="인증번호를 입력해주세요" required/>
-						 <button type="submit" class="btn btn-sm btn-secondary updatest">다음</button>
-					 </form>
-
+				<div id="mobileNo2">
+					<tr >
+						<th>
+							<label id="pNumber"  for="phone">휴대폰 번호</label>
+						</th>
+						<td>
+							<p>
+								<div id="p1">
+									<input id="phone" type="text" name="phone" placeholder="전화번호 입력(-제외)" required/>
+									<span id="phoneChk" class="doubleChk">인증번호 보내기</span><br/>
+								</div>
+								<div id="p2">
+									<input id="phone2" type="text" name="phone2" title="인증번호 입력" disabled required/>
+									<span id="phoneChk2" class="doubleChk">본인인증</span>
+									
+								</div>
+								<div class="point successPhoneChk"></div>
+								<input type="hidden" id="phoneDoubleChk"/>
+							</p>
+								<div id="idNext" onclick="idNext()">다음</div>
+						</td>
+					</tr>
 				</div>
+				
+			
+
+
 			</div>
 		</div>
 	</div>

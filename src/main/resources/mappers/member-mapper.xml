@@ -299,13 +299,14 @@
 
 <!-- 프로필이미지 등록 -->
 
-	<update id="updateMember">
+	<update id="updateProfileImg">
       UPDATE MEMBER
          SET 
             MEMBER_PROFILE_IMG = #{memberProfileImg}
       WHERE MEMBER_NO = #{memberNo}
    </update>
    
+
    	<select id="UpdateImgMember" resultMap="memberResult">
 		SELECT MEMBER_NO
             ,MEMBER_ID
@@ -334,19 +335,85 @@
 	</update>
 
    
-   
-   
+
   
   
   
+  <!-- 아이디찾기 -->
+ 	<select id="phoneIdCheck" resultMap="memberResult">
+		SELECT   MEMBER_NO
+	            ,MEMBER_ID
+	            ,MEMBER_PWD
+	            ,MEMBER_NAME
+	            ,MEMBER_NICKNAME
+	            ,MEMBER_EMAIL
+	            ,MEMBER_PHONE
+	            ,MEMBER_PROFILE_IMG
+	            ,MEMBER_CREATE_DATE
+	            ,MEMBER_MODIFY_DATE
+	            ,MEMBER_RIGHT
+	            ,MEMBER_STATUS
+	            ,MEMBER_GRADE
+		FROM MEMBER
+		WHERE MEMBER_PHONE = #{memberPhone}
+		and MEMBER_STATUS = 'Y'
+  </select>
   
   
+    <!-- 마이페이지 친구목록 -->
+	<select id="friendList" resultMap="memberResult">
+		
+		SELECT FRIEND_MEMBER_NO as MEMBER_NO
+	        ,MEMBER_NICKNAME
+	        ,MEMBER_PROFILE_IMG
+		FROM(
+		    SELECT FRIEND_MEMBER_NO
+		    FROM FRIEND 
+		    JOIN MEMBER  using (MEMBER_NO)
+		    WHERE MEMBER_NO = #{memberNo}
+                and friend_status = 'Y')
+		JOIN MEMBER ON (FRIEND_MEMBER_NO = MEMBER_NO)
+	
+
+	</select>
+	
+	<!-- 마이페이지 친구요청목록 -->
+	<select id="friendRequest" resultMap="memberResult">
+		SELECT FROM_MEMBER_NO
+	        ,MEMBER_NICKNAME
+	        ,MEMBER_PROFILE_IMG
+		FROM(
+		    SELECT FROM_MEMBER_NO
+		    FROM FRIEND_LOG
+		    JOIN MEMBER  ON (MEMBER_NO = TO_MEMBER_NO)
+		    WHERE MEMBER_NO = #{memberNo})
+		JOIN MEMBER ON (FROM_MEMBER_NO = MEMBER_NO)
+	</select>
+  
+  <!-- 친구삭제 -->
+  	<update id="friendDelete">
+    UPDATE FRIEND
+        SET FRIEND_STATUS = 'N'
+    WHERE FRIEND_MEMBER_NO = #{memberNo}
+   </update>
   
   
-  
-  
-  
-  
+     <!-- 마이페이지 삭제 후 친구목록 -->
+	<select id="refriendDelete" resultMap="memberResult">
+		
+		SELECT FRIEND_MEMBER_NO as MEMBER_NO
+	        ,MEMBER_NICKNAME
+	        ,MEMBER_PROFILE_IMG
+		FROM(
+		    SELECT FRIEND_MEMBER_NO
+		    FROM FRIEND 
+		    JOIN MEMBER  using (MEMBER_NO)
+		    WHERE MEMBER_NO = #{mno}
+                and friend_status = 'Y')
+		JOIN MEMBER ON (FRIEND_MEMBER_NO = MEMBER_NO)
+	
+
+	</select> 
   
   
   
@@ -588,5 +655,7 @@
       WHERE MEMBER_EMAIL = #{memberEmail}
    </update>
 	
-   
+
 </mapper>
+
+   
