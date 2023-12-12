@@ -379,7 +379,7 @@
 	
 	<!-- 마이페이지 친구요청목록 -->
 	<select id="friendRequest" resultMap="memberResult">
-		SELECT FROM_MEMBER_NO
+		SELECT FROM_MEMBER_NO as MEMBER_NO
 	        ,MEMBER_NICKNAME
 	        ,MEMBER_PROFILE_IMG
 		FROM(
@@ -388,6 +388,7 @@
 		    JOIN MEMBER  ON (MEMBER_NO = TO_MEMBER_NO)
 		    WHERE MEMBER_NO = #{memberNo})
 		JOIN MEMBER ON (FROM_MEMBER_NO = MEMBER_NO)
+		WHERE MEMBER_STATUS = 'Y'
 	</select>
   
   <!-- 친구삭제 -->
@@ -415,7 +416,7 @@
 
 	</select> 
 	
-	
+
 	<!--  프로필 수정 쿼리문 -->
 	<update id="updateMember">
       UPDATE MEMBER
@@ -456,10 +457,7 @@
    </update>
   
   
-  
-  
-  
-  
+
   
   
   

@@ -1,6 +1,8 @@
 package com.kh.fin.member.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -344,17 +346,34 @@ public class MemberDao {
 	public ArrayList friendRequest(SqlSessionTemplate sqlSession, Member m) {
 		return (ArrayList)sqlSession.selectList("memberMapper.friendRequest",m);
 	}
-	
+	//친구삭제
 	public int friendDelete(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.update("memberMapper.friendDelete", m);
 	}
-	
+	//친구 삭제 후 친구리스트
 	public ArrayList refriendDelete(SqlSessionTemplate sqlSession, int mno) {
 		return (ArrayList)sqlSession.selectList("memberMapper.refriendDelete", mno);
 	}
 	
-
+	//프로필 수정페이지 저장버튼 눌렀을 때
+	public int updateMember(SqlSessionTemplate sqlSession,Member m) {
+		return sqlSession.update("memberMapper.updateMember",m);
+	}
+	//프로필 수정 후 다시그려주는 메서드 (select)
+	public Member reloginMember(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.selectOne("memberMapper.loginMember", memberId);
+		
+	}
 	
+	//친구요청 거절 눌렀을 때
+	public int rejectFriend(SqlSessionTemplate sqlSession, Member m, int friendNo) {
+		System.out.println("다오 옴");
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("m", m);
+	    paramMap.put("friendNo", friendNo);
+	    System.out.println("paramMap: " + paramMap);
+		return sqlSession.update("memberMapper.rejectFriend", paramMap);
+	}
 	
 	
 

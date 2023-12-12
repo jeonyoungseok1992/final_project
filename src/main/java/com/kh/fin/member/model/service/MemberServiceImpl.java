@@ -31,17 +31,6 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	
-
-	@Override
-	public int updateMember(Member m) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-
-	
-	
 	@Override
 	public int insertMember(Member m) {
 		return memberDao.insertMember(sqlSession, m);
@@ -441,17 +430,36 @@ public class MemberServiceImpl implements MemberService{
 		
 		return memberDao.friendRequest(sqlSession, m);
 	}
+	//마이페이지 친구 삭제
 	@Override
 	public int friendDelete(Member m) {
 		
 		return memberDao.friendDelete(sqlSession, m);
 	}
+	
+	//친구 삭제 후 리스트업
 	@Override
 	public ArrayList refriendDelete(int mno) {
 		return memberDao.refriendDelete(sqlSession, mno);
 	}
 	
+	//프로필수정
+	@Override
+	public int updateMember(Member m) {
+		return memberDao.updateMember(sqlSession, m);
+
+	}
 	
+	//프로필 수정 후 다시그려주는 메서드 (select)
+	public Member reloginMember(String memberId) {
+		return memberDao.reloginMember(sqlSession, memberId);
+	}
 	
+	//친구요청 거절 눌렀을 때
+	@Override
+	public int rejectFriend(Member m, int friendNo) {
+		return memberDao.rejectFriend(sqlSession, m, friendNo);
+
+	}
 
 }
