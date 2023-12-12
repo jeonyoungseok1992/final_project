@@ -109,11 +109,14 @@
     margin-right: 100px;
     overflow-y: scroll;
     height: 577px;
+    display: flex;
+    justify-content:space-evenly;
+
 }
 
 .in-msg, .out-msg{
     display: flex;
-    margin: 20px 0px;
+    margin: 70px 0px;
     
 }
 
@@ -240,7 +243,9 @@
 }
 
 
-
+.chat-main-rignt{
+    padding-top: 60px;
+}
 
 
 

@@ -342,7 +342,6 @@ function selectLocation(scheduleInfo) {
 
     const category = document.createElement('div');
     category.className = 'category';
-    category.id = 'categoryRec';
     tabContent1.appendChild(category);
     const recommendedPlace = toggleButtonUnit({
         className:"toggle",
@@ -419,16 +418,6 @@ function selectLocation(scheduleInfo) {
     
         selectLodging(scheduleInfo);
     }
-
-
-
-
-
-
-
-
-
-
 }
 //******************************************step2**************************************************
 //****************************************side modal**********************************************
@@ -903,17 +892,3 @@ function chooseTransportation() {
     transportationWrap.appendChild(ScheduleCreationBtn);    
 }
 //******************************************step4**************************************************
-
-
-
-
-
-
-
-
-
-
-
-
-
-

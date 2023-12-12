@@ -69,32 +69,12 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                 </div>  
                 <div class="section2-outer">
                     <div class="section2">
-                  
-
-                        
-                        <div class="chat-main-left">
+                        <div class="chat-main">
                             <div class="in-msg">           
                                 <img src="/mapping/resources/images/profile.png" alt="sunil">
                                 <div class="received_msg">
                                     <div class="msg">여행 갈려 말려 갈려 말려 갈려 말려 갈려 말려  </div>
                                     <div class="time_date"> 11:01 AM    |    June 9</div>
-                                </div>
-                            </div>
-                            <div class="in-msg">           
-                                <img src="/mapping/resources/images/profile.png" alt="sunil">
-                                <div class="received_msg">
-                                    <div class="msg">여행 갈려 말려 갈려 말려 갈려 말려 갈려 말려  </div>
-                                    <div class="time_date"> 11:01 AM    |    June 9</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chat-main-rignt">
-                            <div class="out-msg">
-                                <div class="sent_msg">
-                                    <div class="time_date2"> 11:01 AM    |    June 9</div>
-                                    <div class="msg">
-                                        언제?
-                                    </div>
                                 </div>
                             </div>
                             <div class="out-msg">
@@ -106,7 +86,91 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                                 </div>
                             </div>
                         </div>
-
+                        <div class="chat-main">
+                            <div class="in-msg">           
+                                <img src="/mapping/resources/images/profile.png" alt="sunil">
+                                <div class="received_msg">
+                                    <div class="msg">여행 갈려 말려 갈려 말려 갈려 말려 갈려 말려  </div>
+                                    <div class="time_date"> 11:01 AM    |    June 9</div>
+                                </div>
+                            </div>
+                            <div class="out-msg">
+                                <div class="sent_msg">
+                                    <div class="time_date2"> 11:01 AM    |    June 9</div>
+                                    <div class="msg">
+                                        언제?
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-main">
+                            <div class="in-msg">           
+                                <img src="/mapping/resources/images/profile.png" alt="sunil">
+                                <div class="received_msg">
+                                    <div class="msg">여행 갈려 말려 갈려 말려 갈려 말려 갈려 말려  </div>
+                                    <div class="time_date"> 11:01 AM    |    June 9</div>
+                                </div>
+                            </div>
+                            <div class="out-msg">
+                                <div class="sent_msg">
+                                    <div class="time_date2"> 11:01 AM    |    June 9</div>
+                                    <div class="msg">
+                                        언제?
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-main">
+                            <div class="in-msg">           
+                                <img src="/mapping/resources/images/profile.png" alt="sunil">
+                                <div class="received_msg">
+                                    <div class="msg">여행 갈려 말려 갈려 말려 갈려 말려 갈려 말려  </div>
+                                    <div class="time_date"> 11:01 AM    |    June 9</div>
+                                </div>
+                            </div>
+                            <div class="out-msg">
+                                <div class="sent_msg">
+                                    <div class="time_date2"> 11:01 AM    |    June 9</div>
+                                    <div class="msg">
+                                        언제?
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-main">
+                            <div class="in-msg">           
+                                <img src="/mapping/resources/images/profile.png" alt="sunil">
+                                <div class="received_msg">
+                                    <div class="msg">여행 갈려 말려 갈려 말려 갈려 말려 갈려 말려  </div>
+                                    <div class="time_date"> 11:01 AM    |    June 9</div>
+                                </div>
+                            </div>
+                            <div class="out-msg">
+                                <div class="sent_msg">
+                                    <div class="time_date2"> 11:01 AM    |    June 9</div>
+                                    <div class="msg">
+                                        언제?
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-main">
+                            <div class="in-msg">           
+                                <img src="/mapping/resources/images/profile.png" alt="sunil">
+                                <div class="received_msg">
+                                    <div class="msg">여행 갈려 말려 갈려 말려 갈려 말려 갈려 말려  </div>
+                                    <div class="time_date"> 11:01 AM    |    June 9</div>
+                                </div>
+                            </div>
+                            <div class="out-msg">
+                                <div class="sent_msg">
+                                    <div class="time_date2"> 11:01 AM    |    June 9</div>
+                                    <div class="msg">
+                                        언제?
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                          
 
                         

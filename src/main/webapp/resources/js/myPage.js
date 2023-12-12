@@ -104,7 +104,43 @@ function friendDelete() {
 
 
 //프로필 사진누를때 function
-function loadImg(inputFile, memberNo) {
+function loadImg(inputFile, memberNo, profile) {
+
+    const formData = new FormData();
+
+    formData.append('upfile', inputFile.files[0]);
+    formData.append('memberNo', memberNo);
+    formData.append('memberProfileImg', profile);
+
+    $.ajax({
+        type: "POST",
+        enctype: 'multipart/form-data',	// 필수
+        url: "updateImg.me",
+        data: formData,	// 필수
+        processData: false,	// 필수
+        contentType: false,	// 필수
+        cache: false,
+        success: function (mem) {
+
+            //ajax로 이미지변경 요청
+            if (mem !== null) {
+                let len = document.querySelectorAll('.title-img');
+                for (var index = 0; index < len.length; index++) {        
+                len[index].src = mem.memberProfileImg;
+                }
+
+            } else {
+                document.querySelector('.title-img').src = null;
+            }
+
+        },
+        error: function () {
+            console.log("loadImg.me ajax통신 실패");
+        }
+    })
+}
+
+function loadImg2(inputFile, memberNo) {
 
     const formData = new FormData();
 
@@ -138,6 +174,7 @@ function loadImg(inputFile, memberNo) {
         }
     })
 }
+
 
 function chooseFile() {
     document.getElementById("file").click();

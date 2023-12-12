@@ -42,7 +42,14 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 			</c:choose>
 
             <form method="post"enctype="multipart/form-data">
-               <input style="display : none" id="file" type="file" name="upfile" onchange="loadImg(this, ${loginUser.memberNo})" > <br>
+				<c:choose>
+					<c:when test="${!empty loginUser.memberProfileImg}">
+						<input style="display : none" id="file" type="file" name="upfile" onchange="loadImg(this,${loginUser.memberNo},'${loginUser.memberProfileImg}')"> <br>
+					</c:when>
+					<c:otherwise>
+						<input style="display : none" id="file" type="file" name="upfile" onchange="loadImg2(this,${loginUser.memberNo})"> <br>
+					</c:otherwise>
+				</c:choose>
             </form>
 
             

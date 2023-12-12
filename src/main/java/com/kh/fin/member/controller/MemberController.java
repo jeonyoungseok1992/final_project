@@ -402,11 +402,13 @@ public class MemberController {
 
 
 		if (upfile != null && !upfile.getOriginalFilename().equals("")) {
+			System.out.println(m.getMemberProfileImg());
+			deletePreviousProfilePic(m.getMemberProfileImg(), session);
 			String changeName = saveFile(upfile, session);
 			m.setMemberProfileImg("resources/member_upfile/" + changeName);
+			
 		}
 		Member updateMember = memberService.updateProfileImg(m);
-		System.out.println(updateMember);
 		session.setAttribute("loginUser", updateMember);
 		
 		return updateMember;
@@ -443,7 +445,6 @@ public class MemberController {
 //회원탈퇴
 	@RequestMapping("/delete.me")
 	public String deleteMember(Member m, HttpSession session, String userPwd) {
-		System.out.println(111);
 		//1. 암호화된 비밀번호 가져오기
 		String encPwd = ((Member)session.getAttribute("loginUser")).getMemberPwd();
 		System.out.println(encPwd);
@@ -537,6 +538,33 @@ public class MemberController {
 //		System.out.println(memberNo);
 //		return memberService.friendDelete(m);
 //	}
+	
+	  public boolean deletePreviousProfilePic(String previousPicPath, HttpSession session) {
+		  	String savePath = session.getServletContext().getRealPath(previousPicPath);
+		  	System.out.println(savePath);
+	        File previousPic = new File(savePath);
+	        System.out.println(previousPicPath);
+	        if (previousPic.exists()) {
+	            if (previousPic.delete()) {
+	                System.out.println("이전 프로필 사진 삭제 성공");
+	                return true;
+	            } else {
+	                System.out.println("이전 프로필 사진 삭제 실패");
+	                return false;
+	            }
+	        } else {
+	            System.out.println("이전 프로필 사진이 존재하지 않습니다.");
+	            return false;
+	        }
+	    }
+	  
+		@RequestMapping("chat.me")
+		public String login(HttpSession session) {
+			System.out.println("도착");
+			String nick = ((Member)session.getAttribute("loginUser")).getMemberNickName();
+			session.setAttribute("nick", nick);
+			return "common/chat";
+		}
 	
 	
 	
