@@ -43,17 +43,6 @@
             <jsp:include page="../common/header.jsp" />
 
             <div class="schedule-container">
-                <c:if test="${loginUser.memberNo eq list[0].memberNo}">
-                <div class="dropdown">
-                    <i class="bi bi-pencil-square dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false" id="editBtn"></i>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="updateTogetherForm.bo?boardNo=${list[0].boardNo}">일정수정</a></li>
-                        <li><a class="dropdown-item" href="#">취소</a></li>
-                    </ul>
-
-                </div>
-                </c:if>
            
                 <div id="map" ><img src="${list[0].tripPlanThumbnail}" alt="" style="width: 100%; height: 100%;"></div>
                 
