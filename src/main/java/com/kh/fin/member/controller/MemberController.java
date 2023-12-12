@@ -583,10 +583,12 @@ public class MemberController {
 	    }
 	  
 		@RequestMapping("chat.me")
-		public String login(HttpSession session) {
-			System.out.println("도착");
-			String nick = ((Member)session.getAttribute("loginUser")).getMemberNickName();
-			session.setAttribute("nick", nick);
+		public String login(HttpSession session, String youNick) {
+			System.out.println(youNick);
+			String myNick = ((Member)session.getAttribute("loginUser")).getMemberNickName();
+			System.out.println(myNick);
+			session.setAttribute("myNick", myNick);
+			session.setAttribute("youNick", youNick);
 			return "common/chat";
 		}
 	

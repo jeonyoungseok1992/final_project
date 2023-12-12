@@ -1,6 +1,6 @@
 $(document).ready(function () {
  
-    const socket = new WebSocket("ws://localhost:8009/chat/server");
+    const socket = new WebSocket("ws://localhost:8009/mapping/chat");
 
     //socket 연결 성공시
     socket.onopen = function(){
@@ -24,7 +24,7 @@ $(document).ready(function () {
         
         
         
-        const msgContainer = document.querySelector("#msg-container");
+        const msgContainer = document.querySelector("#chat-main-left");
         msgContainer.innerHTML += (receive.name + "(" + receive.time + ")<br>" + receive.msg);
     
     
@@ -44,14 +44,15 @@ $(document).ready(function () {
 
 
 
-function sendMsg(){
+function sendMsg(youNick){
     const msgData = {
-        message : document.querySelector("input[name=msg]").value,
-        target : document.querySelector("input[name=target]").value
+        message : document.querySelector("input[name=chatting]").value,
+        target : youNick
     }
 
     socket.send(JSON.stringify(msgData));
-    
-    document.querySelector("input[name=msg]").value = "";
+    document.querySelector("#chat-main-rignt")
+    = document.querySelector("input[name=chatting]").value;
+    document.querySelector("input[name=chatting]").value = "";
 }
 

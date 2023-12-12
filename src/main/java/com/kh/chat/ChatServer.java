@@ -24,26 +24,26 @@ public class ChatServer extends TextWebSocketHandler {
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		String nick = (String)session.getAttributes().get("nick");
-		log.info("{} 연결됨", nick);
-		userSessions.put(nick, session);
+		String myNick = (String)session.getAttributes().get("myNick");
+		log.info("{} 연결됨", myNick);
+		userSessions.put(myNick, session);
 	}
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		String nick = (String)session.getAttributes().get("nick");
+		String myNick = (String)session.getAttributes().get("myNick");
 		JsonObject obj = new JsonParser().parse(message.getPayload()).getAsJsonObject();
 	
 		MsgVo vo = new MsgVo();
 		vo.setMsg(obj.get("message").getAsString());
-		vo.setName(nick);
+		vo.setName(myNick);
 		vo.setTime(new Date().toLocaleString());
 	
 		sendMessageToUser(obj.get("target").getAsString(), vo);
 	}
 	
-	private void sendMessageToUser(String nick, MsgVo msgVo) {
-		WebSocketSession targetSession = userSessions.get(nick);
+	private void sendMessageToUser(String youNick, MsgVo msgVo) {
+		WebSocketSession targetSession = userSessions.get(youNick);
 		WebSocketSession mySession = userSessions.get(msgVo.getName());
 		
 		if(targetSession != null && targetSession.isOpen()) {
@@ -60,9 +60,9 @@ public class ChatServer extends TextWebSocketHandler {
 
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		String nick = (String)session.getAttributes().get("nick");
-		log.info("{} 연결끊김", nick);
-		userSessions.remove(nick, session);
+		String myNick = (String)session.getAttributes().get("myNick");
+		log.info("{} 연결끊김", myNick);
+		userSessions.remove(myNick, session);
 	}
 	
 

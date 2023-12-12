@@ -72,15 +72,15 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                   
 
                         
-                        <div class="chat-main-left">
-                            <div class="in-msg">           
+                        <div id="chat-main-left">
+                            <div class="in-msg" name="meChat">           
                                 <img src="/mapping/resources/images/profile.png" alt="sunil">
                                 <div class="received_msg">
                                     <div class="msg">여행 갈려 말려 갈려 말려 갈려 말려 갈려 말려  </div>
                                     <div class="time_date"> 11:01 AM    |    June 9</div>
                                 </div>
                             </div>
-                            <div class="in-msg">           
+                            <div class="in-msg" name="yuoChat">           
                                 <img src="/mapping/resources/images/profile.png" alt="sunil">
                                 <div class="received_msg">
                                     <div class="msg">여행 갈려 말려 갈려 말려 갈려 말려 갈려 말려  </div>
@@ -88,7 +88,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                                 </div>
                             </div>
                         </div>
-                        <div class="chat-main-rignt">
+                        <div id="chat-main-rignt">
                             <div class="out-msg">
                                 <div class="sent_msg">
                                     <div class="time_date2"> 11:01 AM    |    June 9</div>
@@ -124,7 +124,8 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                                        <textarea name="chatting" id="summernote" type="text" class="chat-msg-input" placeholder="메세지를 입력해주세요." style="padding-bottom: 20px;">
                                        </textarea>                          
                                    </div>
-                                   <button class="send-button" type="button">Button</button>
+                                   <button class="send-button" onclick="sendMsg(${youNick})">전송</button>
+                                   
                                </div>
                            </form>
                     </div>
