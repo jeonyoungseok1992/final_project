@@ -133,10 +133,11 @@
                                       
                                   </div>
                                   
-                                  
+                                  <button class="btn" id="writeBtn" onclick="reDraw()" data-bs-dismiss="modal">일정선택</button>
                                   </div>
+
                               </div>
-                              <button class="btn" id="writeBtn" onclick="reDraw()" data-bs-dismiss="modal">일정선택</button>
+                              
                           </div>
                         </div>
                     </div>

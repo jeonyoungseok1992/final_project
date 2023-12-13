@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,9 +16,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-import com.google.gson.Gson;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.kh.fin.board.model.service.BoardService;
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
@@ -506,7 +511,43 @@ public class BoardController {
 	public String selectTogetherReplyList(@RequestParam(value="boardNo") int boardNo) {
 		ArrayList<Reply> rlist = boardService.selectTogetherReplyList(boardNo);
 		
-		return new Gson().toJson(rlist);
+		JsonArray replyList = new JsonArray();
+		for (Reply r : rlist) {
+			if(r.getReplyGroup() != 0)
+				continue;
+			
+			JsonObject newReply = new JsonObject();
+			newReply.addProperty("replyNo", r.getReplyNo());
+			newReply.addProperty("memberProfileImg", r.getMemberProfileImg());
+			newReply.addProperty("replyWriter", r.getReplyWriter());
+			newReply.addProperty("replyModifyDate", r.getReplyModifyDate());
+			newReply.addProperty("replyContent", r.getReplyContent());
+			
+			
+			JsonArray replyReList2 = new JsonArray();
+			for (Reply tmpR : rlist) {
+				if(r.getReplyNo() == tmpR.getReplyGroup()) {
+					JsonObject RReply = new JsonObject();
+					RReply.addProperty("replyNo", tmpR.getReplyNo());
+					RReply.addProperty("memberProfileImg", tmpR.getMemberProfileImg());
+					RReply.addProperty("replyWriter", tmpR.getReplyWriter());
+					RReply.addProperty("replyModifyDate", tmpR.getReplyModifyDate());
+					RReply.addProperty("replyContent", tmpR.getReplyContent());
+					RReply.addProperty("replyGroup", tmpR.getReplyGroup());
+					
+					replyReList2.add(RReply);
+				}
+				
+			}
+			newReply.add("rlist", replyReList2);
+			
+			replyList.add(newReply);
+		}
+		
+		
+		
+		
+		return new Gson().toJson(replyList);
 	}
 	//같이가요 댓글 넣어주기
 	@ResponseBody
@@ -549,7 +590,19 @@ public class BoardController {
 			}
 			
 		}
-	
+		//같이가요 대댓글 넣어주기
+		@ResponseBody
+		@RequestMapping(value="togetherRRinsert.bo")
+		public String ajaxInsertTogetherReReply(Reply r) {
+			int result = boardService.ajaxInsertTogetherReReply(r);
+			
+			if(result > 0 ) {
+				return "success";
+			}else {
+				return "fail";
+			}
+			
+		}
 	
 	
 	

@@ -63,6 +63,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             <c:if test="${!(empty loginUser) }">
                 <button type="button" data-bs-toggle="modal" data-bs-target="#myschedulelistModal" onclick="pickupSchedule(${loginUser.memberNo})">글쓰기</button>
             </c:if>
+            
             <!-- 글쓰기버튼 클릭시 나의 모든일정 보여주는 modal -->
             <div class="modal fade" id="myschedulelistModal">
               <div class="modal-dialog modal-dialog-centered">
@@ -94,17 +95,24 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                                         
                                     </div>
                                     
-                                    
-                                    </div>
+                                   
+                                    <div>
+                                	<button class="btn" id="writeBtn" onclick="moveWritePage()" >일정선택</button>   
+                                	</div>
                                 </div>
-                                <button class="btn" id="writeBtn" onclick="moveWritePage()">일정선택</button>
+                                
                             </div>
+                            
+                                
+                            
                           </div>
                       </div>
+                      
+    
 
-                  </div>
-              </div>
           </div>
+        </div>
+        </div>
           <!-- 글쓰기버튼 클릭시 나의 모든일정 보여주는 modal -->
         </div>
         
@@ -137,36 +145,36 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                 </div>
                </a>
             </div>
-            
         </c:forEach> 
-        </div>  
+        </div>
+          
             <c:if test="${empty list}" >
                 <div style="margin-bottom: 200px; padding-top: 200px; display: flex; justify-content: center; align-items: center;">리스트가 존재하지 않습니다.</div>
             </c:if> 
             
-        <ul class="tr-pagination">
-	        <c:choose>
-	        	<c:when test="${pi.currentPage eq 1}">
-	            	<li class="tr-page-prev disabled" ><a>이전</a></li>
-	            </c:when>
-	            <c:otherwise>
-	            	<li class="tr-page-prev"><a href="together.bo?cpage=${pi.currentPage -1 }">이전</a></li>
-	            </c:otherwise>
-	        </c:choose>
-	        
-	        <c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
-	        	<li class="tr-current"><a href="together.bo?cpage=${p }">${p }<span class="sr-only"></span></a></li>
-	        </c:forEach>
-	        
-	        <c:choose>
-	        	<c:when test="${pi.currentPage eq pi.maxPage}">
-	            	<li class="tr-page-next disabled"><a >다음</a></li>
-	            </c:when>
-	            <c:otherwise>
-	            	<li class="tr-page-next"><a href="together.bo?cpage=${pi.currentPage +1 }">다음</a></li>
-	            </c:otherwise>
-	        </c:choose>    
-        </ul>
+            <ul class="tr-pagination">
+                <c:choose>
+                    <c:when test="${pi.currentPage eq 1}">
+                        <li class="tr-page-prev disabled" ><a>이전</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="tr-page-prev"><a href="together.bo?cpage=${pi.currentPage -1 }">이전</a></li>
+                    </c:otherwise>
+                </c:choose>
+                
+                <c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
+                    <li class="tr-current"><a href="together.bo?cpage=${p }">${p }<span class="sr-only"></span></a></li>
+                </c:forEach>
+                
+                <c:choose>
+                    <c:when test="${pi.currentPage eq pi.maxPage}">
+                        <li class="tr-page-next disabled"><a >다음</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="tr-page-next"><a href="together.bo?cpage=${pi.currentPage +1 }">다음</a></li>
+                    </c:otherwise>
+                </c:choose>    
+            </ul>
     </main>
     
 </body>

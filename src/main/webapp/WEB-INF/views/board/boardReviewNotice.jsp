@@ -63,7 +63,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             </div>
 
             <c:if test="${not empty loginUser}">
-                <button type="button" data-bs-toggle="modal" data-bs-target="#myschedulelistModal" id="writeBtn">글쓰기</button>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#myschedulelistModal" id="writeBtn" style="position: absolute; right: 10px;">글쓰기</button>
                 <br>
             </c:if>
 

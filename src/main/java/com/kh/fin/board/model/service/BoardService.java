@@ -349,6 +349,8 @@ public interface BoardService {
 	//같이가요 게시판 댓글 수정
 	int ajaxUpdateTogetherReply(Reply r);
 	
+	//같이가요 게시판 대댓글 작성
+	int ajaxInsertTogetherReReply(Reply r);
 	
 	
 	
