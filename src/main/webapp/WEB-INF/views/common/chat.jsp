@@ -67,55 +67,14 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                     </div>
 
                 </div>  
-                <div class="section2-outer">
-                    <div class="section2">
-                  
-
-                        
-                        <div id="chat-main-left">
+            <div class="section2-outer">
+                <div class="section2">
+                        <div id="chat-main">
                             <div class="in-msg" name="meChat">           
-                                <img src="/mapping/resources/images/profile.png" alt="sunil">
-                                <div class="received_msg">
-                                    <div class="msg">여행 갈려 말려 갈려 말려 갈려 말려 갈려 말려  </div>
-                                    <div class="time_date"> 11:01 AM    |    June 9</div>
-                                </div>
-                            </div>
-                            <div class="in-msg" name="yuoChat">           
-                                <img src="/mapping/resources/images/profile.png" alt="sunil">
-                                <div class="received_msg">
-                                    <div class="msg">여행 갈려 말려 갈려 말려 갈려 말려 갈려 말려  </div>
-                                    <div class="time_date"> 11:01 AM    |    June 9</div>
-                                </div>
                             </div>
                         </div>
-                        <div id="chat-main-rignt">
-                            <div class="out-msg">
-                                <div class="sent_msg">
-                                    <div class="time_date2"> 11:01 AM    |    June 9</div>
-                                    <div class="msg">
-                                        언제?
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="out-msg">
-                                <div class="sent_msg">
-                                    <div class="time_date2"> 11:01 AM    |    June 9</div>
-                                    <div class="msg">
-                                        언제?
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                         
-
-                        
-                
-                    </div>
                     <div id="text-outer">
-                        <form id="text-form">
-                            <!-- 신고하기 -->
-                           <!-- Button to Open the Modal -->
+                        <div id="text-form">
                            <button id="report-button" type="button" data-bs-toggle="modal" data-bs-target="#reportModal">
                                <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
                            </button>
@@ -124,10 +83,10 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                                        <textarea name="chatting" id="summernote" type="text" class="chat-msg-input" placeholder="메세지를 입력해주세요." style="padding-bottom: 20px;">
                                        </textarea>                          
                                    </div>
-                                   <button class="send-button" onclick="sendMsg(${youNick})">전송</button>
+                                   <button class="send-button" onclick="sendMsg('${youNo}')">전송</button>
                                    
                                </div>
-                           </form>
+                           </div>
                     </div>
 
                 </div>               
@@ -189,6 +148,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                     </div>
 
                 </div>
+                <input id="plz" type="hidden" value="${youNo}" >
             </div>
         </div>
 
@@ -226,14 +186,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             frm.submit();
         }
         
-        
-        
-        
-
-        
-       
-        
-        
+    const youNo = document.getElementById("plz").value;
         
         
         

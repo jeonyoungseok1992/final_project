@@ -324,6 +324,7 @@ function review(memberNo) {
 
 //친구목록 리스트
 function fdList(memberNo) {
+    myPageValue.memberNo = memberNo;
     $.ajax({
         url: "friendList.me",
         data: {
@@ -344,7 +345,7 @@ function fdList(memberNo) {
                         <span style="font-size: 20px; margin-left: 10px;">${m.memberNickName}</span>
                     </div>
                     <div>
-                        <a href="chat.me?youNick=${m.memberNickName}"><img src="resources/images/talkIcons.png" alt="채팅" style="width: 30px; height: 30px;"></a>
+                        <a href="chat.me?youNo=${m.memberNo}"><img src="resources/images/talkIcons.png" alt="채팅" style="width: 30px; height: 30px;"></a>
                         <a name="mmodal" data-bs-toggle="modal" data-bs-target="#myModal" onclick="myPageValue.memberNo=${m.memberNo}"><img src="resources/images/xIcons.png" alt="x" style="width: 30px; height: 30px;"></a>
                         
                         
@@ -389,7 +390,7 @@ function fdRequest(mNo) {
                     <div>
                         <a href="acceptFriend.me" style="font-size: 18px;">수락</a>
                         <span style="font-size: 18px;">|</span>
-                        <a href="" onclick="rejectFriend(${m.memberNo})" style="font-size: 18px;">거절</a>
+                        <a  data-bs-toggle="modal" data-bs-target="#myModal2" onclick="myPageValue.memberNo=${m.memberNo}" style="font-size: 18px;">거절</a>
                     </div>	
                 </div>
                 `
@@ -404,37 +405,21 @@ function fdRequest(mNo) {
     })
 }
 
-function rejectFriend(memberNo){
-    console.log(memberNo);
+function rejectFriend(){
+    $('#myModal2').modal('hide');
+    console.log(myPageValue.memberNo);
     $.ajax({
         url: "rejectFriend.me",
         data: {
-            friendNo: memberNo
+            friendNo: myPageValue.memberNo
         },
-        success: function (list) {
-            let profileImg = m.memberProfileImg ? m.memberProfileImg : "/mapping/resources/images/profile.png";
-
-            let str = "";
-            for (m of list) {
-                str += `
-                    <div id="myfriend">
-                    <div>
-                        <img class="title-img2" src="${profileImg}" >
-
-                        <span style="font-size: 20px; margin-left: 10px;">${m.memberNickName}</span>
-                    </div>
-                    <div>
-                        <a href="acceptFriend.me" style="font-size: 18px;">수락</a>
-                        <span style="font-size: 18px;">|</span>
-                        <a href="" onclick="rejectFriend(${m.memberNo})" style="font-size: 18px;">거절</a>
-                    </div>	
-                </div>
-                `
-            }
+        success: function (no) {
+            console.log("rejectFriend ajax통신 성공");
+            fdRequest(no);
 
         },
         error: function () {
-            console.log("friendList ajax통신 실패");
+            console.log("rejectFriend ajax통신 실패");
         }
     })
 

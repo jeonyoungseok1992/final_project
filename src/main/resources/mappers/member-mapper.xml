@@ -17,6 +17,16 @@
 		<result column="MEMBER_STATUS" property="memberStatus"/>
 		<result column="MEMBER_GRADE" property="memberGrade"/>
 	</resultMap>
+	
+	<resultMap type="MsgVo" id="MsgVoResult">
+		<result column="MYNICK" property="myNick"/>
+		<result column="YOUNICK" property="youNick"/>
+		<result column="MESSAGE" property="message"/>
+		<result column="TIME" property="time"/>
+		<result column="MYNO" property="myNo"/>
+		<result column="YOUNO" property="youNo"/>
+		<result column="MEMBER_PROFILE_IMG" property="memberProfileImg"/>
+	</resultMap>
 
 	<!-- 로그인 쿼리문 -->
 	<select id="loginMember" resultMap="memberResult">
@@ -386,7 +396,8 @@
 		    SELECT FROM_MEMBER_NO
 		    FROM FRIEND_LOG
 		    JOIN MEMBER  ON (MEMBER_NO = TO_MEMBER_NO)
-		    WHERE MEMBER_NO = #{memberNo})
+		    WHERE MEMBER_NO = #{memberNo}
+		    	AND FRIEND_STATUS = 1)
 		JOIN MEMBER ON (FROM_MEMBER_NO = MEMBER_NO)
 		WHERE MEMBER_STATUS = 'Y'
 	</select>
@@ -452,13 +463,43 @@
       UPDATE FRIEND_LOG
          SET 
             FRIEND_STATUS = 3
-      WHERE TO_MEMBER_NO = #{paramMap.m.memberNo}
-      	AND FROM_MEMBER_NO = #{paramMap.friendNo}
+      WHERE TO_MEMBER_NO = #{memberNo}
+      	AND FROM_MEMBER_NO = #{friendNo}
    </update>
+   
+   	<!--채팅  insert  -->
+   	<insert id="insertChat" >
+		INSERT INTO CHAT(
+			myNo,
+			youNo,
+			message,
+			time
+		)
+		VALUES(	
+			#{myNo},
+			#{youNo},
+			#{message},
+			#{time}
+				
+		)
+		
+		
+	</insert>
   
   
 
-  
+     	<!-- 채팅페이지 상대방 쪽 -->
+	<select id="leftChatList" resultMap="MsgVoResult">
+		SELECT 	myNo,
+			youNo,
+			message,
+			time,
+          	MEMBER_PROFILE_IMG
+          FROM CHAT
+          JOIN MEMBER ON (MEMBER_NO = MYNO)
+          WHERE (MYNO = #{myNo} AND YOUNO = #{youNo}) OR (MYNO = #{youNo} AND YOUNO = #{myNo})
+          ORDER BY TIME
+	</select>
   
   
   

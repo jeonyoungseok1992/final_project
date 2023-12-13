@@ -109,8 +109,7 @@
     margin-right: 100px;
     overflow-y: scroll;
     height: 577px;
-    display: flex;
-    justify-content:space-evenly;
+  
 
 }
 
@@ -247,7 +246,9 @@
     padding-top: 60px;
 }
 
-
+.left{
+    background-color: #b2d8b5;
+}
 
 
 

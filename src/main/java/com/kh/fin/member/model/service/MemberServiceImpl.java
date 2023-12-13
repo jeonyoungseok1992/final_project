@@ -10,6 +10,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.chat.MsgVo;
 import com.kh.fin.member.model.dao.MemberDao;
 import com.kh.fin.member.model.vo.Member;
 
@@ -460,6 +461,19 @@ public class MemberServiceImpl implements MemberService{
 	public int rejectFriend(Member m, int friendNo) {
 		return memberDao.rejectFriend(sqlSession, m, friendNo);
 
+	}
+	
+	//채팅  insert
+	@Override
+	public int insertChat(MsgVo vo) {
+		return memberDao.insertChat(sqlSession, vo);
+
+	}
+	
+	//채팅페이지 상대방 쪽
+	@Override
+	public ArrayList<MsgVo> leftChatList(MsgVo MsgVo) {
+		return memberDao.leftChatList(sqlSession, MsgVo);
 	}
 
 }

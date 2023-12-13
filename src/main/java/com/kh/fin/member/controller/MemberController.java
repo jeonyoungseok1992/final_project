@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.chat.MsgVo;
 import com.kh.fin.member.model.service.MemberService;
 import com.kh.fin.member.model.vo.Member;
 
@@ -403,7 +404,11 @@ public class MemberController {
 
 		if (upfile != null && !upfile.getOriginalFilename().equals("")) {
 			System.out.println(m.getMemberProfileImg());
-			deletePreviousProfilePic(m.getMemberProfileImg(), session);
+			
+			if(m.getMemberProfileImg() != null) {
+				deletePreviousProfilePic(m.getMemberProfileImg(), session);
+			}
+			
 			String changeName = saveFile(upfile, session);
 			m.setMemberProfileImg("resources/member_upfile/" + changeName);
 			
@@ -543,18 +548,12 @@ public class MemberController {
 	
 	//친구 거절버튼 눌렀을 때
 	@ResponseBody
-	@RequestMapping(value="rejectFriend.me", produces="application/json; charset=UTF-8")
-	public ArrayList<Member> rejectFriend(int friendNo, HttpSession session) {
-		ArrayList<Member> list = null;
+	@RequestMapping(value="rejectFriend.me")
+	public int rejectFriend(int friendNo, HttpSession session) {		
 		Member m = ((Member)session.getAttribute("loginUser"));
-		int res = memberService.rejectFriend(m, friendNo);
-		System.out.println(res);
-		if(res > 0) {
-			System.out.println("옴");
-			list = memberService.friendRequest(m);
-		}
+		return memberService.rejectFriend(m, friendNo) > 0 ? m.getMemberNo() : 0;
 		
-		return list;
+		
 	}
 
 
@@ -562,7 +561,7 @@ public class MemberController {
 	
 	
 	
-	
+	//프로필 사진 변경 시 이전 사진 삭제
 	  public boolean deletePreviousProfilePic(String previousPicPath, HttpSession session) {
 		  	String savePath = session.getServletContext().getRealPath(previousPicPath);
 		  	System.out.println(savePath);
@@ -582,14 +581,31 @@ public class MemberController {
 	        }
 	    }
 	  
+	  //채팅페이지 보내주는 메서드
 		@RequestMapping("chat.me")
-		public String login(HttpSession session, String youNick) {
-			System.out.println(youNick);
-			String myNick = ((Member)session.getAttribute("loginUser")).getMemberNickName();
-			System.out.println(myNick);
-			session.setAttribute("myNick", myNick);
-			session.setAttribute("youNick", youNick);
+		public String login(HttpSession session, int youNo) {
+			int myNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
+			String nick = ((Member)session.getAttribute("loginUser")).getMemberNickName();
+			session.setAttribute("myNo", myNo);
+			session.setAttribute("youNo", youNo);
+			session.setAttribute("nick", nick);
 			return "common/chat";
+		}
+		
+		
+		//채팅페이지 상대방 쪽
+		@ResponseBody
+		@RequestMapping(value="leftChat.ch", produces="application/json; charset=UTF-8")
+		public ArrayList<MsgVo> leftChatList(HttpSession session) {
+			int myNo = (int)session.getAttribute("myNo");
+			int youNo = (int)session.getAttribute("youNo");
+			MsgVo vo = new MsgVo();
+			vo.setMyNo(myNo);
+			vo.setYouNo(youNo);
+				
+
+			System.out.println(memberService.leftChatList(vo));
+			return memberService.leftChatList(vo);
 		}
 	
 	

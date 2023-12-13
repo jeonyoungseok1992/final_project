@@ -240,6 +240,27 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 					</div>
 				</div>
 			</div>
+
+			<!-- The Modal -->
+			<div class="modal fade" id="myModal2">
+				<div class="modal-dialog">
+					<div class="modal-content" style="margin-top: 300px;">
+				
+						<!-- Modal body -->
+						<div class="modal-body" style="font-size: 18px; font-weight: 500; text-align: center;">
+							<br><br> 
+							정말 거절하시겠습니까?
+						</div>
+				
+						<!-- Modal footer -->
+						<div class="modal-footer" style="display: flex; justify-content: center;">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background: lightgray; width: 200px; height: 50px; border: none; ">Cancle</button>
+							<button id="footerBtn" type="button" onclick="rejectFriend()"  class="btn btn-secondary" style="background: #b2d8b5; width: 200px; height: 50px; border: none;">Ok</button>
+						</div>
+				
+					</div>
+				</div>
+			</div>
 			
 			
 

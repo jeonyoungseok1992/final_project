@@ -3,6 +3,7 @@ package com.kh.fin.member.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.chat.MsgVo;
 import com.kh.fin.member.model.vo.Member;
 
 public interface MemberService {
@@ -337,5 +338,11 @@ public interface MemberService {
 	//친구요청 거절 눌렀을 때
 	int rejectFriend(Member m, int friendNo);
 	
+	//채팅  insert
+	int insertChat(MsgVo vo);
+	
+	//채팅페이지 상대방 쪽
+	ArrayList<MsgVo> leftChatList(MsgVo MsgVo);
+
 	
 }

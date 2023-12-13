@@ -7,6 +7,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.chat.MsgVo;
 import com.kh.fin.member.model.vo.Member;
 
 @Repository
@@ -369,12 +370,23 @@ public class MemberDao {
 	public int rejectFriend(SqlSessionTemplate sqlSession, Member m, int friendNo) {
 		System.out.println("다오 옴");
 	    Map<String, Object> paramMap = new HashMap<>();
-	    paramMap.put("m", m);
+	    paramMap.put("memberNo", m.getMemberNo());
 	    paramMap.put("friendNo", friendNo);
 	    System.out.println("paramMap: " + paramMap);
 		return sqlSession.update("memberMapper.rejectFriend", paramMap);
 	}
 	
+	//채팅  insert
+	public int insertChat(SqlSessionTemplate sqlSession, MsgVo vo) {
+		return sqlSession.insert("memberMapper.insertChat", vo);
+
+	}
+	
+	
+	//채팅페이지 상대방 쪽
+	public ArrayList<MsgVo> leftChatList(SqlSessionTemplate sqlSession, MsgVo MsgVo) {
+		return (ArrayList)sqlSession.selectList("memberMapper.leftChatList", MsgVo);
+	}
 	
 
 
