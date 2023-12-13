@@ -42,6 +42,7 @@ public class Board {
 	private String attractionChangeNameImg;
 	private int memberNo;
 	private int regionNo;
+	private String memberProfileImg;
 
 	
 	

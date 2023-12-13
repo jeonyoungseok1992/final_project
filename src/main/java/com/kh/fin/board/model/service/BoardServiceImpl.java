@@ -175,6 +175,11 @@ public class BoardServiceImpl implements BoardService{
 		
 		return boardDao.ajaxUpdateTogetherReply(sqlSession,r);
 	}
+	//같이가요 게시판 대댓글 작성 기능
+	@Override
+	public int ajaxInsertTogetherReReply(Reply r) {
+		return boardDao.ajaxInsertTogetherReReply(sqlSession,r);
+	}
 	
 	
 	
@@ -1260,6 +1265,8 @@ public class BoardServiceImpl implements BoardService{
 		
 		return boardDao.updateReivewReply(sqlSession, r);
 	}
+
+
 	
 
 
