@@ -1,0 +1,10 @@
+#writeBtn{
+    height: 50px;
+    padding: 0 40px;
+    width: 100%;
+    background: #b2d8b5;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+}

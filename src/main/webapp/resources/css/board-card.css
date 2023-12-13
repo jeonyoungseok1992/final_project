@@ -167,17 +167,13 @@
 .tr-pagination li.tr-current a { background-color: #b2d8b5; color: #fff; font-weight: 700;}
 .tr-pagination li.tr-page-prev a:before,
 .tr-pagination li.tr-page-next a:after { content: ''; display: inline-block; width: 24px; height: 24px; margin-top: -4px; vertical-align: middle;}
-.tr-pagination li.tr-page-prev a:before	{background-position: 0 0;}
-.tr-pagination li.tr-page-next a:after	{background-position: -24px 0;}
+.tr-pagination li.tr-page-prev a:before   {background-position: 0 0;}
+.tr-pagination li.tr-page-next a:after   {background-position: -24px 0;}
 
 .tr-page-prev.disabled{
-	display: none;
+   display: none;
 }
 .tr-page-next.disabled{
-	display: none;
+   display: none;
 }
 
-#writeBtn{
-position: absolute;
-right: 15px;
-}

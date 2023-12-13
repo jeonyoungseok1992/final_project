@@ -166,6 +166,10 @@ public class BoardDao {
 		return sqlSession.update("boardMapper.ajaxUpdateTogetherReply",r);
 	}
 	
+	public int ajaxInsertTogetherReReply(SqlSessionTemplate sqlSession,Reply r) {
+		return sqlSession.insert("boardMapper.ajaxInsertTogetherReReply",r);
+	}
+	
 	
 	
 	

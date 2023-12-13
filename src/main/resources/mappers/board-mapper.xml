@@ -25,6 +25,8 @@
 		<result column="ATTRACTION_NO" property="attractionNo"/>
 		<result column="ATTRACTION_NAME" property="attracionName"/>
 		<result column="ATTRACTION_CHANGE_NAME_IMG" property="attractionChangeNameImg"/>
+		<result column="MEMBER_PROFILE_IMG" property="memberProfileImg"/>
+		
 		 </resultMap>
 
 	<resultMap type="Reply" id="replyResult">
@@ -39,6 +41,7 @@
 		<result column="REPLY_STATUS" property="replyStatus"/>
 		<result column="MEMBER_PROFILE_IMG" property="memberProfileImg"/>
 		<result column="GOOD_NO" property="goodNo"/>
+		<result column="REPLY_GROUP" property="replyGroup"/>
 		
 		 
 	</resultMap>
@@ -153,7 +156,7 @@
 	
 	<!-- 같이가요 게시글 조회 쿼리문 -->
 	<select id="selectTogetherList" resultMap="boardResult">
- 		select  BOARD_NO
+ 		select   BOARD_NO
 				,BOARD_TITLE
 		        ,BOARD_CONTENT
 		        ,MEMBER_ID
@@ -164,7 +167,7 @@
         join TRIP_PLAN on (BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
 		where BOARD_CATEGORY = 2
 		AND BOARD_STATUS = 'Y'
-		ORDER BY BOARD_CREATE_DATE DESC
+		ORDER BY BOARD_NO DESC
 	</select>
 	
 	<!-- 같이가요 게시글 키워드 검색 쿼리문 -->
@@ -186,7 +189,7 @@
 	  		AND M.MEMBER_ID 
 	  		</when>
 	  		<when test="condition == 'title'">
-	        AND B.BOARD_TITLE LIKE '%' || #{keyword} || '%' 
+	        AND B.BOARD_TITLE  
 	        </when>
 	        <when test="condition == 'region'">
 	        AND R.REGION_NAME
@@ -276,10 +279,11 @@
 			SELECT  BOARD_NO
 				,	BOARD_TITLE
 				,	BOARD_CONTENT
-				,	TO_CHAR(BOARD_MODIFY_DATE, 'YYYY-MM-DD') AS "BOARD_MODIFY_DATE"
+				,	TO_CHAR(BOARD_MODIFY_DATE, 'YY-MM-DD HH24:MI:SS') AS "BOARD_MODIFY_DATE"
                 ,   BOARD_REPORT
                 , 	MEMBER_NO
                 ,	MEMBER_ID
+                , 	MEMBER_PROFILE_IMG
                 ,   BOARD_TRIP_PLAN_NO
                 ,   BOARD_REGION_NO
                 ,   TRIP_PLAN_NO
@@ -324,8 +328,9 @@
 		SELECT REPLY_NO
 				,REPLY_CONTENT
 				,MEMBER_ID AS "REPLY_WRITER"
-				,TO_CHAR(REPLY_MODIFY_DATE, 'YYYY-MM-DD') AS "REPLY_MODIFY_DATE"
+				,TO_CHAR(REPLY_MODIFY_DATE, 'YY-MM-DD HH24:MI:SS') AS "REPLY_MODIFY_DATE"
 				,MEMBER_PROFILE_IMG
+				,REPLY_GROUP
 		FROM REPLY
 		JOIN MEMBER ON (REPLY_WRITER = MEMBER_NO)
 		WHERE REPLY_STATUS = 'Y'
@@ -353,7 +358,8 @@
 	<!-- 같이가요 댓글 삭제 관련 sql -->
 		<update id="ajaxDeleteTogetherReply">
 			UPDATE REPLY
-				SET REPLY_STATUS ='N'
+				SET REPLY_STATUS ='N',
+					REPLY_MODIFY_DATE = SYSDATE
 			WHERE REPLY_BOARD_NO = #{replyBoardNo}
 			AND REPLY_NO = #{replyNo} 
 		</update>
@@ -361,11 +367,31 @@
 	<!-- 같이가요 댓글 수정 관련 sql -->
 		<update id="ajaxUpdateTogetherReply">
 			UPDATE REPLY
-				SET REPLY_CONTENT =#{replyContent}
+				SET REPLY_CONTENT =#{replyContent},
+					REPLY_MODIFY_DATE = SYSDATE
 			WHERE REPLY_BOARD_NO = #{replyBoardNo}
 			AND REPLY_NO = #{replyNo} 
 		</update>
 	
+	<!-- 같이가요 대댓글추가 -->
+	<insert id="ajaxInsertTogetherReReply">
+		INSERT INTO REPLY
+		(
+				REPLY_NO,
+				REPLY_CONTENT,
+				REPLY_BOARD_NO,
+				REPLY_WRITER,
+				REPLY_GROUP
+		)
+		VALUES( 
+				SEQ_RNO.NEXTVAL,
+				#{replyContent},
+				#{replyBoardNo},
+				#{replyWriter},
+				#{replyNo}
+				
+		)
+	</insert>
 	
 	
 	

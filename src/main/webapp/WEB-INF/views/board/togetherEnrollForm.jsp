@@ -27,6 +27,7 @@
         <link rel="stylesheet" href="./resources/css/scheduleListModal.css">
         <link rel="stylesheet" href="./resources/css/board-card.css">
         <link rel="stylesheet" href="./resources/css/boardEnrollForm.css">
+        <link rel="stylesheet" href="./resources/css/togetherEnrollForm.css">
         
 
         <!--카카오 지도 api 토큰-->
@@ -133,17 +134,17 @@
                                       
                                   </div>
                                   
-                                  
+                                  <button class="btn" id="writeBtn" onclick="reDraw()" data-bs-dismiss="modal">일정선택</button>
                                   </div>
+                                  
                               </div>
-                              <button class="btn" id="writeBtn" onclick="reDraw()" data-bs-dismiss="modal">일정선택</button>
+                              
                           </div>
                         </div>
                     </div>
 
                 </div>
             </div>
-        </div>
         <!-- 글쓰기버튼 클릭시 나의 모든일정 보여주는 modal -->
 
     </body>

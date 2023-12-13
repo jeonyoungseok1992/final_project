@@ -21,10 +21,11 @@ public class Reply {
    private String replyWriter;
    private String replyContent;
    private Date replyCreateDate;
-   private Date replyModifyDate;
+   private String replyModifyDate;
    private int replyReport;
    private int replyStaus;
    private String memberProfileImg;
+   private int replyGroup;
 
 
 }
