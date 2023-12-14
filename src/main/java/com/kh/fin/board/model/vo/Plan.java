@@ -24,6 +24,10 @@ public class Plan {
 	private String tripPlanThumbnail;
 	private int attractionNo;
 	private String attractionName;
+	private String attractionMemo;
+	private String attractionAddress;
+	private String categoryName;
+	
 	private String attractionChangeNameImg;
 	private int regionNo;
 	private String regionName;

@@ -1,0 +1,130 @@
+.schedule-container{
+    width: 1100px; 
+    height: 500px; 
+    margin: 100px auto 0 auto;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0 2px 8px 0 rgba(31,38,135,.08)!important;
+}
+#map{
+    width: 550px;
+}
+#schedule-area{
+    width: 550px;
+    overflow-y: auto;
+}
+.nDay-content{
+    padding-left: 15px;
+    padding-top: 15px;
+   
+}
+.nDay{
+    font-size: 24px;
+    font-weight: 600;
+
+}
+.location{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    gap: 3px;
+}
+.location-img{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    background-color: aqua;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.location-img img{
+    max-width: 100%;
+    height: 100%;
+}
+
+
+
+/* 글작성 부분 css*/
+.notice-up-wrap {
+    padding-bottom: 70px;
+    font-weight: 700;
+    width: 1100px;
+    margin: 72px auto 0 auto;
+}
+.notice-up-wrap h4 {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+}
+.notice-up-wrap dl.title{
+    margin-top: 40px;
+}
+.notice-up-wrap dl.content {
+    padding-top: 20px;
+    margin-bottom: 32px;
+}
+.notice-up-wrap dt{
+    text-align: left; 
+    padding-bottom: 15px; 
+    font-size: 14px; 
+    font-weight: 700;
+}
+.notice-up-wrap dd input{
+    width: 100%; 
+    height: 46px; 
+    padding: 14px 16px;
+    background-color: #fff;
+    line-height: 1.5;
+    color: #333;
+    font-weight: 600;
+    border: 1px solid #dedede;
+}
+.notice-up-wrap textarea{
+    width: 100%;
+    padding: 14px 16px;
+    background-color: #fff;
+    line-height: 1.5;
+    color: #333;
+    font-weight: 600;
+    border: 1px solid #dedede;
+}
+.notice-up-wrap .btn-wrap{
+    text-align: right;
+}
+.notice-up-wrap .btn-wrap button {
+    height: 48px;
+    padding: 0 32px;
+    border: 1px solid #dedede;
+    border-radius: 2px;
+    margin-left: 5px;
+}
+.notice-up-wrap .btn-wrap button.submit{
+    color: #fff;
+    background: #b2d8b5;
+    border: none;
+}
+#editBtn::before{
+   font-size: 2rem;
+   position: absolute;
+   left: 10px;
+   z-index: 10;
+}
+
+.dropdown-menu > li > a{
+    --bs-dropdown-link-active-bg: none;
+    --bs-dropdown-link-active-color: #b2d8b5;
+}
+.dropdown-toggle:empty::after {
+    position: absolute;
+    right: 10px;
+    display: none;
+}
+.dropdown-menu.show{
+    transform: translate3d(10px, 43.5px, 0px)!important;
+}

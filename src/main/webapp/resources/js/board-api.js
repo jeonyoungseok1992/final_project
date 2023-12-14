@@ -12,3 +12,20 @@ const boardApi = {
         })
     } 
 }
+
+const reviewBoardApi = {
+    getScheduleReList : function(data, callback){
+        $.ajax({
+            url : "scheduleListRe.bo",
+            data: data,
+            success : function(list){
+                callback(list);
+            },
+            error:function(){
+                console.log("scheduleListRe.bo ajax 통신 실패");
+            }
+        })
+    } 
+}
+
+
