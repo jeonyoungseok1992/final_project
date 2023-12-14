@@ -634,7 +634,7 @@
 		)
 	</insert>
 	<!-- 메인페이지 지역리스트 가져오는 ajax 쿼리문 -->
-	<select id="ajaxselectRegionList" resultMap="regionResult">
+	<!-- 	<select id="ajaxselectRegionList" resultMap="regionResult">
 		SELECT REGION_NO
                 ,REGION_NAME
                 ,REGION_MEMO
@@ -642,7 +642,8 @@
                 ,REGION_ENG
 		FROM REGION
 		ORDER BY REGION_NO
-	</select>
+	</select> -->
+
 	
 	
 	

@@ -184,10 +184,10 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.ajaxInsertTogetherReReply(sqlSession,r);
 	}
 	//메인페이지 지역리스트 가져오는 ajax
-	@Override
-	public ArrayList<Region> ajaxselectRegionList() {
-		return boardDao.ajaxselectRegionList(sqlSession);
-	}
+//	@Override
+//	public ArrayList<Region> ajaxselectRegionList() {
+//		return boardDao.ajaxselectRegionList(sqlSession);
+//	}
 	
 	
 	
@@ -1258,11 +1258,11 @@ public class BoardServiceImpl implements BoardService{
 	
 	
 	
-	@Override
-	public int updateReivewReply(Reply r) {
-		
-		return boardDao.updateReivewReply(sqlSession, r);
-	}
+//	@Override
+//	public int updateReivewReply(Reply r) {
+//		
+//		return boardDao.updateReivewReply(sqlSession, r);
+//	}
 
 
 

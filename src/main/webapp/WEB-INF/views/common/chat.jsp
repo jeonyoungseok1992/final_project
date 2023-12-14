@@ -37,7 +37,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 
                 </div>  
             <div class="section2-outer">
-                <div class="section2">
+                <div id="section2">
                         <div id="chat-main">
                         </div>
                     <div id="text-outer">

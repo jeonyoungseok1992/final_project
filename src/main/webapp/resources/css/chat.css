@@ -101,10 +101,10 @@
 
 }
 
-.section2{
+#section2{
     margin-left: 100px;
     margin-right: 100px;
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 577px;
   
 
@@ -262,6 +262,19 @@
     color:  #b0b6bd;
     font-size: 10px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

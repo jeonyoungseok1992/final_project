@@ -9,7 +9,7 @@ $(document).ready(function () {
 
 
 
-
+    window.scrollTo(0, 99999);
 
 
 
@@ -61,9 +61,9 @@ $(document).ready(function () {
         } else {
             str += '<div class="right" align="right">';
             str += '<div>';
-            str += '<img class="title-img2" src="' + profileImg + '" >';
+            str += '<span style="font-size: 10px; margin-left: 10px;">' + receive.time + '</span>'; 
             str += '<span style="font-size: 20px; margin-left: 10px;">' + receive.message + '</span>';
-            str += '<span style="font-size: 10px; margin-left: 10px;">' + receive.time + '</span>';
+            str += '<img class="title-img2" src="' + profileImg + '" >';
             str += '</div>';
             str += '</div>';
         }
@@ -84,8 +84,7 @@ $(document).ready(function () {
         // str += '</div>';
     
         msgContainer.innerHTML += str;
-
-
+        scrollChatToBottom();
     //     str ='';
     //     str = `
     //     <div class="left" align="left">
@@ -106,7 +105,7 @@ $(document).ready(function () {
         
     //     msgContainer.innerHTML += str;
     
-    
+  
     
     
     }
@@ -114,18 +113,9 @@ $(document).ready(function () {
 
 
     setInterval(function(){
-        // 방 목록 불러오기
+
         chatList();
-        
-        // 읽지 않은 메세지 총 갯수가 0개가 아니면
-        // if(countAll != 0){
-        //     // 채팅 icon 깜빡거리기
-        //     $('.chatIcon').addClass('iconBlink');
-        //     play();
-        // }else{
-        //     // 깜빡거림 없애기
-        //     $('.chatIcon').removeClass('iconBlink');
-        // }
+
     },5000);
     
 
@@ -150,6 +140,7 @@ $(document).ready(function () {
         $('#chat-msg-input').val('');
 
        
+       
     }
 
 
@@ -166,11 +157,24 @@ $(document).ready(function () {
                 let str2 = "";
                 str2 = `
                     <div id="chat-msg-inner">
-                        <input name="chatting" id="chat-msg-input" type="text" placeholder="메세지를 입력해주세요.">
+                        <input name="chatting" id="chat-msg-input" type="text" placeholder="메세지를 입력해주세요." required>
                         </input>                          
                     </div>
-                    <button id="send-button" onclick="sendMsg('${youNo}')">전송</button>
+                    <button id="send-button" onclick="sendMsg('${youNo}')" disabled >전송</button>
                 `;
+                $(document).on('input', '#chat-msg-input', function () {
+                    let inputValue = $(this).val();
+                    let sendButton = $('#send-button');
+    
+                    // Enable or disable the button based on input value
+                    if (inputValue.trim() !== "") {
+                        sendButton.prop('disabled', false);
+                    } else {
+                        sendButton.prop('disabled', true);
+                    }
+                });
+
+ 
                 for (c of list) {
                     
                     console.log(typeof c.myNo);
@@ -193,9 +197,10 @@ $(document).ready(function () {
                         str += `
                             <div class="right" align="right">
                                 <div> 
-                                    <img class="title-img2" src="${profileImg}" >
+                                <span style="font-size: 10px; margin-left: 10px;">${c.time}</span>  
                                     <span style="font-size: 20px; margin-left: 10px;">${c.message}</span>   
-                                    <span style="font-size: 10px; margin-left: 10px;">${c.time}</span>        
+                                   
+                                    <img class="title-img2" src="${profileImg}" >      
                                 </div>
                             </div>
                         `;
@@ -271,11 +276,22 @@ $(document).ready(function () {
                 let str2 = "";
                 str2 = `
                     <div id="chat-msg-inner">
-                        <input name="chatting" id="chat-msg-input" type="text" placeholder="메세지를 입력해주세요.">
+                        <input name="chatting" id="chat-msg-input" type="text" placeholder="메세지를 입력해주세요." required>
                         </input>                          
                     </div>
-                    <button id="send-button" onclick="sendMsg('${youNo}')">전송</button>
+                    <button id="send-button" onclick="sendMsg('${youNo}')" disabled >전송</button>
                 `;
+                $(document).on('input', '#chat-msg-input', function () {
+                    let inputValue = $(this).val();
+                    let sendButton = $('#send-button');
+    
+                    // Enable or disable the button based on input value
+                    if (inputValue.trim() !== "") {
+                        sendButton.prop('disabled', false);
+                    } else {
+                        sendButton.prop('disabled', true);
+                    }
+                });
                 
                 for (c of list) {
                     let profileImg = c.memberProfileImg ? c.memberProfileImg : "/mapping/resources/images/profile.png";
@@ -295,9 +311,10 @@ $(document).ready(function () {
                             <div class="right" align="right">
                             <div id="hiddenNo" type="hidden" value="youNo"></div>
                                 <div> 
-                                    <img class="title-img2" src="${profileImg}" >
+                                <span style="font-size: 10px; margin-left: 10px;">${c.time}</span> 
                                     <span style="font-size: 20px; margin-left: 10px;">${c.message}</span>   
-                                    <span style="font-size: 10px; margin-left: 10px;">${c.time}</span>        
+                                 
+                                    <img class="title-img2" src="${profileImg}" >       
                                 </div>
                             </div>
                         `;
@@ -311,4 +328,11 @@ $(document).ready(function () {
                 console.log("채팅 화면 통신 실패");
             }
         });
+    }
+
+
+
+    function scrollChatToBottom() {
+        var chatMain = document.getElementById("section2");
+        chatMain.scrollTop = chatMain.scrollHeight;
     }
