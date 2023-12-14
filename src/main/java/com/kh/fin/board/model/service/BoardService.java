@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
+import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.common.model.vo.PageInfo;
 
@@ -105,7 +106,8 @@ public interface BoardService {
 	// 같이가요 게시글 리스트 조회
 	ArrayList<Board> selectTogetherList(PageInfo pi);
 	
-
+	
+	
 	
 	
 	
@@ -352,7 +354,8 @@ public interface BoardService {
 	//같이가요 게시판 대댓글 작성
 	int ajaxInsertTogetherReReply(Reply r);
 	
-	
+	//메인페이지 지역 ajax
+	ArrayList<Region> ajaxselectRegionList();
 	
 	
 	

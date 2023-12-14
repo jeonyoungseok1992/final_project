@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.fin.board.model.vo.Board;
 
 import com.kh.fin.board.model.vo.Plan;
+import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.data.vo.LocationInfomation;
@@ -108,10 +109,11 @@ public class BoardDao {
 	
 	
 	
-	
+	// 같이가요 게시판 리스트업을 위한 카운트 함수
 	public int selectTogetherListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("boardMapper.selectTogetherListCount");
 	}
+	// 같이가요 게시글 리스트 조회
 	public ArrayList<Board> selectTogetherList(SqlSessionTemplate sqlSession, PageInfo pi){
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		int limit= pi.getBoardLimit();
@@ -119,7 +121,7 @@ public class BoardDao {
 		RowBounds rowBounds = new RowBounds(offset,limit);
 		return (ArrayList)sqlSession.selectList("boardMapper.selectTogetherList",null,rowBounds);
 	}
-	
+	//같이가요 키워드 검색
 	public ArrayList<Board> togetherSearchList(SqlSessionTemplate sqlSession, Board b,PageInfo pi){
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		int limit= pi.getBoardLimit();
@@ -127,49 +129,59 @@ public class BoardDao {
 		
 		return (ArrayList)sqlSession.selectList("boardMapper.togetherSearchList",b,rowBounds);
 	}
-	
+	//글쓰기 누르면 ajax호출해서 나의 일정리스트 가져오기
 	public ArrayList<Plan> selectPlanList(SqlSessionTemplate sqlSession, int memberNo){
 		return (ArrayList)sqlSession.selectList("boardMapper.selectPlanList",memberNo);
 	}
+	// 기존 일정 가지고 글쓰기 페이지로 가기
 	public ArrayList<Plan> selectOneTripPlan(SqlSessionTemplate sqlSession, int tripPlanNo){
 		return (ArrayList)sqlSession.selectList("boardMapper.selectOneTripPlan",tripPlanNo);
 	}
+	// plan max day가져오기
 	public int countMaxPlanDay(SqlSessionTemplate sqlSession, int tripPlanNo) {
 		return sqlSession.selectOne("boardMapper.countMaxPlanDay",tripPlanNo);
 	}
+	//같이가요 게시판 글작성
 	public int insertTogetherBoard(SqlSessionTemplate sqlSession, Board b) {
 		return sqlSession.insert("boardMapper.insertTogetherBoard",b);
 	}
-	
+	//같이가요 게시판 디테일 페이지
 	public ArrayList<Board> selectTogetherBoard(SqlSessionTemplate sqlSession, int boardNo) {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectTogetherBoard", boardNo);
 	}
+	//같이가요 게시판 글 수정
 	public int updateTogetherBoard(SqlSessionTemplate sqlSession,Board b) {
 		return sqlSession.update("boardMapper.updateTogetherBoard",b);
 	}
+	//같이가요 게시판 글 삭제
 	public int togetherDeleteBoard(SqlSessionTemplate sqlSession,int boardNo) {
 		return sqlSession.update("boardMapper.togetherDeleteBoard",boardNo);
 	}
+	//같이가요 게시판 댓글 부르기
 	public ArrayList<Reply> selectTogetherReplyList(SqlSessionTemplate sqlSession,int boardNo){
 		return (ArrayList)sqlSession.selectList("boardMapper.selectTogetherReplyList",boardNo);
 	}
-	
+	//같이가요 게시판 댓글 추가
 	public int ajaxInsertTogetherReply(SqlSessionTemplate sqlSession,Reply r) {
 		return sqlSession.insert("boardMapper.ajaxInsertTogetherReply",r);
 	}
-	
+	//같이가요 게시판 댓글 삭제
 	public int ajaxDeleteTogetherReply(SqlSessionTemplate sqlSession,Reply r) {
 		return sqlSession.update("boardMapper.ajaxDeleteTogetherReply",r);
 	}
-	
+	//같이가요 게시판 댓글 수정
 	public int ajaxUpdateTogetherReply(SqlSessionTemplate sqlSession,Reply r) {
 		return sqlSession.update("boardMapper.ajaxUpdateTogetherReply",r);
 	}
-	
+	//같이가요 게시판 대댓글 작성 기능
 	public int ajaxInsertTogetherReReply(SqlSessionTemplate sqlSession,Reply r) {
 		return sqlSession.insert("boardMapper.ajaxInsertTogetherReReply",r);
 	}
 	
+	//메인페이지 지역리스트 가져오는 ajax
+	public ArrayList<Region> ajaxselectRegionList(SqlSessionTemplate sqlSession){
+		return (ArrayList)sqlSession.selectList("boardMapper.ajaxselectRegionList");
+	}
 	
 	
 	

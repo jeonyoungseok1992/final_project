@@ -25,6 +25,7 @@ import com.google.gson.JsonObject;
 import com.kh.fin.board.model.service.BoardService;
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
+import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.common.template.Pagenation;
@@ -447,7 +448,7 @@ public class BoardController {
 		
 		if(!(list == null) ) {
 			
-			model.addAttribute("list",list);
+			model.addAttribute("list", list);
 			
 			return "board/boardTogetherDetailView";
 		}else {
@@ -602,6 +603,15 @@ public class BoardController {
 				return "fail";
 			}
 			
+		}
+		
+		//mainPage 로드시 지역들 그려주는 ajax
+		@ResponseBody
+		@RequestMapping(value="regionList.bo", produces = "application/json; charset = UTF-8")
+		public String ajaxselectRegionList() {
+			ArrayList<Region> list = boardService.ajaxselectRegionList();
+			
+			return new Gson().toJson(list);
 		}
 	
 	
@@ -780,10 +790,10 @@ public class BoardController {
 	
 	
 	
-	@RequestMapping(value="/goPlan.bo")
-	public String goPlan() {
-		return "board/boardScheduleMake2";
-	}
+//	@RequestMapping(value="/goPlan.bo")
+//	public String goPlan() {
+//		return "board/boardScheduleMake2";
+//	}
 	
 	
 	

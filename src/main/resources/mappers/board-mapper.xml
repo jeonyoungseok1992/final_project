@@ -45,7 +45,7 @@
 		
 		 
 	</resultMap>
-		<resultMap type="Plan" id="planResult">
+	<resultMap type="Plan" id="planResult">
 		<result column="TRIP_PLAN_NO" property="tripPlanNo"/>
 		<result column="TRIP_PLANNER_NO" property="tripPlannerNo"/>
 		<result column="TRIP_PLAN_TITLE" property="tripPlanTitle"/>
@@ -61,6 +61,18 @@
 		<result column="REGION_NAME" property="regionName"/>
 		<result column="TRIP_N_DAY" property="tripNday"/>
 	</resultMap>
+	
+	<resultMap type="Region" id="regionResult">
+		<result column="REGION_NO" property="regionNo"/>
+		<result column="REGION_NAME" property="regionName"/>
+		<result column="REGION_MEMO" property="regionMemo"/>
+		<result column="REGION_IMG" property="regionImg"/>
+		<result column="REGION_ENG" property="regionEng"/>
+	</resultMap>
+
+
+
+
 
 				
 	
@@ -389,7 +401,6 @@
 				#{replyBoardNo},
 				#{replyWriter},
 				#{replyNo}
-				
 		)
 	</insert>
 	
@@ -577,6 +588,16 @@
 				
 		)
 	</insert>
+	<!-- 메인페이지 지역리스트 가져오는 ajax 쿼리문 -->
+	<select id="ajaxselectRegionList" resultMap="regionResult">
+		SELECT REGION_NO
+                ,REGION_NAME
+                ,REGION_MEMO
+                ,REGION_IMG
+                ,REGION_ENG
+		FROM REGION
+		ORDER BY REGION_NO
+	</select>
 	
 	
 	
@@ -589,6 +610,7 @@
 		AND   REPLY_NO = #{replyNo}	
 	
 	</update>
+	
 	
 	
 	
