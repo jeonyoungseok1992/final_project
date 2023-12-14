@@ -26,14 +26,12 @@
         <link rel="stylesheet" href="./resources/css/grade.css">
         <link rel="stylesheet" href="./resources/css/scheduleListModal.css">
         <link rel="stylesheet" href="./resources/css/board-card.css">
-        <link rel="stylesheet" href="./resources/css/togetherUpdateForm.css">
+        <link rel="stylesheet" href="./resources/css/reviewUpdateForm.css">
         
-        <!--카카오 지도 api 토큰-->
-        <script type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46465c1e54053b370d7b004cf8ed3df6"></script>
-        <script src="./resources/js/togetherUpdateForm.js"></script>
+      
+        <script src="./resources/js/reviewUpdateForm.js"></script>
         <script src="./resources/js/board-api.js"></script>
-        <script src="./resources/js/boardTogetherNotice.js"></script>
+        <script src="./resources/js/boardReviewNotice.js"></script>
     </head>
 
     <body>
@@ -60,14 +58,84 @@
                 
 
                         <div class="location">
-                            <c:forEach var="p" items="${list }">
+                            <c:forEach var="p" items="${list}">
                                 <c:choose>
-                                     <c:when test ="${i eq p.tripNday}">
-                                        <div class="location-img"><img src="${p.attractionChangeNameImg}" alt="전주"></div>
+                                    <c:when test="${i eq p.tripNday}">
+                                        <div data-bs-toggle="modal" data-bs-target="#gradeModal${i}${p.attractionNo}"
+                                            class="location-img"><img src="${p.attractionChangeNameImg}"
+                                                alt="장소""> 
+                                        </div>
+                                        <!-- The Modal -->
+                                        <div class="modal fade" id="gradeModal${i}${p.attractionNo}">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content style grade">
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                        <button type="button" class="btn-close"
+                                                            data-bs-dismiss="modal"></button>
+                                                    </div>
+
+                                                    <div class="modal-body">
+
+                                                        <h4 class="modal-title">${p.attractionName}<span>${p.categoryName}</span>
+                                                        </h4>
+
+
+
+                                                        <div class="img-area">
+                                                            <img src="${p.attractionChangeNameImg}"
+                                                                alt="">
+                                                        </div>
+
+
+                                                        <div class="text-area" style="height: 100%;">
+                                                            <p>${p.attractionAddress}</p>
+                                                        </div>
+                                                        <div class="grade">
+                                                            <div class="ui-grade half" attractionNo="${p.attractionNo}"
+                                                                role="radiogroup">
+                                                                <button type="button" role="radio"
+                                                                    aria-checked="false"
+                                                                    class="">1</button>
+                                                                <button type="button" role="radio"
+                                                                    aria-checked="false"
+                                                                    class="">2</button>
+                                                                <button type="button" role="radio"
+                                                                    aria-checked="false"
+                                                                    class="">3</button>
+                                                                <button type="button" role="radio"
+                                                                    aria-checked="false"
+                                                                    class="">4</button>
+                                                                <button type="button" role="radio"
+                                                                    aria-checked="false"
+                                                                    class="">5</button>
+
+                                                                <span class="result-text">0점</span>
+
+                                                                
+                                                            </div>
+                                                        
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
                                     </c:when>
                                 </c:choose>
                             </c:forEach>
+
+
                         </div>
+
+
+
+                
+                        
+
+
+
                 </c:forEach>
                 
                 
@@ -81,7 +149,7 @@
 
         </div>
         <div class="notice-up-wrap" align="center">
-            <form action="togetherUpdate.bo" id="enroll-form" method="post">
+            <form action="reviewUpdate.bo" id="enroll-form" method="post">
                 <input type="hidden" name="boardNo" value="${list[0].boardNo}">
                 <input type="hidden" name="boardTripPlanNo" value="${list[0].boardTripPlanNo}">
                 <input type="hidden" name="boardRegionNo" value="${list[0].boardRegionNo}">
@@ -133,11 +201,10 @@
                                       
                                   </div>
                                   
-                                  <button class="btn" id="writeBtn" onclick="reDraw()" data-bs-dismiss="modal">일정선택</button>
+                                  
                                   </div>
-
                               </div>
-                              
+                              <button class="btn" id="writeBtn" onclick="reviewReDraw()" data-bs-dismiss="modal">일정선택</button>
                           </div>
                         </div>
                     </div>

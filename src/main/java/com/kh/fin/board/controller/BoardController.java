@@ -569,14 +569,12 @@ public class BoardController {
 	
 	
 	
+	//
+		
+		
 	
 	
-	
-	
-	
-	
-	
-	
+		
 	
 
 	
@@ -646,7 +644,7 @@ public class BoardController {
 	
 	
 	
-	
+	//review게시판 
 	@RequestMapping("review.bo")
 	public ModelAndView selectReviewList(@RequestParam(value="cpage",defaultValue = "1")int currentPage, 
 			ModelAndView mv)	{
@@ -662,7 +660,7 @@ public class BoardController {
 
 	}
 	
-	
+	//review게시글 검색
 	@RequestMapping("reviewSearch.bo")
 	public ModelAndView searchReviewList(@RequestParam(value="cpage",defaultValue = "1")int currentPage, 
 			ModelAndView mv, Board b)	{
@@ -678,70 +676,184 @@ public class BoardController {
 	}
 	
 	
+	
+	
+	//reviewDetail
 	@RequestMapping("detail.bo")
-	public String detailReview(int bno, HttpSession session) {
+	public String selectReviewBoard(int boardNo, Model model){
 		
+		ArrayList<Board> list = boardService.selectReviewBoard(boardNo);
 		
-		
-			Board b = boardService.selectReviewBoard(bno);
+		if(!(list == null) ) {
 			
-			session.setAttribute("b", b);
+			model.addAttribute("list",list);
 			
-			return "board/boardDetailView";
-
-	
+			return "board/reviewDetailView";
+		}else {
+			model.addAttribute("errorMsg", "같이가요 게시글 조회 실패");
+			return "errorPage/500page";
 		}
-	
-	
-	
-	
-
-
-	@ResponseBody
-	@RequestMapping(value="reviewRlist.bo", produces = "application/json; charset = UTF-8")
-	public String ajaxSelectReplyList(int bno) {
-		 ArrayList<Reply>list= boardService.selectReply(bno);
-		 
-		 return new Gson().toJson(list);
 	}
 	
 	
 	
+	
+	
+	
+	
+	
+	//후기 댓글 그려주기 
 	@ResponseBody
-	@RequestMapping(value="rinsert.bo")
+	@RequestMapping(value="reviewRlist.bo", produces="application/json; charset=utf-8")
+	public String selectReviewReplyList(@RequestParam(value="boardNo") int boardNo) {
+		ArrayList<Reply> rlist = boardService.selectReviewReplyList(boardNo);
+		
+		return new Gson().toJson(rlist);
+	}
+	
+	
+	//review 댓글입력
+	@ResponseBody
+	@RequestMapping(value="reviewReplyInsert.bo")
 	public String ajaxInsertReply(Reply r) {
 
-	
-		
-		
-		return  boardService.insertReviewReply(r) > 0 ? "success" :"fail";
+	return  boardService.ajaxInsertReply(r) > 0 ? "success" :"fail";
 	}
-	
-	
-	
-	//후기 댓글 수정하기
-	@ResponseBody
-	@RequestMapping(value="reviewReplyUpdate.bo")
-	public String ajaxUpdateReviewReply(Reply r)  {
-		int result = boardService.updateReivewReply(r);
-		
-		System.out.println(result);
-		if(result > 0 ) {
-			return "success";
-		}else {
-			return "fail";
-		}
-		
-	}
-	
-	
-	
-	
-	
-	
 	
 
 	
+	//일정가져오기
+	@ResponseBody
+	@RequestMapping(value="scheduleListRe.bo", produces="application/json; charset=utf-8")
+	public String selectPlanListRe(int memberNo) {
+		ArrayList<Plan> list = boardService.selectPlanListRe(memberNo);
+		
+		return new Gson().toJson(list);
+
+	}
+	
+	
+	
+	//일정 수정 버튼 눌렀을때 다시 그려주는
+	@ResponseBody
+	@RequestMapping(value="reviewDraw.bo", produces="application/json; charset=utf-8")
+	public String ajaxReDrawScheduleRe(@RequestParam(value="tripPlanNo") int tripPlanNo) {
+		ArrayList<Plan> list = boardService.selectOneTripPlanRe(tripPlanNo);
+		
+		return new Gson().toJson(list);
+	}
+	
+	
+	@RequestMapping("reviewEdit.bo")
+	public ModelAndView reviewEnrollForm(@RequestParam(value="ppage") int tripPlanNo, ModelAndView mv){
+
+		
+		mv.addObject("list", boardService.selectOneTripPlanRe(tripPlanNo))
+		.addObject("maxNday",boardService.countMaxPlanDay(tripPlanNo))
+		.setViewName("board/reviewEnrollForm");
+		
+		return mv;
+	}
+		
+	
+	//review게시글 작성
+	@RequestMapping("reviewInsert.bo")
+	public String insertReviewBoard(Board b, HttpSession session, Model model) {
+		System.out.println(b);
+		int result = boardService.insertReviewBoard(b);
+		if(result > 0) { //성공 => 같이가요 리스트 페이지 재요청
+			session.setAttribute("alertMsg", "같이가요 게시글 작성 완료");
+			return "redirect:review.bo";
+		}else {
+			model.addAttribute("errorMsg", "게시글 작성 실패");
+			return "errorPage/500page";
+		}
+			
+		}
+		
+	
+		
+		
+		@RequestMapping("updateReviewForm.bo")
+		public String updateReviewForm(int boardNo, Model model ) {
+			//현재 내가 수정하기를 클릭한 같이가요 게시글에 대한 정보를 가지고 이동
+			model.addAttribute("list",boardService.selectReviewBoard(boardNo));
+			
+			return "board/reviewUpdateForm";
+		}
+		
+		
+	
+		//review Update
+		@RequestMapping("reviewUpdate.bo")
+		public String updateReviewBoard(Board b, HttpSession session, Model model) {
+			int result = boardService.updateReviewBoard(b);
+			//b객체 update
+			
+			//성공유무 확인 후 페이지 리턴
+			if(result >0) {
+				session.setAttribute("alertMsg", "게시글 수정 완료");
+				return "redirect:detail.bo?boardNo="+b.getBoardNo();
+			}else {
+				model.addAttribute("errorMsg", "게시글 수정 실패"); 
+				return "errorPage/500page";
+			}
+			
+		}
+		
+		
+		
+		@RequestMapping("reviewDelete.bo")
+		public String reviewDeleteBoard(int boardNo, HttpSession session, Model model) {
+			
+			int result = boardService.reviewDeleteBoard(boardNo);
+			
+			if(result > 0) {//삭제 성공
+				
+				session.setAttribute("alertMsg", "게시글 삭제에 성공하였습니다.");
+				return "redirect:review.bo";
+				
+			}else {
+				model.addAttribute("errorMsg", "게시글 삭제 실패");
+				return "errorPage/500page";
+			}
+			
+			
+		}
+		
+		
+		
+	
+		
+		
+		//후기 댓글 삭제하기
+		@ResponseBody
+		@RequestMapping(value="reviewReplyDelete.bo")
+		public String ajaxDeleteReviewReply(Reply r)  {
+			int result = boardService.ajaxDeleteReviewReply(r);
+			
+			if(result > 0 ) {
+				return "success";
+			}else {
+				return "fail";
+			}
+			
+		}
+		
+		
+		//후기 댓글 수정하기
+		@ResponseBody
+		@RequestMapping(value="reviewReplyUpdate.bo")
+		public String ajaxUpdateReviewReply(Reply r)  {
+			int result = boardService.ajaxUpdateReviewReply(r);
+			
+			if(result > 0 ) {
+				return "success";
+			}else {
+				return "fail";
+			}
+			
+		}
 	
 	
 	

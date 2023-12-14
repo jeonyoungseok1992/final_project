@@ -38,11 +38,13 @@ public class Board {
 	private int locationNo;
 	private String tripNday;
 	private String attractionNo;
-	private String attracionName;
+	private String attractionName;
+	private String attractionMemo;
+	private String attractionAddress;
 	private String attractionChangeNameImg;
 	private int memberNo;
 	private int regionNo;
-
+	private String categoryName;
 	
 	
 }

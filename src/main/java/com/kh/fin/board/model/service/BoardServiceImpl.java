@@ -250,12 +250,13 @@ public class BoardServiceImpl implements BoardService{
 	
 	
 	
-	
+	// 후기 게시판 리스트업을 위한 카운트 함수
 	@Override
 	public int selectReviewListCount() {
 		return boardDao.selectReviewListCount(sqlSession);
 	}
-
+	
+	//review게시글 조회
 	@Override
 	public ArrayList<Board> selectReviewList(PageInfo pi) {
 		return boardDao.selectReviewList(sqlSession, pi);
@@ -263,74 +264,84 @@ public class BoardServiceImpl implements BoardService{
 
 
 
+	//후기 게시글 키워드 조회
 	@Override
 	public ArrayList<Board> searchReviewList(Board b, PageInfo pi) {
 		return boardDao.searchReviewList(sqlSession,b,pi);
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
+	// 기존 일정 가지고 글쓰기 페이지로 가기
+	@Override
+	public ArrayList<Plan> selectOneTripPlanRe(int tripPlanNo) {
+		return boardDao.selectOneTripPlanRe(sqlSession,tripPlanNo);
+	}
+
+	//review게시글 작성
+	@Override
+	public int insertReviewBoard(Board b) {
+		return boardDao.insertReviewBoard(sqlSession,b);
+	}
+	
+	//후기 게시판 디테일 페이지
+	@Override
+	public ArrayList<Board> selectReviewBoard(int boardNo) {
+		return boardDao.selectReviewBoard(sqlSession, boardNo);
+	}
+
+	
+	//review 게시판 댓글 조회
+	@Override
+	public ArrayList<Reply> selectReviewReplyList(int boardNo) {
+		return	boardDao.selectReviewReplyList(sqlSession, boardNo);
+
+	}
+
+	//review 댓글 입력
+	@Override
+	public int ajaxInsertReply(Reply r) {
+		
+		return boardDao.ajaxInsertReply(sqlSession, r);
+	}
+	
+	//review 댓글 삭제
+	@Override
+	public int ajaxDeleteReviewReply(Reply r) {
+		return boardDao.ajaxDeleteReviewReply(sqlSession,r);
+	}
+	
+	//댓글 수정
+	@Override
+	public int ajaxUpdateReviewReply(Reply r) {
+		return boardDao.ajaxUpdateReviewReply(sqlSession,r);
+	}
+
+	
+	
+
+	
+	//글쓰기 누르면 ajax호출해서 나의 일정리스트 가져오기
+	@Override
+	public ArrayList<Plan> selectPlanListRe(int memberNo) {
+		return boardDao.selectPlanListRe(sqlSession,memberNo);
+	}
+
+
+	
+
+	//review게시글 수정
+	@Override
+	public int updateReviewBoard(Board b) {
+		return boardDao.updateReviewBoard(sqlSession,b);
+	}
+
+	@Override
+	public int reviewDeleteBoard(int boardNo) {
+		return boardDao.reviewDeleteBoard(sqlSession,boardNo);
+	}
+	
+
+	
+	
 
 
 
@@ -1075,9 +1086,7 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.myReviewList(sqlSession,pi, m);
 	}
 
-
-
-
+	
 
 
 
@@ -1227,44 +1236,9 @@ public class BoardServiceImpl implements BoardService{
 	
 	
 	
-	@Override
-	public Board selectReviewBoard(int boardNo) {
-		return boardDao.selectReviewBoard(sqlSession, boardNo);
-	}
-
-	
-
 	
 	
-	@Override
-	public ArrayList<Reply> selectReply(int bno) {
-		return	boardDao.selectReplyList(sqlSession, bno);
-
-	}
-
-	@Override
-	public int insertReviewReply(Reply r) {
-		
-		return boardDao.insertReviewReply(sqlSession, r);
-	}
-
 	
-	@Override
-	public int updateReivewReply(Reply r) {
-		
-		return boardDao.updateReivewReply(sqlSession, r);
-	}
-	
-
-
-
-
-
-
-
-
-
-
 
 
 

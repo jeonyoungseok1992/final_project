@@ -23,13 +23,19 @@
 		<result column="LOCATION_NO" property="locationNo"/>
 		<result column="TRIP_N_DAY" property="tripNday"/>
 		<result column="ATTRACTION_NO" property="attractionNo"/>
-		<result column="ATTRACTION_NAME" property="attracionName"/>
+		<result column="ATTRACTION_NAME" property="attractionName"/>
+		<result column="ATTRACTION_ADDRESS" property="attractionAddress"/>
 		<result column="ATTRACTION_CHANGE_NAME_IMG" property="attractionChangeNameImg"/>
+		<result column="ATTRACTION_MEMO" property="attractionMemo"/>
+		<result column="CATEGORY_NO" property="categoryNo"/>
+		<result column="CATEGORY_NAME" property="categoryName"/>
+				
+		
+		
 		 </resultMap>
 
 	<resultMap type="Reply" id="replyResult">
 		<result column="REPLY_NO" property="replyNo"/>
-		<result column="REPLY_BOARD_NO" property="replyBno"/>
 		<result column="REPLY_BOARD_NO" property="replyBoardNo"/>
 		<result column="REPLY_WRITER" property="replyWriter"/>
 		<result column="REPLY_CONTENT" property="replyContent"/>
@@ -53,7 +59,11 @@
 		<result column="TRIP_PLAN_THUMBNAIL" property="tripPlanThumbnail"/>
 		<result column="ATTRACTION_NO" property="attractionNo"/>
 		<result column="ATTRACTION_NAME" property="attractionName"/>
+		<result column="ATTRACTION_MEMO" property="attractionMemo"/>
+		<result column="ATTRACTION_ADDRESS" property="attractionAddress"/>
 		<result column="ATTRACTION_CHANGE_NAME_IMG" property="attractionChangeNameImg"/>
+		<result column="CATEGORY_NO" property="categoryNo"/>		
+		<result column="CATEGORY_NAME" property="categoryName"/>		
 		<result column="REGION_NO" property="regionNo"/>
 		<result column="REGION_NAME" property="regionName"/>
 		<result column="TRIP_N_DAY" property="tripNday"/>
@@ -62,6 +72,7 @@
 				
 	
 	
+	              
 	
 	
 	
@@ -229,6 +240,8 @@
                 ,TRIP_PLAN_THUMBNAIL
                 ,ATTRACTION_NO
                 ,ATTRACTION_NAME
+                ,ATTRACTION_MEMO
+                ,ATTRACTION_ADDRESS
                 ,ATTRACTION_CHANGE_NAME_IMG
                 ,TRIP_N_DAY
                 ,REGION_NO
@@ -319,7 +332,7 @@
 			WHERE BOARD_NO = #{boardNo}
 		</update>
 		
-		<!-- 같이가요 댓글 조회 쿼리문 -->
+	<!-- 같이가요 댓글 조회 쿼리문 -->
 	<select id="selectTogetherReplyList" resultMap="replyResult">
 		SELECT REPLY_NO
 				,REPLY_CONTENT
@@ -461,124 +474,235 @@
 	</select>
 	
 	
+		<!--review 게시판 키워드로 검색 -->
+		<select id="searchReviewList" resultMap="boardResult">
+			select   B.BOARD_NO
+					,B.BOARD_TITLE
+			        ,B.BOARD_CONTENT
+			        ,M.MEMBER_ID
+			        ,B.BOARD_CREATE_DATE
+			        ,R.REGION_NAME
+			      
+			FROM BOARD B
+			JOIN MEMBER M ON (B.BOARD_WRITER = M.MEMBER_NO)
+			JOIN REGION R ON (B.BOARD_REGION_NO= R.REGION_NO)
+			
+			WHERE B.BOARD_CATEGORY = 1
+			AND B.BOARD_STATUS = 'Y'
+			<choose>
+				<when test="condition == 'writer'">
+		  			AND M.MEMBER_ID
+		  		</when>
+		  		
+		  		<when test="condition == 'title'">
+		       		 AND B.BOARD_TITLE 
+		        </when>
+		        
+		        <when test="condition == 'region'">
+		    		 AND R.REGION_NAME 
+		        </when>
+		        
+		        <otherwise>
+		        AND BOARD_CONTENT 
+	      	 	</otherwise>
+	        </choose>
+	        LIKE '%' || #{keyword} || '%'
+	        ORDER BY B.BOARD_NO DESC
+		</select>
 	
-	<select id="searchReviewList" resultMap="boardResult">
-		select   B.BOARD_NO
-				,B.BOARD_TITLE
-		        ,B.BOARD_CONTENT
-		        ,M.MEMBER_ID
-		        ,B.BOARD_CREATE_DATE
-		        ,R.REGION_NAME
-		      
-		from board B
-		join member M on (B.BOARD_WRITER = M.MEMBER_NO)
-		join REGION R on (B.BOARD_REGION_NO= R.REGION_NO)
 		
-		where B.BOARD_CATEGORY = 1
-		AND B.BOARD_STATUS = 'Y'
-		<choose>
-			<when test="condition == 'writer'">
-	  			AND M.MEMBER_ID
-	  		</when>
-	  		
-	  		<when test="condition == 'title'">
-	       		 AND B.BOARD_TITLE 
-	        </when>
-	        
-	        <when test="condition == 'region'">
-	    		 AND R.REGION_NAME 
-	        </when>
-	        
-	        <otherwise>
-	        AND BOARD_CONTENT 
-      	 	</otherwise>
-        </choose>
-        LIKE '%' || #{keyword} || '%'
-        ORDER BY B.BOARD_NO DESC
-	</select>
+		<!--reivew게시글 조회 -->
+		<select id="selectReviewBoard" resultMap="boardResult"> <!-- 객체여서 MAP -->
+				SELECT   BOARD_NO
+						,BOARD_TITLE
+						,BOARD_CONTENT
+						,TO_CHAR(BOARD_MODIFY_DATE, 'YYYY-MM-DD') AS "BOARD_MODIFY_DATE"
+		                ,BOARD_REPORT
+		                ,MEMBER_NO
+		                ,MEMBER_ID
+		                ,BOARD_TRIP_PLAN_NO
+		                ,BOARD_REGION_NO
+		                ,TRIP_PLAN_NO
+		                ,TRIP_PLAN_THUMBNAIL
+		                ,LOCATION_NO
+		               	,TRIP_N_DAY
+		                ,ATTRACTION_NO
+		                ,ATTRACTION_NAME
+		                ,ATTRACTION_ADDRESS
+		                ,ATTRACTION_CHANGE_NAME_IMG
+		                ,CATEGORY_NAME
+	                
+	                
+				FROM 	BOARD   
+	            JOIN 	MEMBER ON (MEMBER_NO = BOARD_WRITER)
+	            JOIN 	TRIP_PLAN ON (BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
+	            JOIN	LOCATION USING (TRIP_PLAN_NO)
+	            JOIN 	ATTRACTION ON (ATTRACTION_NO=LOCATION_ATTRACTION_NO)
+	  			JOIN 	CATEGORY ON (ATTRACTION_CATEGORY_NO = CATEGORY_NO)
+	            
+				WHERE BOARD_NO = #{boardNo}
+	            AND BOARD_CATEGORY = 1
+				AND BOARD_STATUS = 'Y'
+	            ORDER BY TRIP_N_DAY
+				
+		</select>
 	
 	
-	<select id="selectReviewBoard" resultMap="boardResult"> <!-- 객체여서 MAP -->
-		SELECT  BOARD_NO,
-		      	BOARD_TITLE,
-		       	MEMBER_ID,
-		       	BOARD_CONTENT,
-		       	BOARD_CREATE_DATE
-		       	
-		       	
-		FROM    BOARD
-		JOIN 	MEMBER ON (BOARD_WRITER = MEMBER_NO)
+	
+		<!-- 후기 댓글 조회 쿼리문 -->
+		<select id="selectReviewReplyList" resultMap="replyResult">
+				SELECT  REPLY_NO
+					    ,REPLY_CONTENT
+						,MEMBER_ID AS "REPLY_WRITER"
+						,TO_CHAR(REPLY_MODIFY_DATE, 'YYYY-MM-DD') AS "REPLY_MODIFY_DATE"
+						,MEMBER_PROFILE_IMG
+				FROM 	REPLY
+				JOIN 	MEMBER ON (REPLY_WRITER = MEMBER_NO)
+				WHERE 	REPLY_STATUS = 'Y'
+				AND 	REPLY_BOARD_NO = #{boardNo}
+				ORDER 	BY REPLY_NO
+		</select>
 		
-		WHERE   BOARD_STATUS = 'Y'
-		AND		BOARD_NO = #{boardNo}
-	</select>
-	
-	
-	
-		<!-- 같이가요 댓글 조회 쿼리문 -->
-	<select id="selectReplyList" resultMap="replyResult">
-		SELECT REPLY_NO
-				,REPLY_CONTENT
-				,MEMBER_ID AS "REPLY_WRITER"
-				,TO_CHAR(REPLY_CREATE_DATE, 'YYYY-MM-DD') AS "REPLY_CREATE_DATE"
-				,MEMBER_PROFILE_IMG
-		FROM REPLY
-		JOIN MEMBER ON (REPLY_WRITER = MEMBER_NO)
-		WHERE REPLY_STATUS = 'Y'
-		AND REPLY_BOARD_NO = #{bno}
-		ORDER BY REPLY_NO
-	</select>
-	<!-- 같이가요 댓글추가 -->
-	<insert id="insertReviewReply">
-		INSERT INTO REPLY
-		(
-				REPLY_NO,
-				REPLY_BOARD_NO,
-				REPLY_WRITER,
-				REPLY_CONTENT,
-				REPLY_MODIFY_DATE
-				
-				
-				
-		)
-		VALUES( 
-				SEQ_RNO.NEXTVAL,
-				#{replyBno},
-				#{replyWriter},
-				#{replyContent},
-				#{replyModifyDate}
-				
-				
-		)
-	</insert>
-	
-	
-	
-	<update id="updateReivewReply">
-		UPDATE REPLY
 		
-		SET REPLY_CONTENT = #{replyContent}
+		<!-- plan 정보가지고 글쓰기 페이지에 가져오기  review-->
+		<select id="selectOneTripPlanRe" resultMap="planResult">
+	 		 	SELECT  TRIP_PLAN_NO
+						,TRIP_PLAN_TITLE
+		                ,LOCATION_NO
+		                ,TRIP_PLAN_THUMBNAIL
+		                ,ATTRACTION_NO
+		                ,ATTRACTION_NAME
+		                ,ATTRACTION_ADDRESS
+		                ,CATEGORY_NAME
+		                ,ATTRACTION_CHANGE_NAME_IMG
+		                ,TRIP_N_DAY
+		                ,REGION_NO
+		                
+				FROM 	TRIP_PLAN
+				JOIN 	MEMBER ON (TRIP_PLANNER_NO = MEMBER_NO)
+		        JOIN	location using (TRIP_PLAN_NO)
+		        JOIN	ATTRACTION ON (LOCATION_ATTRACTION_NO = ATTRACTION_NO)
+		        JOIN	REGION ON (REGION_NO = ATTRACTION_REGION_NO)
+		 	    JOIN	CATEGORY ON (ATTRACTION_CATEGORY_NO = CATEGORY_NO)
+	
+				WHERE 	TRIP_PLAN_NO = #{tripPlanNo}
+				ORDER 	BY TRIP_N_DAY
+		</select>
+	
+	
+		<!--후기 글쓰기 누르면 ajax로 가져올 일정호출 -->
+		<select id="selectPlanListRe" resultMap="planResult">
+		 		select  TRIP_PLAN_NO
+						,TRIP_PLAN_TITLE
+				        ,TO_CHAR(TRIP_START_DATE, 'YYYY/MM/DD') AS "TRIP_START_DATE"
+				        ,TO_CHAR(TRIP_END_DATE, 'YYYY/MM/DD') AS "TRIP_END_DATE"
+		                ,LOCATION_NO
+		                ,TRIP_PLAN_THUMBNAIL
+		                ,ATTRACTION_NO
+		                ,ATTRACTION_NAME
+		                ,ATTRACTION_CHANGE_NAME_IMG
+		                ,CATEGORY_NAME
+		                ,REGION_NO
+		                ,REGION_NAME
+		                ,TRIP_N_DAY
+				FROM 	TRIP_PLAN
+				
+				JOIN MEMBER ON (TRIP_PLANNER_NO = MEMBER_NO)
+		        JOIN LOCATION using (TRIP_PLAN_NO)
+		        JOIN ATTRACTION ON (LOCATION_ATTRACTION_NO = ATTRACTION_NO)
+		        JOIN CATEGORY ON (ATTRACTION_CATEGORY_NO = CATEGORY_NO)
+		        JOIN REGION ON(ATTRACTION_REGION_NO =REGION_NO)
+		        
+				WHERE TRIP_PLANNER_NO = #{memberNo}
+		</select>
+	
+	
+		<!-- 후기 게시글 작성 쿼리문 -->
+		<insert id="insertReviewBoard">
+				INSERT INTO BOARD 
+						(BOARD_NO
+						,BOARD_TITLE
+		                ,BOARD_CONTENT
+						,BOARD_WRITER
+						,BOARD_TRIP_PLAN_NO
+		                ,BOARD_CATEGORY
+		                ,BOARD_REGION_NO
+						)
+				VALUES (SEQ_BNO.NEXTVAL
+						,#{boardTitle}
+						,#{boardContent}
+						,#{boardWriter}
+						,#{boardTripPlanNo}
+		                ,1
+		                ,#{boardRegionNo}
+						)
+		</insert>
+	
+	
+	
+		<!-- 후기 게시글 수정 관련 sql -->
+		<update id="updateReviewBoard">
+				UPDATE BOARD
+		            
+		            
+				SET BOARD_TITLE = #{boardTitle}
+					,BOARD_CONTENT = #{boardContent}
+					,BOARD_TRIP_PLAN_NO = #{boardTripPlanNo}
+					,BOARD_MODIFY_DATE = SYSDATE
+					,BOARD_REGION_NO = #{boardRegionNo}
+					
+				WHERE BOARD_NO = #{boardNo}
+		</update>
 		
-		WHERE REPLY_BOARD_NO = #{replyBno}
-		AND   REPLY_NO = #{replyNo}	
-	
-	</update>
-	
-	
-	
-	
-	
-	
+		<!-- 후기 게시글 삭제 관련 sql -->
+		<update id="reviewDeleteBoard">
+				UPDATE BOARD
+				
+				SET BOARD_STATUS ='N'
+				
+				WHERE BOARD_NO = #{boardNo}
+		</update>
 	
 	
 	
+		<!-- 같이가요 댓글추가 -->
+		<insert id="ajaxInsertReply">
+				INSERT INTO REPLY
+						 (REPLY_NO
+						,REPLY_CONTENT
+						,REPLY_BOARD_NO
+						,REPLY_WRITER
+							)
+				VALUES(SEQ_RNO.NEXTVAL
+						,#{replyContent}
+						,#{replyBoardNo}
+						,#{replyWriter}
+						)
+		</insert>
+	
+		<!-- 후기 게시글 삭제 관련 sql -->
+		<update id="ajaxDeleteReviewReply">
+				UPDATE REPLY
+				
+				SET REPLY_STATUS ='N'
+				
+				WHERE REPLY_BOARD_NO = #{replyBoardNo}
+				AND REPLY_NO = #{replyNo} 
+		</update>
+		
+		<!-- 후기 댓글 수정 관련 sql -->
+		<update id="ajaxUpdateReviewReply">
+				UPDATE REPLY
+				
+				SET REPLY_CONTENT =#{replyContent}
+				
+				WHERE REPLY_BOARD_NO = #{replyBoardNo}
+				AND REPLY_NO = #{replyNo} 
+		</update>
 	
 	
 	
-	
-	
-	
-	
+
 	
 	
 	
