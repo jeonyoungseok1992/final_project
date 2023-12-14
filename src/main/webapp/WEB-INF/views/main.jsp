@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +17,7 @@
 <!-- jquery 3.7.1 -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
+<script src="./resources/js/main.js"></script>
 </head>
 <body>
 
@@ -63,50 +64,9 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             </button>   
         </div>
         <div id="section3-lc">
-            <div class="section3-lc-inner">
-                <img class="lc-photo" src="./resources/images/recommend photo.PNG">
-                <div class="lc-eng">JEJU</div>
-                <div class="lc-han">제주</div>
+            <div class="section3-lc-inner" onclick="redirectToPlan()">
+                
             </div>
-            <div class="section3-lc-inner">
-                <img class="lc-photo" src="./resources/images/recommend photo.PNG">
-                <div class="lc-eng">JEJU</div>
-                <div class="lc-han">제주</div>
-            </div>
-            <div class="section3-lc-inner">
-                <img class="lc-photo" src="./resources/images/recommend photo.PNG">
-                <div class="lc-eng">JEJU</div>
-                <div class="lc-han">제주</div>
-            </div>
-            <div class="section3-lc-inner">
-                <img class="lc-photo" src="./resources/images/recommend photo.PNG">
-                <div class="lc-eng">JEJU</div>
-                <div class="lc-han">제주</div>
-            </div>
-            <div class="section3-lc-inner">
-                <img class="lc-photo" src="./resources/images/recommend photo.PNG">
-                <div class="lc-eng">JEJU</div>
-                <div class="lc-han">제주</div>
-            </div>
-            <div class="section3-lc-inner">
-                <img class="lc-photo" src="./resources/images/recommend photo.PNG">
-                <div class="lc-eng">JEJU</div>
-                <div class="lc-han">제주</div>
-            </div>            <div class="section3-lc-inner">
-                <img class="lc-photo" src="./resources/images/recommend photo.PNG">
-                <div class="lc-eng">JEJU</div>
-                <div class="lc-han">제주</div>
-            </div>
-            <div class="section3-lc-inner">
-                <img class="lc-photo" src="./resources/images/recommend photo.PNG">
-                <div class="lc-eng">JEJU</div>
-                <div class="lc-han">제주</div>
-            </div>
-            <div class="section3-lc-inner">
-                <img class="lc-photo" src="./resources/images/recommend photo.PNG">
-                <div class="lc-eng">JEJU</div>
-                <div class="lc-han">제주</div>
-            </div>  
         </div>
     </div>
 </body>

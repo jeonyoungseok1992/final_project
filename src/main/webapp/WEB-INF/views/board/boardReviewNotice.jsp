@@ -63,8 +63,10 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
         <div class="borad-btn-top">
             <div><span>총</span><span>${fn:length(list)}</span><span>건</span></div>
 
+
             <c:if test="${!(empty loginUser) }">
                 <button type="button" data-bs-toggle="modal" data-bs-target="#myschedulelistModal" onclick="pickupSchedule(${loginUser.memberNo})">글쓰기</button>
+
             </c:if>
             <!-- 글쓰기버튼 클릭시 나의 모든일정 보여주는 modal -->
             <div class="modal fade" id="myschedulelistModal">

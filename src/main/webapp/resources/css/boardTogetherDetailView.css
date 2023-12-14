@@ -46,7 +46,7 @@ height: 80px;
 left: 15px;
 padding: 15px;
 display: flex;
-
+align-items: center;
 }
 
 
@@ -139,7 +139,7 @@ th{
     display: flex;
     position: absolute;
 
-    top: 170px;
+    top: 156px;
     right: 30px;            
 }
 
@@ -219,6 +219,10 @@ th{
 }
 
 .reply-content{
+    padding: 15px;
+    width: 920px;
+}
+.reply-content2{
     padding: 15px;
     width: 920px;
 }
@@ -443,4 +447,12 @@ transform: translate3d(10px, 205.5px, 0px)!important;
     border-radius: 50%; 
 }
 
+.enrollButton{
+    background: #b2d8b5; 
+    border: #b2d8b5;
+    width: 36px;
+    height: 26px;
+    margin-left: 10px;
+    color: white;
+}
     

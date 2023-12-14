@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="./resources/css/scheduleListModal.css">
     <link rel="stylesheet" href="./resources/css/board-card.css">
     <link rel="stylesheet" href="./resources/css/boardTogetherDetailView.css">
+    <link rel="stylesheet" href="./resources/css/togetherEnrollForm.css">
     <script src="./resources/js/togetherEnrollForm.js"></script>
     <script src="./resources/js/board-api.js"></script>
     <script src="./resources/js/boardTogetherNotice.js"></script>
@@ -43,17 +44,6 @@
             <jsp:include page="../common/header.jsp" />
 
             <div class="schedule-container">
-                <c:if test="${loginUser.memberNo eq list[0].memberNo}">
-                <div class="dropdown">
-                    <i class="bi bi-pencil-square dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false" id="editBtn"></i>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="updateTogetherForm.bo?boardNo=${list[0].boardNo}">일정수정</a></li>
-                        <li><a class="dropdown-item" href="#">취소</a></li>
-                    </ul>
-
-                </div>
-                </c:if>
            
                 <div id="map" ><img src="${list[0].tripPlanThumbnail}" alt="" style="width: 100%; height: 100%;"></div>
                 
@@ -87,7 +77,7 @@
                 </div>
     
             </div>
-                 
+        </div>
     
                 
             <section id="title-area">
@@ -117,15 +107,24 @@
                             </tr>
 
                             <tr>
+                            
                                 <!--프로필 수정-->
                                 <th id="profile-modify">
 
-                                        <div>
-                                            <img src="resources/images/profile.png" 
-                                            type="button" class="btn btn-primary dropdown-toggle" 
-                                            data-bs-toggle="dropdown" id="profileClickBtn">
-                                            </img>
-                                            <span id="board-writer">${list[0].boardWriter}</span>
+                                        <c:choose>
+                                        	<c:when test="${!empty list[0].memberProfileImg}">
+	                                            <img src="${list[0].memberProfileImg}" 
+	                                            type="button" class="dropdown-toggle" 
+	                                            data-bs-toggle="dropdown" id="profileClickBtn">
+	                                            </img>	                               
+                                            </c:when>
+                                            <c:otherwise>
+										        <img src="resources/images/profile.png" type="button" class="dropdown-toggle" 
+	                                            data-bs-toggle="dropdown" id="profileClickBtn">
+										    </c:otherwise>
+                                         </c:choose>
+                                        <div>   
+                                            <span id="board-writer" style="margin-left: 10px;">${list[0].boardWriter}</span>
 
                                             <ul class="dropdown-menu hoho" style="text-align: center;" align="center">
                                                 <li><a class="dropdown-item" href="#">프로필</a></li>
@@ -160,12 +159,15 @@
                                         <img src="resources/images/like.png" style="width: 45px; height: 45px;" alt="좋아요"> 27
                                     </button>
                                 </th>
-
-                                <th style="vertical-align:middle; width: 50px ;height: 50px;">
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="warn">
-                                        <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
-                                    </button>
-                                </th>
+                                <c:if test="${!empty loginUser}">
+                                    <c:if test="${!(loginUser.memberId eq list[0].boardWriter)}"> 
+                                    <th style="vertical-align:middle; width: 50px ;height: 50px;">
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="warn" onclick="contentsInit1(document.querySelector('.bd-content').innerText)">
+                                            <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
+                                        </button>
+                                    </th>
+                                    </c:if>
+                                </c:if>
                             </tr>
                         </div>
 
@@ -185,7 +187,7 @@
                                         
                                         <tr> 
                                             <th>
-                                                <textarea class="form-control" id="content"  cols="55" rows="2" style="resize:none; width:100%;"></textarea>
+                                                <textarea class="form-control" id="content"  cols="55" rows="2" style="resize:none; width:100%;" onkeyup="(event.keyCode === 13 ? addReply() : false)" ></textarea>
                                             </th>
 
                                             <th style="vertical-align:middle; width: 80px;" >
@@ -230,20 +232,22 @@
                         data : {
                             boardNo : '${list[0].boardNo}'
                         },
-                        success : function(rlist){
-                            $('#rcount').text(rlist.length);
+                        success : function(replyList){
+                            console.log(replyList);
+                            $('#rcount').text(replyList.length);
+
                             let str = '';
 
-                            if(rlist.length === 0){
+                            if(replyList.length === 0){
                                 str = `<div style="margin-bottom: 200px; padding-top: 100px; display: flex; justify-content: center; align-items: center;">댓글 리스트가 존재하지 않습니다.</div>`
                             } 
-                            for(reply of rlist){
+                            for(reply of replyList){
                                str += `
                                         <tr class="reply-profile">
                                         <th class="rp-profile-img" style="width: 80px; "> 
-                                            <div>
+                                            <div style="position:relative;">
                                             <img  src="` + reply.memberProfileImg + `" alt="프로필없음" 
-                                            type="button" class="btn btn-primary dropdown-toggle" 
+                                            type="button" class="dropdown-toggle" 
                                             data-bs-toggle="dropdown"
                                             style="background: none; border: none;
                                                     width: 50px; height: 50px;
@@ -258,17 +262,17 @@
                                             </ul>
                                         </div></th>
 
-                                        <th>` +reply.replyWriter+ `</th>
+                                        <th colspan=2>` +reply.replyWriter+ `</th>
                                         <th style="width: 150px;">`+ reply.replyModifyDate + `</th>
                                 </tr>
                                
                                     <tr>`+
-                                        `<td class="reply-content" colspan="2">` + reply.replyContent+ `</td>`;
+                                        `<td class="reply-content" id="reply`+reply.replyNo+`" colspan="4">` + reply.replyContent+ `</td>`;
                                    
-                                   
+                            if(!("${loginUser}" === null)){   
                                  if(!(reply.replyWriter === "${loginUser.memberId}")) {         
                                    str += ` <td colspan="1" id="reply-warn-area">
-                                         <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="reply-warn">
+                                         <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="reply-warn" onclick="contentsInit(`+reply.replyNo+`)">
                                                 <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
                                             </button>
 
@@ -278,33 +282,102 @@
                                             
                                         </td>`;
                                     }
-                                str += ` </tr>
-
+                                str += ` </tr>`;
+                            }
     
+                            if("${loginUser}" !== null){
+                                str += `<tr>
+                                    <th colspan="3" id="re-reply">
+                                        <button class="btn btn-secondary" style="background: #b2d8b5; border: #b2d8b5;" onclick="drawInput(event,`+ reply.replyNo+`)">
+                                                답글
+                                        </button>
+                                        `;
 
-                            <tr>
-                                <th  colspan="3" id="re-reply" >
-                                    <button class="btn btn-secondary" style="background: #b2d8b5; border: #b2d8b5;">
-                                            답글
-                                    </button>
-                                    `;
 
-
-                            if(reply.replyWriter === "${loginUser.memberId}") {
+                                if(reply.replyWriter === "${loginUser.memberId}") {
+                                    str +=`
+                                    <button class="btn btn-secondary" data-bs-toggle='modal' data-bs-target='#replyUpdateModal' style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+reply.replyNo+`)">수정</button>
+                                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myModal" style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+reply.replyNo+`)">
+                                                삭제
+                                            </button>`;
+                                }
+                                
+                                        
                                 str +=`
-                                <button class="btn btn-secondary" data-bs-toggle='modal' data-bs-target='#replyUpdateModal' style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+reply.replyNo+`)">수정</button>
-                                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myModal" style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+reply.replyNo+`)">
-                                            삭제
-                                        </button>`;
+                                    </th>
+                                </tr>`;
                             }
+                                if(reply.rlist.length > 0) {
+                                    for (let r of reply.rlist) {
+                                        str += `
+
+                                                    <tr class="reply-profile" >
+                                                    <th></th>
+                                                    <th class="rp-profile-img" style="width: 80px;"> 
+                                                        <div style="position:relative;">
+                                                        <img  src="` + r.memberProfileImg + `" alt="프로필없음" 
+                                                        type="button" class="dropdown-toggle" 
+                                                        data-bs-toggle="dropdown"
+                                                        style="background: none; border: none;
+                                                                width: 50px; height: 50px;
+                                                                border-radius: 50%;">
+                                                        </img>
+                                                    
+
+                                                        <ul class="dropdown-menu" style="text-align: center;" align="center">
+                                                            <li><a class="dropdown-item" href="#">프로필</a></li>
+                                                            <li><a class="dropdown-item" href="#">친구신청</a></li>
+                                                            <li><a class="dropdown-item" href="#">대화화기</a></li>
+                                                        </ul>
+                                                    </div></th>
+
+                                                    <th>` +r.replyWriter+ `</th>
+                                                    <th style="width: 150px;">`+ r.replyModifyDate + `</th>
+                                                    </tr>
+                                        
+                                                    <tr><td></td><td></td>`+
+                                                    `<td class="reply-content" id="reply`+r.replyNo+`" colspan="2">` + r.replyContent+ `</td>`;
+                                                    
+
+                                                    if(!("${loginUser}" === null)){   
+                                                    if(!(r.replyWriter === "${loginUser.memberId}")) {         
+                                                    str += ` <td colspan="1" id="reply-warn-area">
+                                                            <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="reply-warn" onclick="contentsInit(`+r.replyNo+`)">
+                                                                    <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
+                                                                </button>
+
+
+
+
+                                                                
+                                                                </td>`;
+                                                            }
+                                                        str += ` </tr>`;
+                                                    }
+                                                    
+                                                    str += `</tr>`;
+
+
+                                                    if(r.replyWriter === "${loginUser.memberId}") {
+                                                        str +=`<tr><td></td><td></td>
+                                                        <th colspan="3" id="re-reply">
+                                                        <button class="btn btn-secondary" data-bs-toggle='modal' data-bs-target='#replyUpdateModal' style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+r.replyNo+`)">수정</button>
+                                                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myModal" style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+r.replyNo+`)">
+                                                                    삭제
+                                                        </button>`;
+                                                    }
+                                
+                                        
+                                                        str +=`
+                                                            </th>
+                                                        </tr>`;
+
+                                                    
+                                    }
+                                }
                             
-                                    
-                            str +=`
-                                </th>
-                            </tr>
-                            `;
                             }
-                         
+
                             $(".reply-area").html(str);
                     
                         },
@@ -376,11 +449,12 @@
                                 <div class="dl-type">
                                     <dl>
                                         <dt><strong>아이디</strong></dt>
-                                        <dd>홍길동</dd>
+                                        <dd>${loginUser.memberId}</dd>
                                     </dl>
                                     <dl>
                                         <dt><strong>내용</strong></dt>
-                                        <dd><p>이것도 여행계획이라고 짠건가? ㅉㅉ 이것도 여행계획이라고 짠건가? ㅉㅉ</p></dd>
+                                        <input type="hidden" name="reportContents" class="rptContent">
+                                        <dd id="reportContent" ><p id="rcontent" style="overflow: auto; max-height: 200px;"></p></dd>
                                     </dl>
                                 </div>
                                 <br>
@@ -409,7 +483,10 @@
                     </div>
                 </div>
             </div>
-        
+            <script>
+                $('#reportContent > p > img').css("display", "none" );
+            </script>
+
             <!-- 댓글 삭제 모달 Modal -->
             <div class="modal fade" id="myModal">
                 <div class="modal-dialog">
@@ -473,6 +550,56 @@
                     }
                     function numinit(num){
                         document.querySelector('.updateReplyNo').value = num;
+                    }
+                    function contentsInit1(cont){
+                        document.querySelector('.rptContent').value = cont;
+                        document.getElementById('rcontent').innerText =cont;
+                    }
+                    function contentsInit(num){
+                        const val = document.getElementById('reply' + num).innerText;
+                        document.querySelector('.rptContent').value = val;
+                        document.getElementById('rcontent').innerText =val;
+                    }
+
+                    function drawInput(ev,replyNo){
+                       $(".reply-tr").remove();
+                    
+                        const box = document.createElement("tr");
+                        box.className = 'reply-tr';
+                        const th = document.createElement("th");
+                        const input = document.createElement("input");
+                        const btn = document.createElement("button");
+                        btn.className = 'btn btn-secondary';
+                        btn.style = "background: #b2d8b5; border: #b2d8b5; margin-left:10px;"
+                        btn.innerText = "등록";
+                        th.colSpan = "3";
+                        th.appendChild(input);
+                        th.appendChild(btn);
+                        box.appendChild(th);
+                        ev.target.parentNode.parentNode.after(box);
+                        btn.addEventListener("click", function(){
+                            $.ajax({
+                            url : "togetherRRinsert.bo",
+                            data : {
+                                replyBoardNo : '${list[0].boardNo}',
+                                replyWriter : '${loginUser.memberNo}',
+                                replyNo : replyNo,
+                                replyContent : input.value,
+                            },
+                            success : function(res){
+                                console.log(res)
+                                if(res === "success"){
+                                    selectReply();
+                                }
+                            
+                            },
+                            error:function(){
+                                console.log("togetherRRinsert.bo ajax 통신 실패");
+                            }
+                        })
+                            
+                            
+                        });
                     }
                   </script>  
 

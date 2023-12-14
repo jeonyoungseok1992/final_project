@@ -1,4 +1,4 @@
-package com.kh.fin.board.model.vo;
+package com.kh.fin.data.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,13 +11,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Region {
-
-	
-	private int regionNo;
-	private String regionName;
-	private String regionMemo;
-	private String regionImg;
-	private String regionEng;
-	
+public class LocationInfomation {
+	private String title;
+	private String address;
+	private String mapX;
+	private String mapY;
+	private String img;
 }
