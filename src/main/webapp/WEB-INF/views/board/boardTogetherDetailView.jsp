@@ -159,12 +159,15 @@
                                         <img src="resources/images/like.png" style="width: 45px; height: 45px;" alt="좋아요"> 27
                                     </button>
                                 </th>
-
-                                <th style="vertical-align:middle; width: 50px ;height: 50px;">
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="warn">
-                                        <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
-                                    </button>
-                                </th>
+                                <c:if test="${!empty loginUser}">
+                                    <c:if test="${!(loginUser.memberId eq list[0].boardWriter)}"> 
+                                    <th style="vertical-align:middle; width: 50px ;height: 50px;">
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="warn" onclick="contentsInit1(document.querySelector('.bd-content').innerText)">
+                                            <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
+                                        </button>
+                                    </th>
+                                    </c:if>
+                                </c:if>
                             </tr>
                         </div>
 
@@ -242,7 +245,7 @@
                                str += `
                                         <tr class="reply-profile">
                                         <th class="rp-profile-img" style="width: 80px; "> 
-                                            <div>
+                                            <div style="position:relative;">
                                             <img  src="` + reply.memberProfileImg + `" alt="프로필없음" 
                                             type="button" class="dropdown-toggle" 
                                             data-bs-toggle="dropdown"
@@ -264,12 +267,12 @@
                                 </tr>
                                
                                     <tr>`+
-                                        `<td class="reply-content" colspan="4">` + reply.replyContent+ `</td>`;
+                                        `<td class="reply-content" id="reply`+reply.replyNo+`" colspan="4">` + reply.replyContent+ `</td>`;
                                    
-                                   
+                            if(!("${loginUser}" === null)){   
                                  if(!(reply.replyWriter === "${loginUser.memberId}")) {         
                                    str += ` <td colspan="1" id="reply-warn-area">
-                                         <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="reply-warn">
+                                         <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="reply-warn" onclick="contentsInit(`+reply.replyNo+`)">
                                                 <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
                                             </button>
 
@@ -279,11 +282,11 @@
                                             
                                         </td>`;
                                     }
-                                str += ` </tr>
-
+                                str += ` </tr>`;
+                            }
     
-
-                                <tr>
+                            if("${loginUser}" !== null){
+                                str += `<tr>
                                     <th colspan="3" id="re-reply">
                                         <button class="btn btn-secondary" style="background: #b2d8b5; border: #b2d8b5;" onclick="drawInput(event,`+ reply.replyNo+`)">
                                                 답글
@@ -303,7 +306,7 @@
                                 str +=`
                                     </th>
                                 </tr>`;
-                                
+                            }
                                 if(reply.rlist.length > 0) {
                                     for (let r of reply.rlist) {
                                         str += `
@@ -311,7 +314,7 @@
                                                     <tr class="reply-profile" >
                                                     <th></th>
                                                     <th class="rp-profile-img" style="width: 80px;"> 
-                                                        <div>
+                                                        <div style="position:relative;">
                                                         <img  src="` + r.memberProfileImg + `" alt="프로필없음" 
                                                         type="button" class="dropdown-toggle" 
                                                         data-bs-toggle="dropdown"
@@ -333,22 +336,35 @@
                                                     </tr>
                                         
                                                     <tr><td></td><td></td>`+
-                                                    `<td class="reply-content" colspan="2">` + r.replyContent+ `</td>
-                                                    </tr>
+                                                    `<td class="reply-content" id="reply`+r.replyNo+`" colspan="2">` + r.replyContent+ `</td>`;
+                                                    
+
+                                                    if(!("${loginUser}" === null)){   
+                                                    if(!(r.replyWriter === "${loginUser.memberId}")) {         
+                                                    str += ` <td colspan="1" id="reply-warn-area">
+                                                            <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="reply-warn" onclick="contentsInit(`+r.replyNo+`)">
+                                                                    <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
+                                                                </button>
 
 
-                                                    <tr><td></td><td></td>
-                                                    <th colspan="3" id="re-reply">
-                                                        `;
-                                                                   
 
 
-                                                    if(reply.replyWriter === "${loginUser.memberId}") {
-                                                        str +=`
+                                                                
+                                                                </td>`;
+                                                            }
+                                                        str += ` </tr>`;
+                                                    }
+                                                    
+                                                    str += `</tr>`;
+
+
+                                                    if(r.replyWriter === "${loginUser.memberId}") {
+                                                        str +=`<tr><td></td><td></td>
+                                                        <th colspan="3" id="re-reply">
                                                         <button class="btn btn-secondary" data-bs-toggle='modal' data-bs-target='#replyUpdateModal' style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+r.replyNo+`)">수정</button>
                                                         <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myModal" style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+r.replyNo+`)">
                                                                     삭제
-                                                                </button>`;
+                                                        </button>`;
                                                     }
                                 
                                         
@@ -433,11 +449,12 @@
                                 <div class="dl-type">
                                     <dl>
                                         <dt><strong>아이디</strong></dt>
-                                        <dd>홍길동</dd>
+                                        <dd>${loginUser.memberId}</dd>
                                     </dl>
                                     <dl>
                                         <dt><strong>내용</strong></dt>
-                                        <dd><p>이것도 여행계획이라고 짠건가? ㅉㅉ 이것도 여행계획이라고 짠건가? ㅉㅉ</p></dd>
+                                        <input type="hidden" name="reportContents" class="rptContent">
+                                        <dd id="reportContent" ><p id="rcontent" style="overflow: auto; max-height: 200px;"></p></dd>
                                     </dl>
                                 </div>
                                 <br>
@@ -466,7 +483,10 @@
                     </div>
                 </div>
             </div>
-        
+            <script>
+                $('#reportContent > p > img').css("display", "none" );
+            </script>
+
             <!-- 댓글 삭제 모달 Modal -->
             <div class="modal fade" id="myModal">
                 <div class="modal-dialog">
@@ -530,6 +550,15 @@
                     }
                     function numinit(num){
                         document.querySelector('.updateReplyNo').value = num;
+                    }
+                    function contentsInit1(cont){
+                        document.querySelector('.rptContent').value = cont;
+                        document.getElementById('rcontent').innerText =cont;
+                    }
+                    function contentsInit(num){
+                        const val = document.getElementById('reply' + num).innerText;
+                        document.querySelector('.rptContent').value = val;
+                        document.getElementById('rcontent').innerText =val;
                     }
 
                     function drawInput(ev,replyNo){

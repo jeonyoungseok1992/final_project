@@ -15,7 +15,7 @@ import com.kh.fin.common.model.vo.PageInfo;
 
 
 import com.kh.fin.board.model.vo.Plan;
-
+import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.member.model.vo.Member;
 
 @Service
@@ -103,73 +103,76 @@ public class BoardServiceImpl implements BoardService{
 	
 	
 	
-	
+	// 같이가요 게시판 리스트업을 위한 카운트 함수
 	@Override
 	public int selectTogetherListCount() {
 
 		return boardDao.selectTogetherListCount(sqlSession);
 	}
-
+	// 같이가요 게시글 리스트 조회
 	@Override
 	public ArrayList<Board> selectTogetherList(PageInfo pi) {
 
 		return boardDao.selectTogetherList(sqlSession,pi);
 	}
 
-	
+	//같이가요 키워드 검색
 	@Override
 	public ArrayList<Board> togetherSearchList(Board b, PageInfo pi) {
 		
 		return boardDao.togetherSearchList(sqlSession,b,pi);
 	}
-
+	//글쓰기 누르면 ajax호출해서 나의 일정리스트 가져오기
 	@Override
 	public ArrayList<Plan> selectPlanList(int memberNo) {
 		return boardDao.selectPlanList(sqlSession,memberNo);
 	}
-	
+	// 기존 일정 가지고 글쓰기 페이지로 가기
 	@Override
 	public ArrayList<Plan> selectOneTripPlan(int tripPlanNo) {
 		return boardDao.selectOneTripPlan(sqlSession,tripPlanNo);
 	}
+	// plan max day가져오기
 	@Override
 	public int countMaxPlanDay(int tripPlanNo) {
 		return boardDao.countMaxPlanDay(sqlSession,tripPlanNo);
 	}
+	//같이가요 게시판 글작성
 	@Override
 	public int insertTogetherBoard(Board b) {
 		return boardDao.insertTogetherBoard(sqlSession,b);
 	}
-	
+	//같이가요 게시판 디테일 페이지
 	@Override
 	public ArrayList<Board> selectTogetherBoard(int boardNo) {
 		return boardDao.selectTogetherBoard(sqlSession,boardNo);
 	}
+	//같이가요 게시판 글 수정
 	@Override
 	public int updateTogetherBoard(Board b) {
 		return boardDao.updateTogetherBoard(sqlSession,b);
 	}
-
+	//같이가요 게시판 글 삭제
 	@Override
 	public int togetherDeleteBoard(int boardNo) {
 		return boardDao.togetherDeleteBoard(sqlSession,boardNo);
 	}
-	
+	//같이가요 게시판 댓글 부르기
 	@Override
 	public ArrayList<Reply> selectTogetherReplyList(int boardNo) {
 		return boardDao.selectTogetherReplyList(sqlSession,boardNo);
 	}
-
+	//같이가요 게시판 댓글 추가
 	@Override
 	public int ajaxInsertTogetherReply(Reply r) {
 		return boardDao.ajaxInsertTogetherReply(sqlSession,r);
 	}
-	
+	//같이가요 게시판 댓글 삭제
 	@Override
 	public int ajaxDeleteTogetherReply(Reply r) {
 		return boardDao.ajaxDeleteTogetherReply(sqlSession,r);
 	}
-	
+	//같이가요 게시판 댓글 수정
 	@Override
 	public int ajaxUpdateTogetherReply(Reply r) {
 		
@@ -179,6 +182,11 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int ajaxInsertTogetherReReply(Reply r) {
 		return boardDao.ajaxInsertTogetherReReply(sqlSession,r);
+	}
+	//메인페이지 지역리스트 가져오는 ajax
+	@Override
+	public ArrayList<Region> ajaxselectRegionList() {
+		return boardDao.ajaxselectRegionList(sqlSession);
 	}
 	
 	
@@ -1265,6 +1273,8 @@ public class BoardServiceImpl implements BoardService{
 		
 		return boardDao.updateReivewReply(sqlSession, r);
 	}
+
+
 
 
 	

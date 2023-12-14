@@ -18,5 +18,6 @@ public class Region {
 	private String regionName;
 	private String regionMemo;
 	private String regionImg;
+	private String regionEng;
 	
 }
