@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
+import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.common.model.vo.PageInfo;
 
@@ -105,7 +106,8 @@ public interface BoardService {
 	// 같이가요 게시글 리스트 조회
 	ArrayList<Board> selectTogetherList(PageInfo pi);
 	
-
+	
+	
 	
 	
 	
@@ -352,7 +354,8 @@ public interface BoardService {
 	//같이가요 게시판 대댓글 작성
 	int ajaxInsertTogetherReReply(Reply r);
 	
-	
+	//메인페이지 지역 ajax
+	ArrayList<Region> ajaxselectRegionList();
 	
 	
 	
@@ -443,20 +446,44 @@ public interface BoardService {
 	ArrayList<Board> searchReviewList(Board b,PageInfo pi);
 	
 	//Review게시글 상세조회
-	Board selectReviewBoard(int boardNo);
+	ArrayList<Board> selectReviewBoard(int boardNo);
 	
 	
 	//댓글리스트 조회
-		ArrayList<Reply> selectReply(int bno);
+		ArrayList<Reply> selectReviewReplyList(int boardNo);
 		
 	//댓글 작성
-	int insertReviewReply(Reply r);
+	int ajaxInsertReply(Reply r);
 	
-	//댓글 업데이트
-	int updateReivewReply(Reply r);
+	//후기 게시판 글작성
+	int insertReviewBoard(Board b);
+	
+	// 기존 일정 가지고 글쓰기 페이지로 가기
+	ArrayList<Plan> selectOneTripPlanRe(int tripPlanNo);
+	
+	//후기 게시글 삭제
+	int reviewDeleteBoard(int boardNo);
+	
+	//후기게시글 수정
+	int updateReviewBoard(Board b);
 	
 	// 기존 일정 가지고 글쓰기 페이지로 가기
 	ArrayList<Plan> selectOneTripPlan(int tripPlanNo);
+	
+
+	//후기  글쓰기 누르면 ajax호출해서 나의 일정리스트 가져오기 
+	ArrayList<Plan> selectPlanListRe(int memberNo);
+	
+	//후기 게시판 댓글 삭제
+	int ajaxDeleteReviewReply(Reply r);
+	
+	//후기 게시판 댓글 수정
+	int ajaxUpdateReviewReply(Reply r);
+	
+	
+	
+	
+	
 	
 	
 

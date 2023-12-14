@@ -65,9 +65,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
         </div>
         <div id="section3-lc">
             <div class="section3-lc-inner" onclick="redirectToPlan()">
-                <img class="lc-photo" src="./resources/images/recommend photo.PNG">
-                <div class="lc-eng">JEJU</div>
-                <div class="lc-han">제주</div>
+                
             </div>
         </div>
     </div>

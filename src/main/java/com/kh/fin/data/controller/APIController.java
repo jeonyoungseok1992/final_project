@@ -19,10 +19,11 @@ import com.kh.fin.data.vo.LocationInfomation;
 
 @Controller
 public class APIController {
-
+	
+	public static final String SERVICE_KEY ="X3jsxSIDXM2%2FjASS2la%2Ffejz6t8ldQCvxn%2BBolDYTxrKRNHjXBTbQ1BP4xKmf2ZRhavVJaar7JNbKeoOidYFew%3D%3D";
 	
 	@ResponseBody
-	@RequestMapping(value="location.api", produces="application/json; charset=UTF-8")
+	@RequestMapping(value="", produces="application/json; charset=UTF-8")
 	public ArrayList locationInfo() throws IOException {
 		System.out.println("도착");
 		//OpenAPI서버로 요청하는 url만들기

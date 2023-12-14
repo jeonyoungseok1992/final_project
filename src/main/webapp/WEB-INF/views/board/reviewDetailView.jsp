@@ -32,19 +32,19 @@
     <link rel="stylesheet" href="./resources/css/grade.css">
     <link rel="stylesheet" href="./resources/css/scheduleListModal.css">
     <link rel="stylesheet" href="./resources/css/board-card.css">
-    <link rel="stylesheet" href="./resources/css/boardTogetherDetailView.css">
-    <link rel="stylesheet" href="./resources/css/togetherEnrollForm.css">
-    <script src="./resources/js/togetherEnrollForm.js"></script>
+    <link rel="stylesheet" href="./resources/css/boardReviewDetailView.css">
+
+    <script src="./resources/js/reviewEnrollForm.js"></script>
     <script src="./resources/js/board-api.js"></script>
-    <script src="./resources/js/boardTogetherNotice.js"></script>
-    <script src="./resources/js/boardTogetherDetailView.js"></script>
+    <script src="./resources/js/reviewDetailView.js"></script>
+
 </head>
 <body onload="selectReply()">
 
             <jsp:include page="../common/header.jsp" />
 
             <div class="schedule-container">
-           
+                
                 <div id="map" ><img src="${list[0].tripPlanThumbnail}" alt="" style="width: 100%; height: 100%;"></div>
                 
                 <div id="schedule-area">
@@ -56,15 +56,53 @@
                         <div class="nDay">${i}일차</div>
                     
     
-                            <div class="location">
-                                <c:forEach var="p" items="${list }">
-                                    <c:choose>
-                                         <c:when test ="${i eq p.tripNday}">
-                                            <div class="location-img"><img src="${p.attractionChangeNameImg}" alt="전주"></div>
-                                        </c:when>
-                                    </c:choose>
-                                </c:forEach>
-                            </div>
+                              <div class="location">
+                            <c:forEach var="p" items="${list}">
+                                <c:choose>
+                                    <c:when test="${i eq p.tripNday}">
+                                        <div data-bs-toggle="modal" data-bs-target="#gradeModal${i}${p.attractionNo}"
+                                            class="location-img"><img src="${p.attractionChangeNameImg}"
+                                                alt="장소""> 
+                                        </div>
+                                        <!-- The Modal -->
+                                        <div class="modal fade" id="gradeModal${i}${p.attractionNo}">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content style grade">
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                        <button type="button" class="btn-close"
+                                                            data-bs-dismiss="modal"></button>
+                                                    </div>
+
+                                                    <div class="modal-body">
+
+                                                        <h4 class="modal-title">${p.attractionName}<span>${p.categoryName}</span>
+                                                        </h4>
+
+
+
+                                                        <div class="img-area">
+                                                            <img src="${p.attractionChangeNameImg}"
+                                                                alt="">
+                                                        </div>
+
+
+                                                        <div class="text-area" style="height: 100%;">
+                                                            <p>${p.attractionAddress}</p>
+                                                        </div>
+                                                        
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:when>
+                                </c:choose>
+                            </c:forEach>
+
+
+                        </div>
                     </c:forEach> 
                     
                     
@@ -77,7 +115,7 @@
                 </div>
     
             </div>
-        </div>
+                 
     
                 
             <section id="title-area">
@@ -88,8 +126,8 @@
                             <i class="bi bi-pencil-square dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false" id="editBtn2"></i>
                             <ul class="dropdown-menu haha">
-                                <li><a class="dropdown-item" href="updateTogetherForm.bo?boardNo=${list[0].boardNo}">수정</a></li>
-                                <li><a class="dropdown-item" href="togetherDelete.bo?boardNo=${list[0].boardNo}">삭제</a></li>
+                                <li><a class="dropdown-item" href="updateReviewForm.bo?boardNo=${list[0].boardNo}">수정</a></li>
+                                <li><a class="dropdown-item" href="reviewDelete.bo?boardNo=${list[0].boardNo}">삭제</a></li>
                             </ul>
                         </div>
                         </c:if>
@@ -107,24 +145,15 @@
                             </tr>
 
                             <tr>
-                            
                                 <!--프로필 수정-->
                                 <th id="profile-modify">
 
-                                        <c:choose>
-                                        	<c:when test="${!empty list[0].memberProfileImg}">
-	                                            <img src="${list[0].memberProfileImg}" 
-	                                            type="button" class="dropdown-toggle" 
-	                                            data-bs-toggle="dropdown" id="profileClickBtn">
-	                                            </img>	                               
-                                            </c:when>
-                                            <c:otherwise>
-										        <img src="resources/images/profile.png" type="button" class="dropdown-toggle" 
-	                                            data-bs-toggle="dropdown" id="profileClickBtn">
-										    </c:otherwise>
-                                         </c:choose>
-                                        <div>   
-                                            <span id="board-writer" style="margin-left: 10px;">${list[0].boardWriter}</span>
+                                        <div>
+                                            <img src="resources/images/profile.png" 
+                                            type="button" class="btn btn-primary dropdown-toggle" 
+                                            data-bs-toggle="dropdown" id="profileClickBtn">
+                                            </img>
+                                            <span id="board-writer">${list[0].boardWriter}</span>
 
                                             <ul class="dropdown-menu hoho" style="text-align: center;" align="center">
                                                 <li><a class="dropdown-item" href="#">프로필</a></li>
@@ -159,15 +188,12 @@
                                         <img src="resources/images/like.png" style="width: 45px; height: 45px;" alt="좋아요"> 27
                                     </button>
                                 </th>
-                                <c:if test="${!empty loginUser}">
-                                    <c:if test="${!(loginUser.memberId eq list[0].boardWriter)}"> 
-                                    <th style="vertical-align:middle; width: 50px ;height: 50px;">
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="warn" onclick="contentsInit1(document.querySelector('.bd-content').innerText)">
-                                            <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
-                                        </button>
-                                    </th>
-                                    </c:if>
-                                </c:if>
+
+                                <th style="vertical-align:middle; width: 50px ;height: 50px;">
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="warn">
+                                        <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
+                                    </button>
+                                </th>
                             </tr>
                         </div>
 
@@ -187,7 +213,7 @@
                                         
                                         <tr> 
                                             <th>
-                                                <textarea class="form-control" id="content"  cols="55" rows="2" style="resize:none; width:100%;" onkeyup="(event.keyCode === 13 ? addReply() : false)" ></textarea>
+                                                <textarea class="form-control" id="content"  cols="55" rows="2" style="resize:none; width:100%;"></textarea>
                                             </th>
 
                                             <th style="vertical-align:middle; width: 80px;" >
@@ -228,26 +254,24 @@
                     var listlength ='';
                 function selectReply(){
                     $.ajax({
-                        url : "togetherRlist.bo",
+                        url : "reviewRlist.bo",
                         data : {
-                            boardNo : '${list[0].boardNo}'
+                        boardNo : '${list[0].boardNo}'
                         },
-                        success : function(replyList){
-                            console.log(replyList);
-                            $('#rcount').text(replyList.length);
-
+                        success : function(rlist){
+                            $('#rcount').text(rlist.length);
                             let str = '';
 
-                            if(replyList.length === 0){
+                            if(rlist.length === 0){
                                 str = `<div style="margin-bottom: 200px; padding-top: 100px; display: flex; justify-content: center; align-items: center;">댓글 리스트가 존재하지 않습니다.</div>`
                             } 
-                            for(reply of replyList){
+                            for(reply of rlist){
                                str += `
                                         <tr class="reply-profile">
                                         <th class="rp-profile-img" style="width: 80px; "> 
-                                            <div style="position:relative;">
+                                            <div>
                                             <img  src="` + reply.memberProfileImg + `" alt="프로필없음" 
-                                            type="button" class="dropdown-toggle" 
+                                            type="button" class="btn btn-primary dropdown-toggle" 
                                             data-bs-toggle="dropdown"
                                             style="background: none; border: none;
                                                     width: 50px; height: 50px;
@@ -262,17 +286,17 @@
                                             </ul>
                                         </div></th>
 
-                                        <th colspan=2>` +reply.replyWriter+ `</th>
+                                        <th>` +reply.replyWriter+ `</th>
                                         <th style="width: 150px;">`+ reply.replyModifyDate + `</th>
                                 </tr>
                                
                                     <tr>`+
-                                        `<td class="reply-content" id="reply`+reply.replyNo+`" colspan="4">` + reply.replyContent+ `</td>`;
+                                        `<td class="reply-content" colspan="2">` + reply.replyContent+ `</td>`;
                                    
-                            if(!("${loginUser}" === null)){   
+                                   
                                  if(!(reply.replyWriter === "${loginUser.memberId}")) {         
                                    str += ` <td colspan="1" id="reply-warn-area">
-                                         <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="reply-warn" onclick="contentsInit(`+reply.replyNo+`)">
+                                         <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="reply-warn">
                                                 <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
                                             </button>
 
@@ -282,107 +306,38 @@
                                             
                                         </td>`;
                                     }
-                                str += ` </tr>`;
-                            }
+                                str += ` </tr>
+
     
-                            if("${loginUser}" !== null){
-                                str += `<tr>
-                                    <th colspan="3" id="re-reply">
-                                        <button class="btn btn-secondary" style="background: #b2d8b5; border: #b2d8b5;" onclick="drawInput(event,`+ reply.replyNo+`)">
-                                                답글
-                                        </button>
-                                        `;
+
+                            <tr>
+                                <th  colspan="3" id="re-reply" >
+                                    <button class="btn btn-secondary" style="background: #b2d8b5; border: #b2d8b5;">
+                                            답글
+                                    </button>
+                                    `;
 
 
-                                if(reply.replyWriter === "${loginUser.memberId}") {
-                                    str +=`
-                                    <button class="btn btn-secondary" data-bs-toggle='modal' data-bs-target='#replyUpdateModal' style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+reply.replyNo+`)">수정</button>
-                                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myModal" style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+reply.replyNo+`)">
-                                                삭제
-                                            </button>`;
-                                }
-                                
-                                        
+                            if(reply.replyWriter === "${loginUser.memberId}") {
                                 str +=`
-                                    </th>
-                                </tr>`;
+                                <button class="btn btn-secondary" data-bs-toggle='modal' data-bs-target='#replyUpdateModal' style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+reply.replyNo+`)">수정</button>
+                                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myModal" style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+reply.replyNo+`)">
+                                            삭제
+                                        </button>`;
                             }
-                                if(reply.rlist.length > 0) {
-                                    for (let r of reply.rlist) {
-                                        str += `
-
-                                                    <tr class="reply-profile" >
-                                                    <th></th>
-                                                    <th class="rp-profile-img" style="width: 80px;"> 
-                                                        <div style="position:relative;">
-                                                        <img  src="` + r.memberProfileImg + `" alt="프로필없음" 
-                                                        type="button" class="dropdown-toggle" 
-                                                        data-bs-toggle="dropdown"
-                                                        style="background: none; border: none;
-                                                                width: 50px; height: 50px;
-                                                                border-radius: 50%;">
-                                                        </img>
-                                                    
-
-                                                        <ul class="dropdown-menu" style="text-align: center;" align="center">
-                                                            <li><a class="dropdown-item" href="#">프로필</a></li>
-                                                            <li><a class="dropdown-item" href="#">친구신청</a></li>
-                                                            <li><a class="dropdown-item" href="#">대화화기</a></li>
-                                                        </ul>
-                                                    </div></th>
-
-                                                    <th>` +r.replyWriter+ `</th>
-                                                    <th style="width: 150px;">`+ r.replyModifyDate + `</th>
-                                                    </tr>
-                                        
-                                                    <tr><td></td><td></td>`+
-                                                    `<td class="reply-content" id="reply`+r.replyNo+`" colspan="2">` + r.replyContent+ `</td>`;
-                                                    
-
-                                                    if(!("${loginUser}" === null)){   
-                                                    if(!(r.replyWriter === "${loginUser.memberId}")) {         
-                                                    str += ` <td colspan="1" id="reply-warn-area">
-                                                            <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="reply-warn" onclick="contentsInit(`+r.replyNo+`)">
-                                                                    <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
-                                                                </button>
-
-
-
-
-                                                                
-                                                                </td>`;
-                                                            }
-                                                        str += ` </tr>`;
-                                                    }
-                                                    
-                                                    str += `</tr>`;
-
-
-                                                    if(r.replyWriter === "${loginUser.memberId}") {
-                                                        str +=`<tr><td></td><td></td>
-                                                        <th colspan="3" id="re-reply">
-                                                        <button class="btn btn-secondary" data-bs-toggle='modal' data-bs-target='#replyUpdateModal' style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+r.replyNo+`)">수정</button>
-                                                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myModal" style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+r.replyNo+`)">
-                                                                    삭제
-                                                        </button>`;
-                                                    }
-                                
-                                        
-                                                        str +=`
-                                                            </th>
-                                                        </tr>`;
-
-                                                    
-                                    }
-                                }
                             
+                                    
+                            str +=`
+                                </th>
+                            </tr>
+                            `;
                             }
-
+                         
                             $(".reply-area").html(str);
                     
                         },
                         error:function(){
-                            console.log("togetherRlist.bo ajax 통신 실패");
+                            console.log("reviewRlist.bo ajax 통신 실패");
                         }
                     })
                 }
@@ -393,7 +348,7 @@
                 //댓글을 추가해주는 메서드
                 function addReply(){
                     $.ajax({
-                        url : "togetherRinsert.bo",
+                        url : "reviewReplyInsert.bo",
                         data:{
                             replyBoardNo : '${list[0].boardNo}',
                             replyWriter : '${loginUser.memberNo}',
@@ -409,13 +364,13 @@
                         error:function(){
                             console.log("reply 댓글추가 통신 실패");
                         }
-                    })
+                    })  
                 }
                 </script>
                 <script>
-                    function togetherReplyDelete(num) {
+                    function reviewReplyDelete(num) {
                     $.ajax({
-                        url : "togetherReplyDelete.bo",
+                        url : "reviewReplyDelete.bo",
                         data : {
                             replyBoardNo : '${list[0].boardNo}',
                             replyNo : num,
@@ -425,7 +380,7 @@
                             selectReply();
                         },
                         error:function(){
-                            console.log("togetherRlist.bo ajax 통신 실패");
+                            console.log("reviewReplyDelete.bo ajax 통신 실패");
                         }
                     })
                 }
@@ -449,12 +404,11 @@
                                 <div class="dl-type">
                                     <dl>
                                         <dt><strong>아이디</strong></dt>
-                                        <dd>${loginUser.memberId}</dd>
+                                        <dd>홍길동</dd>
                                     </dl>
                                     <dl>
                                         <dt><strong>내용</strong></dt>
-                                        <input type="hidden" name="reportContents" class="rptContent">
-                                        <dd id="reportContent" ><p id="rcontent" style="overflow: auto; max-height: 200px;"></p></dd>
+                                        <dd><p>이것도 여행계획이라고 짠건가? ㅉㅉ 이것도 여행계획이라고 짠건가? ㅉㅉ</p></dd>
                                     </dl>
                                 </div>
                                 <br>
@@ -483,10 +437,7 @@
                     </div>
                 </div>
             </div>
-            <script>
-                $('#reportContent > p > img').css("display", "none" );
-            </script>
-
+        
             <!-- 댓글 삭제 모달 Modal -->
             <div class="modal fade" id="myModal">
                 <div class="modal-dialog">
@@ -501,13 +452,14 @@
                         <div class="modal-footer" style="display: flex; justify-content: center;">
                             <input type="hidden" name="replyNo" class="updateReplyNo">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background: lightgray; width: 200px; height: 50px; border: none; ">Cancle</button>
-                            <button id="footerBtn" type="button" onclick="togetherReplyDelete(document.querySelector('.updateReplyNo').value)" class="btn btn-secondary" style="background: #b2d8b5; width: 200px; height: 50px; border: none;" data-bs-dismiss="modal">Ok</button>
+                            <button id="footerBtn" type="button" onclick="reviewReplyDelete(document.querySelector('.updateReplyNo').value)" class="btn btn-secondary" style="background: #b2d8b5; width: 200px; height: 50px; border: none;" data-bs-dismiss="modal">Ok</button>
                         </div>
                 
                     </div>
                 </div>
             </div>
           
+            
              <!-- 댓글 수정용 Modal -->
 				    <div class="modal fade" id="replyUpdateModal">
 				        <div class="modal-dialog modal-dialog-centered">
@@ -530,9 +482,9 @@
 				    </div> 
                     
                   <script>
-                    function updateTogetherReply (replyNo){
+                    function updateReviewReply (replyNo){
                         $.ajax({
-                            url : "togetherReplyUpdate.bo",
+                            url : "reviewReplyUpdate.bo",
                             data : {
                                 replyBoardNo : '${list[0].boardNo}',
                                 replyNo : replyNo,
@@ -544,7 +496,7 @@
                                 document.querySelector('[name="replyContent"]').value = '';
                             },
                             error:function(){
-                                console.log("togetherRlist.bo ajax 통신 실패");
+                                console.log("reviewRlist.bo ajax 통신 실패");
                             }
                         })
                     }
@@ -602,8 +554,6 @@
                         });
                     }
                   </script>  
-
-
         </body>
 
         </html>
