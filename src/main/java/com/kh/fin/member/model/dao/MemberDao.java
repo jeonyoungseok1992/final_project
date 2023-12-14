@@ -388,6 +388,11 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.leftChatList", MsgVo);
 	}
 	
+	//채팅방 목록
+	public ArrayList<MsgVo> chatList(SqlSessionTemplate sqlSession, int myNo) {
+		return (ArrayList)sqlSession.selectList("memberMapper.chatList", myNo);
+	}
+	
 
 
 }

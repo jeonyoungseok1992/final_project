@@ -3,6 +3,8 @@ package com.kh.fin.member.model.service;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import com.kh.chat.MsgVo;
 import com.kh.fin.member.model.vo.Member;
 
@@ -343,6 +345,8 @@ public interface MemberService {
 	
 	//채팅페이지 상대방 쪽
 	ArrayList<MsgVo> leftChatList(MsgVo MsgVo);
-
+	
+	//채팅방 목록
+	ArrayList<MsgVo> chatList(int myNo);
 	
 }

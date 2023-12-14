@@ -32,25 +32,36 @@ public class ChatServer extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		int myNo = (int)session.getAttributes().get("myNo");
-		int youNo = (int)session.getAttributes().get("youNo");
+		Integer myNo2 = (Integer) session.getAttributes().get("myNo");
+		Member mem = ((Member)session.getAttributes().get("loginUser"));
+        WebSocketSession existingSession = userSessions.get(myNo);
+        
+        if (existingSession != null && existingSession.isOpen()) {
+            // 이미 세션이 존재하면 해당 세션을 종료시킴
+            existingSession.close();
+        }
+		
 		System.out.println(session.getAttributes().get("nick"));
+		if(myNo2 != null) {
 		System.out.println("연결됨!!");
 		log.info("{} 연결됨", myNo);
+
 		userSessions.put(myNo, session);
-		userSessions.put(youNo, session);
+		}
 	}
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage msgData) throws Exception {
 		System.out.println("핸들러 연결됨!!");
 		int myNo = (int)session.getAttributes().get("myNo");
+		Member mem = ((Member)session.getAttributes().get("loginUser"));
 		JsonObject obj = new JsonParser().parse(msgData.getPayload()).getAsJsonObject();
-	
 		MsgVo vo = new MsgVo();
 		vo.setMessage(obj.get("message").getAsString());
 		vo.setMyNo(myNo);
 		vo.setYouNo(obj.get("target").getAsInt());
 		vo.setTime(new Date());
+		vo.setMemberProfileImg(mem.getMemberProfileImg());
 		System.out.println(myNo);
 		System.out.println(obj.get("target").getAsInt());
 		
@@ -59,7 +70,7 @@ public class ChatServer extends TextWebSocketHandler {
 		sendMessageToUser(vo);
 	}
 	
-	private void sendMessageToUser(MsgVo vo) {
+	private void sendMessageToUser(MsgVo vo) throws IOException {
 		System.out.println("send핸들러 연결됨");
 		WebSocketSession targetSession = userSessions.get(vo.getYouNo());
 		WebSocketSession mySession = userSessions.get(vo.getMyNo());
@@ -69,25 +80,29 @@ public class ChatServer extends TextWebSocketHandler {
 		System.out.println(mySession);
 		
 		
-		if(targetSession != null && targetSession.isOpen()) {
+		
 			String  str = new Gson().toJson(vo);
 			TextMessage msg = new TextMessage(str);
-			try {
-				mySession.sendMessage(msg);
+			mySession.sendMessage(msg);
+
+			
+			if(targetSession != null && targetSession.isOpen()) {
 				targetSession.sendMessage(msg);
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
-		}
+			
+			
+		
 	}
 
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		String myNick = (String)session.getAttributes().get("myNick");
-		log.info("{} 연결끊김", myNick);
-		userSessions.remove(myNick, session);
+		int myNo = (int)session.getAttributes().get("myNo");
+		log.info("{} 연결끊김", myNo);
+		userSessions.remove(myNo, session);
 	}
-	
+	private void log(String logmsg) {
+		System.out.println(new Date() + " : " + logmsg);
+	}
 
 
 }

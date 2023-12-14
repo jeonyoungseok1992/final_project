@@ -583,17 +583,18 @@ public class MemberController {
 	  
 	  //채팅페이지 보내주는 메서드
 		@RequestMapping("chat.me")
-		public String login(HttpSession session, int youNo) {
+		public String chatPage(HttpSession session, int youNo) {
 			int myNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
-			String nick = ((Member)session.getAttribute("loginUser")).getMemberNickName();
+			Member m = ((Member)session.getAttribute("loginUser"));
+			String memberId = ((Member)session.getAttribute("loginUser")).getMemberId();
 			session.setAttribute("myNo", myNo);
 			session.setAttribute("youNo", youNo);
-			session.setAttribute("nick", nick);
+			session.setAttribute("memberId", youNo);
 			return "common/chat";
 		}
 		
 		
-		//채팅페이지 상대방 쪽
+		//현재 연결된 채팅방 화면
 		@ResponseBody
 		@RequestMapping(value="leftChat.ch", produces="application/json; charset=UTF-8")
 		public ArrayList<MsgVo> leftChatList(HttpSession session) {
@@ -607,8 +608,30 @@ public class MemberController {
 			System.out.println(memberService.leftChatList(vo));
 			return memberService.leftChatList(vo);
 		}
+		
+		//채팅방 목록
+		@ResponseBody
+		@RequestMapping(value="chatList.ch", produces="application/json; charset=UTF-8")
+		public ArrayList<MsgVo> chatList(HttpSession session) {
+			int myNo = (int)session.getAttribute("myNo");
+			int youNo = (int)session.getAttribute("youNo");
+
+			return memberService.chatList(myNo);
+		}
 	
 	
-	
+		//채팅리스트에서 클릭 시 연결 채팅방 화면
+		@ResponseBody
+		@RequestMapping(value="goChat.ch", produces="application/json; charset=UTF-8")
+		public ArrayList<MsgVo> goChat(HttpSession session, int youNo) {
+			int myNo = (int)session.getAttribute("myNo");
+			MsgVo vo = new MsgVo();
+			vo.setMyNo(myNo);
+			vo.setYouNo(youNo);
+				
+
+			System.out.println(memberService.leftChatList(vo));
+			return memberService.leftChatList(vo);
+		}
 	
 }

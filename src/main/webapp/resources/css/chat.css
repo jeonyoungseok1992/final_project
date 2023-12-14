@@ -64,13 +64,10 @@
 
 .list-user h5{
     font-weight: 600;
+    font-size: 20px;
 }
 
-.list-user span{
-    color:  #b0b6bd;
-    font-weight: 100;
-    font-size: 15px;
-}
+
 
 .list-user p{
     margin-top: 5px;
@@ -172,28 +169,34 @@
     font-size: 14px;
 }
 
-.chat-msg{
+#chat-msg{
+    height: 161px;
     margin-top: 40px;
     border-radius: 10px;
     border: 3px solid #b2d8b5;
     position: relative;
 }
 
-.chat-msg-input{
-    width: 870px;
-    height: 10px;
+#chat-msg-inner{
     border: none;
+    width: 665px;
+    height: 157px;
+}
+#chat-msg-input {
+    border: none;
+    width: 665px;
+    height: 157px;
 }
 
-.chat-msg-input::placeholder{
+#chat-msg-input::placeholder{
     color: #b2d8b5;
 }
 
-.chat-msg-input:focus{
+#chat-msg-input:focus{
    outline: none;
 }
 
-.send-button{
+#send-button{
     position: absolute;
     bottom: 8px;
     right: 21px;
@@ -206,7 +209,7 @@
 
 }
 
-.section1-list{
+#section1-list{
     
 }
 
@@ -235,6 +238,7 @@
 #text-outer{
     position: absolute;
     bottom: -240px;
+    right: 200px;
 }
 
 .note-resizebar{
@@ -246,13 +250,18 @@
     padding-top: 60px;
 }
 
-.left{
-    background-color: #b2d8b5;
+.left, .right{
+    padding-top: 20px;
 }
 
+.right{
+    PADDING-RIGHT: 20PX;
+}
 
-
-
+.chat_date{
+    color:  #b0b6bd;
+    font-size: 10px;
+}
 
 
 

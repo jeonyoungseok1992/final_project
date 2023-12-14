@@ -22,4 +22,5 @@ public class MsgVo {
 	private int myNo;
 	private int youNo;
 	private String memberProfileImg;
+	private String memberNickName;
 }

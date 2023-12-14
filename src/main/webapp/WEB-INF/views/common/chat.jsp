@@ -19,8 +19,9 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-<link rel="stylesheet" href="/mapping/resources/css/chat.css">
+
 <script src="./resources/js/chat.js"></script>
+<link rel="stylesheet" href="/mapping/resources/css/chat.css">
 </head>
 <body>
     <jsp:include page="../common/header.jsp" />
@@ -30,61 +31,21 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
            
             <div class="chat-inner2">
                 <div class="section1"> 
-                    <div class="section1-list">
-                        <div class="chat-page">Chatting</div>
-                        <div class="chat-list chat-list-first">
-                            <img src="/mapping/resources/images/profile.png" alt="sunil">
-                            <div class="list-user">
-                                <h5>전영석 <span class="chat_date">Dec 25</span></h5>
-                                <p>대화 내용 몇글자 제한</p>
-                            </div>    
-                            <div class="chat-count">2</div> 
-                        </div>
-                        <div class="chat-list">
-                            <img src="/mapping/resources/images/profile.png" alt="sunil">
-                            <div class="list-user">
-                                <h5>전영석 <span class="chat_date">Dec 25</span></h5>
-                                <p>대화 내용 몇글자 제한</p>
-                            </div>    
-                            <div class="chat-count">2</div> 
-                        </div>
-                        <div class="chat-list">
-                            <img src="/mapping/resources/images/profile.png" alt="sunil">
-                            <div class="list-user">
-                                <h5>전영석 <span class="chat_date">Dec 25</span></h5>
-                                <p>대화 내용 몇글자 제한</p>
-                            </div>    
-                            <div class="chat-count">2</div> 
-                        </div>
-                        <div class="chat-list">
-                            <img src="/mapping/resources/images/profile.png" alt="sunil">
-                            <div class="list-user">
-                                <h5>전영석 <span class="chat_date">Dec 25</span></h5>
-                                <p>대화 내용 몇글자 제한</p>
-                            </div>    
-                            <div class="chat-count">2</div> 
-                        </div>
+                    <div class="chat-page">Chatting</div>
+                    <div id="section1-list">
                     </div>
 
                 </div>  
             <div class="section2-outer">
                 <div class="section2">
                         <div id="chat-main">
-                            <div class="in-msg" name="meChat">           
-                            </div>
                         </div>
                     <div id="text-outer">
                         <div id="text-form">
                            <button id="report-button" type="button" data-bs-toggle="modal" data-bs-target="#reportModal">
                                <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
                            </button>
-                               <div class="chat-msg">             
-                                   <div class="chat-msg-inner">
-                                       <textarea name="chatting" id="summernote" type="text" class="chat-msg-input" placeholder="메세지를 입력해주세요." style="padding-bottom: 20px;">
-                                       </textarea>                          
-                                   </div>
-                                   <button class="send-button" onclick="sendMsg('${youNo}')">전송</button>
-                                   
+                               <div id="chat-msg">               
                                </div>
                            </div>
                     </div>
@@ -149,48 +110,10 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 
                 </div>
                 <input id="plz" type="hidden" value="${youNo}" >
+                <input id="plz2" type="hidden" value="${loginUser.memberNo}" >
             </div>
         </div>
 
-    <script>
-        //서머노트 그려주는 함수
-        $(document).ready(function() {
-        $('#summernote').summernote({
-            lang: 'ko-KR',
-            tabsize: 2,
-            width: 667,
-            height: 100,
-            toolbar: [
-                ['style', ['style']],
-                ['font', ['bold', 'underline', 'clear']],
-                ['color', ['color']],
-                ['insert', ['link', 'picture', 'video']],
-   
-            ]
-        });
-        });
 
-        //서머노트에 있는 name값 데이터 가져와서 넘겨주는 함수
-        function goWrite(frm) {
-            var title = frm.title.value;
-            var content = frm.content.value;
-            
-            if (title.trim() == ''){
-                alert("제목을 입력해주세요");
-                return false;
-            }
-            if (content.trim() == ''){
-                alert("내용을 입력해주세요");
-                return false;
-            }
-            frm.submit();
-        }
-        
-    const youNo = document.getElementById("plz").value;
-        
-        
-        
-
-    </script>
 </body>
 </html>

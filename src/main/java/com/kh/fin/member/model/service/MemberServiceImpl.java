@@ -5,6 +5,8 @@ package com.kh.fin.member.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONObject;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -474,6 +476,13 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public ArrayList<MsgVo> leftChatList(MsgVo MsgVo) {
 		return memberDao.leftChatList(sqlSession, MsgVo);
+	}
+
+	//채팅방 목록
+	@Override
+	public ArrayList<MsgVo> chatList(int myNo) {
+		
+		return memberDao.chatList(sqlSession, myNo);
 	}
 
 }
