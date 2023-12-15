@@ -71,9 +71,9 @@
 var positions = [];
 
 $(document).ready(function () {
-    init();
+    //initMap();
 
-    function init() {
+    function initMap() {
         $.ajax({
             url: "kakaoMap.api",
             success: function (data) {
@@ -99,96 +99,74 @@ $(document).ready(function () {
         });
     }
 
-    function addMarkersToMap() {
-        var container = document.getElementById('map');
-        var options = {
-            center: new kakao.maps.LatLng(37.5607522667, 126.9855149899),
-            level: 4
-        };
 
-        var map = new kakao.maps.Map(container, options);
-        var markers = [];
-        var linePath = [];
-        console.log(container);
-        console.log(options);
-        for (var a = 0; a < positions.length; a++) {
-            var marker = new kakao.maps.Marker({
-                map: map,
-                position: positions[a].latlng,
-                title: positions[a].title,
-                
-            });
-            markers.push(marker);
-            linePath.push(positions[a].latlng);
-        }
-
-
-
-
-    
-
-    var polyline = new kakao.maps.Polyline({
-        path: linePath,
-        strokeWeight: 2,
-        strokeColor: '#FF0000',
-
-    });
-
-   //lines.push(polyline);
-   polyline.setMap(map);
-
-    init2();
-
-
-   function init2(){
-                $.ajax({
-                url: "region.api",
-                success: function(data){
-                    console.log(data)
-                    drawFunk(data);
-                },
-                error: function(){
-                    console.log("air.do ajax 실패");
-                }
-            })
-        
-    
-    
-    const drawFunk = function(data){
-        
-        let str = "";
-        for (let i in data) {   
-            let item = data[i];
-            
-            str += `
-            <div class="section3-lc-inner" onclick="redirectToPlan(${item})">
-            <img class="lc-photo" src="${item.img}">
-            <div class="lc-eng">${item.title}</div>
-            <div class="lc-han">${item.address}</div>
-            </div>
-            `
-        }
-        selectWrapUl.innerHTML = str;
-        //document.querySelector("#section3-lc").innerHTML = str;
-    }
-
-
-
-
-}
-
-
-
-
-
-}
 });
     
     
 
 
+function addMarkersToMap() {
+    var container = document.getElementById('map');
+    var options = {
+        center: new kakao.maps.LatLng(37.5607522667, 126.9855149899),
+        level: 4
+    };
+
+    var map = new kakao.maps.Map(container, options);
+    var markers = [];
+    var linePath = [];
+    console.log(container);
+    console.log(options);
+    for (var a = 0; a < positions.length; a++) {
+        var marker = new kakao.maps.Marker({
+            map: map,
+            position: positions[a].latlng,
+            title: positions[a].title,
+            
+        });
+        markers.push(marker);
+        linePath.push(positions[a].latlng);
+    }
 
 
 
+
+
+
+var polyline = new kakao.maps.Polyline({
+    path: linePath,
+    strokeWeight: 2,
+    strokeColor: '#FF0000',
+
+});
+
+//lines.push(polyline);
+polyline.setMap(map);
+
+
+
+}
+
+
+
+
+
+function addMarker(mY, mX) {
+    console.log('마커 성공')
+    var container = document.getElementById('map');
+    var options = {
+        center: new kakao.maps.LatLng(mY, mX), // 받아온 좌표로 중심 설정
+        level: 4
+    };
+
+    var map = new kakao.maps.Map(container, options);
+
+    var markerPosition = new kakao.maps.LatLng(mY, mX); // 받아온 좌표로 마커 생성
+    var marker = new kakao.maps.Marker({
+        position: markerPosition
+    });
+
+    marker.setMap(map); // 마커 지도에 표시
+}
 
 
