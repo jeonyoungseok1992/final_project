@@ -19,5 +19,7 @@ public class Region {
 	private String regionMemo;
 	private String regionImg;
 	private String regionEng;
+	private String regionX;
+	private String regionY;
 	
 }

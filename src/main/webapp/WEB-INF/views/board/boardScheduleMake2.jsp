@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,10 +24,11 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 <link rel="stylesheet" href="./resources/css/schedule-view.css">
 <link rel="stylesheet" href="./resources/css/schedule-make2.css">
 </head>
-<body onload="init()">
+<body onload='init(`${region}`)'>
+
     <div class="travel-wrap">
         <div class="header-fixed">
-            <a href="" class="logo"><img src="./resources/images/logo_001.png" alt=""></a>
+            <a href="${pageContext.request.contextPath}" class="logo"><img src="./resources/images/logo_001.png" alt=""></a>
             <div class="dropdown">
                 <button type="button" class="btn btn-primary dropdown-toggle profile" data-bs-toggle="dropdown"><img src="./resources/images/profile.png" alt=""></button>
                 <ul class="dropdown-menu">
