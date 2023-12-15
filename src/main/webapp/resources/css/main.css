@@ -93,7 +93,9 @@
 
 .rc-photo{
     border-radius: 2%;
-
+    object-fit: cover;
+    width: 460px;
+    height: 384px;
     min-width: 100%;
     max-width: 100%;
     min-height: 100%;
