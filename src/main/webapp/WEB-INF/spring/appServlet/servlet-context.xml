@@ -43,6 +43,6 @@
 	 		<mapping path="/enrollForm.bo"/>
 	 		<beans:bean class="com.kh.fin.common.intercepter.Loginintercepter" id="Loginintercepter"></beans:bean>
 	 	</interceptor>
-	 </interceptors>
+	 </interceptors>	
 	
 </beans:beans>

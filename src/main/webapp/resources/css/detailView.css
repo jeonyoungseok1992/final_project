@@ -1,14 +1,29 @@
 
 /* 글자크기를 16px 맑은 고딕 굵게하고 width넓이 700, 높이 50만큼 배경색은 #ccc, 글자색은 검정색, 라인높이50px
 map-view박스 가운데정렬, 글자가운데 정렬 */
+
+#map-map {
+    width: 550px;
+    height: 400px;
+}
+
+#map-list {
+    width: 550px;
+    height: 400px;
+    position: relative;
+
+}
 #map-modify {
     width: 50px;
     height: 50px;
     background: white;
     line-height: 50px;
     margin: 0 auto;
-    float: left;
-
+    display: flex;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    z-index: 1;    
 }
 
 #board-modify {
@@ -20,17 +35,18 @@ map-view박스 가운데정렬, 글자가운데 정렬 */
     display: flex;
     position: absolute;
     right: 10px;
-    top: 0.5;
+    top: 15px;
     z-index: 1; 
 }
 
 
 
 #profile-modify{
-display: flex;
-position: absolute;
+height: 80px;
 left: 15px;
 padding: 15px;
+display: flex;
+
 }
 
 
@@ -51,16 +67,7 @@ padding: 15px;
 
 }
 
-#map-map {
-    width: 550px;
-    height: 400px;
-}
 
-#map-list {
-    width: 550px;
-    height: 400px;
-
-}
 
 #map-board {
     display: flex;
@@ -98,9 +105,13 @@ padding: 15px;
     width: 300px;
     height: 80px;
     font-size: 50px;
-    padding: 30px;
+    padding: 20px;
 }
 
+
+#detail-title{
+    height: 80px;
+}
 
 .detail-content{
     width: 1100px;
@@ -116,13 +127,7 @@ th{
     height: 50px;
 }
 
-.dropdown-menu.show {
-background-color: #b2d8b5;
-color: white;
-font-size: large;
 
-
-}
 
 
 
@@ -140,8 +145,9 @@ font-size: large;
 
 #main-content{
     width: 1100px;
-    height: 500px;
+    max-height: 500px;
     padding: 30px;
+    height: 100%;
     
 }
 
@@ -151,10 +157,16 @@ font-size: large;
     
 }
 
+#detail-category{
+    height: 60px;
+}
+
 #main-category{
     color: #b2d8b5;
     position: absolute;
     padding: 30px;
+    height: 60px;
+    
 
 }
 
@@ -173,11 +185,13 @@ font-size: large;
     margin: 0 auto;
     position: relative;
     
+    
 }
 
 #warn{
     position: absolute;
     right: 20px;
+    top: 10px;
 }
 
 #like{
@@ -186,20 +200,6 @@ font-size: large;
 }
 
 
-
-    .dropdown-item:hover{
-    background-color: white;
-    color: #b2d8b5;
-}
-
-
-
-
-.dropdown-item:active {
-    color:white ; /* 활성 드롭다운 링크의 텍스트 색상을 설정 */
-    background-color: #b2d8b5; /* 활성 드롭다운 링크의 배경 색상을 없애기 */
-    border: 2px solid white;
-}
 
 .reply-area{
     width: 1000px;
@@ -215,12 +215,13 @@ font-size: large;
 }
 
 #rp-profile-img{
-    padding: 15px;
+    padding: 5px;
 }
 
 #reply-content{
     padding: 15px;
-    width: 920px;
+    max-width: 890px;
+    height: 100%;
 }
 
 #re-reply{
@@ -234,6 +235,42 @@ width: 80px;
 #reply-warn{
     display: flex;
     position: absolute;
-    bottom: 30px;
-    right: 30px;
+    right: 17px;
+    
+    
+
+}
+
+
+.dropdown-item{
+    font-size: 23px;
+}
+.dropdown-item:hover{
+    background-color: white;
+    color: #b2d8b5;
+}
+
+
+
+
+.dropdown-item:active {
+    color:b2d8b5 ; /* 활성 드롭다운 링크의 텍스트 색상을 설정 */
+    background-color: white; /* 활성 드롭다운 링크의 배경 색상을 없애기 */
+}
+
+
+#reply-warn-area{
+    display: flex;
+}
+
+.reply-modify{
+    display: flex;
+    float: right;
+ 
+}
+.createDate{
+    max-width: 800px;
+    width: 800px;
+    
+    
 }

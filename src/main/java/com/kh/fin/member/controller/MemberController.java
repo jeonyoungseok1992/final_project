@@ -1,12 +1,27 @@
 package com.kh.fin.member.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fin.member.model.service.MemberService;
@@ -14,68 +29,516 @@ import com.kh.fin.member.model.vo.Member;
 
 @Controller
 public class MemberController {
-	
+
 	@Autowired
 	private MemberService memberService;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
-	
-	//로그인 기능
-	@RequestMapping(value="/login.me")
+
+	// 로그인 기능
+	@RequestMapping(value = "/login.me")
 	public ModelAndView loginMember(Member m, ModelAndView mv, HttpSession session) {
-		
+
 		Member loginUser = memberService.loginMember(m);
-		
-		if(loginUser==null || !bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd()) ) {
-		mv.addObject("errorMsg","로그인에 실패 하였습니다. 회원 정보를 다시 확인해주세요.");
-		mv.setViewName("errorPage/loginErrorPage");
-	}else {
-		session.setAttribute("loginUser", loginUser);
-		mv.setViewName("redirect:/");
-	}
-		
+
+		if (loginUser == null || !bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
+			mv.addObject("errorMsg", "로그인에 실패 하였습니다. 회원 정보를 다시 확인해주세요.");
+			mv.setViewName("errorPage/loginErrorPage");
+		} else {
+			session.setAttribute("loginUser", loginUser);
+			mv.setViewName("redirect:/");
+		}
+
 		return mv;
 	}
-	
-	@RequestMapping(value="/logout.me")
+
+	@RequestMapping(value = "/logout.me")
 	public ModelAndView logoutMember(ModelAndView mv, HttpSession session) {
 		session.removeAttribute("loginUser");
 		mv.setViewName("redirect:/");
 		return mv;
 	}
-	
-	@RequestMapping(value="/enrollForm.me")
+
+
+	@RequestMapping(value = "/enrollForm.me")
 	public String enrollForm() {
 		return "member/enrollForm";
 	}
-//	@RequestMapping(value="/insert.me")
-//	public String insertMember(Member m, HttpSession session, Model model) {//인코딩 설정은 web.xml에서 해준다
-////		System.out.println(m);
-//		//1. 한글깨짐문제발생 ->> web.xml에 스프링에서 제공하는 인코딩 필터 등록
-//		//2. 나이를 입력하지 않을 경우 int 자료형에 빈 문자열이 넘어와 자료형이 맞지 않는 문제발생
-//		// (400 Bad Request Error 발생)
-//		// Member 클래스의 age필드 자료형을 int => String 으로 변경
-//		// 3.비밀번호가 사용자가 입력한 있는 그대로의 평문
-//		// Bcrypt방식을 이용해서 암호화를 한 후 저장을 하겠다
-//		// => 스프링 시큐리팅 모듈에서 제공<pom.xml> 라이브러리 추가 
-//		
-//		//암호화 작업
-//		String encPwd = bcryptPasswordEncoder.encode(m.getMemberPwd());
-////		System.out.println("암호문: "+encPwd);
-//		
-//		m.setMemberPwd(encPwd);//Member객체에 userPwd필드에 평문이 아닌 암호문으로 변경
-//		
-//		int result = memberService.insertMember(m);
-//		
-//		if(result > 0) {
-//			session.setAttribute("alertMsg", "성공적으로 회원가입이 완료되었습니다.");
-//			return "redirect:/";
-//		}else {
-//			model.addAttribute("errorMsg", "회원가입실패");
-//			return "common/errorPage";
-//		}
-//		
+	
+	
+	@RequestMapping("/insert.me")
+	public String insertMember(Member m, HttpSession session, Model model) {
+	
+		
+		//
+		String encPwd = bcryptPasswordEncoder.encode(m.getMemberPwd());
+		
+		m.setMemberPwd(encPwd);
+		
+		int result= memberService.insertMember(m);
+		
+		
+		
+			if(result > 0) {
+				session.setAttribute("alertMsg", "성공적으로 회원가입이 완료되었습니다.");
+				return "redirect:/";
+			} else {
+				model.addAttribute("errorMsg", "회원가입 실패");
+				return "common/errorPage";
+		  }
+	    }
+	
+	
+	
+	@ResponseBody
+	@RequestMapping("/idCheck.me")
+	public String idCheck(String checkId) {
+	
+		return memberService.idCheck(checkId) > 0 ? "NNNNN" : "NNNNY";
+		
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping("/nickNameCheck.me")
+	public String nickNameCheck(String checkNickName) {
+	
+		return memberService.nickNameCheck(checkNickName) > 0 ? "NNNNN" : "NNNNY";
+		
+	}
+	
+	
+
+	
+	
+	@Autowired
+    private JavaMailSender sender;
+	
+	
+	// 일단 아이디 이메일 유효한지 찾아
+	@ResponseBody
+	@RequestMapping(value="/emailDuplication")
+	public String emailDuplication(Member m){
+		
+		int result = memberService.idEmailCheck(m);
+		if(result > 0 ) {
+			return "success";
+		}else {
+			return "fail";
+		}
+		
+	}
+
+    //랜덤함수로 임시비밀번호 구문 만들기
+    public String getTempPassword(){
+        char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+
+        String str = "";
+
+        // 문자 배열 길이의 값을 랜덤으로 10개를 뽑아 구문을 작성함
+        int idx = 0;
+        for (int i = 0; i < 10; i++) {
+            idx = (int) (charSet.length * Math.random());
+            str += charSet[idx];
+        }
+        return str;
+    }
+    
+    @RequestMapping("sendEmail")
+	public ModelAndView hyperMail(Member m,ModelAndView mv) throws MessagingException {
+    	String temPwd = getTempPassword();
+    	
+    	String encPwd = bcryptPasswordEncoder.encode(temPwd);
+    	
+    	m.setMemberPwd(encPwd);
+    	
+    	int result = memberService.setTemPwd(m);
+    	
+    	if(result > 0 ) {
+    		MimeMessage message = sender.createMimeMessage();
+    			
+    		MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
+    			
+			String[] to = {m.getMemberEmail()};
+			
+			helper.setTo(to);
+			
+			helper.setSubject("[mapping] 임시 비밀번호 전송");
+			helper.setText("임시비밀번호는 "+ temPwd+ " 입니다. 로그인 후 비밀번호를 변경하여 이용해주세요.");
+			
+			sender.send(message);
+			
+			mv.setViewName("redirect:/");
+		
+		}else {
+			mv.setViewName("errorPage/500page");
+			
+		}
+    	
+    	return mv;
+   
+	
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 프로필 이미지 변경
+	@ResponseBody
+	@RequestMapping(value = "/updateImg.me")
+	public Member updateProfileImg(Member m, HttpSession session, MultipartFile upfile, ModelAndView mv) throws IllegalStateException, IOException, ServletException {
+
+//		int maxSize = 10 * 1024 * 1024;
+//
+//		// 1_2)전달된 파일을 저장시킬 폴더의 경로 알아내기
+//		String savePath = request.getSession().getServletContext().getRealPath("/resources/member_upfile/");
+//
+//		MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
+
+
+		if (upfile != null && !upfile.getOriginalFilename().equals("")) {
+			String changeName = saveFile(upfile, session);
+			m.setMemberProfileImg("resources/member_upfile/" + changeName);
+		}
+		Member updateMember = memberService.updateProfileImg(m);
+		System.out.println(updateMember);
+		session.setAttribute("loginUser", updateMember);
+		
+		return updateMember;
+
+	}
+//프로필 사진 변경할 때 사진이름 바꿔주는 메서드
+	public String saveFile(MultipartFile upfile, HttpSession session) throws IllegalStateException, IOException {
+		// 파일명 수정 후 서버 업로드시키기("123.PNG" => 2023109102712345.jpg)
+		// 년월일시분초 + 랜덤숫자 5개 + 확장자
+
+		// 원래 파일명
+		String originName = upfile.getOriginalFilename();
+
+		// 시간정보 (년월일시분초)
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+
+		// 랜덤숫자 5자리
+		int ranNum = (int) (Math.random() * 90000) + 10000;
+
+		// 확장자
+		String ext = originName.substring(originName.lastIndexOf("."));
+
+		// 변경된 이름
+		String changeName = currentTime + ranNum + ext;
+
+		// 첨부파일 저장할 폴더의 물리적인 경우
+		String savePath = session.getServletContext().getRealPath("/resources/member_upfile/");
+
+		upfile.transferTo(new File(savePath + changeName));
+
+		return changeName;
+	}
+	
+//회원탈퇴
+	@RequestMapping("/delete.me")
+	public String deleteMember(Member m, HttpSession session, String userPwd) {
+		System.out.println(111);
+		//1. 암호화된 비밀번호 가져오기
+		String encPwd = ((Member)session.getAttribute("loginUser")).getMemberPwd();
+		System.out.println(encPwd);
+		System.out.println(m.getMemberPwd());
+		System.out.println(userPwd);
+		if(bcryptPasswordEncoder.matches(userPwd, encPwd)) {
+			// 비밀번호 일치 => 탈퇴가능
+			System.out.println(222);
+			int result = memberService.deleteMember(m);
+			System.out.println(result);
+			if(result > 0) { // 탈퇴처리 성공
+				session.removeAttribute("loginUser");
+				session.setAttribute("alertMsg", "탈퇴가 성공적으로 이루어졌습니다.");
+				
+				return "redirect:/";
+			} else { // 탈퇴처리 실패
+				session.setAttribute("alertMsg", "탈퇴처리 실패");
+				return "redirect:/mypage.me";
+			}
+			
+		} else {
+			// 비밀번호 불일치 => 탈퇴불가
+			session.setAttribute("alertMsg", "비밀번호를 다시 확인해주세요");
+			return "redirect:/mypage.me";
+		}
+	}
+
+	
+	//핸드폰 인증할 때 번호 체크
+	@RequestMapping(value = "/phoneCheck", method = RequestMethod.GET)
+	@ResponseBody
+	public String sendSMS(@RequestParam("phone") String userPhoneNumber) { // 휴대폰 문자보내기
+		int randomNumber = (int)((Math.random()* (9999 - 1000 + 1)) + 1000);//난수 생성
+
+		memberService.certifiedPhoneNumber(userPhoneNumber,randomNumber);
+		
+		return Integer.toString(randomNumber);
+	}
+	
+	//핸드폰 인증할 때 아이디 체크
+	@ResponseBody
+	@RequestMapping(value="phoneIdCheck.me", produces="application/json; charset=UTF-8")
+	public Member phoneIdCheck(Member m) {
+		System.out.println(m);
+		System.out.println(memberService.phoneIdCheck(m));
+		
+		return memberService.phoneIdCheck(m);
+	}
+
+	
+	
+	//마이페이지 나의 친구목록 눌렀을 때 친구리스트
+	@ResponseBody
+	@RequestMapping(value="friendList.me", produces="application/json; charset=UTF-8")
+	public ArrayList<Member> friendList(Member m) {
+
+		System.out.println(memberService.friendList(m));
+		return memberService.friendList(m);
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="friendRequest.me", produces="application/json; charset=UTF-8")
+	public ArrayList<Member> friendRequest(Member m) {
+
+		
+		return memberService.friendRequest(m);
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="refriendDelete.me", produces="application/json; charset=UTF-8")
+	public ArrayList<Member> refriendDelete(Member m, HttpSession session) {
+		ArrayList<Member> list = null;
+		int mno = ((Member)session.getAttribute("loginUser")).getMemberNo();
+		int del = memberService.friendDelete(m);
+		if(del > 0) {
+			list = memberService.refriendDelete(mno);
+		}
+		
+		return list;
+	}
+	
+	
+	
+	
+//	@ResponseBody
+//	@RequestMapping(value="friendDelete.me", produces="application/json; charset=UTF-8")
+//	public int friendDelete(Member m, @RequestParam(value="memberNo") int memberNo) {
+//		System.out.println("도착");
+//		System.out.println(memberNo);
+//		return memberService.friendDelete(m);
 //	}
+	
+	
+	
 	
 }

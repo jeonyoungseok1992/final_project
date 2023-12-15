@@ -1,5 +1,8 @@
 package com.kh.fin.member.model.service;
 
+
+import java.util.ArrayList;
+
 import com.kh.fin.member.model.vo.Member;
 
 public interface MemberService {
@@ -13,9 +16,322 @@ public interface MemberService {
 	//회원정보수정서비스 (update)
 	int updateMember(Member m);
 	
-	//회원탈퇴 서비스 (update)
-	int deleteMember(String userId);
+
 	
 	//아이디중복체크 서비스 (select)
 	int idCheck(String checkId);
+	
+
+	//닉네임중복체크 서비스 (select)
+	int nickNameCheck(String checkNickName);
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//이메일과 아이디 있는지 체크 후 임시비번 보내주는 메서드
+	int idEmailCheck(Member m);
+	
+	// 임시 비밀번호를 기존 멤버정보에 업데이트 해줌
+	int setTemPwd(Member m);
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//프로필 이미지 변경 (update)
+	Member updateProfileImg(Member m);
+	
+	
+	//회원탈퇴 서비스 (update)
+	int deleteMember(Member m);
+
+	//아이디찾기
+	void certifiedPhoneNumber(String userPhoneNumber, int randomNumber);
+	
+	//아이디찾기 후 아이디가져오기
+	public Member phoneIdCheck(Member m);
+	
+	//마이페이지 나의 친구목록 눌렀을 때 친구리스트
+	public ArrayList friendList(Member m);
+	
+	//마이페이지 나의 친구요청 눌렀을 때 친구리스트
+	public ArrayList friendRequest(Member m);
+	
+	//친구삭제
+	public int friendDelete(Member m);
+	
+	public ArrayList refriendDelete(int mno);
+	
+	
+	
+	
 }

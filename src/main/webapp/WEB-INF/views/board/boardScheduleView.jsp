@@ -60,10 +60,10 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                                 <div class="modal-body">
                                     <div class="layer-contents" id="snsCont">
                                         <div class="sns-share">
+                                            <button type="button" title="새창"><img src="resources/images/logo_001.png" alt="mapping logo" style="width: 100px; height: 48px; padding: 10px;">친구공유</button>
                                             <button type="button" title="새창"><i class="ico-kakao"></i>카카오톡</button>
                                             <button type="button" title="새창"><i class="ico-facebook"></i>페이스북</button>
                                             <button type="button" title="새창"><i class="ico-blog"></i>네이버 블로그</button>
-                                            <button type="button" title="새창"><i class="ico-twitter"></i>트위터</button>
                                         </div>
                                         <div class="form-control-map">
                                             <input class="copy-value" type="text" value="https://mapping/" title="공유 URL">

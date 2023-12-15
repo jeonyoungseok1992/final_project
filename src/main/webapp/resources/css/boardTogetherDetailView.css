@@ -1,0 +1,458 @@
+
+/* 글자크기를 16px 맑은 고딕 굵게하고 width넓이 700, 높이 50만큼 배경색은 #ccc, 글자색은 검정색, 라인높이50px
+map-view박스 가운데정렬, 글자가운데 정렬 */
+
+#map-map {
+    width: 550px;
+    height: 400px;
+}
+
+#map-list {
+    width: 550px;
+    height: 400px;
+    position: relative;
+
+}
+#map-modify {
+    width: 50px;
+    height: 50px;
+    background: white;
+    line-height: 50px;
+    margin: 0 auto;
+    display: flex;
+    position: absolute;
+    right: 15px;
+    top: 0.5;
+    z-index: 1;    
+}
+
+#board-modify {
+    width: 50px;
+    height: 50px;
+    background: white;
+    line-height: 50px;
+    margin: 0 auto;
+    display: flex;
+    position: absolute;
+    right: 10px;
+    top: 0.5;
+    z-index: 1; 
+}
+
+
+
+#profile-modify{
+height: 80px;
+left: 15px;
+padding: 15px;
+display: flex;
+align-items: center;
+}
+
+
+
+
+#map-point {
+    width: 1200px;
+    height: 400px;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+
+#map-board {
+    width: 1100px;
+    height: 400px;
+    margin: 0 auto;
+    box-shadow: 0 2px 8px 0 rgba(31,38,135,.08)!important;     
+
+}
+
+
+
+#map-board {
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+
+
+#title-area {
+    width: 1200px;
+    height:1200px;
+    margin: 0 auto;
+    margin-top: 30px;
+
+
+}
+
+#board-title {
+    width: 1100px;
+    min-height: 1200px;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 8px;          
+    box-shadow: 0 2px 8px 0 rgba(31,38,135,.08)!important;     
+    
+
+}
+
+
+
+
+#main-title{
+    width: 300px;
+    height: 80px;
+    font-size: 30px;
+    padding: 10px 10px 10px 20px;
+}
+
+
+#detail-title{
+    height: 80px;
+}
+
+.detail-content{
+    width: 1100px;
+    height: 250px;
+
+    border-bottom:  1px solid rgba(31,38,135,.08);
+    position: relative;
+    
+
+}
+
+th{
+    height: 50px;
+}
+
+
+
+
+
+
+
+.board-createDate{
+    line-height: 50px;
+    margin: 0 auto;
+    display: flex;
+    position: absolute;
+
+    top: 156px;
+    right: 30px;            
+}
+
+#main-content{
+    width: 1100px;
+    min-height: 500px;
+    padding: 30px;
+    
+}
+
+.bd-content{
+    font-size: 24px;
+    line-height: 1.6;
+    min-height: 350px;
+    
+}
+
+#detail-category{
+    height: 60px;
+}
+
+#main-category{
+    color: #b2d8b5;
+    position: absolute;
+    padding: 30px;
+    height: 60px;
+    
+
+}
+
+#replyArea{
+    width: 1000px;
+    height: 90px;
+    margin: 0 auto;
+    
+
+}
+
+
+#like-warn{
+    width: 1000px;
+    height: 40px;
+    margin: 0 auto;
+    position: relative;
+    
+    
+}
+
+#warn{
+    position: absolute;
+    right: 20px;
+    top: 10px;
+}
+
+#like{
+    position: absolute;
+    left: 10px;
+}
+
+
+
+.reply-area{
+    width: 1000px;
+    height: 130px;
+    margin: 0 auto;
+    margin-top: 30px;
+    border-bottom : 1px solid rgba(31,38,135,.08);
+    position: relative;
+}
+
+.reply-profile{
+    resize: none;
+}
+
+.rp-profile-img{
+    padding: 5px;
+}
+
+.reply-content{
+    padding: 15px;
+    width: 920px;
+}
+.reply-content2{
+    padding: 15px;
+    width: 920px;
+}
+
+.re-reply{
+padding: 15px;
+vertical-align:middle;
+width: 80px;
+
+}
+
+
+.reply-warn{
+    display: flex;
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+}
+#reply-warn-area{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.dropdown-menu > li > a{
+    --bs-dropdown-link-active-bg: none;
+    --bs-dropdown-link-active-color: #b2d8b5;
+}
+.dropdown-toggle:empty::after {
+    position: absolute;
+    right: 10px;
+    display: none;
+}
+.dropdown-menu.show{
+    transform: translate3d(10px, 43.5px, 0px)!important;
+}
+
+.schedule-container{
+    width: 1100px; 
+    height: 500px; 
+    margin: 100px auto 0 auto;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0 2px 8px 0 rgba(31,38,135,.08)!important;
+}
+#map{
+    width: 550px;
+}
+#schedule-area{
+    width: 550px;
+    overflow-y: auto;
+}
+.nDay-content{
+    padding-left: 15px;
+    padding-top: 15px;
+}
+.nDay{
+    font-size: 24px;
+    font-weight: 600;
+
+}
+.location{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    gap: 3px;
+}
+.location-img{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    background-color: aqua;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.location-img img{
+    max-width: 100%;
+    height: 100%;
+}
+
+
+
+/*enrollForm에서 가져온거*/
+.outer{
+    background: white;
+    color: black;
+    width: 1200px;
+    margin: auto;
+    margin-top: 180px;
+}
+h2{
+    font-size: 28px;
+    font-weight: 700;
+}
+#mem-enroll-form table{margin: auto;}
+#mem-enroll-form input{
+    margin: 10px;
+    width: 384px;
+    height: 45px;
+    border: 1px solid #ced4da;
+    border-radius: 5px; 
+    padding-left: 15px;
+    
+} 
+
+#mem-enroll-form{
+    position: relative;
+}
+
+#joinMember{
+
+width: 505px; 
+background: #b2d8b5;
+border: 1px solid;
+border-radius: 5px; 
+color: white; height: 45px;
+margin-right: 5px;
+
+}
+
+#reset{
+width: 70px;
+background:  #b2d8b5;
+color: white;
+border: 1px solid;
+border-radius: 5px; 
+height: 45px;
+margin-left: 5px
+}
+
+#memberId, #memberNickName{
+    width: 70px; 
+    background:  #b2d8b5;
+    color: white;
+    border: 1px solid;
+    border-radius: 5px; 
+    height: 45px;
+}
+
+
+
+#email_domain{
+    position: relative;
+}
+
+
+.select{
+    text-align: center;
+    width: 44px;
+    background: #b2d8b5;
+    color: white;
+    border: 1px solid;
+    border-radius: 5px;
+    height: 37px;
+    position: absolute;
+    right: 403px;
+    bottom: 123px;
+
+}
+
+/* 신고하기 모달 */
+.dl-type {display: table; width: 100%;}
+.dl-type>dl {display: table-row;}
+.dl-type>dl>*{display: table-cell; padding:6px 0; vertical-align: top; line-height: 1.5;}
+.dl-type>dl>dt{padding-right: 1rem; white-space: nowrap;}
+.form-check-map{position: relative; display:flex; height: 48px; padding:0 14px; align-items: center; border: 1px solid #dedede; background-color: #fff; column-gap: 10px;}
+.form-check-map input[type="radio"] {border-radius: 50%; transition: .2s;}
+.form-check-map input[type="radio"]:checked {border-width: 6px; border-color: #b2d8b5;}
+.form-check-map input {width: 20px; height: 20px; border: 1px solid #dedede; border-radius: 4px; cursor: pointer; background-color: #fff;}
+.form-check-map label {flex: 1 1 auto; font-size: 14px; font-weight: 700; white-space: nowrap;}
+.form-control-map {position: relative; font-size: 14px; border: 1px solid #dedede; margin-top: 16px;}
+.form-control-map>textarea {display: block; height: auto; width: 100%; padding:14px 16px; border: 0; background-color: #fff; line-height: 1.5; color: #000; font-weight: 600;}
+.form-control-map .bytes {position: absolute; bottom: 16px; right: 16px; font-size: 12px; color: #707070;}
+.report-text {color: #707070; font-size: 14px; line-height: 1.5; margin-top: 8px; padding-bottom: 24px;}
+.layer-btns{display: flex;}
+[class^="btn"][class*="-line"] {border: 1px solid #b2d8b5; color: #b2d8b5;}
+.layer-btns>* {flex: 1;}
+[class^="btn"] {font-weight: 700;white-space: nowrap;}
+[class^="btn"][class*="-lg"] {height: 60px; padding: 0 40px; background-color: #fff; border: 1px solid #dedede;}
+[class^="btn-"] {position: relative;}
+[class^="btn"] + [class^="btn"] {margin-left: 13px;}
+[class^="btn"][class*="-solid"] {border-color: #b2d8b5; background-color: #b2d8b5; color: #fff;}
+
+
+#editBtn::before {
+    font-size: 2rem;
+    position: absolute;
+    left: 10px;
+    z-index: 10;
+}
+#editBtn2::before {
+    font-size: 2rem;
+    position: absolute;
+    z-index: 10;
+    right: 10px;
+}
+.dropdown-menu.haha.show{
+    transform: translate3d(928px, 46.5px, 0px)!important;
+}
+.dropdown-menu.haha > li > a{
+    --bs-dropdown-link-active-bg: none;
+    --bs-dropdown-link-active-color: #b2d8b5;
+}
+.dropdown-item{
+    padding: 10px 0;
+    font-weight: 600;
+    font-size: 16px;
+    --bs-dropdown-link-active-bg: none;
+}
+.dropdown-menu.hoho.show{
+transform: translate3d(10px, 205.5px, 0px)!important;
+}
+#profileClickBtn{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; 
+}
+
+.enrollButton{
+    background: #b2d8b5; 
+    border: #b2d8b5;
+    width: 36px;
+    height: 26px;
+    margin-left: 10px;
+    color: white;
+}
+    
