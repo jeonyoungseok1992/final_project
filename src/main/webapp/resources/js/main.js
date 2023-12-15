@@ -1,4 +1,5 @@
 $(document).ready(function(){
+            /*여행지 ajax*/
             $.ajax({
                 url: "regionList.bo",
                 success: function(data){
@@ -6,7 +7,27 @@ $(document).ready(function(){
                     drawFunk(data);
                 },
                 error: function(){
-                    console.log("air.do ajax 실패");
+                    console.log("regionList.bo ajax 실패");
+                }
+            })
+
+            /* 추천 여행지 ajax */
+            $.ajax({
+                url: "recommendTrip.bo",
+                success: function(data){
+                   let recommend = '';
+                   for(rec of data){
+                    let arr = rec.addr1.split(" ");
+                    recommend +=`<div class="photo_recommend">
+                        <img class="rc-photo" src="${rec.firstimage}">
+                        <div class="rc-region">${arr[0]}</div>
+                        <div class="rc-memo">${rec.title}</div>
+                        </div>`;
+                   }
+                   document.querySelector('.recommend-content').innerHTML = recommend;
+                },
+                error: function(){
+                    console.log("recommendTrip.bo ajax 실패");
                 }
             })
         
@@ -28,15 +49,10 @@ $(document).ready(function(){
         }
         
         document.querySelector("#section3-lc").innerHTML = str;
+        
     }
 
-
-
-
-
-
-
-
+    
 });
 
 // function redirectToPlan() {

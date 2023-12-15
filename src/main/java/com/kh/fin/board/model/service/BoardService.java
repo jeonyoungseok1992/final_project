@@ -13,7 +13,7 @@ import com.kh.fin.member.model.vo.Member;
 public interface BoardService {
 
 	
-
+	
 	
 
 	
@@ -357,6 +357,8 @@ public interface BoardService {
 	//메인페이지 지역 ajax
 	ArrayList<Region> ajaxselectRegionList();
 	
+	//같이가요 게시판 하나 가져오는 함수
+	Board togetherSelectBoardOne(int boardNo);
 	
 	
 	

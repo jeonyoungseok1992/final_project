@@ -182,7 +182,10 @@ public class BoardDao {
 	public ArrayList<Region> ajaxselectRegionList(SqlSessionTemplate sqlSession){
 		return (ArrayList)sqlSession.selectList("boardMapper.ajaxselectRegionList");
 	}
-	
+	//같이가요 게시글 삭제시 해당게시글 컨텐츠 가져와서 이미지 추출하기위함
+	public Board togetherSelectBoardOne(SqlSessionTemplate sqlSession,int boardNo) {
+		return sqlSession.selectOne("boardMapper.togetherSelectBoardOne",boardNo);
+	}
 	
 	
 	

@@ -472,6 +472,8 @@
 	
 	
 	
+	
+	
 	<!-- 후기 게시글의 총 갯수 조회하는 쿼리문 -->
 	<select id="selectReviewListCount" resultType="_int">
 	
@@ -598,6 +600,22 @@
 		FROM REGION
 		ORDER BY REGION_NO
 	</select>
+	<!-- 같이가요 게시글 삭제시 해당게시글 컨텐츠 가져와서 이미지 추출하기위함 -->
+	<select id="togetherSelectBoardOne" resultMap="boardResult">
+			SELECT  BOARD_CONTENT
+			FROM 	BOARD   
+			WHERE BOARD_NO = #{boardNo}
+  	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
