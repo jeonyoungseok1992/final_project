@@ -606,14 +606,14 @@ public class BoardController {
 		}
 		
 		//mainPage 로드시 지역들 그려주는 ajax
-		@ResponseBody
-		@RequestMapping(value="regionList.bo", produces = "application/json; charset = UTF-8")
-		public String ajaxselectRegionList() {
-			ArrayList<Region> list = boardService.ajaxselectRegionList();
-			
-			return new Gson().toJson(list);
-		}
-	
+//		@ResponseBody
+//		@RequestMapping(value="regionList.bo", produces = "application/json; charset = UTF-8")
+//		public String ajaxselectRegionList() {
+//			ArrayList<Region> list = boardService.ajaxselectRegionList();
+//			
+//			return new Gson().toJson(list);
+//		}
+//	
 	
 	
 	//

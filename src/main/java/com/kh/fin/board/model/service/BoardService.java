@@ -355,7 +355,7 @@ public interface BoardService {
 	int ajaxInsertTogetherReReply(Reply r);
 	
 	//메인페이지 지역 ajax
-	ArrayList<Region> ajaxselectRegionList();
+//	ArrayList<Region> ajaxselectRegionList();
 	
 	
 	

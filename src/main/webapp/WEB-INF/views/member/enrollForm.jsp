@@ -152,7 +152,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                     "checkId": inInput.value
                     },
                     success: function (res) {
-                    if (res === "NNNNY") {
+                    if (res === "NNNNN") {
                         if (confirm("사용 가능한 아이디입니다. 사용하시겠습니까?")) {
                         let submitBtn = document.querySelector("#mem-enroll-form button[type=submit]");
                         submitBtn.removeAttribute("disabled");

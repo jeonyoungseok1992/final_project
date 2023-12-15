@@ -420,7 +420,9 @@ function selectLocation(scheduleInfo) {
     }
 
     sideModalFunk(scheduleInfo);
+
     
+
     setStepBtn({
         prev:{
             display: "block",
@@ -439,6 +441,7 @@ function selectLocation(scheduleInfo) {
             }
         }
     })
+
 }
 //******************************************step2**************************************************
 //****************************************side modal**********************************************

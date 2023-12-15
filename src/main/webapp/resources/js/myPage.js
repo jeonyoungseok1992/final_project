@@ -104,7 +104,43 @@ function friendDelete() {
 
 
 //프로필 사진누를때 function
-function loadImg(inputFile, memberNo) {
+function loadImg(inputFile, memberNo, profile) {
+
+    const formData = new FormData();
+
+    formData.append('upfile', inputFile.files[0]);
+    formData.append('memberNo', memberNo);
+    formData.append('memberProfileImg', profile);
+
+    $.ajax({
+        type: "POST",
+        enctype: 'multipart/form-data',	// 필수
+        url: "updateImg.me",
+        data: formData,	// 필수
+        processData: false,	// 필수
+        contentType: false,	// 필수
+        cache: false,
+        success: function (mem) {
+
+            //ajax로 이미지변경 요청
+            if (mem !== null) {
+                let len = document.querySelectorAll('.title-img');
+                for (var index = 0; index < len.length; index++) {        
+                len[index].src = mem.memberProfileImg;
+                }
+
+            } else {
+                document.querySelector('.title-img').src = null;
+            }
+
+        },
+        error: function () {
+            console.log("loadImg.me ajax통신 실패");
+        }
+    })
+}
+
+function loadImg2(inputFile, memberNo) {
 
     const formData = new FormData();
 
@@ -138,6 +174,7 @@ function loadImg(inputFile, memberNo) {
         }
     })
 }
+
 
 function chooseFile() {
     document.getElementById("file").click();
@@ -287,6 +324,7 @@ function review(memberNo) {
 
 //친구목록 리스트
 function fdList(memberNo) {
+    myPageValue.memberNo = memberNo;
     $.ajax({
         url: "friendList.me",
         data: {
@@ -307,7 +345,7 @@ function fdList(memberNo) {
                         <span style="font-size: 20px; margin-left: 10px;">${m.memberNickName}</span>
                     </div>
                     <div>
-                        <a href="#"><img src="resources/images/talkIcons.png" alt="채팅" style="width: 30px; height: 30px;"></a>
+                        <a href="chat.me?youNo=${m.memberNo}"><img src="resources/images/talkIcons.png" alt="채팅" style="width: 30px; height: 30px;"></a>
                         <a name="mmodal" data-bs-toggle="modal" data-bs-target="#myModal" onclick="myPageValue.memberNo=${m.memberNo}"><img src="resources/images/xIcons.png" alt="x" style="width: 30px; height: 30px;"></a>
                         
                         
@@ -330,11 +368,11 @@ function fdList(memberNo) {
 
 
 //받은 친구요청 리스트
-function fdRequest(memberNo) {
+function fdRequest(mNo) {
     $.ajax({
         url: "friendRequest.me",
         data: {
-            memberNo: memberNo
+            memberNo: mNo
         },
         success: function (list) {
 
@@ -350,9 +388,9 @@ function fdRequest(memberNo) {
                         <span style="font-size: 20px; margin-left: 10px;">${m.memberNickName}</span>
                     </div>
                     <div>
-                        <a href="#" style="font-size: 18px;">수락</a>
+                        <a href="acceptFriend.me" style="font-size: 18px;">수락</a>
                         <span style="font-size: 18px;">|</span>
-                        <a href="#" style="font-size: 18px;">거절</a>
+                        <a  data-bs-toggle="modal" data-bs-target="#myModal2" onclick="myPageValue.memberNo=${m.memberNo}" style="font-size: 18px;">거절</a>
                     </div>	
                 </div>
                 `
@@ -365,6 +403,26 @@ function fdRequest(memberNo) {
             console.log("friendList ajax통신 실패");
         }
     })
+}
+
+function rejectFriend(){
+    $('#myModal2').modal('hide');
+    console.log(myPageValue.memberNo);
+    $.ajax({
+        url: "rejectFriend.me",
+        data: {
+            friendNo: myPageValue.memberNo
+        },
+        success: function (no) {
+            console.log("rejectFriend ajax통신 성공");
+            fdRequest(no);
+
+        },
+        error: function () {
+            console.log("rejectFriend ajax통신 실패");
+        }
+    })
+
 }
 
 

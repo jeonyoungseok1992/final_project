@@ -42,7 +42,14 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 			</c:choose>
 
             <form method="post"enctype="multipart/form-data">
-               <input style="display : none" id="file" type="file" name="upfile" onchange="loadImg(this, ${loginUser.memberNo})" > <br>
+				<c:choose>
+					<c:when test="${!empty loginUser.memberProfileImg}">
+						<input style="display : none" id="file" type="file" name="upfile" onchange="loadImg(this,${loginUser.memberNo},'${loginUser.memberProfileImg}')"> <br>
+					</c:when>
+					<c:otherwise>
+						<input style="display : none" id="file" type="file" name="upfile" onchange="loadImg2(this,${loginUser.memberNo})"> <br>
+					</c:otherwise>
+				</c:choose>
             </form>
 
             
@@ -228,6 +235,27 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 						<div class="modal-footer" style="display: flex; justify-content: center;">
 							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background: lightgray; width: 200px; height: 50px; border: none; ">Cancle</button>
 							<button id="footerBtn" type="button" onclick="friendDelete()" class="btn btn-secondary" style="background: #b2d8b5; width: 200px; height: 50px; border: none;">Ok</button>
+						</div>
+				
+					</div>
+				</div>
+			</div>
+
+			<!-- The Modal -->
+			<div class="modal fade" id="myModal2">
+				<div class="modal-dialog">
+					<div class="modal-content" style="margin-top: 300px;">
+				
+						<!-- Modal body -->
+						<div class="modal-body" style="font-size: 18px; font-weight: 500; text-align: center;">
+							<br><br> 
+							정말 거절하시겠습니까?
+						</div>
+				
+						<!-- Modal footer -->
+						<div class="modal-footer" style="display: flex; justify-content: center;">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background: lightgray; width: 200px; height: 50px; border: none; ">Cancle</button>
+							<button id="footerBtn" type="button" onclick="rejectFriend()"  class="btn btn-secondary" style="background: #b2d8b5; width: 200px; height: 50px; border: none;">Ok</button>
 						</div>
 				
 					</div>

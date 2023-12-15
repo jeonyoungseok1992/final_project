@@ -179,9 +179,9 @@ public class BoardDao {
 	}
 	
 	//메인페이지 지역리스트 가져오는 ajax
-	public ArrayList<Region> ajaxselectRegionList(SqlSessionTemplate sqlSession){
-		return (ArrayList)sqlSession.selectList("boardMapper.ajaxselectRegionList");
-	}
+//	public ArrayList<Region> ajaxselectRegionList(SqlSessionTemplate sqlSession){
+//		return (ArrayList)sqlSession.selectList("boardMapper.ajaxselectRegionList");
+//	}
 	
 	
 	
