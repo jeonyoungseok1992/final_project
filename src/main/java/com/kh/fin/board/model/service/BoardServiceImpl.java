@@ -27,7 +27,11 @@ public class BoardServiceImpl implements BoardService{
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	
+	//메인페이지에서 지역하나 선택하면 그 지역정보가지고 플랜짜는 페이지로 이동(지역정보셀렉트)
+	@Override
+	public Region selectOneRegion(int regionNo) {
+		return boardDao.selectOneRegion(sqlSession,regionNo);
+	}
 
 
 
@@ -1103,6 +1107,7 @@ public class BoardServiceImpl implements BoardService{
 
 		return boardDao.myReviewList(sqlSession,pi, m);
 	}
+
 
 	
 

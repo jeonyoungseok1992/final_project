@@ -74,9 +74,26 @@
 		<result column="REGION_MEMO" property="regionMemo"/>
 		<result column="REGION_IMG" property="regionImg"/>
 		<result column="REGION_ENG" property="regionEng"/>
+		<result column="REGION_X" property="regionX"/>
+		<result column="REGION_Y" property="regionY"/>
 	</resultMap>
 
 
+
+
+
+	<!--메인페이지 지역리스트 가져오는 ajax 쿼리문 -->
+	<select id="selectOneRegion" resultMap="regionResult">
+		SELECT REGION_NO
+                ,REGION_NAME
+                ,REGION_MEMO
+                ,REGION_IMG
+                ,REGION_ENG
+                ,REGION_X
+                ,REGION_Y
+		FROM REGION
+		WHERE REGION_NO =#{regionNo}
+	</select>
 
 
 
@@ -599,7 +616,7 @@
 		</select>
 		
 	
-		<!-- 같이가요 댓글 조회 쿼리문 -->
+	<!-- 같이가요 댓글 조회 쿼리문 -->
 	<select id="selectReplyList" resultMap="replyResult">
 		SELECT REPLY_NO
 				,REPLY_CONTENT
@@ -787,6 +804,8 @@
 				WHERE REPLY_BOARD_NO = #{replyBoardNo}
 				AND REPLY_NO = #{replyNo} 
 		</update>
+		
+		
 	
 	
 	
