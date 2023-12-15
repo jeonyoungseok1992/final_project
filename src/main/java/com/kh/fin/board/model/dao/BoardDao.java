@@ -186,6 +186,7 @@ public class BoardDao {
 	public Board togetherSelectBoardOne(SqlSessionTemplate sqlSession,int boardNo) {
 		return sqlSession.selectOne("boardMapper.togetherSelectBoardOne",boardNo);
 	}
+
 	
 	
 	
@@ -284,16 +285,18 @@ public class BoardDao {
 		return (ArrayList)sqlSession.selectList("boardMapper.searchReviewList",b,rowBounds);
 	}
 	
-	public Board selectReviewBoard(SqlSessionTemplate sqlSession, int boardNo) {
-		return sqlSession.selectOne("boardMapper.selectReviewBoard", boardNo);
+
+	
+	public ArrayList<Board> selectReviewBoard(SqlSessionTemplate sqlSession, int boardNo) {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectReviewBoard", boardNo);
 	}
 	
-	public ArrayList<Reply> selectReplyList(SqlSessionTemplate sqlSession, int bno){
-		return (ArrayList)sqlSession.selectList("boardMapper.selectReplyList",bno); //list들어오므로 (ArrayList)
+	public ArrayList<Reply> selectReviewReplyList(SqlSessionTemplate sqlSession, int boardNo){
+		return (ArrayList)sqlSession.selectList("boardMapper.selectReviewReplyList",boardNo); //list들어오므로 (ArrayList)
 	}
 	
-	public int insertReviewReply(SqlSessionTemplate sqlSession, Reply r) {
-		return sqlSession.insert("boardMapper.insertReviewReply", r);
+	public int ajaxInsertReply(SqlSessionTemplate sqlSession, Reply r) {
+		return sqlSession.insert("boardMapper.ajaxInsertReply", r);
 	}
 	
 	
@@ -304,29 +307,43 @@ public class BoardDao {
 	
 	
 	
+	//review
+	public ArrayList<Plan> selectOneTripPlanRe(SqlSessionTemplate sqlSession, int tripPlanNo){
+		return (ArrayList)sqlSession.selectList("boardMapper.selectOneTripPlanRe",tripPlanNo);
+	}
+	
+	
+	//review
+		public ArrayList<Plan> selectPlanListRe(SqlSessionTemplate sqlSession, int memberNo){
+			return (ArrayList)sqlSession.selectList("boardMapper.selectPlanListRe",memberNo);
+		}
+		
+	
+	
+		public int insertReviewBoard(SqlSessionTemplate sqlSession, Board b) {
+			return sqlSession.insert("boardMapper.insertReviewBoard",b);
+		}
 	
 	
 	
+		public int updateReviewBoard(SqlSessionTemplate sqlSession,Board b) {
+			return sqlSession.update("boardMapper.updateReviewBoard",b);
+		}
+	
+		
+		public int reviewDeleteBoard(SqlSessionTemplate sqlSession,int boardNo) {
+			return sqlSession.update("boardMapper.reviewDeleteBoard",boardNo);
+		}
 	
 	
+		public int ajaxDeleteReviewReply(SqlSessionTemplate sqlSession,Reply r) {
+			return sqlSession.update("boardMapper.ajaxDeleteReviewReply",r);
+		}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		public int ajaxUpdateReviewReply(SqlSessionTemplate sqlSession,Reply r) {
+			return sqlSession.update("boardMapper.ajaxUpdateReviewReply",r);
+		}
+		
 	
 	
 
