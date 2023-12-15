@@ -355,7 +355,7 @@ public interface BoardService {
 	int ajaxInsertTogetherReReply(Reply r);
 	
 	//메인페이지 지역 ajax
-//	ArrayList<Region> ajaxselectRegionList();
+	ArrayList<Region> ajaxselectRegionList();
 	
 	//같이가요 게시판 하나 가져오는 함수
 	Board togetherSelectBoardOne(int boardNo);
@@ -492,6 +492,6 @@ public interface BoardService {
 
 
 	// 메인페이지 일정만들기 시작
-//	ArrayList<LocationInfomation> makePlan(HashMap<String,Object> map);
+	ArrayList<LocationInfomation> makePlan(HashMap<String,Object> map);
 
 }
