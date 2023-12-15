@@ -39,19 +39,22 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             <div class="schedule-wrap early">
                 <div class="schedule-menu">
                     <ul class="tab-menu">
-                        <li><button>STEP1<br>날짜 확인</button></li>
-                        <li><button>STEP2<br>장소 선택</button></li>
-                        <li><button>STEP3<br>숙소 설정</button></li>
-                        <li><button>STEP4<br>교통수단<br>선택</button></li>
+                        <li><button id="step1" class="active">STEP1<br>날짜 확인</button></li>
+                        <li><button id="step2">STEP2<br>장소 선택</button></li>
+                        <li><button id="step3">STEP3<br>숙소 설정</button></li>
+                        <li><button id="step4">STEP4<br>교통수단<br>선택</button></li>
                     </ul>
-                    <button id="next-btn">다음</button>
+                    <div>
+                        <button id="prev-btn">이전</button>
+                        <button id="next-btn">다음</button>
+                    </div>
                 </div>
                 <div id="content-zone" class="schedule">
                     
                     
                 </div>
             </div>
-            <div id="side-modal" class="side-modal">
+            <div id="side-modal" class="side-modal" style="display: none;">
                 
             </div>
             <div class="map-wrap">
@@ -60,7 +63,6 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
         </div>
         
     </div>
-
 
 </body>
 </html>
