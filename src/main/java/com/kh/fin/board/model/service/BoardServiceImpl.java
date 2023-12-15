@@ -184,10 +184,15 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.ajaxInsertTogetherReReply(sqlSession,r);
 	}
 	//메인페이지 지역리스트 가져오는 ajax
-//	@Override
-//	public ArrayList<Region> ajaxselectRegionList() {
-//		return boardDao.ajaxselectRegionList(sqlSession);
-//	}
+	@Override
+	public ArrayList<Region> ajaxselectRegionList() {
+		return boardDao.ajaxselectRegionList(sqlSession);
+	}
+	//같이가요 게시글 삭제시 해당게시글 컨텐츠 가져와서 이미지 추출하기위함
+	@Override
+	public Board togetherSelectBoardOne(int boardNo) {
+		return boardDao.togetherSelectBoardOne(sqlSession,boardNo);
+	}
 	
 	
 	
@@ -1263,6 +1268,7 @@ public class BoardServiceImpl implements BoardService{
 //		
 //		return boardDao.updateReivewReply(sqlSession, r);
 //	}
+
 
 
 

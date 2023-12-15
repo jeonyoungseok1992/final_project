@@ -70,7 +70,7 @@ $(document).ready(function()
 	 	        }
 	 	    });
 	 	}
-    /* summernote에서 이미지 삭제시 실행할 함수 */
+         /* summernote에서 이미지 삭제시 실행할 함수 */
          function deleteFile(file) {
             data = new FormData()
             data.append('file', file)
@@ -83,6 +83,7 @@ $(document).ready(function()
                 processData: false,
             })
         }
+
 
         function sumReset(){
           // 서머노트 리셋

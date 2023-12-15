@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -377,7 +378,7 @@ public class BoardController {
 		
 		return mv;
 	}
-	
+	//서머노트 작성시 이미지파일 올렸을때 내 실제 경로 폴더에도 올려주는 메서드
 	@RequestMapping(value="/uploadSummernoteImageFile", produces = "application/json; charset=utf8")
 	@ResponseBody
 	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile, HttpSession session )  {
@@ -386,6 +387,7 @@ public class BoardController {
        
 		return new Gson().toJson(changeName);
 	}
+	// 서머노트 작성시 이미지파일 삭제했을때 내 실제 경로 폴더에도 삭제하는 메서드 
 	@RequestMapping(value="/deleteSummernoteImageFile", produces = "application/json; charset=utf8")
 	@ResponseBody
 	public String deleteSummernoteImageFile(@RequestParam("file") String file, HttpSession session )  {
@@ -440,7 +442,7 @@ public class BoardController {
 		
 	}
 	
-	
+	//같이가요 디테일페이지 불러오기 
 	@RequestMapping("togetherDetail.bo")
 	public String selectTogetherBoard(int boardNo, Model model){
 		
@@ -464,7 +466,7 @@ public class BoardController {
 		
 		return "board/togetherUpdateForm";
 	}
-	
+	//같이가요 게시판 글 수정
 	@RequestMapping("togetherUpdate.bo")
 	public String updateTogetherBoard(Board b, HttpSession session, Model model) {
 		int result = boardService.updateTogetherBoard(b);
@@ -480,8 +482,17 @@ public class BoardController {
 		}
 		
 	}
+	//같이가요 게시판 글 삭제
 	@RequestMapping("togetherDelete.bo")
 	public String togetherDeleteBoard(int boardNo, HttpSession session, Model model) {
+		Board b = boardService.togetherSelectBoardOne(boardNo);
+		//boardNo 으로 조회된 이미지 패스 삭제 
+		List<String> imgPaths = extractImgPathFromContent(b.getBoardContent());
+		//파일삭제
+		
+		for(String imgPath : imgPaths) {
+			new File(session.getServletContext().getRealPath(imgPath)).delete();
+		}
 		
 		int result = boardService.togetherDeleteBoard(boardNo);
 		
@@ -606,17 +617,35 @@ public class BoardController {
 		}
 		
 		//mainPage 로드시 지역들 그려주는 ajax
-//		@ResponseBody
-//		@RequestMapping(value="regionList.bo", produces = "application/json; charset = UTF-8")
-//		public String ajaxselectRegionList() {
-//			ArrayList<Region> list = boardService.ajaxselectRegionList();
-//			
-//			return new Gson().toJson(list);
-//		}
-//	
+		@ResponseBody
+		@RequestMapping(value="regionList.bo", produces = "application/json; charset = UTF-8")
+		public String ajaxselectRegionList() {
+			ArrayList<Region> list = boardService.ajaxselectRegionList();
+			
+			return new Gson().toJson(list);
+		}
+		//서머노트 내용중 이미지추출하는 메서드
+		private List<String> extractImgPathFromContent(String sContent){
+			List<String> imgPaths = new ArrayList<>();
+			
+			//이미지 경로추출
+			int startIndex = sContent.indexOf("<img");
+			
+			while(startIndex != -1) {
+				int srcIndex = sContent.indexOf("src=", startIndex);
+				int startQuoteIndex = sContent.indexOf("\"", srcIndex); //resources 시작위치
+				int endQuoteIndex = sContent.indexOf("\"", startQuoteIndex +1); 
+				String imgPath = sContent.substring(startQuoteIndex +1 , endQuoteIndex); // resources이후 "/ 부터" 
+				imgPaths.add(imgPath);
+				startIndex = sContent.indexOf("<img", endQuoteIndex);
+			}
+			return imgPaths;
+			
+		}
 	
 	
-	//
+	
+	
 		
 		
 	

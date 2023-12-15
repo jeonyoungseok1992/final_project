@@ -179,10 +179,14 @@ public class BoardDao {
 	}
 	
 	//메인페이지 지역리스트 가져오는 ajax
-//	public ArrayList<Region> ajaxselectRegionList(SqlSessionTemplate sqlSession){
-//		return (ArrayList)sqlSession.selectList("boardMapper.ajaxselectRegionList");
-//	}
-	
+	public ArrayList<Region> ajaxselectRegionList(SqlSessionTemplate sqlSession){
+		return (ArrayList)sqlSession.selectList("boardMapper.ajaxselectRegionList");
+	}
+	//같이가요 게시글 삭제시 해당게시글 컨텐츠 가져와서 이미지 추출하기위함
+	public Board togetherSelectBoardOne(SqlSessionTemplate sqlSession,int boardNo) {
+		return sqlSession.selectOne("boardMapper.togetherSelectBoardOne",boardNo);
+	}
+
 	
 	
 	

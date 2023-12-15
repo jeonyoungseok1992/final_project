@@ -38,21 +38,8 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
         <div class="recommend-title">추천여행</div>
         <div class="recommend-plus"><a href="recommendList.bo">더보기</a></div>
         <div class="recommend-content">
-            <div class="photo_recommend">
-                <img class="rc-photo" src="./resources/images/recommend photo.PNG">
-                <div class="rc-region">제주</div>
-                <div class="rc-memo">겨울 제주 여행 같이 떠나보자!</div>
-            </div>
-            <div class="photo_recommend">
-                <img class="rc-photo" src="./resources/images/recommend photo.PNG">
-                <div class="rc-region">제주</div>
-                <div class="rc-memo">겨울 제주 여행 같이 떠나보자!</div>
-            </div>
-            <div class="photo_recommend">
-                <img class="rc-photo" src="./resources/images/recommend photo.PNG">
-                <div class="rc-region">제주</div>
-                <div class="rc-memo">겨울 제주 여행 같이 떠나보자!</div>
-            </div>
+            
+            
         </div>
     </div>
     <div id="section3">

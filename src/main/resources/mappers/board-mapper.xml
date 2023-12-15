@@ -481,6 +481,8 @@
 	
 	
 	
+	
+	
 	<!-- 후기 게시글의 총 갯수 조회하는 쿼리문 -->
 	<select id="selectReviewListCount" resultType="_int">
 	
@@ -633,8 +635,8 @@
 				
 		)
 	</insert>
-	<!-- 메인페이지 지역리스트 가져오는 ajax 쿼리문 -->
-	<!-- 	<select id="ajaxselectRegionList" resultMap="regionResult">
+	<!--메인페이지 지역리스트 가져오는 ajax 쿼리문 -->
+	<select id="ajaxselectRegionList" resultMap="regionResult">
 		SELECT REGION_NO
                 ,REGION_NAME
                 ,REGION_MEMO
@@ -642,13 +644,14 @@
                 ,REGION_ENG
 		FROM REGION
 		ORDER BY REGION_NO
-	</select> -->
+	</select>
+		<!-- 같이가요 게시글 삭제시 해당게시글 컨텐츠 가져와서 이미지 추출하기위함 -->
+		<select id="togetherSelectBoardOne" resultMap="boardResult">
+				SELECT  BOARD_CONTENT
+				FROM 	BOARD   
+				WHERE BOARD_NO = #{boardNo}
+		</select>
 
-	
-	
-	
-
-		
 		<!-- plan 정보가지고 글쓰기 페이지에 가져오기  review-->
 		<select id="selectOneTripPlanRe" resultMap="planResult">
 	 		 	SELECT  TRIP_PLAN_NO
