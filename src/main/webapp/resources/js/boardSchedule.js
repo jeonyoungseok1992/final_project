@@ -1,12 +1,21 @@
-function init(){
+const bsValue = {
+    regionData: [], /* 페이지 로드시 지역정보 가져온거 담겨있는곳*/
+}
+
+function init(regionList){
+    bsValue.regionData = JSON.parse(regionList);
     drawScheduleMake({
         startDate: new Date(),
         endDate: null,
         placeInfo : [],
         lodgingInfo : [],
         transportation: "대중교통",
+        regionName: bsValue.regionData.regionName,
+        regionX: bsValue.regionData.regionX,
+        regionY: bsValue.regionData.regionY
     });
-};
+
+};  
 
 function getDragAfterElement(container, x) {
     const tdraggable = [
@@ -133,11 +142,9 @@ function drawScheduleMake(scheduleInfo) {
     const contentZone = document.getElementById("content-zone");
     $(contentZone).empty();
 
-  
     const title = document.createElement("h3");
-    title.innerText = "여행지";
+    title.innerText = scheduleInfo.regionName;
     contentZone.appendChild(title);
-
     const timeZone = document.createElement("div");
     timeZone.className = "date-time";
     contentZone.appendChild(timeZone);
@@ -278,7 +285,7 @@ function selectLocation(scheduleInfo) {
     contentZone.appendChild(locationTitleWrap);
 
     const title = document.createElement("h4");
-    title.innerText = "여행지";
+    title.innerText = scheduleInfo.regionName;
     locationTitleWrap.appendChild(title);
 
     const timeZone = document.createElement("div");
@@ -709,7 +716,7 @@ function selectLodging(scheduleInfo) {
     contentZone.appendChild(locationTitleWrap);
 
     const title = document.createElement("h4");
-    title.innerText = "여행지";
+    title.innerText = scheduleInfo.regionName;
     locationTitleWrap.appendChild(title);
 
     const timeZone = document.createElement("div");

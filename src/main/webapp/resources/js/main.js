@@ -55,6 +55,6 @@ $(document).ready(function(){
     
 });
 
-// function redirectToPlan() {
-//     window.location.href = `goPlan.bo`;
-// }
+function redirectToPlan(num) {
+    window.location.href = `goPlan.bo?regionNo=`+num;
+}

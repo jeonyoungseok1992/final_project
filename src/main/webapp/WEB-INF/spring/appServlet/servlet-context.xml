@@ -44,6 +44,7 @@
 	 	<interceptor>
 	 		<mapping path="/myPage.me"/>
 	 		<mapping path="/enrollForm.bo"/>
+	 		<mapping path="/goPlan.bo"/>
 	 		<beans:bean class="com.kh.fin.common.intercepter.Loginintercepter" id="Loginintercepter"></beans:bean>
 	 	</interceptor>
 	 </interceptors>	

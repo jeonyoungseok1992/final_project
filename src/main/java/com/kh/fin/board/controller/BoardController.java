@@ -58,6 +58,14 @@ public class BoardController {
 		return "member/profileEdit";
 	}
 	
+	//메인페이지에서 지역하나 선택하면 그 지역정보가지고 플랜짜는 페이지로 이동
+	@RequestMapping(value="/goPlan.bo")
+	public ModelAndView moveMakePlan(@RequestParam(value="regionNo")int regionNo,ModelAndView mv) {
+		mv.addObject("region", new Gson().toJson(boardService.selectOneRegion(regionNo)))
+		.setViewName("board/boardScheduleMake2");
+		
+		return mv;
+	}
 	
 	
 	
