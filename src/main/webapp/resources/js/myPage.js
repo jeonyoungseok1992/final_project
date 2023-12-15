@@ -82,8 +82,8 @@ function friendDelete() {
                         <span style="font-size: 20px; margin-left: 10px;">${m.memberNickName}</span>
                     </div>
                     <div>
-                        <a href="#"><img src="resources/images/talkIcons.png" alt="채팅" style="width: 30px; height: 30px;"></a>
-                        <a name="mmodal" data-bs-toggle="modal" data-bs-target="#myModal" onclick="myPageValue.memberNo=${m.memberNo}"><img src="resources/images/xIcons.png" alt="x" style="width: 30px; height: 30px;"></a>
+                    <a href="chat.me?youNo=${m.memberNo}"><img src="resources/images/talkIcons.png" alt="채팅" style="width: 30px; height: 30px;"></a>
+                    <a name="mmodal" data-bs-toggle="modal" data-bs-target="#myModal" onclick="myPageValue.memberNo=${m.memberNo}"><img src="resources/images/xIcons.png" alt="x" style="width: 30px; height: 30px;"></a>
                         
                         
                         </div>	

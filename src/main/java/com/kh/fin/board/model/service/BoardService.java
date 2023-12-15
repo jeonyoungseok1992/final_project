@@ -495,6 +495,6 @@ public interface BoardService {
 
 
 	// 메인페이지 일정만들기 시작
-//	ArrayList<LocationInfomation> makePlan(HashMap<String,Object> map);
+	//ArrayList<LocationInfomation> makePlan(HashMap<String,Object> map);
 
 }
