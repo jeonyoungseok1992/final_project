@@ -75,13 +75,18 @@ body {
     color: #e1e1e1;
     line-height: 1.5;
 }
-.schedule-wrap .schedule-menu > ul > li > button:focus, 
-.schedule-wrap .schedule-menu > ul > li > button:hover,
 .schedule-wrap .schedule-menu > ul > li > button.active{
     color: #b2d8b5;
     text-decoration: none;
 }
-.schedule-wrap .schedule-menu > button{
+.schedule-wrap .schedule-menu div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+.schedule-wrap .schedule-menu div button{
     color: #fff;
     background: #000;
     border-radius: 8px;
@@ -293,6 +298,13 @@ body {
 .form-outline .btn > i {
     color: #b2d8b5;
 }
+.map-area {
+    margin: 0 1rem;
+    background: rgba(222, 222, 222, .2);
+    border-radius: 8px;
+    min-width: 255px;
+    min-height: 150px;
+}
 .category{
     display: flex;
     gap: 10px;
@@ -331,6 +343,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.save-wrap > ul > li.invisible{
+    display: none;
 }
 .select-wrap > ul > li > button, .save-wrap > ul > li > button{
     width: 24px;
