@@ -465,6 +465,27 @@ public class MemberServiceImpl implements MemberService{
 
 	}
 	
+	//친구요청 수락 눌렀을 때
+	@Override
+	public int acceptFriend(Member m, int friendNo) {
+		return memberDao.acceptFriend(sqlSession, m, friendNo);
+
+	}
+	
+	//친구요청 수락 눌렀을 때 friend insert
+	@Override
+	public int insertFriend(Member m, int friendNo) {
+		return memberDao.insertFriend(sqlSession, m, friendNo);
+
+	}
+	
+	//친구요청 수 friend LOG insert
+	@Override
+	public int requestFriend(Member m, int friendNo) {
+		return memberDao.requestFriend(sqlSession, m, friendNo);
+
+	}
+	
 	//채팅  insert
 	@Override
 	public int insertChat(MsgVo vo) {

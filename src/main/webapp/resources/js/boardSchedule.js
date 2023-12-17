@@ -1,6 +1,8 @@
 const bsValue = {
     regionData: [], /* 페이지 로드시 지역정보 가져온거 담겨있는곳*/
 }
+let mX;
+let mY;
 
 function init(regionList){
     bsValue.regionData = JSON.parse(regionList);
@@ -364,18 +366,18 @@ function selectLocation(scheduleInfo) {
         success: function(data){
             console.log(data);
             
-                 let mX;
-                 let mY;
+
                 let attLoca ;
                 let addTitle; 
 
                         for(att of data){
                             attLoca   = att.firstimage;
                             addTitle   = att.title;
-                            mX = att.mapx
-                            mY = att.mapy;
-                            addMarker(mY, mX);
+
+                            
                                 const selectCard = selectWrapLiUnit({
+                                    mX : att.mapx,
+                                    mY : att.mapy,
                                     src: attLoca, 
                                     title: addTitle,
                                     category: "명소",
@@ -622,7 +624,7 @@ function sideModalFunk(scheduleInfo){
 
             sideModalFunk(scheduleInfo);   
     
-            
+            addMarker(mY, mX);
         }
      });
  

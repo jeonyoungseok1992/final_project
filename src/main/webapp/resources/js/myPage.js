@@ -1,5 +1,9 @@
 const myPageValue = {}
 
+function init(memberNo){
+    myPageValue.myNo = memberNo;
+}
+
 $(document).ready(function () {
 
     let $tab2 = $('.ui-tab');
@@ -68,6 +72,7 @@ function friendDelete() {
             memberNo: myPageValue.memberNo
         },
         success: function (list) {
+            console.log(myPageValue.memberNo);
             let str = "";
             console.log(list);
             for (m of list) {
@@ -368,18 +373,19 @@ function fdList(memberNo) {
 
 
 //받은 친구요청 리스트
-function fdRequest(mNo) {
+function fdRequest(no) {
     $.ajax({
         url: "friendRequest.me",
         data: {
-            memberNo: mNo
+            memberNo: no,
         },
         success: function (list) {
 
-            let profileImg = m.memberProfileImg ? m.memberProfileImg : "/mapping/resources/images/profile.png";
+            
 
             let str = "";
             for (m of list) {
+                let profileImg = m.memberProfileImg ? m.memberProfileImg : "/mapping/resources/images/profile.png";
                 str += `
                     <div id="myfriend">
                     <div>
@@ -388,9 +394,9 @@ function fdRequest(mNo) {
                         <span style="font-size: 20px; margin-left: 10px;">${m.memberNickName}</span>
                     </div>
                     <div>
-                        <a href="acceptFriend.me" style="font-size: 18px;">수락</a>
+                        <a onclick="acceptFriend(${m.memberNo})" style="font-size: 18px;">수락</a>
                         <span style="font-size: 18px;">|</span>
-                        <a  data-bs-toggle="modal" data-bs-target="#myModal2" onclick="myPageValue.memberNo=${m.memberNo}" style="font-size: 18px;">거절</a>
+                        <a onclick="rejectFriend(${m.memberNo})" style="font-size: 18px;">거절</a>
                     </div>	
                 </div>
                 `
@@ -405,13 +411,13 @@ function fdRequest(mNo) {
     })
 }
 
-function rejectFriend(){
+function rejectFriend(friendNo){
     $('#myModal2').modal('hide');
     console.log(myPageValue.memberNo);
     $.ajax({
         url: "rejectFriend.me",
         data: {
-            friendNo: myPageValue.memberNo
+            friendNo: friendNo
         },
         success: function (no) {
             console.log("rejectFriend ajax통신 성공");
@@ -420,6 +426,27 @@ function rejectFriend(){
         },
         error: function () {
             console.log("rejectFriend ajax통신 실패");
+        }
+    })
+
+}
+
+
+function acceptFriend(friendNo){
+    $('#myModal2').modal('hide');
+    console.log(myPageValue.memberNo);
+    $.ajax({
+        url: "acceptFriend.me",
+        data: {
+            friendNo: friendNo
+        },
+        success: function (no) {
+            console.log("acceptFriend ajax통신 성공");
+            fdRequest(no);
+
+        },
+        error: function () {
+            console.log("acceptFriend ajax통신 실패");
         }
     })
 

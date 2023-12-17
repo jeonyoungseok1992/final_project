@@ -37,6 +37,7 @@
     <script src="./resources/js/reviewEnrollForm.js"></script>
     <script src="./resources/js/board-api.js"></script>
     <script src="./resources/js/reviewDetailView.js"></script>
+    <script src="./resources/js/common.js"></script>
 
 </head>
 <body onload="selectReply()">
@@ -145,26 +146,36 @@
                             </tr>
 
                             <tr>
-                                <!--프로필 수정-->
                                 <th id="profile-modify">
 
-                                        <div>
-                                            <img src="resources/images/profile.png" 
-                                            type="button" class="btn btn-primary dropdown-toggle" 
+                                    <c:choose>
+                                        <c:when test="${!empty list[0].memberProfileImg}">
+                                            <img src="${list[0].memberProfileImg}" 
+                                            type="button" class="dropdown-toggle" 
                                             data-bs-toggle="dropdown" id="profileClickBtn">
-                                            </img>
-                                            <span id="board-writer">${list[0].boardWriter}</span>
+                                            </img>	                               
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img src="resources/images/profile.png" type="button" class="dropdown-toggle" 
+                                            data-bs-toggle="dropdown" id="profileClickBtn">
+                                        </c:otherwise>
+                                     </c:choose>
+                                    <div>   
+                                        <span id="board-writer" style="margin-left: 10px;">${list[0].boardWriter}</span>
 
-                                            <ul class="dropdown-menu hoho" style="text-align: center;" align="center">
-                                                <li><a class="dropdown-item" href="#">프로필</a></li>
-                                                <li><a class="dropdown-item" href="#">친구신청</a></li>
-                                                <li><a class="dropdown-item" href="#">대화화기</a></li>
-                                            </ul>
-                                        </div>
-                                            
-                                      
-                                         
-                                </th>
+                                        <ul class="dropdown-menu hoho" style="text-align: center;" align="center">
+                                        <c:choose>
+                                            <c:when test="${list[0].memberNo != loginUser.memberNo}">
+                                                <li><a class="dropdown-item" href="javascript:void(0);" onclick="requestFriend(${list[0].memberNo})">친구신청</a></li>                               
+                                                <li><a class="dropdown-item" href="chat.me?youNo=${list[0].memberNo}">대화화기</a></li>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <li><a class="dropdown-item" href="mypage.me">프로필</a></li>
+                                            </c:otherwise>
+                                         </c:choose>
+                                        </ul>
+                                    </div>    
+                            </th>
 
                                 
 
@@ -554,6 +565,27 @@
                         });
                     }
                   </script>  
+                  <script>
+                          function requestFriend(memberNo){
+                            console.log('도착');
+                            $.ajax({
+                                url : "requestFriend.me",
+                                data:{
+                                    friendNo : memberNo
+                                },
+                                success : function(res){
+                                    //성공시 다시 그려주기
+                                    if(res === "success")
+                                    document.getElementById('drop-fr').style.backgroundColor.#b2d8b5;
+                                    
+                                },
+                                error:function(){
+                                    console.log("reply 댓글추가 통신 실패");
+                                }
+                            })
+                        
+                        }
+                  </script>
         </body>
 
         </html>

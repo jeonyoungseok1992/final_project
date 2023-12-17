@@ -394,11 +394,21 @@ public class BoardDao {
 	
 	
 	
+		// 메인페이지 키워드 검색 리스트업을 위한 카운트 함수
+		public int regionListCount(SqlSessionTemplate sqlSession) {
+			return sqlSession.selectOne("boardMapper.regionListCount");
+		}
 	
 	
 	
-	
-	
+		//메인페이지 키워드 검색
+		public ArrayList<Region> regionSearch(SqlSessionTemplate sqlSession, PageInfo pi, String keyword){
+			int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+			int limit= pi.getBoardLimit();
+			RowBounds rowBounds = new RowBounds(offset,limit);
+			
+			return (ArrayList)sqlSession.selectList("boardMapper.regionSearch",keyword,rowBounds);
+		}
 	
 	
 	

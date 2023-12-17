@@ -572,6 +572,7 @@
 		                ,BOARD_REPORT
 		                ,MEMBER_NO
 		                ,MEMBER_ID
+		                ,MEMBER_PROFILE_IMG
 		                ,BOARD_TRIP_PLAN_NO
 		                ,BOARD_REGION_NO
 		                ,TRIP_PLAN_NO
@@ -858,6 +859,13 @@
 	
 	
 	
+		<!-- 메인페이지 지역 총 갯수 조회하는 쿼리문 -->
+	<select id="regionListCount" resultType="_int">
+	
+		SELECT COUNT(*)
+		FROM REGION
+		
+	</select>
 	
 	
 	
@@ -865,8 +873,20 @@
 	
 	
 	
-	
-	
+			<!--메인페이지 지역 키워드로 검색 -->
+		<select id="regionSearch" resultMap="regionResult">
+		SELECT REGION_NO
+                ,REGION_NAME
+                ,REGION_MEMO
+                ,REGION_IMG
+                ,REGION_ENG
+                ,REGION_X
+                ,REGION_Y
+		FROM REGION
+		WHERE REGION_NAME
+	        LIKE '%' || #{keyword} || '%'
+	        ORDER BY REGION_NAME DESC
+		</select>
 	
 	
 	

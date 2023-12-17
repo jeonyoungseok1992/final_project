@@ -549,10 +549,37 @@ public class MemberController {
 	//친구 거절버튼 눌렀을 때
 	@ResponseBody
 	@RequestMapping(value="rejectFriend.me")
-	public int rejectFriend(int friendNo, HttpSession session) {		
+	public int rejectFriend(int friendNo, HttpSession session) {
+		System.out.println(friendNo);
 		Member m = ((Member)session.getAttribute("loginUser"));
-		return memberService.rejectFriend(m, friendNo) > 0 ? m.getMemberNo() : 0;
+		int result = memberService.rejectFriend(m, friendNo);
+		System.out.println(result);
+		return result > 0 ? m.getMemberNo() : 0;
 		
+		
+	}
+	
+	
+	//친구 수락버튼 눌렀을 때
+	@ResponseBody
+	@RequestMapping(value="acceptFriend.me")
+	public int acceptFriend(int friendNo, HttpSession session) {
+		System.out.println(friendNo);
+		Member m = ((Member)session.getAttribute("loginUser"));
+		int result = memberService.acceptFriend(m, friendNo);
+		int result2 = memberService.insertFriend(m, friendNo);
+		System.out.println(result);
+		System.out.println(result2);
+		return result > 0 ? m.getMemberNo() : 0;
+	}
+	
+	//친구신청
+	@ResponseBody
+	@RequestMapping(value="requestFriend.me")
+	public void requestFriend(int friendNo, HttpSession session) {
+		System.out.println(friendNo);
+		Member m = ((Member)session.getAttribute("loginUser"));
+		memberService.requestFriend(m, friendNo);
 		
 	}
 
@@ -633,5 +660,11 @@ public class MemberController {
 			System.out.println(memberService.leftChatList(vo));
 			return memberService.leftChatList(vo);
 		}
+		
+
+		
+		
+		
+		
 	
 }
