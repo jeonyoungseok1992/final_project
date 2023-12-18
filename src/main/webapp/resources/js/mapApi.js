@@ -71,7 +71,7 @@
 var positions = [];
 
 $(document).ready(function () {
-    //initMap();
+    initMap();
 
     function initMap() {
         $.ajax({

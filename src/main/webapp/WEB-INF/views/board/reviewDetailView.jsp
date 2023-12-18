@@ -24,17 +24,13 @@
     <!-- jquery 3.7.1 -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
-
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     
     <link rel="stylesheet" href="./resources/css/grade.css">
     <link rel="stylesheet" href="./resources/css/scheduleListModal.css">
     <link rel="stylesheet" href="./resources/css/board-card.css">
     <link rel="stylesheet" href="./resources/css/boardReviewDetailView.css">
 
-    <script src="./resources/js/reviewEnrollForm.js"></script>
+    
     <script src="./resources/js/board-api.js"></script>
     <script src="./resources/js/reviewDetailView.js"></script>
 
@@ -62,7 +58,7 @@
                                     <c:when test="${i eq p.tripNday}">
                                         <div data-bs-toggle="modal" data-bs-target="#gradeModal${i}${p.attractionNo}"
                                             class="location-img"><img src="${p.attractionChangeNameImg}"
-                                                alt="장소""> 
+                                                alt="장소"> 
                                         </div>
                                         <!-- The Modal -->
                                         <div class="modal fade" id="gradeModal${i}${p.attractionNo}">
@@ -135,7 +131,7 @@
                         <!--board제목부분 컨텐츠 영역-->
                         <table class="detail-content">
                             <tr id="detail-category">
-                                <th id="main-category">같이가요 게시판</th>
+                                <th id="main-category">여행후기 게시판</th>
                                 
                             </tr>
 
@@ -148,13 +144,20 @@
                                 <!--프로필 수정-->
                                 <th id="profile-modify">
 
+                                        <c:choose>
+                                            <c:when test="${!empty list[0].memberProfileImg}">
+                                                <img src="${list[0].memberProfileImg}" 
+                                                type="button" class="dropdown-toggle" 
+                                                data-bs-toggle="dropdown" id="profileClickBtn">
+                                                </img>	                               
+                                            </c:when>
+                                            <c:otherwise>
+                                                <img src="resources/images/profile.png" type="button" class="dropdown-toggle" 
+                                                data-bs-toggle="dropdown" id="profileClickBtn">
+                                            </c:otherwise>
+                                        </c:choose>
                                         <div>
-                                            <img src="resources/images/profile.png" 
-                                            type="button" class="btn btn-primary dropdown-toggle" 
-                                            data-bs-toggle="dropdown" id="profileClickBtn">
-                                            </img>
-                                            <span id="board-writer">${list[0].boardWriter}</span>
-
+                                            <span id="board-writer" style="margin-left: 10px;">${list[0].boardWriter}</span>
                                             <ul class="dropdown-menu hoho" style="text-align: center;" align="center">
                                                 <li><a class="dropdown-item" href="#">프로필</a></li>
                                                 <li><a class="dropdown-item" href="#">친구신청</a></li>
@@ -190,7 +193,7 @@
                                 </th>
 
                                 <th style="vertical-align:middle; width: 50px ;height: 50px;">
-                                    <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="warn">
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="warn" onclick="contentsInit1(document.querySelector('.bd-content').innerText)">
                                         <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
                                     </button>
                                 </th>
@@ -213,7 +216,7 @@
                                         
                                         <tr> 
                                             <th>
-                                                <textarea class="form-control" id="content"  cols="55" rows="2" style="resize:none; width:100%;"></textarea>
+                                                <textarea class="form-control" id="content"  cols="55" rows="2" style="resize:none; width:100%;" onkeyup="(event.keyCode === 13 ? addReply() : false)"></textarea>
                                             </th>
 
                                             <th style="vertical-align:middle; width: 80px;" >
@@ -251,27 +254,27 @@
 
                 
                 <script>
-                    var listlength ='';
                 function selectReply(){
                     $.ajax({
                         url : "reviewRlist.bo",
                         data : {
                         boardNo : '${list[0].boardNo}'
                         },
-                        success : function(rlist){
-                            $('#rcount').text(rlist.length);
+                        success : function(replyList){
+                            console.log(replyList);
+                            $('#rcount').text(replyList.length);
                             let str = '';
 
-                            if(rlist.length === 0){
+                            if(replyList.length === 0){
                                 str = `<div style="margin-bottom: 200px; padding-top: 100px; display: flex; justify-content: center; align-items: center;">댓글 리스트가 존재하지 않습니다.</div>`
                             } 
-                            for(reply of rlist){
+                            for(reply of replyList){
                                str += `
                                         <tr class="reply-profile">
                                         <th class="rp-profile-img" style="width: 80px; "> 
-                                            <div>
+                                            <div style="position:relative;">
                                             <img  src="` + reply.memberProfileImg + `" alt="프로필없음" 
-                                            type="button" class="btn btn-primary dropdown-toggle" 
+                                            type="button" class="dropdown-toggle" 
                                             data-bs-toggle="dropdown"
                                             style="background: none; border: none;
                                                     width: 50px; height: 50px;
@@ -286,17 +289,17 @@
                                             </ul>
                                         </div></th>
 
-                                        <th>` +reply.replyWriter+ `</th>
+                                        <th colspan=2>` +reply.replyWriter+ `</th>
                                         <th style="width: 150px;">`+ reply.replyModifyDate + `</th>
                                 </tr>
                                
                                     <tr>`+
-                                        `<td class="reply-content" colspan="2">` + reply.replyContent+ `</td>`;
+                                        `<td class="reply-content" id="reply`+reply.replyNo+`" colspan="4">` + reply.replyContent+ `</td>`;
                                    
-                                   
+                            if(!("${loginUser}" === null)){   
                                  if(!(reply.replyWriter === "${loginUser.memberId}")) {         
                                    str += ` <td colspan="1" id="reply-warn-area">
-                                         <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="reply-warn">
+                                         <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="reply-warn" onclick="contentsInit(`+reply.replyNo+`)">
                                                 <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
                                             </button>
 
@@ -306,33 +309,102 @@
                                             
                                         </td>`;
                                     }
-                                str += ` </tr>
-
+                                str += ` </tr>`;
+                            }
     
+                            if("${loginUser}" !== null){
+                                str += `<tr>
+                                    <th colspan="3" id="re-reply">
+                                        <button class="btn btn-secondary" style="background: #b2d8b5; border: #b2d8b5;" onclick="drawInput(event,`+ reply.replyNo+`)">
+                                                답글
+                                        </button>
+                                        `;
 
-                            <tr>
-                                <th  colspan="3" id="re-reply" >
-                                    <button class="btn btn-secondary" style="background: #b2d8b5; border: #b2d8b5;">
-                                            답글
-                                    </button>
-                                    `;
 
-
-                            if(reply.replyWriter === "${loginUser.memberId}") {
+                                if(reply.replyWriter === "${loginUser.memberId}") {
+                                    str +=`
+                                    <button class="btn btn-secondary" data-bs-toggle='modal' data-bs-target='#replyUpdateModal' style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+reply.replyNo+`)">수정</button>
+                                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myModal" style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+reply.replyNo+`)">
+                                                삭제
+                                            </button>`;
+                                }
+                                
+                                        
                                 str +=`
-                                <button class="btn btn-secondary" data-bs-toggle='modal' data-bs-target='#replyUpdateModal' style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+reply.replyNo+`)">수정</button>
-                                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myModal" style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+reply.replyNo+`)">
-                                            삭제
-                                        </button>`;
+                                    </th>
+                                </tr>`;
                             }
+                                if(reply.rlist.length > 0) {
+                                    for (let r of reply.rlist) {
+                                        str += `
+
+                                                    <tr class="reply-profile" >
+                                                    <th></th>
+                                                    <th class="rp-profile-img" style="width: 80px;"> 
+                                                        <div style="position:relative;">
+                                                        <img  src="` + r.memberProfileImg + `" alt="프로필없음" 
+                                                        type="button" class="dropdown-toggle" 
+                                                        data-bs-toggle="dropdown"
+                                                        style="background: none; border: none;
+                                                                width: 50px; height: 50px;
+                                                                border-radius: 50%;">
+                                                        </img>
+                                                    
+
+                                                        <ul class="dropdown-menu" style="text-align: center;" align="center">
+                                                            <li><a class="dropdown-item" href="#">프로필</a></li>
+                                                            <li><a class="dropdown-item" href="#">친구신청</a></li>
+                                                            <li><a class="dropdown-item" href="#">대화화기</a></li>
+                                                        </ul>
+                                                    </div></th>
+
+                                                    <th>` +r.replyWriter+ `</th>
+                                                    <th style="width: 150px;">`+ r.replyModifyDate + `</th>
+                                                    </tr>
+                                        
+                                                    <tr><td></td><td></td>`+
+                                                    `<td class="reply-content" id="reply`+r.replyNo+`" colspan="2">` + r.replyContent+ `</td>`;
+                                                    
+
+                                                    if(!("${loginUser}" === null)){   
+                                                    if(!(r.replyWriter === "${loginUser.memberId}")) {         
+                                                    str += ` <td colspan="1" id="reply-warn-area">
+                                                            <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="reply-warn" onclick="contentsInit(`+r.replyNo+`)">
+                                                                    <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
+                                                                </button>
+
+
+
+
+                                                                
+                                                                </td>`;
+                                                            }
+                                                        str += ` </tr>`;
+                                                    }
+                                                    
+                                                    str += `</tr>`;
+
+
+                                                    if(r.replyWriter === "${loginUser.memberId}") {
+                                                        str +=`<tr><td></td><td></td>
+                                                        <th colspan="3" id="re-reply">
+                                                        <button class="btn btn-secondary" data-bs-toggle='modal' data-bs-target='#replyUpdateModal' style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+r.replyNo+`)">수정</button>
+                                                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myModal" style="background: #b2d8b5; border: #b2d8b5;" onclick="numinit(`+r.replyNo+`)">
+                                                                    삭제
+                                                        </button>`;
+                                                    }
+                                
+                                        
+                                                        str +=`
+                                                            </th>
+                                                        </tr>`;
+
+                                                    
+                                    }
+                                }
                             
-                                    
-                            str +=`
-                                </th>
-                            </tr>
-                            `;
                             }
-                         
+
                             $(".reply-area").html(str);
                     
                         },
@@ -387,56 +459,60 @@
 
                 </script>
 
-              <!-- The Modal -->
-              <div class="modal fade" id="reportModal">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content style">
-                
-                        <!-- Modal Header -->
-                        <div class="modal-header">
-                            <h4 class="modal-title">신고하기</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                
-                        <!-- Modal body -->
-                        <div class="modal-body">
-                            <div class="layer-contents" id="report">
-                                <div class="dl-type">
-                                    <dl>
-                                        <dt><strong>아이디</strong></dt>
-                                        <dd>홍길동</dd>
-                                    </dl>
-                                    <dl>
-                                        <dt><strong>내용</strong></dt>
-                                        <dd><p>이것도 여행계획이라고 짠건가? ㅉㅉ 이것도 여행계획이라고 짠건가? ㅉㅉ</p></dd>
-                                    </dl>
+                 <!-- The Modal -->
+                 <div class="modal fade" id="reportModal">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content style">
+                    
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">신고하기</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                    
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <div class="layer-contents" id="report">
+                                    <div class="dl-type">
+                                        <dl>
+                                            <dt><strong>아이디</strong></dt>
+                                            <dd>${loginUser.memberId}</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt><strong>내용</strong></dt>
+                                            <input type="hidden" name="reportContents" class="rptContent">
+                                            <dd id="reportContent" ><p id="rcontent" style="overflow: auto; max-height: 200px;"></p></dd>
+                                        </dl>
+                                    </div>
+                                    <br>
+                                    <fieldset class="form">
+                                        <legend>신고정보입력</legend>
+                                        <div class="form-check-map-group">
+                                            <div class="form-check-map checked"><input type="radio" name="report" id="report01" checked=""><label for="report01">광고 / 홍보성 댓글</label></div>
+                                            <div class="form-check-map"><input type="radio" name="report" id="report02"><label for="report02">욕설 / 반말 /부적절한 언어</label></div>
+                                            <div class="form-check-map"><input type="radio" name="report" id="report03"><label for="report03">음란성 메시지</label></div>
+                                            <div class="form-check-map"><input type="radio" name="report" id="report04"><label for="report04">기타</label></div>
+                                        </div>
+                                        <div class="form-control-map">
+                                            <textarea name="" id="" title="신고사유 입력" cols="" rows="7" placeholder="기타 신고사유를 입력해주세요."></textarea>
+                                            <div class="bytes">0 / 500 자</div>
+                                        </div>
+                                        <p class="report-text">댓글 신고 사유를 선택해주세요.<br>
+                                            신고 후 관리자에게 신고 사항이 전달됩니다.</p>
+                                    </fieldset>
                                 </div>
-                                <br>
-                                <fieldset class="form">
-                                    <legend>신고정보입력</legend>
-                                    <div class="form-check-map-group">
-                                        <div class="form-check-map checked"><input type="radio" name="report" id="report01" checked=""><label for="report01">광고 / 홍보성 댓글</label></div>
-                                        <div class="form-check-map"><input type="radio" name="report" id="report02"><label for="report02">욕설 / 반말 /부적절한 언어</label></div>
-                                        <div class="form-check-map"><input type="radio" name="report" id="report03"><label for="report03">음란성 메시지</label></div>
-                                        <div class="form-check-map"><input type="radio" name="report" id="report04"><label for="report04">기타</label></div>
-                                    </div>
-                                    <div class="form-control-map">
-                                        <textarea name="" id="" title="신고사유 입력" cols="" rows="7" placeholder="기타 신고사유를 입력해주세요."></textarea>
-                                        <div class="bytes">0 / 500 자</div>
-                                    </div>
-                                    <p class="report-text">댓글 신고 사유를 선택해주세요.<br>
-                                        신고 후 관리자에게 신고 사항이 전달됩니다.</p>
-                                </fieldset>
+                                <div class="layer-btns">
+                                    <button type="button" class="btn-lg-line cancel" data-bs-dismiss="modal">취소</button>
+                                    <button type="button" class="btn-lg-solid confirm">신고하기</button>
+                                </div>
                             </div>
-                            <div class="layer-btns">
-                                <button type="button" class="btn-lg-line cancel" data-bs-dismiss="modal">취소</button>
-                                <button type="button" class="btn-lg-solid confirm">신고하기</button>
-                            </div>
+        
                         </div>
-    
                     </div>
                 </div>
-            </div>
+                <script>
+                    $('#reportContent > p > img').css("display", "none" );
+                </script>
         
             <!-- 댓글 삭제 모달 Modal -->
             <div class="modal fade" id="myModal">
@@ -481,79 +557,79 @@
 				        </div>
 				    </div> 
                     
-                  <script>
-                    function updateReviewReply (replyNo){
-                        $.ajax({
-                            url : "reviewReplyUpdate.bo",
-                            data : {
-                                replyBoardNo : '${list[0].boardNo}',
-                                replyNo : replyNo,
-                                replyContent : document.querySelector('[name="replyContent"]').value,
-                            },
-                            success : function(res){
-                                if(res === "success")
-                                selectReply();
-                                document.querySelector('[name="replyContent"]').value = '';
-                            },
-                            error:function(){
-                                console.log("reviewRlist.bo ajax 통신 실패");
-                            }
-                        })
-                    }
-                    function numinit(num){
-                        document.querySelector('.updateReplyNo').value = num;
-                    }
-                    function contentsInit1(cont){
-                        document.querySelector('.rptContent').value = cont;
-                        document.getElementById('rcontent').innerText =cont;
-                    }
-                    function contentsInit(num){
-                        const val = document.getElementById('reply' + num).innerText;
-                        document.querySelector('.rptContent').value = val;
-                        document.getElementById('rcontent').innerText =val;
-                    }
-
-                    function drawInput(ev,replyNo){
-                       $(".reply-tr").remove();
-                    
-                        const box = document.createElement("tr");
-                        box.className = 'reply-tr';
-                        const th = document.createElement("th");
-                        const input = document.createElement("input");
-                        const btn = document.createElement("button");
-                        btn.className = 'btn btn-secondary';
-                        btn.style = "background: #b2d8b5; border: #b2d8b5; margin-left:10px;"
-                        btn.innerText = "등록";
-                        th.colSpan = "3";
-                        th.appendChild(input);
-                        th.appendChild(btn);
-                        box.appendChild(th);
-                        ev.target.parentNode.parentNode.after(box);
-                        btn.addEventListener("click", function(){
+                    <script>
+                        function updateTogetherReply (replyNo){
                             $.ajax({
-                            url : "togetherRRinsert.bo",
-                            data : {
-                                replyBoardNo : '${list[0].boardNo}',
-                                replyWriter : '${loginUser.memberNo}',
-                                replyNo : replyNo,
-                                replyContent : input.value,
-                            },
-                            success : function(res){
-                                console.log(res)
-                                if(res === "success"){
+                                url : "togetherReplyUpdate.bo",
+                                data : {
+                                    replyBoardNo : '${list[0].boardNo}',
+                                    replyNo : replyNo,
+                                    replyContent : document.querySelector('[name="replyContent"]').value,
+                                },
+                                success : function(res){
+                                    if(res === "success")
                                     selectReply();
+                                    document.querySelector('[name="replyContent"]').value = '';
+                                },
+                                error:function(){
+                                    console.log("togetherRlist.bo ajax 통신 실패");
                                 }
-                            
-                            },
-                            error:function(){
-                                console.log("togetherRRinsert.bo ajax 통신 실패");
-                            }
-                        })
-                            
-                            
-                        });
-                    }
-                  </script>  
+                            })
+                        }
+                        function numinit(num){
+                            document.querySelector('.updateReplyNo').value = num;
+                        }
+                        function contentsInit1(cont){
+                            document.querySelector('.rptContent').value = cont;
+                            document.getElementById('rcontent').innerText =cont;
+                        }
+                        function contentsInit(num){
+                            const val = document.getElementById('reply' + num).innerText;
+                            document.querySelector('.rptContent').value = val;
+                            document.getElementById('rcontent').innerText =val;
+                        }
+    
+                        function drawInput(ev,replyNo){
+                           $(".reply-tr").remove();
+                        
+                            const box = document.createElement("tr");
+                            box.className = 'reply-tr';
+                            const th = document.createElement("th");
+                            const input = document.createElement("input");
+                            const btn = document.createElement("button");
+                            btn.className = 'btn btn-secondary';
+                            btn.style = "background: #b2d8b5; border: #b2d8b5; margin-left:10px;"
+                            btn.innerText = "등록";
+                            th.colSpan = "3";
+                            th.appendChild(input);
+                            th.appendChild(btn);
+                            box.appendChild(th);
+                            ev.target.parentNode.parentNode.after(box);
+                            btn.addEventListener("click", function(){
+                                $.ajax({
+                                url : "togetherRRinsert.bo",
+                                data : {
+                                    replyBoardNo : '${list[0].boardNo}',
+                                    replyWriter : '${loginUser.memberNo}',
+                                    replyNo : replyNo,
+                                    replyContent : input.value,
+                                },
+                                success : function(res){
+                                    console.log(res)
+                                    if(res === "success"){
+                                        selectReply();
+                                    }
+                                
+                                },
+                                error:function(){
+                                    console.log("togetherRRinsert.bo ajax 통신 실패");
+                                }
+                            })
+                                
+                                
+                            });
+                        }
+                      </script>
         </body>
 
         </html>

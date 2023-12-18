@@ -342,7 +342,6 @@
             order by TRIP_N_DAY
 		</select>
 	
-	
 		<!-- 같이가요 게시글 수정 관련 sql -->
 		<update id="updateTogetherBoard">
 			UPDATE BOARD
@@ -516,13 +515,14 @@
 				,BOARD_TITLE
 		        ,BOARD_CONTENT
 		        ,MEMBER_ID
-		        ,BOARD_CREATE_DATE
+		        ,TO_CHAR(BOARD_CREATE_DATE, 'YYYY/MM/DD') AS "BOARD_CREATE_DATE"
+		        ,TRIP_PLAN_THUMBNAIL
 		FROM 	BOARD
 		join member on (BOARD_WRITER = MEMBER_NO)
+		join TRIP_PLAN on (BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
 		where BOARD_CATEGORY = 1
 		AND BOARD_STATUS = 'Y'
-		
-		ORDER BY BOARD_CREATE_DATE DESC
+		ORDER BY BOARD_NO DESC
 	</select>
 	
 	
@@ -532,13 +532,12 @@
 					,B.BOARD_TITLE
 			        ,B.BOARD_CONTENT
 			        ,M.MEMBER_ID
-			        ,B.BOARD_CREATE_DATE
-			        ,R.REGION_NAME
-			      
+			        ,TO_CHAR(B.BOARD_CREATE_DATE, 'YYYY/MM/DD') AS "BOARD_CREATE_DATE"
+			        ,T.TRIP_PLAN_THUMBNAIL 
 			FROM BOARD B
 			JOIN MEMBER M ON (B.BOARD_WRITER = M.MEMBER_NO)
 			JOIN REGION R ON (B.BOARD_REGION_NO= R.REGION_NO)
-			
+			join TRIP_PLAN T on (B.BOARD_TRIP_PLAN_NO = T.TRIP_PLAN_NO)
 			WHERE B.BOARD_CATEGORY = 1
 			AND B.BOARD_STATUS = 'Y'
 			<choose>
@@ -572,6 +571,7 @@
 		                ,BOARD_REPORT
 		                ,MEMBER_NO
 		                ,MEMBER_ID
+		                ,MEMBER_PROFILE_IMG
 		                ,BOARD_TRIP_PLAN_NO
 		                ,BOARD_REGION_NO
 		                ,TRIP_PLAN_NO
@@ -583,15 +583,12 @@
 		                ,ATTRACTION_ADDRESS
 		                ,ATTRACTION_CHANGE_NAME_IMG
 		                ,CATEGORY_NAME
-	                
-	                
 				FROM 	BOARD   
 	            JOIN 	MEMBER ON (MEMBER_NO = BOARD_WRITER)
 	            JOIN 	TRIP_PLAN ON (BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
 	            JOIN	LOCATION USING (TRIP_PLAN_NO)
 	            JOIN 	ATTRACTION ON (ATTRACTION_NO=LOCATION_ATTRACTION_NO)
 	  			JOIN 	CATEGORY ON (ATTRACTION_CATEGORY_NO = CATEGORY_NO)
-	            
 				WHERE BOARD_NO = #{boardNo}
 	            AND BOARD_CATEGORY = 1
 				AND BOARD_STATUS = 'Y'
@@ -603,16 +600,17 @@
 	
 		<!-- 후기 댓글 조회 쿼리문 -->
 		<select id="selectReviewReplyList" resultMap="replyResult">
-				SELECT  REPLY_NO
-					    ,REPLY_CONTENT
-						,MEMBER_ID AS "REPLY_WRITER"
-						,TO_CHAR(REPLY_MODIFY_DATE, 'YYYY-MM-DD') AS "REPLY_MODIFY_DATE"
-						,MEMBER_PROFILE_IMG
-				FROM 	REPLY
-				JOIN 	MEMBER ON (REPLY_WRITER = MEMBER_NO)
-				WHERE 	REPLY_STATUS = 'Y'
-				AND 	REPLY_BOARD_NO = #{boardNo}
-				ORDER 	BY REPLY_NO
+		SELECT REPLY_NO
+				,REPLY_CONTENT
+				,MEMBER_ID AS "REPLY_WRITER"
+				,TO_CHAR(REPLY_MODIFY_DATE, 'YY-MM-DD HH24:MI:SS') AS "REPLY_MODIFY_DATE"
+				,MEMBER_PROFILE_IMG
+				,REPLY_GROUP
+		FROM REPLY
+		JOIN MEMBER ON (REPLY_WRITER = MEMBER_NO)
+		WHERE REPLY_STATUS = 'Y'
+		AND REPLY_BOARD_NO = #{boardNo}
+		ORDER BY REPLY_NO
 		</select>
 		
 	
@@ -804,6 +802,12 @@
 				WHERE REPLY_BOARD_NO = #{replyBoardNo}
 				AND REPLY_NO = #{replyNo} 
 		</update>
+		
+		<!-- 후기 게시글 작성시 별점주기 -->
+		<insert id="ajaxInsertReviewStars" >
+				INSERT INTO STAR (ATTRACTION_NO, STAR_GRADE) 
+				VALUES (#{attractionNo}, #{starGrade})   
+		</insert>
 		
 		
 	

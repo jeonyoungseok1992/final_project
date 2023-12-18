@@ -60,73 +60,31 @@
                         <div class="nDay-content" id="ndayContent">
 
                             <c:forEach var="i" begin="1" end="${maxNday}" step="1">
-                                 <div class="nDay">${i}일차</div>
+                                <c:if test="${i eq 1}">
+                                    <button type="button" class="btn btn-secondary" style="background: #b2d8b5; border: #b2d8b5; float: right; margin-right: 15px;" data-bs-toggle="modal" data-bs-target="#gradeModal">별점주기</button>
+                                </c:if> 
+                                <div class="nDay">${i}일차</div>
                                      <div class="location">
                                         <c:forEach var="p" items="${list}">
-                                            <c:choose>
-                                                <c:when test="${i eq p.tripNday}">
-                                                    <div data-bs-toggle="modal" data-bs-target="#gradeModal${i}${p.attractionNo}"
-                                                        class="location-img"><img src="${p.attractionChangeNameImg}"
-                                                            alt="장소""> 
+                                            
+                                                <c:if test="${i eq p.tripNday}">
+
+                                                
+                                                    <div class="location-img"><img src="${p.attractionChangeNameImg}"
+                                                            alt="장소">
+                                                        <div id="att${p.attractionNo}" style="height: 16px;"></div>
                                                     </div>
+                                                    
 
 
-                                                    <!-- The Modal -->
-                                                    <div class="modal fade" id="gradeModal${i}${p.attractionNo}">
-                                                        <div class="modal-dialog modal-dialog-centered">
-                                                            <div class="modal-content style grade">
-                                                                <!-- Modal Header -->
-                                                                <div class="modal-header">
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"></button>
-                                                                </div>
-
-                                                                <div class="modal-body">
-
-                                                                    <h4 class="modal-title">${p.attractionName}<span>${p.categoryName}</span></h4>
-                                                                        <div class="img-area">
-                                                                            <img src="${p.attractionChangeNameImg}"
-                                                                                alt="">
-                                                                        </div>
-
-                                                                        <div class="text-area" style="height: 100%;">
-                                                                            <p>${p.attractionAddress}</p>
-                                                                        </div>
-                                                                    <div class="grade">
-                                                                        <div class="ui-grade half" attractionNo="${p.attractionNo}"
-                                                                            role="radiogroup">
-                                                                            <button type="button" role="radio"
-                                                                                aria-checked="false"
-                                                                                class="">1</button>
-                                                                            <button type="button" role="radio"
-                                                                                aria-checked="false"
-                                                                                class="">2</button>
-                                                                            <button type="button" role="radio"
-                                                                                aria-checked="false"
-                                                                                class="">3</button>
-                                                                            <button type="button" role="radio"
-                                                                                aria-checked="false"
-                                                                                class="">4</button>
-                                                                            <button type="button" role="radio"
-                                                                                aria-checked="false"
-                                                                                class="">5</button>
-
-                                                                            <span class="result-text">0점</span>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </c:when>
-                                            </c:choose>
+                                                    
+                                                </c:if>
+                                        
                                         </c:forEach>
 
 
                                     </div>
-                                </c:forEach>
+                            </c:forEach>
 
                             </div>
                         </div>
@@ -136,6 +94,10 @@
                   
                    
                 </div>
+
+                
+
+
                 <div class="notice-up-wrap" align="center">
                     <form action="reviewInsert.bo" id="enroll-form" method="post">
                         <input type="hidden" name="boardWriter" value="${loginUser.memberNo}">
@@ -202,7 +164,57 @@
                 </div>
                 <!-- 글쓰기버튼 클릭시 나의 모든일정 보여주는 modal -->
 
+            <!-- The Modal -->
+            <div class="modal fade" id="gradeModal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content style grade">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <span>별점주기</span>
+                            <button type="button" class="btn-close"
+                                data-bs-dismiss="modal"></button>
+                        </div>
 
+                        <div class="modal-body" style="display: flex; flex-direction: column; align-items: center;">
+                        <c:forEach var="a" items="${alist}">
+                            <span class="modal-title" style="font-size: 18px;">${a.attractionName}<span>${a.categoryName}</span></span>
+                                <div class="img-area" style="flex-direction: column;">
+
+                                    <img src="${a.attractionChangeNameImg}"
+                                        alt="" style="width: 150px; height: 100px;">
+                                
+                                        <div class="grade">
+                                            <div class="ui-grade half" attractionNo="${a.attractionNo}"
+                                                role="radiogroup">
+                                                <button type="button" role="radio"
+                                                    aria-checked="false"
+                                                    class="">1</button>
+                                                <button type="button" role="radio"
+                                                    aria-checked="false"
+                                                    class="">2</button>
+                                                <button type="button" role="radio"
+                                                    aria-checked="false"
+                                                    class="">3</button>
+                                                <button type="button" role="radio"
+                                                    aria-checked="false"
+                                                    class="">4</button>
+                                                <button type="button" role="radio"
+                                                    aria-checked="false"
+                                                    class="">5</button>
+
+                                                <span class="result-text">0점</span>
+                                            </div>
+                                </div>
+                            </c:forEach> 
+                            <button type="button" class="btn btn-secondary" style="background: #b2d8b5; border: #b2d8b5; float: right; margin-right: 15px;" data-bs-dismiss="modal" onclick="insertStars()">입력완료</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
 
                 
             </body>

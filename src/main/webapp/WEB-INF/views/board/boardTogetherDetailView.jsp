@@ -24,17 +24,13 @@
     <!-- jquery 3.7.1 -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
-
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     
     <link rel="stylesheet" href="./resources/css/grade.css">
     <link rel="stylesheet" href="./resources/css/scheduleListModal.css">
     <link rel="stylesheet" href="./resources/css/board-card.css">
     <link rel="stylesheet" href="./resources/css/boardTogetherDetailView.css">
     <link rel="stylesheet" href="./resources/css/togetherEnrollForm.css">
-    <script src="./resources/js/togetherEnrollForm.js"></script>
+    
     <script src="./resources/js/board-api.js"></script>
     <script src="./resources/js/boardTogetherNotice.js"></script>
     <script src="./resources/js/boardTogetherDetailView.js"></script>
@@ -225,7 +221,6 @@
 
                 
                 <script>
-                    var listlength ='';
                 function selectReply(){
                     $.ajax({
                         url : "togetherRlist.bo",

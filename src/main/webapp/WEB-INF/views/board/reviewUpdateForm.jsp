@@ -63,7 +63,7 @@
                                     <c:when test="${i eq p.tripNday}">
                                         <div data-bs-toggle="modal" data-bs-target="#gradeModal${i}${p.attractionNo}"
                                             class="location-img"><img src="${p.attractionChangeNameImg}"
-                                                alt="장소""> 
+                                                alt="장소"> 
                                         </div>
                                         <!-- The Modal -->
                                         <div class="modal fade" id="gradeModal${i}${p.attractionNo}">
