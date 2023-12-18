@@ -71,7 +71,7 @@
 var positions = [];
 
 $(document).ready(function () {
-    //initMap();
+    initMap();
 
     function initMap() {
         $.ajax({
@@ -153,6 +153,8 @@ polyline.setMap(map);
 
 function addMarker(mY, mX) {
     console.log('마커 성공')
+    console.log(mY)
+    console.log(mX)
     var container = document.getElementById('map');
     var options = {
         center: new kakao.maps.LatLng(mY, mX), // 받아온 좌표로 중심 설정

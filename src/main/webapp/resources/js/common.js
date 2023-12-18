@@ -157,6 +157,18 @@ function getSearchInputUnit(info) {
         const liDiv = document.createElement('div');
         selectWrapLi.appendChild(liDiv);
 
+        //영석
+        // const liDiv2 = document.createElement('input');
+        // liDiv2.type = 'hidden';
+        // liDiv2.value = info.mX;
+        // selectWrapLi.appendChild(liDiv2);
+
+        // const liDiv3 = document.createElement('div');
+        // liDiv3.type = 'hidden';
+        // liDiv3.value = info.mY;
+        // selectWrapLi.appendChild(liDiv3);
+        
+
         const img = document.createElement("img");
         if (info.src) img.src = info.src;
         liDiv.appendChild(img);
@@ -241,3 +253,4 @@ function getSearchInputUnit(info) {
       }
 
     
+

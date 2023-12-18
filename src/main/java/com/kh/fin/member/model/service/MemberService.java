@@ -340,6 +340,15 @@ public interface MemberService {
 	//친구요청 거절 눌렀을 때
 	int rejectFriend(Member m, int friendNo);
 	
+	//친구요청 수락 눌렀을 때
+	int acceptFriend(Member m, int friendNo);
+	
+	//친구요청 수락 눌렀을 때 friend insert
+	int insertFriend(Member m, int friendNo);
+	
+	//친구요청 수 friend LOG insert
+	int requestFriend(Member m, int friendNo);
+	
 	//채팅  insert
 	int insertChat(MsgVo vo);
 	
@@ -348,5 +357,7 @@ public interface MemberService {
 	
 	//채팅방 목록
 	ArrayList<MsgVo> chatList(int myNo);
+	
+
 	
 }

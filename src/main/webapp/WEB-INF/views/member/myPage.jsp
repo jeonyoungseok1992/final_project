@@ -24,7 +24,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 </head>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
-<body>
+<body onload='init(`${loginUser.memberNo}`)'>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 
 		<!-- 초록색 영역부분-->

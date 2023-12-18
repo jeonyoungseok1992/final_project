@@ -356,7 +356,7 @@ public class BoardController {
 
 	@RequestMapping("togetherSearch.bo")
 	public ModelAndView searchTogetherList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv , Board b){
-		
+		System.out.println(b);
 		PageInfo pi = Pagenation.getPageInfo(boardService.selectTogetherListCount(), currentPage, 5, 12);
 		
 		
@@ -970,7 +970,21 @@ public class BoardController {
 		
 		
 		
-		
+		//메인페이지 키워드 검색
+		@ResponseBody
+		@RequestMapping(value ="regionSearch.bo", produces="application/json; charset=UTF-8")
+		public String regionSearch(@RequestParam(value="cpage",defaultValue = "1")int currentPage, 
+				ModelAndView mv, @RequestParam(value="keyword", required=false) String keyword)	{
+			
+			System.out.println("키워드 검색 시작");
+			System.out.println(keyword);
+			PageInfo pi = Pagenation.getPageInfo(boardService.regionListCount(), currentPage, 5, 12);
+
+			
+			ArrayList<Region> list = boardService.regionSearch(pi, keyword);
+			System.out.println(list);
+			return new Gson().toJson(list);
+		}
 		
 		
 		

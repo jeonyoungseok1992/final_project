@@ -426,6 +426,61 @@
 
 	</select> 
 	
+	  <!-- 친구 거절버튼 눌렀을 때 -->
+  	<update id="rejectFriend" parameterType="java.util.Map">
+      UPDATE FRIEND_LOG
+         SET 
+            FRIEND_STATUS = 3
+      WHERE TO_MEMBER_NO = #{memberNo}
+      	AND FROM_MEMBER_NO = #{friendNo}
+   </update>
+   
+   
+   	  <!-- 친구 수락버튼 눌렀을 때 -->
+  	<update id="acceptFriend" parameterType="java.util.Map">
+      UPDATE FRIEND_LOG
+         SET 
+            FRIEND_STATUS = 2
+      WHERE TO_MEMBER_NO = #{memberNo}
+      	AND FROM_MEMBER_NO = #{friendNo}
+   </update>
+   
+     	<!--친구요청 수락 눌렀을 때 friend insert  -->
+   	<insert id="insertFriend" >
+		INSERT INTO FRIEND(
+			MEMBER_NO,
+			FRIEND_MEMBER_NO,
+			FRIEND_ENROLL_DATE	,
+			FRIEND_STATUS
+		)
+		VALUES(	
+			#{memberNo},
+			#{friendNo},
+			SYSDATE,
+			DEFAULT
+				
+		)
+		
+		
+	</insert>
+	
+	     	<!--친구요청  friend log insert  -->
+   	<insert id="requestFriend" >
+		INSERT INTO FRIEND_LOG(
+			FROM_MEMBER_NO,
+			TO_MEMBER_NO,
+			FRIEND_STATUS
+		)
+		VALUES(	
+			#{memberNo},
+			#{friendNo},
+			1
+				
+		)
+	</insert>
+   
+   
+	
 
 	<!--  프로필 수정 쿼리문 -->
 	<update id="updateMember">
@@ -457,14 +512,7 @@
 		and MEMBER_STATUS = 'Y'
 	</select>
   
-  <!-- 친구 거절버튼 눌렀을 때 -->
-  	<update id="rejectFriend" parameterType="java.util.Map">
-      UPDATE FRIEND_LOG
-         SET 
-            FRIEND_STATUS = 3
-      WHERE TO_MEMBER_NO = #{memberNo}
-      	AND FROM_MEMBER_NO = #{friendNo}
-   </update>
+
    
    	<!--채팅  insert  -->
    	<insert id="insertChat" >
