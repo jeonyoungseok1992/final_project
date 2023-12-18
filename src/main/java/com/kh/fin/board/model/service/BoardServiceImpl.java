@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.kh.fin.board.model.dao.BoardDao;
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Reply;
+import com.kh.fin.board.model.vo.Star;
 import com.kh.fin.common.model.vo.PageInfo;
 
 
@@ -361,7 +362,11 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.reviewDeleteBoard(sqlSession,boardNo);
 	}
 	
-
+	// 후기 등록 게시판 별점주기 
+	@Override
+	public int ajaxInsertReviewStars(Star s) {
+		return boardDao.ajaxInsertReviewStars(sqlSession,s);
+	}
 	
 	
 
@@ -1107,6 +1112,82 @@ public class BoardServiceImpl implements BoardService{
 
 		return boardDao.myReviewList(sqlSession,pi, m);
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	

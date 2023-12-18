@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -28,6 +30,7 @@ import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
+import com.kh.fin.board.model.vo.Star;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.common.template.Pagenation;
 import com.kh.fin.member.model.vo.Member;
@@ -117,7 +120,7 @@ public class BoardController {
 	
 	
 	
-	
+	//같이가요게시판 처음들어가는 메서드, 목록 가져와서보여주기
 	@RequestMapping("together.bo")
 	public ModelAndView selectTogetherList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv){
 		
@@ -437,6 +440,7 @@ public class BoardController {
 		return changeName;
 	}
 	
+	//같이가요 게시판 글추가
 	@RequestMapping("togetherInsert.bo")
 	public String insertTogetherBoard(Board b, HttpSession session, Model model) {
 		int result = boardService.insertTogetherBoard(b);
@@ -792,7 +796,39 @@ public class BoardController {
 	public String selectReviewReplyList(@RequestParam(value="boardNo") int boardNo) {
 		ArrayList<Reply> rlist = boardService.selectReviewReplyList(boardNo);
 		
-		return new Gson().toJson(rlist);
+		JsonArray replyList = new JsonArray();
+		for (Reply r : rlist) {
+			if(r.getReplyGroup() != 0)
+				continue;
+			
+			JsonObject newReply = new JsonObject();
+			newReply.addProperty("replyNo", r.getReplyNo());
+			newReply.addProperty("memberProfileImg", r.getMemberProfileImg());
+			newReply.addProperty("replyWriter", r.getReplyWriter());
+			newReply.addProperty("replyModifyDate", r.getReplyModifyDate());
+			newReply.addProperty("replyContent", r.getReplyContent());
+			
+			
+			JsonArray replyReList2 = new JsonArray();
+			for (Reply tmpR : rlist) {
+				if(r.getReplyNo() == tmpR.getReplyGroup()) {
+					JsonObject RReply = new JsonObject();
+					RReply.addProperty("replyNo", tmpR.getReplyNo());
+					RReply.addProperty("memberProfileImg", tmpR.getMemberProfileImg());
+					RReply.addProperty("replyWriter", tmpR.getReplyWriter());
+					RReply.addProperty("replyModifyDate", tmpR.getReplyModifyDate());
+					RReply.addProperty("replyContent", tmpR.getReplyContent());
+					RReply.addProperty("replyGroup", tmpR.getReplyGroup());
+					
+					replyReList2.add(RReply);
+				}
+				
+			}
+			newReply.add("rlist", replyReList2);
+			
+			replyList.add(newReply);
+		}
+			return new Gson().toJson(replyList);
 	}
 	
 	
@@ -830,11 +866,24 @@ public class BoardController {
 	
 	@RequestMapping("reviewEdit.bo")
 	public ModelAndView reviewEnrollForm(@RequestParam(value="ppage") int tripPlanNo, ModelAndView mv){
-
 		
+		
+		
+		ArrayList<Plan> plist = boardService.selectOneTripPlanRe(tripPlanNo);
+		Set<Plan> set = new HashSet<Plan>();
+			for (int i = 0; i < plist.size(); i++) {
+		    	if(plist.get(i).getAttractionNo() != 0){
+		    		set.add(plist.get(i));
+		    	}
+		    }
+			
 		mv.addObject("list", boardService.selectOneTripPlanRe(tripPlanNo))
 		.addObject("maxNday",boardService.countMaxPlanDay(tripPlanNo))
+		.addObject("alist", set)
 		.setViewName("board/reviewEnrollForm");
+		
+		
+		
 		
 		return mv;
 	}
@@ -889,6 +938,14 @@ public class BoardController {
 		
 		@RequestMapping("reviewDelete.bo")
 		public String reviewDeleteBoard(int boardNo, HttpSession session, Model model) {
+			Board b = boardService.togetherSelectBoardOne(boardNo);
+			//boardNo 으로 조회된 이미지 패스 삭제 
+			List<String> imgPaths = extractImgPathFromContent(b.getBoardContent());
+			//파일삭제
+			
+			for(String imgPath : imgPaths) {
+				new File(session.getServletContext().getRealPath(imgPath)).delete();
+			}
 			
 			int result = boardService.reviewDeleteBoard(boardNo);
 			
@@ -938,6 +995,54 @@ public class BoardController {
 			}
 			
 		}
+//		후기 게시판 글 작성시 별점주기
+		@ResponseBody
+		@RequestMapping(value="insertStars.bo", produces="html/text; charset=UTF-8")
+		public String ajaxInsertReviewStars(String stars)  {
+			
+			Star[] obj = new Gson().fromJson(stars, Star[].class);
+			ArrayList<Star> list = new ArrayList<Star>();
+	        
+			for(int i = 0; i < obj.length; i++) {
+				list.add(obj[i]);
+			}
+			Star s = new Star();
+			int result = 0;
+			for(int p = 0; p < list.size(); p++) {
+				s = list.get(p);
+				result += boardService.ajaxInsertReviewStars(s);
+			}
+			System.out.println(result);
+			
+			
+			if(result == list.size() ) {
+				return "success";
+			}else {
+				return "fail";
+			}
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	
 	
 	

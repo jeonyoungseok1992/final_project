@@ -6,6 +6,7 @@ import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
+import com.kh.fin.board.model.vo.Star;
 import com.kh.fin.common.model.vo.PageInfo;
 
 import com.kh.fin.member.model.vo.Member;
@@ -485,8 +486,8 @@ public interface BoardService {
 	//후기 게시판 댓글 수정
 	int ajaxUpdateReviewReply(Reply r);
 	
-	
-	
+	// 후기 등록 게시판 별점주기 
+	int ajaxInsertReviewStars(Star s);
 	
 	
 	

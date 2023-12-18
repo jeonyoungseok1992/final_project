@@ -25,6 +25,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 <link rel="stylesheet" href="./resources/css/font.css">
 <link rel="stylesheet" href="./resources/css/schedule-view.css">
 <link rel="stylesheet" href="./resources/css/schedule-make2.css">
+
 </head>
 <body onload='init(`${region}`)'>
 
