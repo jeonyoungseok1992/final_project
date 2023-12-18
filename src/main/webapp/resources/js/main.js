@@ -80,7 +80,13 @@ function searchWithKeyword(){
             `
         }
            document.querySelector("#section3-lc").innerHTML = str;
-           scrollChatToBottom();
+
+           let section3_lc = document.getElementById('section3-lc').offsetTop;
+            console.log(section3_lc);
+           // 스크롤 이동하기
+           $('html, body').animate({
+            scrollTop: section3_lc
+        }, 200);
         },
         error: function(){
             console.log("recommendTrip.bo ajax 실패");
@@ -88,28 +94,7 @@ function searchWithKeyword(){
     })
 }
 
-function scrollChatToBottom() {
-    var chatMain = document.getElementById("section3-lc");
-    chatMain.scrollTop = chatMain.scrollHeight;
-}
 
-$('#section1-btn').click(function(){			
-    var offset = $('#section1-btn').offset();  //animate()메서드를 이용해서 선택한 태그의 스크롤 위치를 지정해서 0.4초 동안 부드럽게 해당 위치로 이동함 	        
-    $('body').animate({scrollTop : offset.top}, 400);		
-});
-
-const btn = document.getElementById('section1-btn')
-btn.addEventListener('click',function(){
-    console.log("Button clicked!");
-	//window.scrollTo(0, 100) //or
-	window.scrollTo({left:0, top:500})
-})
-
-$('#section1-btn').click(function() {		
-    console.log("Button clicked!");	
-    var offset = $('#section1-btn').offset();
-    $('body, html').animate({ scrollTop: offset.top }, 400);
-});
 
 
 function searchWithKeyword2(){
@@ -134,6 +119,7 @@ function searchWithKeyword2(){
         }
            document.querySelector("#section3-lc").innerHTML = str;
            scrollChatToBottom();
+
         },
         error: function(){
             console.log("recommendTrip.bo ajax 실패");

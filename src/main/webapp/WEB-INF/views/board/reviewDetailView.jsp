@@ -164,15 +164,17 @@
                                         <span id="board-writer" style="margin-left: 10px;">${list[0].boardWriter}</span>
 
                                         <ul class="dropdown-menu hoho" style="text-align: center;" align="center">
-                                        <c:choose>
-                                            <c:when test="${list[0].memberNo != loginUser.memberNo}">
-                                                <li><a class="dropdown-item" href="javascript:void(0);" onclick="requestFriend(${list[0].memberNo})">친구신청</a></li>                               
-                                                <li><a class="dropdown-item" href="chat.me?youNo=${list[0].memberNo}">대화화기</a></li>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <li><a class="dropdown-item" href="mypage.me">프로필</a></li>
-                                            </c:otherwise>
-                                         </c:choose>
+                                            <c:choose>
+                                                <c:when test="${list[0].memberNo != loginUser.memberNo}">
+                                                    <c:if test="${frMember.fromMemberNo != loginUser.memberNo}">
+                                                        <li><div id="drop-fr" class="dropdown-item" onclick="requestFriend(${list[0].memberNo})">친구신청</div></li>  
+                                                    </c:if>                                
+                                                    <li><a class="dropdown-item" href="chat.me?youNo=${list[0].memberNo}">대화화기</a></li>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <li><a class="dropdown-item" href="mypage.me">프로필</a></li>
+                                                </c:otherwise>
+                                             </c:choose>
                                         </ul>
                                     </div>    
                             </th>
@@ -565,27 +567,7 @@
                         });
                     }
                   </script>  
-                  <script>
-                          function requestFriend(memberNo){
-                            console.log('도착');
-                            $.ajax({
-                                url : "requestFriend.me",
-                                data:{
-                                    friendNo : memberNo
-                                },
-                                success : function(res){
-                                    //성공시 다시 그려주기
-                                    if(res === "success")
-                                    document.getElementById('drop-fr').style.backgroundColor.#b2d8b5;
-                                    
-                                },
-                                error:function(){
-                                    console.log("reply 댓글추가 통신 실패");
-                                }
-                            })
-                        
-                        }
-                  </script>
+
         </body>
 
         </html>

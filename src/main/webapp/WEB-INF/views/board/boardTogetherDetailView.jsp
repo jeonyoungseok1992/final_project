@@ -127,10 +127,12 @@
                                     <div>   
                                         <span id="board-writer" style="margin-left: 10px;">${list[0].boardWriter}</span>
 
-                                        <ul class="dropdown-menu hoho" style="text-align: center;" align="center">
+                                        <ul class="dropdown-menu hoho" style="text-align: center;" align="center" >
                                         <c:choose>
                                             <c:when test="${list[0].memberNo != loginUser.memberNo}">
-                                                <li><div id="drop-fr" class="dropdown-item" onclick="requestFriend(${list[0].memberNo})">친구신청</div></li>                               
+                                                <c:if test="${frMember.fromMemberNo != loginUser.memberNo}">
+                                                    <li><div id="drop-fr" class="dropdown-item" onclick="requestFriend(${list[0].memberNo})">친구신청</div></li>  
+                                                </c:if>                                
                                                 <li><a class="dropdown-item" href="chat.me?youNo=${list[0].memberNo}">대화화기</a></li>
                                             </c:when>
                                             <c:otherwise>

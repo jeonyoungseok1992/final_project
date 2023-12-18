@@ -28,5 +28,8 @@ public class Member {
 	private String memberRight;
 	private String memberStatus;
 	private String memberGrade;
+	private String boardNo;
+	private String fromMemberNo;
+	private String toMemberNo;
 	
 }

@@ -339,7 +339,7 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.phoneIdCheck",m);
 	}
 	//마이페이지 나의 친구목록 눌렀을 때 친구리스트
-	public ArrayList friendList(SqlSessionTemplate sqlSession, Member m) {
+	public ArrayList<Member> friendList(SqlSessionTemplate sqlSession, Member m) {
 		return (ArrayList)sqlSession.selectList("memberMapper.friendList",m);
 	}
 	
@@ -417,6 +417,15 @@ public class MemberDao {
 	//채팅방 목록
 	public ArrayList<MsgVo> chatList(SqlSessionTemplate sqlSession, int myNo) {
 		return (ArrayList)sqlSession.selectList("memberMapper.chatList", myNo);
+	}
+	
+	//친구요청 수락 눌렀을 때
+	public Member requestFriendList(SqlSessionTemplate sqlSession, int boardNo, Member m) {
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("memberNo", m.getMemberNo());
+	    paramMap.put("boardNo", boardNo);
+	    System.out.println("paramMap: " + paramMap);
+		return sqlSession.selectOne("memberMapper.requestFriendList", paramMap);
 	}
 	
 

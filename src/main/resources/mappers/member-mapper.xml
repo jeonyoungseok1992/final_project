@@ -15,7 +15,9 @@
 		<result column="MEMBER_MODIFY_DATE" property="modifyDate"/>
 		<result column="MEMBER_RIGHT" property="memberRight"/>
 		<result column="MEMBER_STATUS" property="memberStatus"/>
-		<result column="MEMBER_GRADE" property="memberGrade"/>
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="FROM_MEMBER_NO" property="fromMemberNo"/>
+		<result column="TO_MEMBER_NO" property="toMemberNo"/>
 	</resultMap>
 	
 	<resultMap type="MsgVo" id="MsgVoResult">
@@ -391,7 +393,7 @@
 		SELECT FROM_MEMBER_NO as MEMBER_NO
 	        ,MEMBER_NICKNAME
 	        ,MEMBER_PROFILE_IMG
-		FROM(
+		FROM(                            
 		    SELECT FROM_MEMBER_NO
 		    FROM FRIEND_LOG
 		    JOIN MEMBER  ON (MEMBER_NO = TO_MEMBER_NO)
@@ -488,7 +490,8 @@
          SET 
             MEMBER_NICKNAME = #{memberNickName},
             MEMBER_EMAIL = #{memberEmail},
-            MEMBER_PHONE = #{memberPhone}
+            MEMBER_PHONE = #{memberPhone},
+            MEMBER_PWD = #{memberPwd}
       WHERE MEMBER_ID = #{memberId}
    </update>
    
@@ -552,34 +555,45 @@
 	<!-- 채팅방 목록 -->
 	<select id="chatList" resultMap="MsgVoResult">
 
-SELECT
-    CASE
-        WHEN c.MY_NO = ${myNo} THEN c.YOU_NO
-        ELSE c.MY_NO
-    END AS you_No,
-    m.MEMBER_NICKNAME AS MEMBER_NICKNAME,
-    m.MEMBER_PROFILE_IMG AS MEMBER_PROFILE_IMG,
-    MAX(c.CHAT_TIME) AS CHAT_TIME,
-    MAX(c.CHAT_MESSAGE) KEEP (DENSE_RANK LAST ORDER BY c.CHAT_TIME) AS CHAT_MESSAGE
-FROM CHAT c
-JOIN MEMBER m ON 
-    (c.MY_NO = m.MEMBER_NO AND c.YOU_NO = ${youNo}) OR 
-    (c.YOU_NO = m.MEMBER_NO AND c.MY_NO = ${myNo})
-WHERE c.MY_NO = ${myNo} OR c.YOU_NO = ${youNo}
-GROUP BY
-    CASE
-        WHEN c.MY_NO = ${myNo} THEN c.YOU_NO
-        ELSE c.MY_NO
-    END,
-    m.MEMBER_NICKNAME,
-    m.MEMBER_PROFILE_IMG
-ORDER BY CHAT_TIME DESC
+		SELECT
+		    CASE
+		        WHEN c.MY_NO = ${myNo} THEN c.YOU_NO
+		        ELSE c.MY_NO
+		    END AS you_No,
+		    m.MEMBER_NICKNAME AS MEMBER_NICKNAME,
+		    m.MEMBER_PROFILE_IMG AS MEMBER_PROFILE_IMG,
+		    MAX(c.CHAT_TIME) AS CHAT_TIME,
+		    MAX(c.CHAT_MESSAGE) KEEP (DENSE_RANK LAST ORDER BY c.CHAT_TIME) AS CHAT_MESSAGE
+		FROM CHAT c
+		JOIN MEMBER m ON 
+		    (c.MY_NO = m.MEMBER_NO AND c.YOU_NO = ${youNo}) OR 
+		    (c.YOU_NO = m.MEMBER_NO AND c.MY_NO = ${myNo})
+		WHERE c.MY_NO = ${myNo} OR c.YOU_NO = ${youNo}
+		GROUP BY
+		    CASE
+		        WHEN c.MY_NO = ${myNo} THEN c.YOU_NO
+		        ELSE c.MY_NO
+		    END,
+		    m.MEMBER_NICKNAME,
+		    m.MEMBER_PROFILE_IMG
+		ORDER BY CHAT_TIME DESC
 
 	</select>
   
   
   
-  
+    <!--친구요청 리스트 -->
+ 	<select id="requestFriendList" resultMap="memberResult">
+		SELECT FROM_MEMBER_NO,
+	            TO_MEMBER_NO,
+	            BOARD_NO
+	            
+	    FROM FRIEND_LOG
+	    JOIN BOARD ON (BOARD_WRITER = TO_MEMBER_NO)
+	    WHERE FROM_MEMBER_NO = #{memberNo}
+	    AND BOARD_NO = #{boardNo}
+	    and friend_status = 1
+  </select>
   
   
   
@@ -711,9 +725,7 @@ ORDER BY CHAT_TIME DESC
 			#{memberNickName},
 			
 			replace(#{memberEmail}, ',', '@'),	
-			
-			#{memberPhone}
-			
+			replace(#{memberPhone}, '-', '')		
 		)
 		
 		

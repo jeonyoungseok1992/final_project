@@ -30,6 +30,7 @@ import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.common.template.Pagenation;
+import com.kh.fin.member.model.service.MemberService;
 import com.kh.fin.member.model.vo.Member;
 
 @Controller
@@ -37,6 +38,8 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private MemberService memberService;
 	
 	
 	@RequestMapping(value="/chat.bo")
@@ -452,13 +455,15 @@ public class BoardController {
 	
 	//같이가요 디테일페이지 불러오기 
 	@RequestMapping("togetherDetail.bo")
-	public String selectTogetherBoard(int boardNo, Model model){
+	public String selectTogetherBoard(int boardNo, Model model, HttpSession session){
 		
 		ArrayList<Board> list = boardService.selectTogetherBoard(boardNo);
-		
+		Member m = ((Member)session.getAttribute("loginUser"));
+		Member frMember = memberService.requestFriendList(boardNo, m);
 		if(!(list == null) ) {
 			
 			model.addAttribute("list", list);
+			model.addAttribute("frMember", frMember);
 			
 			return "board/boardTogetherDetailView";
 		}else {
@@ -764,14 +769,14 @@ public class BoardController {
 	
 	//reviewDetail
 	@RequestMapping("detail.bo")
-	public String selectReviewBoard(int boardNo, Model model){
-		
+	public String selectReviewBoard(int boardNo, Model model, HttpSession session){
+		Member m = ((Member)session.getAttribute("loginUser"));
 		ArrayList<Board> list = boardService.selectReviewBoard(boardNo);
-		
+		Member frMember = memberService.requestFriendList(boardNo, m);
 		if(!(list == null) ) {
 			
 			model.addAttribute("list",list);
-			
+			model.addAttribute("frMember",frMember);
 			return "board/reviewDetailView";
 		}else {
 			model.addAttribute("errorMsg", "같이가요 게시글 조회 실패");

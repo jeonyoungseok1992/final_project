@@ -63,7 +63,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                 
             </div>
             <div class="map-wrap">
-                <div id="map" style="width:100%;height:800px;"></div>
+                <div id="map" style="width:100%;height:100vh;"></div>
             </div>
         </div>
         

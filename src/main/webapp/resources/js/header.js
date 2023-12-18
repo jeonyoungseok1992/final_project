@@ -25,6 +25,7 @@ $("#phoneChk").click(function(event){
         cache : false,
         success:function(data){
             console.log('핸드폰인증 성공');
+			console.log(data);
         	if(data == "error"){
         		alert("휴대폰 번호가 올바르지 않습니다.")
 				$(".successPhoneChk").text("유효한 번호를 입력해주세요.");
@@ -87,8 +88,11 @@ function idNext(){
             memberPhone: document.getElementById("phone").value
         },
         success:function(m){
+			console.log(m);
             console.log('id 성공');
             console.log(m.memberPhone);
+			console.log(m.memberId);
+		
  
             //$(".mobileNo").empty();
             let str = "";

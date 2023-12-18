@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="keyword" content="">
     <title>mapping</title>
-   
+
    <link rel="stylesheet" href="./resources/css/common.css">
    <link rel="stylesheet" href="./resources/css/font.css">
 	<link rel="stylesheet" href="./resources/css/header.css">
@@ -167,9 +167,9 @@
 				<div class="modal-body login" align="center" style="padding: 24px;">
 					 <form action="sendEmail" id="search-form" method="post" name="sendEmail">
 			                <label align="center" for="memberId">아이디</label>
-			                <input type="text" name="memberId" id="userId" placeholder="아이디를 입력해주세요" required/>
+			                <input type="text" name="memberId" id="memberId" placeholder="아이디를 입력해주세요" required/>
 			                <label align="center" for="memberEmail">이메일</label>
-			                <input type="email" name="memberEmail" id="userEmail" placeholder="이메일을 입력해주세요" required/>
+			                <input type="email" name="memberEmail" id="memberEmail" placeholder="이메일을 입력해주세요" required/>
 		                    <button type="button" id="checkEmail" data-bs-dismiss="modal" class="btn btn-sm btn-secondary updatest">제출</button>
 					</form>
 

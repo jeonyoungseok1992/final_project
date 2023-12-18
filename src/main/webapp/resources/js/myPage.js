@@ -1,7 +1,12 @@
-const myPageValue = {}
+const myPageValue = {
+    frMembers: [] // 빈 배열로 초기화
+};
 
-function init(memberNo){
+function init(memberNo, frMemberList) {
     myPageValue.myNo = memberNo;
+    myPageValue.frMembers = frMemberList;
+    console.log("마이페이지 시작");
+
 }
 
 $(document).ready(function () {
@@ -330,6 +335,7 @@ function review(memberNo) {
 //친구목록 리스트
 function fdList(memberNo) {
     myPageValue.memberNo = memberNo;
+    console.log(myPageValue.frMembers);
     $.ajax({
         url: "friendList.me",
         data: {
@@ -380,28 +386,32 @@ function fdRequest(no) {
             memberNo: no,
         },
         success: function (list) {
+            console.log(myPageValue.frMembers[0]);
 
             
+           
+                let str = "";
+                for (m of list) {
+                    for(frMem of myPageValue.frMembers){
+                    let profileImg = m.memberProfileImg ? m.memberProfileImg : "/mapping/resources/images/profile.png";
+                    if(m.memberNo != frMem.memberNo){
+                    str += `
+                        <div id="myfriend">
+                        <div>
+                            <img class="title-img2" src="${profileImg}" >
 
-            let str = "";
-            for (m of list) {
-                let profileImg = m.memberProfileImg ? m.memberProfileImg : "/mapping/resources/images/profile.png";
-                str += `
-                    <div id="myfriend">
-                    <div>
-                        <img class="title-img2" src="${profileImg}" >
-
-                        <span style="font-size: 20px; margin-left: 10px;">${m.memberNickName}</span>
+                            <span style="font-size: 20px; margin-left: 10px;">${m.memberNickName}</span>
+                        </div>
+                        <div>
+                            <a onclick="acceptFriend(${m.memberNo})" style="font-size: 18px;">수락</a>
+                            <span style="font-size: 18px;">|</span>
+                            <a onclick="rejectFriend(${m.memberNo})" style="font-size: 18px;">거절</a>
+                        </div>	
                     </div>
-                    <div>
-                        <a onclick="acceptFriend(${m.memberNo})" style="font-size: 18px;">수락</a>
-                        <span style="font-size: 18px;">|</span>
-                        <a onclick="rejectFriend(${m.memberNo})" style="font-size: 18px;">거절</a>
-                    </div>	
-                </div>
-                `
+                    `
+                }
+                }
             }
-
             document.querySelector("#fdList").innerHTML = str;
 
         },

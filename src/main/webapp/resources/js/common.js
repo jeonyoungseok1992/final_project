@@ -1,3 +1,47 @@
+// const commonValue = {}
+
+ $(document).ready(function () {
+
+    console.log();
+//     $.ajax({
+//         url : "requestFriendList.me",
+//         data:{
+//             friendNo : memberNo
+//         },
+//         success : function(res){
+//             //성공시 다시 그려주기
+//             if(res === "success"){
+//                 console.log("친구신청 성공");
+//             //commonValue.requestFriend = memberNo;
+//         }
+//         },
+//         error:function(){
+//             console.log("reply 댓글추가 통신 실패");
+//         }
+//     })
+
+
+
+
+
+
+
+
+
+
+
+
+
+//     console.log(commonValue.requestFriend.memberNo);
+//     console.log(commonValue.requestFriend);
+//     if(commonValue.requestFriend.memberNo){
+        
+//         document.getElementById('drop-fr').classList.add('ddd');
+//     }
+ });
+
+
+
 function toStringDate(date){
     return new Date(date).toISOString().substring(0, 10)
 }
@@ -254,3 +298,23 @@ function getSearchInputUnit(info) {
 
     
 
+      function requestFriend(memberNo){
+        console.log('도착');
+        $.ajax({
+            url : "requestFriend.me",
+            data:{
+                friendNo : memberNo
+            },
+            success : function(res){
+                //성공시 다시 그려주기
+                if(res === "success"){
+                    console.log("친구신청 성공");
+                    document.getElementById('drop-fr').classList.add('ddd');
+            }
+            },
+            error:function(){
+                console.log("reply 댓글추가 통신 실패");
+            }
+        })
+    
+    }
