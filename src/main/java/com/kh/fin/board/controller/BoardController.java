@@ -30,6 +30,7 @@ import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
+import com.kh.fin.board.model.vo.Report;
 import com.kh.fin.board.model.vo.Star;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.common.template.Pagenation;
@@ -70,6 +71,18 @@ public class BoardController {
 		return mv;
 	}
 	
+	//게시판 신고기능
+	@ResponseBody
+	@RequestMapping(value="report.bo")
+	public String reportContents(Report r) {
+		int result = boardService.reportContents(r);
+		
+		if(result > 0 ) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
 	
 	
 	

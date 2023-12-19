@@ -77,6 +77,15 @@
 		<result column="REGION_X" property="regionX"/>
 		<result column="REGION_Y" property="regionY"/>
 	</resultMap>
+	
+	<resultMap type="Report" id="reportResult">
+		<result column="REPORT_NO" property="reportNo"/>
+		<result column="MEMBER_NO" property="memberNo"/>
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="REPLY_NO" property="replyNo"/>
+		<result column="REPORT_DATE" property="reportDate"/>
+		<result column="REPORT_REASON" property="reportReason"/>
+	</resultMap>
 
 
 
@@ -94,6 +103,26 @@
 		FROM REGION
 		WHERE REGION_NO =#{regionNo}
 	</select>
+	
+	<!-- 게시글 댓글 신고 기능 -->
+	<insert id="reportContents">
+		INSERT INTO REPORT 
+				(REPORT_NO
+				,MEMBER_NO
+                ,BOARD_NO
+				,REPLY_NO
+				,REPORT_DATE
+                ,REPORT_REASON
+				)
+		VALUES (SEQ_RPNO.NEXTVAL
+				,#{memberNo}
+				,#{boardNo}
+				,#{replyNo}
+				,SYSDATE
+                ,#{reportReason}
+							)
+		</insert>
+	
 
 
 

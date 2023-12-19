@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.kh.fin.board.model.dao.BoardDao;
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Reply;
+import com.kh.fin.board.model.vo.Report;
 import com.kh.fin.board.model.vo.Star;
 import com.kh.fin.common.model.vo.PageInfo;
 
@@ -33,7 +34,12 @@ public class BoardServiceImpl implements BoardService{
 	public Region selectOneRegion(int regionNo) {
 		return boardDao.selectOneRegion(sqlSession,regionNo);
 	}
-
+	
+	//게시글 및 댓글 신고
+	@Override
+	public int reportContents(Report r) {
+		return boardDao.reportContents(sqlSession,r);
+	}
 
 
 	
@@ -1112,6 +1118,81 @@ public class BoardServiceImpl implements BoardService{
 
 		return boardDao.myReviewList(sqlSession,pi, m);
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
