@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
+import com.kh.fin.board.model.vo.Recommend;
 import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.common.model.vo.PageInfo;
@@ -493,5 +494,38 @@ public interface BoardService {
 
 	// 메인페이지 일정만들기 시작
 //	ArrayList<LocationInfomation> makePlan(HashMap<String,Object> map);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//박수현 추천여행지 Main
+	ArrayList<Recommend> ajaxrecommendMain();
+	//박수현 추천여행지 더보기 클릭시 전체보기
+	ArrayList<Recommend> ajaxrecommendList();
+	//박수현 추천여행지 디테일 페이지 불러오기
+	ArrayList<Recommend> selectRecommendBoard(int recommendBoardNo);
 
 }

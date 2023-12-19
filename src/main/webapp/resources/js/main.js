@@ -12,26 +12,44 @@ $(document).ready(function(){
             })
 
             /* 추천 여행지 ajax */
+            // $.ajax({
+            //     url: "recommendTrip.bo",
+            //     success: function(data){
+            //        let recommend = '';
+            //        for(rec of data){
+            //         let arr = rec.addr1.split(" ");
+            //         recommend +=`<div class="photo_recommend">
+            //             <img class="rc-photo" src="${rec.firstimage}">
+            //             <div class="rc-region">${arr[0]}</div>
+            //             <div class="rc-memo">${rec.title}</div>
+            //             </div>`;
+            //        }
+            //        document.querySelector('.recommend-content').innerHTML = recommend;
+            //     },
+            //     error: function(){
+            //         console.log("recommendTrip.bo ajax 실패");
+            //     }
+            // })
+
+            /* 박수현 추천 여행지 ajax */
             $.ajax({
-                url: "recommendTrip.bo",
+                url: "recommendMain.bo",
                 success: function(data){
-                   let recommend = '';
-                   for(rec of data){
-                    let arr = rec.addr1.split(" ");
+                    let recommend = "";
+                    for(rec of data){
                     recommend +=`<div class="photo_recommend">
-                        <img class="rc-photo" src="${rec.firstimage}">
-                        <div class="rc-region">${arr[0]}</div>
-                        <div class="rc-memo">${rec.title}</div>
+                        <img class="rc-photo" src="${rec.recommendTitleImg}">
+                        <div class="rc-region">${rec.recommendBoardRegion}</div>
+                        <div class="rc-memo">${rec.recommendBoardTitle}</div>
                         </div>`;
-                   }
-                   document.querySelector('.recommend-content').innerHTML = recommend;
+                    }
+                    document.querySelector('.recommend-content').innerHTML = recommend;
                 },
                 error: function(){
-                    console.log("recommendTrip.bo ajax 실패");
+                    console.log("recommendMain.bo ajax 실패");
                 }
             })
-        
-    
+
     
     const drawFunk = function(data){
         

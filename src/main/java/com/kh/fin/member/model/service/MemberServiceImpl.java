@@ -485,4 +485,46 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.chatList(sqlSession, myNo);
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//박수현 회원정보 전체
+	@Override
+	public ArrayList<Member> memberInfor() {
+		return memberDao.memberInfor(sqlSession);
+	}
+
 }

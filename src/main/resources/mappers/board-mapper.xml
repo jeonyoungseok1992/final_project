@@ -75,6 +75,18 @@
 		<result column="REGION_IMG" property="regionImg"/>
 		<result column="REGION_ENG" property="regionEng"/>
 	</resultMap>
+	
+	<resultMap type="Recommend" id="recommendResult">
+		<result column="RECOMMEND_BOARD_NO" property="recommendBoardNo"/>
+		<result column="RECOMMEND_BOARD_TITLEIMG" property="recommendTitleImg"/>
+		<result column="RECOMMEND_BOARD_REGION" property="recommendBoardRegion"/>
+		<result column="RECOMMEND_BOARD_TITLE" property="recommendBoardTitle"/>
+		<result column="RECOMMEND_BOARD_CONTENT" property="recommendBoardContent"/>
+		<result column="RECOMMEND_BOARD_CREATE_DATE" property="recommendBoardCreateDate"/>
+		<result column="RECOMMEND_BOARD_MODIFY_DATE" property="recommendBoardModifyDate"/>
+	</resultMap>
+	
+	
 
 
 
@@ -1015,4 +1027,56 @@
 	</select>
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 박수현 추천여행지 Main-->
+	<select id="ajaxrecommendMain" resultMap="recommendResult">
+		SELECT RECOMMEND_BOARD_NO
+                ,RECOMMEND_BOARD_TITLEIMG
+                ,RECOMMEND_BOARD_REGION
+                ,RECOMMEND_BOARD_TITLE
+		FROM RECOMMEND_BOARD
+		WHERE ROWNUM &lt;= 3
+	</select>
+	<!-- 박수현 추천여행지 더보기 클릭시 리스트-->
+	<select id="ajaxrecommendList" resultMap="recommendResult">
+		SELECT RECOMMEND_BOARD_NO
+				,RECOMMEND_BOARD_TITLE
+				,RECOMMEND_BOARD_CONTENT
+                ,RECOMMEND_BOARD_TITLEIMG
+		FROM RECOMMEND_BOARD
+	</select>
+	<!-- 박수현 추천여행지 디테일 페이지 불러오기-->
+	<select id="selectRecommendBoard" resultMap="recommendResult">
+		SELECT RECOMMEND_BOARD_NO
+				,RECOMMEND_BOARD_REGION
+				,RECOMMEND_BOARD_TITLE	
+				,RECOMMEND_BOARD_MODIFY_DATE
+				,RECOMMEND_BOARD_CONTENT
+		FROM RECOMMEND_BOARD
+		WHERE RECOMMEND_BOARD_NO = #{recommendBoardNo}
+	</select>
+
 </mapper>

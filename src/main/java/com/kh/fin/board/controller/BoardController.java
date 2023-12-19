@@ -26,6 +26,7 @@ import com.google.gson.JsonObject;
 import com.kh.fin.board.model.service.BoardService;
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
+import com.kh.fin.board.model.vo.Recommend;
 import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.common.model.vo.PageInfo;
@@ -48,7 +49,7 @@ public class BoardController {
 	public String moveMypage() {
 		return "member/myPage";
 	}
-	@RequestMapping(value="/recommendList.bo")
+	@RequestMapping(value="/recommendMore.bo")
 	public String moveRecommendList() {
 		return "board/boardRecommend";
 	}
@@ -957,6 +958,67 @@ public class BoardController {
 //		
 //		return mv;
 //	}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//박수현 추천여행지 Main
+		@ResponseBody
+		@RequestMapping(value="recommendMain.bo", produces = "application/json; charset = UTF-8")
+		public String ajaxrecommendMain() {
+			ArrayList<Recommend> main = boardService.ajaxrecommendMain();
+			
+			return new Gson().toJson(main);
+		}
+		
+		//박수현 추천여행지 더보기 클릭시 전체보기
+		@ResponseBody
+		@RequestMapping(value="recommendList.bo", produces = "application/json; charset = UTF-8")
+		public String ajaxrecommendList() {
+			ArrayList<Recommend> list = boardService.ajaxrecommendList();
+			
+			return new Gson().toJson(list);
+		}
+		
+		//박수현 추천여행지 디테일 페이지 불러오기
+		@RequestMapping("recommendDetail.bo")
+		public String selectRecommendBoard(int recommendBoardNo, Model model){
+			
+			ArrayList<Recommend> list = boardService.selectRecommendBoard(recommendBoardNo);
+			
+			if(!(list == null) ) {
+				
+				model.addAttribute("list", list);
+				
+				return "board/boardRecommendDetailView";
+			}else {
+				model.addAttribute("errorMsg", "추천여행지 게시글 조회 실패");
+				return "errorPage/500page";
+			}
+		}
 	
 
 }
