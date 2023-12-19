@@ -1,20 +1,18 @@
 package com.kh.fin.board.model.dao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.fin.board.model.vo.Board;
-
 import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
+import com.kh.fin.board.model.vo.Report;
 import com.kh.fin.board.model.vo.Star;
 import com.kh.fin.common.model.vo.PageInfo;
-import com.kh.fin.data.vo.LocationInfomation;
 import com.kh.fin.member.model.vo.Member;
 
 @Repository
@@ -38,6 +36,10 @@ public class BoardDao {
 		return sqlSession.insert("boardMapper.ajaxInsertReviewStars",s);
 	}
 	
+	//게시글 및 댓글 신고
+	public int reportContents(SqlSessionTemplate sqlSession, Report r) {
+		return sqlSession.insert("boardMapper.reportContents", r);
+	}
 	
 	
 	
