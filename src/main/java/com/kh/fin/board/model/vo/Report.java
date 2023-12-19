@@ -11,15 +11,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Region {
-
-	
-	private int regionNo;
-	private String regionName;
-	private String regionMemo;
-	private String regionImg;
-	private String regionEng;
-	private String regionX;
-	private String regionY;
-	
+public class Report {
+	private int reportNo;
+	private int memberNo;
+	private String boardNo;
+	private String replyNo;
+	private String reportDate;
+	private String reportReason;
 }

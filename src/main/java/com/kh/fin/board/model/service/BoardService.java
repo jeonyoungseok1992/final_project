@@ -7,12 +7,14 @@ import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.board.model.vo.Recommend;
 import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
+import com.kh.fin.board.model.vo.Report;
+import com.kh.fin.board.model.vo.Star;
 import com.kh.fin.common.model.vo.PageInfo;
-
 import com.kh.fin.member.model.vo.Member;
 
 public interface BoardService {
-
+	//게시글 및 댓글 신고
+	int reportContents(Report r);
 	
 	
 	
@@ -361,6 +363,9 @@ public interface BoardService {
 	//같이가요 게시판 하나 가져오는 함수
 	Board togetherSelectBoardOne(int boardNo);
 	
+	//메인페이지에서 지역하나 선택하면 그 지역정보가지고 플랜짜는 페이지로 이동(지역정보셀렉트)
+	Region selectOneRegion(int regionNo);
+	
 	
 	
 	
@@ -483,8 +488,8 @@ public interface BoardService {
 	//후기 게시판 댓글 수정
 	int ajaxUpdateReviewReply(Reply r);
 	
-	
-	
+	// 후기 등록 게시판 별점주기 
+	int ajaxInsertReviewStars(Star s);
 	
 	
 	

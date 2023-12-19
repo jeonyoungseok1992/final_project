@@ -35,12 +35,27 @@ $(document).ready(function(){
             $.ajax({
                 url: "recommendMain.bo",
                 success: function(data){
+<<<<<<< HEAD
                     let recommend = "";
                     for(rec of data){
                     recommend +=`<div class="photo_recommend">
                         <img class="rc-photo" src="${rec.recommendTitleImg}">
                         <div class="rc-region">${rec.recommendBoardRegion}</div>
                         <div class="rc-memo">${rec.recommendBoardTitle}</div>
+=======
+                   let recommend = '';
+                   for(rec of data){
+                    let arr = rec.addr1.split(" ");
+                    recommend +=`<div class="photo_recommend swiper-slide">`;
+                    if(rec.firstimage === ""){
+                        recommend += `<img src="https://img.freepik.com/free-vector/festive-city-night-concept_74855-7363.jpg" alt="">`;    
+                    }else{
+                        recommend += `<img class="rc-photo" src="${rec.firstimage}">`;
+                    }
+                    recommend +=`    
+                        <div class="rc-region">${arr[0]}</div>
+                        <div class="rc-memo">${rec.title}</div>
+>>>>>>> e998a693ddb68e16f1718d265f7983d1e3b7ef18
                         </div>`;
                     }
                     document.querySelector('.recommend-content').innerHTML = recommend;
@@ -73,6 +88,6 @@ $(document).ready(function(){
     
 });
 
-// function redirectToPlan() {
-//     window.location.href = `goPlan.bo`;
-// }
+function redirectToPlan(num) {
+    window.location.href = `goPlan.bo?regionNo=`+num;
+}

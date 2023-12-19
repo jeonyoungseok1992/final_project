@@ -31,8 +31,8 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 	<jsp:include page="../common/header.jsp" />
     <main class="contents board">
         <div class="cont-header">
-            <h2>Review</h2>
-            <p>함께면 더 좋은여행, 같이가요 우리</p>
+            <h2>여행 후기</h2>
+            <p>소중한 고객님의 후기를 기다립니다.</p>
         </div>
         
         <form action="reviewSearch.bo" method="get">
@@ -100,9 +100,12 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                                     </div>
                                     
                                     
+                                    
+                                    <div>
+                                        <button class="btn" id="writeBtn" onclick="moveWritePage()">일정선택</button>
                                     </div>
                                 </div>
-                                <button class="btn" id="writeBtn" onclick="moveWritePage()">일정선택</button>
+                                
                             </div>
                           </div>
                       </div>

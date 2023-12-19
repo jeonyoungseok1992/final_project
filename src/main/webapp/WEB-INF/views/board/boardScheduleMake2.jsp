@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,15 +19,19 @@
 integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="./resources/js/common.js"></script>
 <script src="./resources/js/boardSchedule.js"></script>
+<script src="./resources/js/mapApi.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9f8a44c92b8ee5a74706b1ce8e6194e"></script>
 <link rel="stylesheet" href="./resources/css/common.css">
 <link rel="stylesheet" href="./resources/css/font.css">
 <link rel="stylesheet" href="./resources/css/schedule-view.css">
 <link rel="stylesheet" href="./resources/css/schedule-make2.css">
+
 </head>
-<body onload="init()">
+<body onload='init(`${region}`)'>
+
     <div class="travel-wrap">
         <div class="header-fixed">
-            <a href="" class="logo"><img src="./resources/images/logo_001.png" alt=""></a>
+            <a href="${pageContext.request.contextPath}" class="logo"><img src="./resources/images/logo_001.png" alt=""></a>
             <div class="dropdown">
                 <button type="button" class="btn btn-primary dropdown-toggle profile" data-bs-toggle="dropdown"><img src="./resources/images/profile.png" alt=""></button>
                 <ul class="dropdown-menu">
@@ -58,7 +64,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                 
             </div>
             <div class="map-wrap">
-    
+                <div id="map" style="width:100%;height:800px;"></div>
             </div>
         </div>
         

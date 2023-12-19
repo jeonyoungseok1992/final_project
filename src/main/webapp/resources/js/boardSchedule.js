@@ -1,12 +1,21 @@
-function init(){
+const bsValue = {
+    regionData: [], /* 페이지 로드시 지역정보 가져온거 담겨있는곳*/
+}
+
+function init(regionList){
+    bsValue.regionData = JSON.parse(regionList);
     drawScheduleMake({
         startDate: new Date(),
         endDate: null,
         placeInfo : [],
         lodgingInfo : [],
         transportation: "대중교통",
+        regionName: bsValue.regionData.regionName,
+        regionX: bsValue.regionData.regionX,
+        regionY: bsValue.regionData.regionY
     });
-};
+
+};  
 
 function getDragAfterElement(container, x) {
     const tdraggable = [
@@ -133,11 +142,9 @@ function drawScheduleMake(scheduleInfo) {
     const contentZone = document.getElementById("content-zone");
     $(contentZone).empty();
 
-  
     const title = document.createElement("h3");
-    title.innerText = "여행지";
+    title.innerText = scheduleInfo.regionName;
     contentZone.appendChild(title);
-
     const timeZone = document.createElement("div");
     timeZone.className = "date-time";
     contentZone.appendChild(timeZone);
@@ -203,7 +210,7 @@ function drawScheduleMake(scheduleInfo) {
                                     </table>
                                 `;
     scheduleZone.appendChild(scheduleZoneTable);
-    
+    //시간 설정 완료 버튼
     const TimeSettingBtn  = document.createElement('button');
     TimeSettingBtn.className = "time-set-btn";
     TimeSettingBtn.innerText = "시간 설정 완료";
@@ -253,6 +260,7 @@ function drawScheduleMake(scheduleInfo) {
         prev:{
             display: "none"
         },
+        //다음
         next:{
             clickEvent: nextStep
         }
@@ -277,7 +285,7 @@ function selectLocation(scheduleInfo) {
     contentZone.appendChild(locationTitleWrap);
 
     const title = document.createElement("h4");
-    title.innerText = "여행지";
+    title.innerText = scheduleInfo.regionName;
     locationTitleWrap.appendChild(title);
 
     const timeZone = document.createElement("div");
@@ -325,21 +333,21 @@ function selectLocation(scheduleInfo) {
     category.appendChild(recommendedPlace);
 
     const sights = toggleButtonUnit({
-        innerText:"명소0", //명소
+        innerText:"명소", //명소
     });
-    sights.setAttribute('data-filter', '명소0');
+    sights.setAttribute('data-filter', '명소');
     category.appendChild(sights);
 
     const restaurant = toggleButtonUnit({
-        innerText:"명소1", //식당
+        innerText:"식당", //식당
     });
-    restaurant.setAttribute('data-filter', '명소1');
+    restaurant.setAttribute('data-filter', '식당');
     category.appendChild(restaurant);
 
     const cafe = toggleButtonUnit({
-        innerText:"명소2", //카페
+        innerText:"행사", //행사
     });
-    cafe.setAttribute('data-filter', '명소2');
+    cafe.setAttribute('data-filter', '행사');
     category.appendChild(cafe);
 
     const selectWrap = document.createElement('div');
@@ -350,16 +358,116 @@ function selectLocation(scheduleInfo) {
     selectWrap.appendChild(selectWrapUl);
 
     
-    for (let i = 0; i < 3; i++) {
-        const selectCard = selectWrapLiUnit({
-            src: "./resources/images/place_sample.jpg", 
-            title: "여행지"+i,
-            category: "명소"+i,
-            className: "draggable",
-            id: generateShortUUID()            
-        });
-        selectWrapUl.appendChild(selectCard);
-    }
+    $.ajax({
+        url: "attractionList.api",
+        async:false,
+        success: function(data){
+            console.log(data);
+            
+                 let mX;
+                 let mY;
+                let attLoca ;
+                let addTitle; 
+
+                        for(att of data){
+                            attLoca   = att.firstimage;
+                            addTitle   = att.title;
+                            mX = att.mapx
+                            mY = att.mapy;
+                            addMarker(mY, mX);
+                                const selectCard = selectWrapLiUnit({
+                                    src: attLoca, 
+                                    title: addTitle,
+                                    category: "명소",
+                                    className: "draggable",
+                                    id: generateShortUUID()            
+                                });
+
+                    selectWrapUl.appendChild(selectCard);
+                    }
+                console.log(attLoca);
+        
+
+        },
+        error: function(){
+            console.log("recommendTrip.bo ajax 실패");
+        }
+    })
+
+
+
+    $.ajax({
+        url: "attFoodList.api",
+        async:false,
+        success: function(data){
+            console.log(data);
+            
+
+                let attLoca ;
+                let addTitle; 
+
+                        for(att of data){
+                            attLoca   = att.firstimage;
+                            addTitle   = att.title;
+                                const selectCard = selectWrapLiUnit({
+                                    src: attLoca, 
+                                    title: addTitle,
+                                    category: "식당",
+                                    className: "draggable",
+                                    id: generateShortUUID()            
+                                });
+
+                    selectWrapUl.appendChild(selectCard);
+                    }
+                console.log(attLoca);
+        
+        },
+        error: function(){
+            console.log("recommendTrip.bo ajax 실패");
+        }
+    })
+
+    $.ajax({
+        url: "attEventList.api",
+        async:false,
+        success: function(data){
+            console.log(data);
+            
+
+                let attLoca ;
+                let addTitle; 
+
+                        for(att of data){
+
+                            attLoca   = att.firstimage;
+                            addTitle   = att.title;
+                                const selectCard = selectWrapLiUnit({
+                                    src: attLoca, 
+                                    title: addTitle,
+                                    category: "행사",
+                                    className: "draggable",
+                                    id: generateShortUUID()            
+                                });
+
+                    selectWrapUl.appendChild(selectCard);
+                    }
+                console.log(attLoca);
+        
+        },
+        error: function(){
+            console.log("recommendTrip.bo ajax 실패");
+        }
+    })
+
+
+
+
+
+
+
+
+
+
 
     // 카테고리 선택
     const categoryfilter = document.querySelector('.category');
@@ -439,6 +547,9 @@ function selectLocation(scheduleInfo) {
             }
         }
     })
+
+
+ 
 }
 //******************************************step2**************************************************
 //****************************************side modal**********************************************
@@ -487,7 +598,7 @@ function sideModalFunk(scheduleInfo){
 
             draggable.classList.add("dragging");
         }
- 
+ /*맵 마커 여기다!!!!!*/
          draggable.ondragend = (ev) => {
             draggable.classList.remove("dragging");
 
@@ -605,7 +716,7 @@ function selectLodging(scheduleInfo) {
     contentZone.appendChild(locationTitleWrap);
 
     const title = document.createElement("h4");
-    title.innerText = "여행지";
+    title.innerText = scheduleInfo.regionName;
     locationTitleWrap.appendChild(title);
 
     const timeZone = document.createElement("div");
@@ -656,6 +767,7 @@ function selectLodging(scheduleInfo) {
     tabContent1.appendChild(selectWrap);
 
     const selectWrapUl = document.createElement('ul');
+    selectWrapUl.id = 'ulajax'
     selectWrap.appendChild(selectWrapUl);
 
     for (let i = 0; i < 3; i++) {

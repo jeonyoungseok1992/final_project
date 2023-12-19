@@ -51,65 +51,9 @@ $(document).ready(function()
       $('#summernote').summernote(setting);
 
 
-      // 별점주기
-    let $ratings = $('.ui-grade');   
-    $ratings.each(function(){
-    if( $(this).data('init') ) return;
-    $(this).data('init' , true);
-
-    let $star = $(this).find('button');
-
-    //default
-    let $checkedStar = $(this).find('[aria-checked="true"]');
-    if($checkedStar){
-        $checkedStar.addClass('checked');
-        $checkedStar.prevAll().addClass('checked');
-    }
-
-    //mouseover
-    $star.on('mouseover', function(){
-        $star.not($(this).addClass('hover')).removeClass('hover');
-        $(this).prevAll().addClass('hover');
-    });
-    $star.on('mouseleave', function(){
-        $star.removeClass('hover');
+ 
     });
 
-    //click
-    $star.on('click', function(){
-        let $this = $(this);
-        let txt = $this.text();
-        let $result = $this.parent().find('.result-text');
-
-        $star.not($this.addClass('checked')).removeClass('checked');
-        $this.prevAll().addClass('checked');
-        $star.not($this.attr('aria-checked', true)).attr('aria-checked', false);
-        
-        console.log($this.parent().attr('attractionNo'))
-
-        console.log(txt)
-        if( txt ){
-            $result.text(txt + "점");
-            }
-        });
-    });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    });
 
      /* summernote에서 이미지 업로드시 실행할 함수 */
 	 	function sendFile(file, editor) {

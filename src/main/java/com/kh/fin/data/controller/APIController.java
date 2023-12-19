@@ -146,5 +146,171 @@ public class APIController {
 	
 	
 	
+	
+	
+	@ResponseBody
+	@RequestMapping(value="attractionList.api", produces="application/json; charset=UTF-8")
+	public JsonArray attractionList(String location) throws IOException {
+		 String apiKey = "JqBbpU80RaM%2BotpAP5CAxpqUfrlpz7%2FNT%2FV4tuBHrrs4aoMORzmFabSkWXHJXOVLMac7U7zdk1jbAUH%2BctPQlg%3D%3D"; // 여기에 실제 API 키를 넣어주세요
+		    String baseUrl = "https://apis.data.go.kr/B551011/KorService1/areaBasedList1";
+		    
+		    // URL 구성을 위해 StringBuilder를 사용합니다.
+		    StringBuilder urlBuilder = new StringBuilder(baseUrl);
+		    urlBuilder.append("?serviceKey=").append(apiKey);
+		    urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=12&areaCode=1");
+		
+		URL requestUrl = new URL(urlBuilder.toString());
+		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
+		urlConnection.setRequestMethod("GET");
+	
+		BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+		
+		String responseText = "";
+		String line;
+		
+		while((line = br.readLine()) != null) {
+			responseText += line;
+		}
+		
+		JsonObject totalObj = JsonParser.parseString(responseText).getAsJsonObject();
+		System.out.println(totalObj);
+		JsonObject responseObj = totalObj.getAsJsonObject("response"); // response속성에 접근 : {} JsonObject
+		System.out.println(responseObj);
+		
+		JsonObject bodyObj = responseObj.getAsJsonObject("body"); // body속성에 접근 : {} JsonObject
+		System.out.println(bodyObj);
+		
+		JsonObject itemsObj = bodyObj.getAsJsonObject("items"); // items속성 접근 : [] JsonArray
+		System.out.println(itemsObj);
+		
+		JsonArray itemArr = itemsObj.getAsJsonArray("item"); 
+		System.out.println(itemArr);
+		
+		br.close();
+		urlConnection.disconnect();
+		
+		return itemArr;
+	}
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(value="attFoodList.api", produces="application/json; charset=UTF-8")
+	public JsonArray attractionFoodList(String location) throws IOException {
+		String apiKey = "JqBbpU80RaM%2BotpAP5CAxpqUfrlpz7%2FNT%2FV4tuBHrrs4aoMORzmFabSkWXHJXOVLMac7U7zdk1jbAUH%2BctPQlg%3D%3D"; // 여기에 실제 API 키를 넣어주세요
+	    String baseUrl = "https://apis.data.go.kr/B551011/KorService1/areaBasedList1";
+	    
+	    // URL 구성을 위해 StringBuilder를 사용합니다.
+	    StringBuilder urlBuilder = new StringBuilder(baseUrl);
+	    urlBuilder.append("?serviceKey=").append(apiKey);
+	    urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=39&areaCode=1");
+	    
+	    URL requestUrl = new URL(urlBuilder.toString());
+	    HttpURLConnection urlConnection = (HttpURLConnection) requestUrl.openConnection();
+	    urlConnection.setRequestMethod("GET");
+
+	    BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+	    StringBuilder responseText = new StringBuilder();
+	    String line;
+
+	    while ((line = br.readLine()) != null) {
+	        responseText.append(line);
+	    }
+
+	    JsonObject totalObj = JsonParser.parseString(responseText.toString()).getAsJsonObject();
+	    JsonObject responseObj = totalObj.getAsJsonObject("response");
+	    JsonObject bodyObj = responseObj.getAsJsonObject("body");
+	    JsonObject itemsObj = bodyObj.getAsJsonObject("items");
+	    JsonArray itemArr = itemsObj.getAsJsonArray("item");
+	    
+	    br.close();
+	    urlConnection.disconnect();
+	    
+	    return itemArr;
+	}
+	
+	
+	
+
+	@ResponseBody
+	@RequestMapping(value="attEventList.api", produces="application/json; charset=UTF-8")
+	public JsonArray attEventList(String location) throws IOException {
+		String apiKey = "JqBbpU80RaM%2BotpAP5CAxpqUfrlpz7%2FNT%2FV4tuBHrrs4aoMORzmFabSkWXHJXOVLMac7U7zdk1jbAUH%2BctPQlg%3D%3D"; // 여기에 실제 API 키를 넣어주세요
+	    String baseUrl = "https://apis.data.go.kr/B551011/KorService1/areaBasedList1";
+	    
+	    // URL 구성을 위해 StringBuilder를 사용합니다.
+	    StringBuilder urlBuilder = new StringBuilder(baseUrl);
+	    urlBuilder.append("?serviceKey=").append(apiKey);
+	    urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=15&areaCode=1");
+	    
+	    URL requestUrl = new URL(urlBuilder.toString());
+	    HttpURLConnection urlConnection = (HttpURLConnection) requestUrl.openConnection();
+	    urlConnection.setRequestMethod("GET");
+
+	    BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+	    StringBuilder responseText = new StringBuilder();
+	    String line;
+
+	    while ((line = br.readLine()) != null) {
+	        responseText.append(line);
+	    }
+
+	    JsonObject totalObj = JsonParser.parseString(responseText.toString()).getAsJsonObject();
+	    JsonObject responseObj = totalObj.getAsJsonObject("response");
+	    JsonObject bodyObj = responseObj.getAsJsonObject("body");
+	    JsonObject itemsObj = bodyObj.getAsJsonObject("items");
+	    JsonArray itemArr = itemsObj.getAsJsonArray("item");
+	    
+	    br.close();
+	    urlConnection.disconnect();
+	    
+	    return itemArr;
+	}
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(value="kakaoMap.api", produces="application/json; charset=UTF-8")
+	public JsonArray kakaoMap(String location) throws IOException {
+		String apiKey = "JqBbpU80RaM%2BotpAP5CAxpqUfrlpz7%2FNT%2FV4tuBHrrs4aoMORzmFabSkWXHJXOVLMac7U7zdk1jbAUH%2BctPQlg%3D%3D"; // 여기에 실제 API 키를 넣어주세요
+	    String baseUrl = "https://apis.data.go.kr/B551011/KorService1/areaBasedList1";
+	    
+	    // URL 구성을 위해 StringBuilder를 사용합니다.
+	    StringBuilder urlBuilder = new StringBuilder(baseUrl);
+	    urlBuilder.append("?serviceKey=").append(apiKey);
+	    urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=15&areaCode=1");
+	    
+	    URL requestUrl = new URL(urlBuilder.toString());
+	    HttpURLConnection urlConnection = (HttpURLConnection) requestUrl.openConnection();
+	    urlConnection.setRequestMethod("GET");
+
+	    BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+	    StringBuilder responseText = new StringBuilder();
+	    String line;
+
+	    while ((line = br.readLine()) != null) {
+	        responseText.append(line);
+	    }
+
+	    JsonObject totalObj = JsonParser.parseString(responseText.toString()).getAsJsonObject();
+	    JsonObject responseObj = totalObj.getAsJsonObject("response");
+	    JsonObject bodyObj = responseObj.getAsJsonObject("body");
+	    JsonObject itemsObj = bodyObj.getAsJsonObject("items");
+	    JsonArray itemArr = itemsObj.getAsJsonArray("item");
+	    
+	    br.close();
+	    urlConnection.disconnect();
+	    
+	    return itemArr;
+	}
+	
+	
+	
+	
+	
+	
 
 }

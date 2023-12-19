@@ -19,6 +19,7 @@
   		<typeAlias type="com.kh.fin.board.model.vo.Region" alias="Region"/>
   		<typeAlias type="com.kh.fin.board.model.vo.Good" alias="Good"/>
   		<typeAlias type="com.kh.fin.board.model.vo.Plan" alias="Plan"/>
+  		<typeAlias type="com.kh.fin.board.model.vo.Report" alias="Report"/>
   		<typeAlias type="com.kh.chat.MsgVo" alias="MsgVo"/>
   		<typeAlias type="com.kh.fin.board.model.vo.Category" alias="Category"/>
   		<typeAlias type="com.kh.fin.board.model.vo.Recommend" alias="Recommend"/>

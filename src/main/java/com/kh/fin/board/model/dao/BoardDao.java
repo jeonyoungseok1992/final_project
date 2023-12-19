@@ -1,20 +1,19 @@
 package com.kh.fin.board.model.dao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.fin.board.model.vo.Board;
-
 import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.board.model.vo.Recommend;
 import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
+import com.kh.fin.board.model.vo.Report;
+import com.kh.fin.board.model.vo.Star;
 import com.kh.fin.common.model.vo.PageInfo;
-import com.kh.fin.data.vo.LocationInfomation;
 import com.kh.fin.member.model.vo.Member;
 
 @Repository
@@ -28,7 +27,20 @@ public class BoardDao {
 		return sqlSession.update("boardMapper.increaseCount", boardNo);
 	}
 	
+	//메인페이지에서 지역하나 선택하면 그 지역정보가지고 플랜짜는 페이지로 이동(지역정보셀렉트)
+	public Region selectOneRegion(SqlSessionTemplate sqlSession,int regionNo) {
+		return sqlSession.selectOne("boardMapper.selectOneRegion", regionNo);
+	}
 	
+	// 후기 등록 게시판 별점주기 
+	public int ajaxInsertReviewStars(SqlSessionTemplate sqlSession,Star s) {
+		return sqlSession.insert("boardMapper.ajaxInsertReviewStars",s);
+	}
+	
+	//게시글 및 댓글 신고
+	public int reportContents(SqlSessionTemplate sqlSession, Report r) {
+		return sqlSession.insert("boardMapper.reportContents", r);
+	}
 	
 	
 	

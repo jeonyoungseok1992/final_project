@@ -1,6 +1,9 @@
 package com.kh.fin.board.model.vo;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,15 +14,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Region {
-
-	
-	private int regionNo;
-	private String regionName;
-	private String regionMemo;
-	private String regionImg;
-	private String regionEng;
-	private String regionX;
-	private String regionY;
-	
+public class Star {
+	private int attractionNo;
+	private int starGrade;
 }
