@@ -479,6 +479,13 @@ public class MemberServiceImpl implements MemberService{
 
 	}
 	
+	//친구요청 수락 눌렀을 때 friend insert
+	@Override
+	public int reverseInsertFriend(Member m, int friendNo) {
+		return memberDao.reverseInsertFriend(sqlSession, m, friendNo);
+
+	}
+	
 	//친구요청 수 friend LOG insert
 	@Override
 	public int requestFriend(Member m, int friendNo) {
@@ -508,9 +515,9 @@ public class MemberServiceImpl implements MemberService{
 
 
 	@Override
-	public Member requestFriendList(int boardNo, Member m) {
+	public Member pageFriend(int boardNo, Member m) {
 		
-		return memberDao.requestFriendList(sqlSession, boardNo, m);
+		return memberDao.pageFriend(sqlSession, boardNo, m);
 	}
 
 }

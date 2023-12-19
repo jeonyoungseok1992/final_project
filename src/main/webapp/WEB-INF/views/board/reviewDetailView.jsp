@@ -36,7 +36,6 @@
 
     <script src="./resources/js/reviewEnrollForm.js"></script>
     <script src="./resources/js/board-api.js"></script>
-    <script src="./resources/js/reviewDetailView.js"></script>
     <script src="./resources/js/common.js"></script>
 
 </head>
@@ -166,7 +165,7 @@
                                         <ul class="dropdown-menu hoho" style="text-align: center;" align="center">
                                             <c:choose>
                                                 <c:when test="${list[0].memberNo != loginUser.memberNo}">
-                                                    <c:if test="${frMember.fromMemberNo != loginUser.memberNo}">
+                                                    <c:if test="${friend.friendMemberNo != list[0].memberNo}">
                                                         <li><div id="drop-fr" class="dropdown-item" onclick="requestFriend(${list[0].memberNo})">친구신청</div></li>  
                                                     </c:if>                                
                                                     <li><a class="dropdown-item" href="chat.me?youNo=${list[0].memberNo}">대화화기</a></li>

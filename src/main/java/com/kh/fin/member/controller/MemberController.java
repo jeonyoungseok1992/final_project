@@ -67,7 +67,7 @@ public class MemberController {
 			System.out.println(frMemberList);
 			
 			session.setAttribute("loginUser", loginUser);
-			session.setAttribute("frMemberList", frMemberList);
+			session.setAttribute("frMemberList", frMembers);
 			mv.setViewName("redirect:/");
 		}
 
@@ -517,7 +517,10 @@ public class MemberController {
 	//마이페이지 나의 친구목록 눌렀을 때 친구리스트
 	@ResponseBody
 	@RequestMapping(value="friendList.me", produces="application/json; charset=UTF-8")
-	public ArrayList<Member> friendList(Member m) {
+	public ArrayList<Member> friendList(Member m, HttpSession session) {
+		
+		ArrayList<Member> friendList = memberService.friendList(m);
+		session.setAttribute("friendList", friendList);
 		return memberService.friendList(m);
 	}
 	
@@ -588,9 +591,10 @@ public class MemberController {
 		Member m = ((Member)session.getAttribute("loginUser"));
 		int result = memberService.acceptFriend(m, friendNo);
 		int result2 = memberService.insertFriend(m, friendNo);
+		int result3 = memberService.reverseInsertFriend(m, friendNo);
 		System.out.println(result);
 		System.out.println(result2);
-		return result > 0 ? m.getMemberNo() : 0;
+		return result*result2*result3 > 0 ? m.getMemberNo() : 0;
 	}
 	
 	//친구신청

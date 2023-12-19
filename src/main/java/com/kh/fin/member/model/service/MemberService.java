@@ -346,11 +346,14 @@ public interface MemberService {
 	//친구요청 수락 눌렀을 때 friend insert
 	int insertFriend(Member m, int friendNo);
 	
+	//친구요청 수락 눌렀을 때 friend insert
+	int reverseInsertFriend(Member m, int friendNo);
+	
 	//친구요청 수 friend LOG insert
 	int requestFriend(Member m, int friendNo);
 	
 	//디테일페이지에서 친구요청list
-	Member requestFriendList(int boardNo, Member m);
+	Member pageFriend(int boardNo, Member m);
 	
 	
 	

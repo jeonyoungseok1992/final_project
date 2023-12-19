@@ -91,7 +91,7 @@ $(document).ready(function () {
                 console.log(positions);
 
                 // 마커 추가는 AJAX 요청이 완료된 후에 실행되도록 이동
-                addMarkersToMap();
+                //addMarkersToMap();
             },
             error: function () {
                 console.log("location.api ajax 실패");

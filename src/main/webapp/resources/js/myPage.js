@@ -379,22 +379,17 @@ function fdList(memberNo) {
 
 
 //받은 친구요청 리스트
-function fdRequest(no) {
+function fdRequest(no, friendList) {
+    console.log(friendList);
     $.ajax({
         url: "friendRequest.me",
         data: {
             memberNo: no,
         },
         success: function (list) {
-            console.log(myPageValue.frMembers[0]);
-
-            
-           
                 let str = "";
                 for (m of list) {
-                    for(frMem of myPageValue.frMembers){
                     let profileImg = m.memberProfileImg ? m.memberProfileImg : "/mapping/resources/images/profile.png";
-                    if(m.memberNo != frMem.memberNo){
                     str += `
                         <div id="myfriend">
                         <div>
@@ -409,8 +404,8 @@ function fdRequest(no) {
                         </div>	
                     </div>
                     `
-                }
-                }
+                
+                
             }
             document.querySelector("#fdList").innerHTML = str;
 

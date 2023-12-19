@@ -459,11 +459,13 @@ public class BoardController {
 		
 		ArrayList<Board> list = boardService.selectTogetherBoard(boardNo);
 		Member m = ((Member)session.getAttribute("loginUser"));
-		Member frMember = memberService.requestFriendList(boardNo, m);
+		Member mem = memberService.pageFriend(boardNo, m);
+		//Member frMember = memberService.requestFriendList(boardNo, m);
 		if(!(list == null) ) {
 			
 			model.addAttribute("list", list);
-			model.addAttribute("frMember", frMember);
+			model.addAttribute("friend",mem);
+			//model.addAttribute("frMember", frMember);
 			
 			return "board/boardTogetherDetailView";
 		}else {
@@ -770,13 +772,16 @@ public class BoardController {
 	//reviewDetail
 	@RequestMapping("detail.bo")
 	public String selectReviewBoard(int boardNo, Model model, HttpSession session){
+	    System.out.println(boardNo);
 		Member m = ((Member)session.getAttribute("loginUser"));
 		ArrayList<Board> list = boardService.selectReviewBoard(boardNo);
-		Member frMember = memberService.requestFriendList(boardNo, m);
+		
+		Member mem = memberService.pageFriend(boardNo, m);
 		if(!(list == null) ) {
-			
+			model.addAttribute("friend",mem);
 			model.addAttribute("list",list);
-			model.addAttribute("frMember",frMember);
+			System.out.println(mem);
+			System.out.println(list);
 			return "board/reviewDetailView";
 		}else {
 			model.addAttribute("errorMsg", "같이가요 게시글 조회 실패");

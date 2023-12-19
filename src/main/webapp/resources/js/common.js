@@ -318,3 +318,35 @@ function getSearchInputUnit(info) {
         })
     
     }
+
+    // function fdList(boardWriter, loginNo) {
+    //     $.ajax({
+    //         url: "friendList.me",
+    //         data: {
+    //             memberNo: boardWriter
+    //         },
+    //         success: function (list) {
+    //             console.log(list);
+    //             console.log(loginNo);
+    //             let str = '';
+    //             for (let m of list) {
+    //                 if (m.memberNo == loginNo) {
+    //                     str += '<ul class="dropdown-menu hoho" style="text-align: center;" align="center">';
+    //                     if (list[0].memberNo !== loginNo) {
+    //                         str += '<li><div id="drop-fr" class="dropdown-item" onclick="requestFriend(' + list[0].memberNo + ')">친구신청</div></li>';
+    //                     }
+    //                     str += '<li><a class="dropdown-item" href="chat.me?youNo=' + list[0].memberNo + '">대화화기</a></li>';
+    //                     str += '</ul>';
+    //                 } else {
+    //                     str += '<ul class="dropdown-menu hoho" style="text-align: center;" align="center">';
+    //                     str += '<li><a class="dropdown-item" href="mypage.me">프로필</a></li>';
+    //                     str += '</ul>';
+    //                 }
+    //             }
+    //             document.querySelector("#ulfr").innerHTML = str;
+    //         },
+    //         error: function () {
+    //             console.log("friendList ajax통신 실패");
+    //         }
+    //     });
+    // }

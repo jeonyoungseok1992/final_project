@@ -393,6 +393,15 @@ public class MemberDao {
 		return sqlSession.insert("memberMapper.insertFriend", paramMap);
 	}
 	
+	//친구요청 수락 눌렀을 때 friend insert
+	public int reverseInsertFriend(SqlSessionTemplate sqlSession, Member m, int friendNo) {
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("memberNo", m.getMemberNo());
+	    paramMap.put("friendNo", friendNo);
+	    System.out.println("paramMap: " + paramMap);
+		return sqlSession.insert("memberMapper.reverseInsertFriend", paramMap);
+	}
+	
 	//친구요청 수 friend LOG insert
 	public int requestFriend(SqlSessionTemplate sqlSession, Member m, int friendNo) {
 	    Map<String, Object> paramMap = new HashMap<>();
@@ -420,12 +429,13 @@ public class MemberDao {
 	}
 	
 	//친구요청 수락 눌렀을 때
-	public Member requestFriendList(SqlSessionTemplate sqlSession, int boardNo, Member m) {
+	public Member pageFriend(SqlSessionTemplate sqlSession, int boardNo, Member m) {
 	    Map<String, Object> paramMap = new HashMap<>();
+
 	    paramMap.put("memberNo", m.getMemberNo());
 	    paramMap.put("boardNo", boardNo);
 	    System.out.println("paramMap: " + paramMap);
-		return sqlSession.selectOne("memberMapper.requestFriendList", paramMap);
+		return sqlSession.selectOne("memberMapper.pageFriend", paramMap);
 	}
 	
 

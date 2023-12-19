@@ -89,7 +89,7 @@
                             <i class="bi bi-pencil-square dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false" id="editBtn2"></i>
                             <ul class="dropdown-menu haha">
-                                <li><a class="dropdown-item" href="updateTogetherForm.bo?boardNo=${list[0].boardNo}">수정</a></li>
+                                <li><a id="drop-fr" class="dropdown-item" href="updateTogetherForm.bo?boardNo=${list[0].boardNo}">수정</a></li>
                                 <li><a class="dropdown-item" href="togetherDelete.bo?boardNo=${list[0].boardNo}">삭제</a></li>
                             </ul>
                         </div>
@@ -130,7 +130,7 @@
                                         <ul class="dropdown-menu hoho" style="text-align: center;" align="center" >
                                         <c:choose>
                                             <c:when test="${list[0].memberNo != loginUser.memberNo}">
-                                                <c:if test="${frMember.fromMemberNo != loginUser.memberNo}">
+                                                <c:if test="${friend.friendMemberNo != list[0].memberNo}">
                                                     <li><div id="drop-fr" class="dropdown-item" onclick="requestFriend(${list[0].memberNo})">친구신청</div></li>  
                                                 </c:if>                                
                                                 <li><a class="dropdown-item" href="chat.me?youNo=${list[0].memberNo}">대화화기</a></li>

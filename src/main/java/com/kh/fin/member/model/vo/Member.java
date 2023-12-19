@@ -31,5 +31,6 @@ public class Member {
 	private String boardNo;
 	private String fromMemberNo;
 	private String toMemberNo;
+	private String friendMemberNo;
 	
 }
