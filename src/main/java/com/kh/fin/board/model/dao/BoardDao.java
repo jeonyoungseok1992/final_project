@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
+import com.kh.fin.board.model.vo.Recommend;
 import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.board.model.vo.Report;
@@ -567,4 +568,57 @@ public class BoardDao {
 //		return sqlSession.insert("boardMapper.makePlan", map);
 //	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//박수현 추천여행지 Main
+	public ArrayList<Recommend> ajaxrecommendMain(SqlSessionTemplate sqlSession){
+		return (ArrayList)sqlSession.selectList("boardMapper.ajaxrecommendMain");
+	}
+	//박수현 추천여행지 더보기 클릭시 전체보기
+	public ArrayList<Recommend> ajaxrecommendList(SqlSessionTemplate sqlSession){
+		return (ArrayList)sqlSession.selectList("boardMapper.ajaxrecommendList");
+	}
+	//박수현 추천여행지 디테일 페이지
+	public ArrayList<Recommend> selectRecommendBoard(SqlSessionTemplate sqlSession, int selectRecommendBoard) {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectRecommendBoard", selectRecommendBoard);
+	}
 }

@@ -37,12 +37,12 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 
     <div id="section2">
         <div class="recommend-title">추천여행</div>
-        <div class="recommend-plus"><a href="recommendList.bo">더보기</a></div>
+        <div class="recommend-plus"><a href="recommendMore.bo">더보기</a></div>
         <div class="recommend-content">
-            
-            
-        </div>
+        	
+		</div>
     </div>
+    
     <div id="section3">
         <div class="lc-question">어디로 여행을 떠나시나요?</div>
         <div class="section3-search">

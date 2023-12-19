@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.chat.MsgVo;
 import com.kh.fin.member.model.service.MemberService;
 import com.kh.fin.member.model.vo.Member;
@@ -633,5 +634,56 @@ public class MemberController {
 			System.out.println(memberService.leftChatList(vo));
 			return memberService.leftChatList(vo);
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//박수현 회원정보 전체
+		@ResponseBody
+		@RequestMapping(value="memberInfor.me", produces="application/json; charset=UTF-8")
+		public String memberInfor() {
+			System.out.println(memberService.memberInfor());
+		    return new Gson().toJson(memberService.memberInfor());
+		}
+		
 	
 }

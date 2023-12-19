@@ -349,4 +349,8 @@ public interface MemberService {
 	//채팅방 목록
 	ArrayList<MsgVo> chatList(int myNo);
 	
+	
+	//박수현 회원정보 전체
+	ArrayList<Member> memberInfor();
+	
 }

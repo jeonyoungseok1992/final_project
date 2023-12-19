@@ -17,6 +17,7 @@ import com.kh.fin.common.model.vo.PageInfo;
 
 
 import com.kh.fin.board.model.vo.Plan;
+import com.kh.fin.board.model.vo.Recommend;
 import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.member.model.vo.Member;
 
@@ -1580,6 +1581,21 @@ public class BoardServiceImpl implements BoardService{
 
 	
 	
-	
+	//박수현 추천여행지 Main
+	@Override
+	public ArrayList<Recommend> ajaxrecommendMain() {
+		return boardDao.ajaxrecommendMain(sqlSession);
+	}
+	//박수현 추천여행지 더보기 클릭시 전체보기
+	@Override
+	public ArrayList<Recommend> ajaxrecommendList() {
+		return boardDao.ajaxrecommendList(sqlSession);
+	}
+	//박수현 추천여행지 디테일 페이지 불러오기
+	@Override
+	public ArrayList<Recommend> selectRecommendBoard(int selectRecommendBoard) {
+		return boardDao.selectRecommendBoard(sqlSession, selectRecommendBoard);
+	}
+
 
 }

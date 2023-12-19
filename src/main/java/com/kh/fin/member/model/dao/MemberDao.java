@@ -106,6 +106,8 @@ public class MemberDao {
 	
 	
 	
+	
+	
 	// 아이디 이메일 체크 !!
 	public int idEmailCheck(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.selectOne("memberMapper.idEmailCheck",m);
@@ -391,6 +393,63 @@ public class MemberDao {
 	//채팅방 목록
 	public ArrayList<MsgVo> chatList(SqlSessionTemplate sqlSession, int myNo) {
 		return (ArrayList)sqlSession.selectList("memberMapper.chatList", myNo);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//박수현 회원정보 전체
+	public ArrayList<Member> memberInfor(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("memberMapper.memberInfor");
 	}
 	
 

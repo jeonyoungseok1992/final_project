@@ -89,6 +89,7 @@
 
 .photo_recommend{
     margin: 0px 10px;
+    cursor: pointer;
 }
 
 .rc-photo{
@@ -111,6 +112,10 @@
 .rc-memo{
     font-size: 1.25rem;
     font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 390.76px;
 }
 
 #section3{
