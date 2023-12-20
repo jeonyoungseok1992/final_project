@@ -147,17 +147,20 @@ public class APIController {
 	
 	
 	
+	
 	@ResponseBody
 	@RequestMapping(value="attractionList.api", produces="application/json; charset=UTF-8")
-	public JsonArray attractionList(String location) throws IOException {
-		 String apiKey = "JqBbpU80RaM%2BotpAP5CAxpqUfrlpz7%2FNT%2FV4tuBHrrs4aoMORzmFabSkWXHJXOVLMac7U7zdk1jbAUH%2BctPQlg%3D%3D"; // 여기에 실제 API 키를 넣어주세요
-		    String baseUrl = "https://apis.data.go.kr/B551011/KorService1/areaBasedList1";
+	public JsonArray attractionList(String regionX,String regionY) throws IOException {
+		 String apiKey = "X3jsxSIDXM2%2FjASS2la%2Ffejz6t8ldQCvxn%2BBolDYTxrKRNHjXBTbQ1BP4xKmf2ZRhavVJaar7JNbKeoOidYFew%3D%3D"; // 여기에 실제 API 키를 넣어주세요
+		    String baseUrl = "https://apis.data.go.kr/B551011/KorService1/locationBasedList1";
+		    String mapX = "&mapX=" + regionX;
+		    String mapY = "&mapY=" + regionY;
 		    
 		    // URL 구성을 위해 StringBuilder를 사용합니다.
 		    StringBuilder urlBuilder = new StringBuilder(baseUrl);
-		    urlBuilder.append("?serviceKey=").append(apiKey);
-		    urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=12&areaCode=1");
-		
+		    urlBuilder.append("?serviceKey=").append(apiKey).append(mapX).append(mapY);
+		    urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&radius=20000&contentTypeId=12");
+		    
 		URL requestUrl = new URL(urlBuilder.toString());
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
 		urlConnection.setRequestMethod("GET");
@@ -269,17 +272,18 @@ public class APIController {
 	}
 	
 	
-	
+	 
 	@ResponseBody
 	@RequestMapping(value="kakaoMap.api", produces="application/json; charset=UTF-8")
-	public JsonArray kakaoMap(String location) throws IOException {
-		String apiKey = "JqBbpU80RaM%2BotpAP5CAxpqUfrlpz7%2FNT%2FV4tuBHrrs4aoMORzmFabSkWXHJXOVLMac7U7zdk1jbAUH%2BctPQlg%3D%3D"; // 여기에 실제 API 키를 넣어주세요
-	    String baseUrl = "https://apis.data.go.kr/B551011/KorService1/areaBasedList1";
-	    
+	public JsonArray kakaoMap(String regionX,String regionY) throws IOException {
+		String apiKey = "X3jsxSIDXM2%2FjASS2la%2Ffejz6t8ldQCvxn%2BBolDYTxrKRNHjXBTbQ1BP4xKmf2ZRhavVJaar7JNbKeoOidYFew%3D%3D"; // 여기에 실제 API 키를 넣어주세요
+	    String baseUrl = "https://apis.data.go.kr/B551011/KorService1/locationBasedList1";
+	    String mapX = "&mapX=" + regionX;
+	    String mapY = "&mapY=" + regionY;
 	    // URL 구성을 위해 StringBuilder를 사용합니다.
 	    StringBuilder urlBuilder = new StringBuilder(baseUrl);
-	    urlBuilder.append("?serviceKey=").append(apiKey);
-	    urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=15&areaCode=1");
+	    urlBuilder.append("?serviceKey=").append(apiKey).append(mapX).append(mapY);;
+	    urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&radius=20000&contentTypeId=12");
 	    
 	    URL requestUrl = new URL(urlBuilder.toString());
 	    HttpURLConnection urlConnection = (HttpURLConnection) requestUrl.openConnection();
