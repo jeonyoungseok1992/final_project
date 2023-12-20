@@ -47,9 +47,42 @@ for (let i in data) {
     `
 }
 
+
+
+
 document.querySelector("#section3-lc").innerHTML = str;
 
 }
+
+
+
+// const drawFunk = function(data){
+
+//     let str = "";
+//     for (let i = 0; i < data.length; i++) {
+//         let item = data[i];
+//         if (i >= 0 && i <= 6) {
+//             str += `
+//             <div class="section3-lc-inner" onclick="redirectToPlan(${item.regionNo})">
+//                 <img class="lc-photo" src="${item.regionImg}">
+//                 <div class="lc-eng">${item.regionName}</div>
+//                 <div class="lc-han">${item.regionEng}</div>
+//             </div>
+//             `;
+//         } else {
+//             str += `
+//             <div class="section3-lc-inner" onclick="redirectToPlan(${item.regionNo})">
+//                 <img class="lc-photo" src="${item.regionImg}">
+//                 <div class="lc-eng">${item.regionName}</div>
+//                 <div class="lc-han">${item.regionEng}</div>
+//             </div>
+//             `;
+//         }
+//     }
+    
+//     document.querySelector("#section3-lc").innerHTML = str;
+    
+//     }
 
 
 });
