@@ -52,9 +52,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             </button>   
         </div>
         <div id="section3-lc">
-            <div class="section3-lc-inner" onclick="redirectToPlan()">
-                
-            </div>
+            
         </div>
     </div>
 </body>
