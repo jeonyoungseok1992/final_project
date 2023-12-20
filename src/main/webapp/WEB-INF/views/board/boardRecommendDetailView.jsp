@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,57 +23,63 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
     <main class="contents recommend">
         <div class="inner-wrap">
             <div class="board-view">
-                <div class="board-header">
-                    <div>
-                        <span class="category">여행지</span>
-                        <h3 class="board-title">추천여행지 상세페이지 입니다.</h3>
-                        <div class="additional-info">
-                            <span>관리자</span>
-                            <span>23.11.28</span>
+                <c:forEach var="item" items="${list}">    
+                    <div class="board-header">
+                        <div>
+                            <span class="category">${item.recommendBoardRegion}</span>
+                            <h3 class="board-title">${item.recommendBoardTitle}</h3>
+                            <div class="additional-info">
+                                <span>관리자</span>
+                                <span>${item.recommendBoardModifyDate}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="board-contents">
-                    <div class="img-area">
-                        <img src="./resources/images/recommend_sample_01.jpg" alt="">
+                    <div class="board-contents">
+                        ${item.recommendBoardContent}
+                        
+                        <!-- <div class="img-area">
+                            <img src="./resources/images/recommend_sample_01.jpg" alt="">
+                        </div>
+                        <p class="text-area">
+                            11월 제주도는 귤, 감귤, 밤 등
+                            <br>
+                            제주도의 제철 과일을 맛볼 수 있는 달이기도,
+                            <br>
+                            붉게 물든 단풍나무, 노랗게 물든 은행나무 등
+                            <br>
+                            아름다운 가을 풍경을 감상하며, 
+                            <br>
+                            가을의 끝자락을 느낄 수 있는 달입니다.
+                            <br>
+                            <br>
+                            이러한 기대감으로
+                            <br>
+                            23년 11월에 제주도를 방문 예정인 여러분께서
+                            <br>
+                            날씨, 온도 정보 뿐만이 아닌
+                            <br>
+                            옷은 어떻게 챙겨 가야하는지? 
+                            <br>
+                            1주차 부터 4주차까지 안내해드리도록 하겠습니다
+                        </p>
+                        <div class="img-area">
+                            <img src="./resources/images/recommend_sample_02.jpg" alt="">
+                        </div>
+                        <p class="text-area">
+                            11월 제주도는 귤, 감귤, 밤 등
+                            <br>
+                            제주도의 제철 과일을 맛볼 수 있는 달이기도,
+                            <br>
+                            붉게 물든 단풍나무, 노랗게 물든 은행나무 등
+                            <br>
+                            아름다운 가을 풍경을 감상하며, 
+                            <br>
+                            가을의 끝자락을 느낄 수 있는 달입니다.
+                        </p> -->
                     </div>
-                    <p class="text-area">
-                        11월 제주도는 귤, 감귤, 밤 등
-                        <br>
-                        제주도의 제철 과일을 맛볼 수 있는 달이기도,
-                        <br>
-                        붉게 물든 단풍나무, 노랗게 물든 은행나무 등
-                        <br>
-                        아름다운 가을 풍경을 감상하며, 
-                        <br>
-                        가을의 끝자락을 느낄 수 있는 달입니다.
-                        <br>
-                        <br>
-                        이러한 기대감으로
-                        <br>
-                        23년 11월에 제주도를 방문 예정인 여러분께서
-                        <br>
-                        날씨, 온도 정보 뿐만이 아닌
-                        <br>
-                        옷은 어떻게 챙겨 가야하는지? 
-                        <br>
-                        1주차 부터 4주차까지 안내해드리도록 하겠습니다
-                    </p>
-                    <div class="img-area">
-                        <img src="./resources/images/recommend_sample_02.jpg" alt="">
-                    </div>
-                    <p class="text-area">
-                        11월 제주도는 귤, 감귤, 밤 등
-                        <br>
-                        제주도의 제철 과일을 맛볼 수 있는 달이기도,
-                        <br>
-                        붉게 물든 단풍나무, 노랗게 물든 은행나무 등
-                        <br>
-                        아름다운 가을 풍경을 감상하며, 
-                        <br>
-                        가을의 끝자락을 느낄 수 있는 달입니다.
-                    </p>
-                </div>
+                </c:forEach>
+
+
                 <div class="btn-wrap">
                     <button type="button" class="btn-style">삭제</button>
                     <button type="button" class="btn-style">수정</button>

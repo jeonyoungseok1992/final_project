@@ -95,6 +95,7 @@
     width: 100%;
     column-gap: 26px;
     align-items: center;
+    justify-content: space-between;
     position: relative;
     padding: 24px 0 25px;
     border-bottom: 1px solid #dedede;

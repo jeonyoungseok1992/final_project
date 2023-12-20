@@ -16,17 +16,17 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="./resources/css/recommend.css">
-<script src="./resources/js/boardRecommend.js"></script>
+<script src="./resources/js/recommend.js"></script>
 </head>
 <body>
     <jsp:include page="../common/header.jsp" />
     <main class="contents recommend">
         <div class="inner-wrap">
             <h4 class="board-title">추천지 전체보기</h4>
-            <div class="post-wrap">
+            <div id="post-wrap" class="post-wrap">
                
             </div>
-            <button type="button" class="btn-more">
+            <button id="btn-more" type="button" class="btn-more" onclick="recommendListMore">
                 <i class="bi bi-plus-lg" style="color: #b2d8b5;font-size: 1.5rem;"></i>
                 <em>목록 더보기</em>
             </button>
