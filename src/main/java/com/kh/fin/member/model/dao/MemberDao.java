@@ -341,7 +341,7 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.phoneIdCheck",m);
 	}
 	//마이페이지 나의 친구목록 눌렀을 때 친구리스트
-	public ArrayList friendList(SqlSessionTemplate sqlSession, Member m) {
+	public ArrayList<Member> friendList(SqlSessionTemplate sqlSession, Member m) {
 		return (ArrayList)sqlSession.selectList("memberMapper.friendList",m);
 	}
 	
@@ -370,12 +370,47 @@ public class MemberDao {
 	
 	//친구요청 거절 눌렀을 때
 	public int rejectFriend(SqlSessionTemplate sqlSession, Member m, int friendNo) {
-		System.out.println("다오 옴");
 	    Map<String, Object> paramMap = new HashMap<>();
 	    paramMap.put("memberNo", m.getMemberNo());
 	    paramMap.put("friendNo", friendNo);
 	    System.out.println("paramMap: " + paramMap);
 		return sqlSession.update("memberMapper.rejectFriend", paramMap);
+	}
+	
+	//친구요청 수락 눌렀을 때
+	public int acceptFriend(SqlSessionTemplate sqlSession, Member m, int friendNo) {
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("memberNo", m.getMemberNo());
+	    paramMap.put("friendNo", friendNo);
+	    System.out.println("paramMap: " + paramMap);
+		return sqlSession.update("memberMapper.acceptFriend", paramMap);
+	}
+	
+	//친구요청 수락 눌렀을 때 friend insert
+	public int insertFriend(SqlSessionTemplate sqlSession, Member m, int friendNo) {
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("memberNo", m.getMemberNo());
+	    paramMap.put("friendNo", friendNo);
+	    System.out.println("paramMap: " + paramMap);
+		return sqlSession.insert("memberMapper.insertFriend", paramMap);
+	}
+	
+	//친구요청 수락 눌렀을 때 friend insert
+	public int reverseInsertFriend(SqlSessionTemplate sqlSession, Member m, int friendNo) {
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("memberNo", m.getMemberNo());
+	    paramMap.put("friendNo", friendNo);
+	    System.out.println("paramMap: " + paramMap);
+		return sqlSession.insert("memberMapper.reverseInsertFriend", paramMap);
+	}
+	
+	//친구요청 수 friend LOG insert
+	public int requestFriend(SqlSessionTemplate sqlSession, Member m, int friendNo) {
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("memberNo", m.getMemberNo());
+	    paramMap.put("friendNo", friendNo);
+	    System.out.println("paramMap: " + paramMap);
+		return sqlSession.insert("memberMapper.requestFriend", paramMap);
 	}
 	
 	//채팅  insert
@@ -395,6 +430,16 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.chatList", myNo);
 	}
 	
+
+	//친구요청 수락 눌렀을 때
+	public Member pageFriend(SqlSessionTemplate sqlSession, int boardNo, Member m) {
+	    Map<String, Object> paramMap = new HashMap<>();
+
+	    paramMap.put("memberNo", m.getMemberNo());
+	    paramMap.put("boardNo", boardNo);
+	    System.out.println("paramMap: " + paramMap);
+		return sqlSession.selectOne("memberMapper.pageFriend", paramMap);
+	}
 	
 	
 	
@@ -450,6 +495,7 @@ public class MemberDao {
 	//박수현 회원정보 전체
 	public ArrayList<Member> memberInfor(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("memberMapper.memberInfor");
+
 	}
 	
 

@@ -1,4 +1,13 @@
-const myPageValue = {}
+const myPageValue = {
+    frMembers: [] // 빈 배열로 초기화
+};
+
+function init(memberNo, frMemberList) {
+    myPageValue.myNo = memberNo;
+    myPageValue.frMembers = frMemberList;
+    console.log("마이페이지 시작");
+
+}
 
 $(document).ready(function () {
 
@@ -68,6 +77,7 @@ function friendDelete() {
             memberNo: myPageValue.memberNo
         },
         success: function (list) {
+            console.log(myPageValue.memberNo);
             let str = "";
             console.log(list);
             for (m of list) {
@@ -325,6 +335,7 @@ function review(memberNo) {
 //친구목록 리스트
 function fdList(memberNo) {
     myPageValue.memberNo = memberNo;
+    console.log(myPageValue.frMembers);
     $.ajax({
         url: "friendList.me",
         data: {
@@ -368,34 +379,34 @@ function fdList(memberNo) {
 
 
 //받은 친구요청 리스트
-function fdRequest(mNo) {
+function fdRequest(no, friendList) {
+    console.log(friendList);
     $.ajax({
         url: "friendRequest.me",
         data: {
-            memberNo: mNo
+            memberNo: no,
         },
         success: function (list) {
+                let str = "";
+                for (m of list) {
+                    let profileImg = m.memberProfileImg ? m.memberProfileImg : "/mapping/resources/images/profile.png";
+                    str += `
+                        <div id="myfriend">
+                        <div>
+                            <img class="title-img2" src="${profileImg}" >
 
-            let profileImg = m.memberProfileImg ? m.memberProfileImg : "/mapping/resources/images/profile.png";
-
-            let str = "";
-            for (m of list) {
-                str += `
-                    <div id="myfriend">
-                    <div>
-                        <img class="title-img2" src="${profileImg}" >
-
-                        <span style="font-size: 20px; margin-left: 10px;">${m.memberNickName}</span>
+                            <span style="font-size: 20px; margin-left: 10px;">${m.memberNickName}</span>
+                        </div>
+                        <div>
+                            <a onclick="acceptFriend(${m.memberNo})" style="font-size: 18px;">수락</a>
+                            <span style="font-size: 18px;">|</span>
+                            <a onclick="rejectFriend(${m.memberNo})" style="font-size: 18px;">거절</a>
+                        </div>	
                     </div>
-                    <div>
-                        <a href="acceptFriend.me" style="font-size: 18px;">수락</a>
-                        <span style="font-size: 18px;">|</span>
-                        <a  data-bs-toggle="modal" data-bs-target="#myModal2" onclick="myPageValue.memberNo=${m.memberNo}" style="font-size: 18px;">거절</a>
-                    </div>	
-                </div>
-                `
+                    `
+                
+                
             }
-
             document.querySelector("#fdList").innerHTML = str;
 
         },
@@ -405,13 +416,13 @@ function fdRequest(mNo) {
     })
 }
 
-function rejectFriend(){
+function rejectFriend(friendNo){
     $('#myModal2').modal('hide');
     console.log(myPageValue.memberNo);
     $.ajax({
         url: "rejectFriend.me",
         data: {
-            friendNo: myPageValue.memberNo
+            friendNo: friendNo
         },
         success: function (no) {
             console.log("rejectFriend ajax통신 성공");
@@ -420,6 +431,27 @@ function rejectFriend(){
         },
         error: function () {
             console.log("rejectFriend ajax통신 실패");
+        }
+    })
+
+}
+
+
+function acceptFriend(friendNo){
+    $('#myModal2').modal('hide');
+    console.log(myPageValue.memberNo);
+    $.ajax({
+        url: "acceptFriend.me",
+        data: {
+            friendNo: friendNo
+        },
+        success: function (no) {
+            console.log("acceptFriend ajax통신 성공");
+            fdRequest(no);
+
+        },
+        error: function () {
+            console.log("acceptFriend ajax통신 실패");
         }
     })
 

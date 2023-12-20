@@ -285,7 +285,7 @@ function drawScheduleMake(scheduleInfo) {
 //******************************************step2**************************************************
 function selectLocation(scheduleInfo) {
     //map 그리고 마커찍는 함수
-    attractionMap(scheduleInfo.regionX, scheduleInfo.regionY);
+    // attractionMap(scheduleInfo.regionX, scheduleInfo.regionY);
 
     activeButton('step2');
     document.getElementById("side-modal").style.display = "block";
@@ -372,6 +372,109 @@ function selectLocation(scheduleInfo) {
     selectWrap.appendChild(selectWrapUl);
 
     
+
+    // $.ajax({
+    //     url: "attractionList.api",
+    //     async:false,
+    //     success: function(data){
+    //         console.log(data);
+            
+
+    //             let attLoca ;
+    //             let addTitle; 
+
+    //                     for(att of data){
+    //                         attLoca   = att.firstimage;
+    //                         addTitle   = att.title;
+
+                            
+    //                             const selectCard = selectWrapLiUnit({
+    //                                 mX : att.mapx,
+    //                                 mY : att.mapy,
+    //                                 src: attLoca, 
+    //                                 title: addTitle,
+    //                                 category: "명소",
+    //                                 className: "draggable",
+    //                                 id: generateShortUUID()            
+    //                             });
+
+    //                 selectWrapUl.appendChild(selectCard);
+    //                 }
+    //             console.log(attLoca);
+        
+
+    //     },
+    //     error: function(){
+    //         console.log("recommendTrip.bo ajax 실패");
+    //     }
+    // })
+
+
+
+    // $.ajax({
+    //     url: "attFoodList.api",
+    //     async:false,
+    //     success: function(data){
+    //         console.log(data);
+            
+
+    //             let attLoca ;
+    //             let addTitle; 
+
+    //                     for(att of data){
+    //                         attLoca   = att.firstimage;
+    //                         addTitle   = att.title;
+    //                             const selectCard = selectWrapLiUnit({
+    //                                 src: attLoca, 
+    //                                 title: addTitle,
+    //                                 category: "식당",
+    //                                 className: "draggable",
+    //                                 id: generateShortUUID()            
+    //                             });
+
+    //                 selectWrapUl.appendChild(selectCard);
+    //                 }
+    //             console.log(attLoca);
+        
+    //     },
+    //     error: function(){
+    //         console.log("recommendTrip.bo ajax 실패");
+    //     }
+    // })
+
+    // $.ajax({
+    //     url: "attEventList.api",
+    //     async:false,
+    //     success: function(data){
+    //         console.log(data);
+            
+
+    //             let attLoca ;
+    //             let addTitle; 
+
+    //                     for(att of data){
+
+    //                         attLoca   = att.firstimage;
+    //                         addTitle   = att.title;
+    //                             const selectCard = selectWrapLiUnit({
+    //                                 src: attLoca, 
+    //                                 title: addTitle,
+    //                                 category: "행사",
+    //                                 className: "draggable",
+    //                                 id: generateShortUUID()            
+    //                             });
+
+    //                 selectWrapUl.appendChild(selectCard);
+    //                 }
+    //             console.log(attLoca);
+        
+    //     },
+    //     error: function(){
+    //         console.log("recommendTrip.bo ajax 실패");
+    //     }
+    // })
+
+
 
 
 
@@ -536,7 +639,7 @@ function sideModalFunk(scheduleInfo){
 
             sideModalFunk(scheduleInfo);   
     
-            
+            addMarker(mY, mX);
         }
      });
  

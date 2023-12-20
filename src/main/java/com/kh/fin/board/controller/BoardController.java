@@ -35,6 +35,7 @@ import com.kh.fin.board.model.vo.Report;
 import com.kh.fin.board.model.vo.Star;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.common.template.Pagenation;
+import com.kh.fin.member.model.service.MemberService;
 import com.kh.fin.member.model.vo.Member;
 
 @Controller
@@ -42,6 +43,8 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private MemberService memberService;
 	
 	
 	@RequestMapping(value="/chat.bo")
@@ -373,7 +376,7 @@ public class BoardController {
 
 	@RequestMapping("togetherSearch.bo")
 	public ModelAndView searchTogetherList(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv , Board b){
-		
+		System.out.println(b);
 		PageInfo pi = Pagenation.getPageInfo(boardService.selectTogetherListCount(), currentPage, 5, 12);
 		
 		
@@ -470,13 +473,17 @@ public class BoardController {
 	
 	//같이가요 디테일페이지 불러오기 
 	@RequestMapping("togetherDetail.bo")
-	public String selectTogetherBoard(int boardNo, Model model){
+	public String selectTogetherBoard(int boardNo, Model model, HttpSession session){
 		
 		ArrayList<Board> list = boardService.selectTogetherBoard(boardNo);
-		
+		Member m = ((Member)session.getAttribute("loginUser"));
+		Member mem = memberService.pageFriend(boardNo, m);
+		//Member frMember = memberService.requestFriendList(boardNo, m);
 		if(!(list == null) ) {
 			
 			model.addAttribute("list", list);
+			model.addAttribute("friend",mem);
+			//model.addAttribute("frMember", frMember);
 			
 			return "board/boardTogetherDetailView";
 		}else {
@@ -782,14 +789,17 @@ public class BoardController {
 	
 	//reviewDetail
 	@RequestMapping("detail.bo")
-	public String selectReviewBoard(int boardNo, Model model){
-		
+	public String selectReviewBoard(int boardNo, Model model, HttpSession session){
+	    System.out.println(boardNo);
+		Member m = ((Member)session.getAttribute("loginUser"));
 		ArrayList<Board> list = boardService.selectReviewBoard(boardNo);
 		
+		Member mem = memberService.pageFriend(boardNo, m);
 		if(!(list == null) ) {
-			
+			model.addAttribute("friend",mem);
 			model.addAttribute("list",list);
-			
+			System.out.println(mem);
+			System.out.println(list);
 			return "board/reviewDetailView";
 		}else {
 			model.addAttribute("errorMsg", "같이가요 게시글 조회 실패");
@@ -1089,7 +1099,21 @@ public class BoardController {
 		
 		
 		
-		
+		//메인페이지 키워드 검색
+		@ResponseBody
+		@RequestMapping(value ="regionSearch.bo", produces="application/json; charset=UTF-8")
+		public String regionSearch(@RequestParam(value="cpage",defaultValue = "1")int currentPage, 
+				ModelAndView mv, @RequestParam(value="keyword", required=false) String keyword)	{
+			
+			System.out.println("키워드 검색 시작");
+			System.out.println(keyword);
+			PageInfo pi = Pagenation.getPageInfo(boardService.regionListCount(), currentPage, 5, 12);
+
+			
+			ArrayList<Region> list = boardService.regionSearch(pi, keyword);
+			System.out.println(list);
+			return new Gson().toJson(list);
+		}
 		
 		
 		

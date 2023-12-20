@@ -15,7 +15,10 @@
 		<result column="MEMBER_MODIFY_DATE" property="modifyDate"/>
 		<result column="MEMBER_RIGHT" property="memberRight"/>
 		<result column="MEMBER_STATUS" property="memberStatus"/>
-		<result column="MEMBER_GRADE" property="memberGrade"/>
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="FROM_MEMBER_NO" property="fromMemberNo"/>
+		<result column="TO_MEMBER_NO" property="toMemberNo"/>
+		<result column="FRIEND_MEMBER_NO" property="friendMemberNo"/>
 	</resultMap>
 	
 	<resultMap type="MsgVo" id="MsgVoResult">
@@ -409,14 +412,14 @@
 		SELECT FROM_MEMBER_NO as MEMBER_NO
 	        ,MEMBER_NICKNAME
 	        ,MEMBER_PROFILE_IMG
-		FROM(
+		FROM(                            
 		    SELECT FROM_MEMBER_NO
 		    FROM FRIEND_LOG
 		    JOIN MEMBER  ON (MEMBER_NO = TO_MEMBER_NO)
 		    WHERE MEMBER_NO = #{memberNo}
-		    	AND FRIEND_STATUS = 1)
+				AND MEMBER_STATUS = 'Y'
+                AND LOG_STATUS = 1)
 		JOIN MEMBER ON (FROM_MEMBER_NO = MEMBER_NO)
-		WHERE MEMBER_STATUS = 'Y'
 	</select>
   
   <!-- 친구삭제 -->
@@ -444,6 +447,80 @@
 
 	</select> 
 	
+	  <!-- 친구 거절버튼 눌렀을 때 -->
+  	<update id="rejectFriend" parameterType="java.util.Map">
+      UPDATE FRIEND_LOG
+         SET 
+            LOG_STATUS = 3
+      WHERE TO_MEMBER_NO = #{memberNo}
+      	AND FROM_MEMBER_NO = #{friendNo}
+   </update>
+   
+   
+   	  <!-- 친구 수락버튼 눌렀을 때 -->
+  	<update id="acceptFriend" parameterType="java.util.Map">
+      UPDATE FRIEND_LOG
+         SET 
+            LOG_STATUS = 2
+      WHERE TO_MEMBER_NO = #{memberNo}
+      	AND FROM_MEMBER_NO = #{friendNo}
+   </update>
+   
+     	<!--친구요청 수락 눌렀을 때 friend insert  -->
+   	<insert id="insertFriend" >
+		INSERT INTO FRIEND(
+			MEMBER_NO,
+			FRIEND_MEMBER_NO,
+			FRIEND_ENROLL_DATE	,
+			FRIEND_STATUS
+		)
+		VALUES(	
+			#{memberNo},
+			#{friendNo},
+			SYSDATE,
+			DEFAULT
+				
+		)
+		
+		
+	</insert>
+	
+	     	<!--친구요청 수락 눌렀을 때 friend insert  -->
+   	<insert id="reverseInsertFriend" >
+		INSERT INTO FRIEND(
+			MEMBER_NO,
+			FRIEND_MEMBER_NO,
+			FRIEND_ENROLL_DATE	,
+			FRIEND_STATUS
+		)
+		VALUES(	
+			#{friendNo},
+			#{memberNo},
+			SYSDATE,
+			DEFAULT
+				
+		)
+		
+		
+	</insert>
+	
+	     	<!--친구요청  friend log insert  -->
+   	<insert id="requestFriend" >
+		INSERT INTO FRIEND_LOG(
+			FROM_MEMBER_NO,
+			TO_MEMBER_NO,
+			LOG_STATUS
+		)
+		VALUES(	
+			#{memberNo},
+			#{friendNo},
+			1
+				
+		)
+	</insert>
+   
+   
+	
 
 	<!--  프로필 수정 쿼리문 -->
 	<update id="updateMember">
@@ -451,7 +528,8 @@
          SET 
             MEMBER_NICKNAME = #{memberNickName},
             MEMBER_EMAIL = #{memberEmail},
-            MEMBER_PHONE = #{memberPhone}
+            MEMBER_PHONE = #{memberPhone},
+            MEMBER_PWD = #{memberPwd}
       WHERE MEMBER_ID = #{memberId}
    </update>
    
@@ -475,14 +553,7 @@
 		and MEMBER_STATUS = 'Y'
 	</select>
   
-  <!-- 친구 거절버튼 눌렀을 때 -->
-  	<update id="rejectFriend" parameterType="java.util.Map">
-      UPDATE FRIEND_LOG
-         SET 
-            FRIEND_STATUS = 3
-      WHERE TO_MEMBER_NO = #{memberNo}
-      	AND FROM_MEMBER_NO = #{friendNo}
-   </update>
+
    
    	<!--채팅  insert  -->
    	<insert id="insertChat" >
@@ -522,34 +593,42 @@
 	<!-- 채팅방 목록 -->
 	<select id="chatList" resultMap="MsgVoResult">
 
-SELECT
-    CASE
-        WHEN c.MY_NO = ${myNo} THEN c.YOU_NO
-        ELSE c.MY_NO
-    END AS you_No,
-    m.MEMBER_NICKNAME AS MEMBER_NICKNAME,
-    m.MEMBER_PROFILE_IMG AS MEMBER_PROFILE_IMG,
-    MAX(c.CHAT_TIME) AS CHAT_TIME,
-    MAX(c.CHAT_MESSAGE) KEEP (DENSE_RANK LAST ORDER BY c.CHAT_TIME) AS CHAT_MESSAGE
-FROM CHAT c
-JOIN MEMBER m ON 
-    (c.MY_NO = m.MEMBER_NO AND c.YOU_NO = ${youNo}) OR 
-    (c.YOU_NO = m.MEMBER_NO AND c.MY_NO = ${myNo})
-WHERE c.MY_NO = ${myNo} OR c.YOU_NO = ${youNo}
-GROUP BY
-    CASE
-        WHEN c.MY_NO = ${myNo} THEN c.YOU_NO
-        ELSE c.MY_NO
-    END,
-    m.MEMBER_NICKNAME,
-    m.MEMBER_PROFILE_IMG
-ORDER BY CHAT_TIME DESC
+		SELECT
+		    CASE
+		        WHEN c.MY_NO = ${myNo} THEN c.YOU_NO
+		        ELSE c.MY_NO
+		    END AS you_No,
+		    m.MEMBER_NICKNAME AS MEMBER_NICKNAME,
+		    m.MEMBER_PROFILE_IMG AS MEMBER_PROFILE_IMG,
+		    MAX(c.CHAT_TIME) AS CHAT_TIME,
+		    MAX(c.CHAT_MESSAGE) KEEP (DENSE_RANK LAST ORDER BY c.CHAT_TIME) AS CHAT_MESSAGE
+		FROM CHAT c
+		JOIN MEMBER m ON 
+		    (c.MY_NO = m.MEMBER_NO AND c.YOU_NO = ${youNo}) OR 
+		    (c.YOU_NO = m.MEMBER_NO AND c.MY_NO = ${myNo})
+		WHERE c.MY_NO = ${myNo} OR c.YOU_NO = ${youNo}
+		GROUP BY
+		    CASE
+		        WHEN c.MY_NO = ${myNo} THEN c.YOU_NO
+		        ELSE c.MY_NO
+		    END,
+		    m.MEMBER_NICKNAME,
+		    m.MEMBER_PROFILE_IMG
+		ORDER BY CHAT_TIME DESC
 
 	</select>
   
   
   
-  
+    <!--친구요청 리스트  !-->
+ 	<select id="pageFriend" resultMap="memberResult">
+         select friend_member_no
+	        from friend
+	        join board on ( friend_member_no = board_writer)
+	        where board_no = #{boardNo}
+	            and member_no = #{memberNo}
+        group by friend_member_no
+  </select>
   
   
   
@@ -681,9 +760,7 @@ ORDER BY CHAT_TIME DESC
 			#{memberNickName},
 			
 			replace(#{memberEmail}, ',', '@'),	
-			
-			#{memberPhone}
-			
+			replace(#{memberPhone}, '-', '')		
 		)
 		
 		
