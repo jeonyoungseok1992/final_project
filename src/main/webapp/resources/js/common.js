@@ -1,47 +1,3 @@
-// const commonValue = {}
-
- $(document).ready(function () {
-
-    console.log();
-//     $.ajax({
-//         url : "requestFriendList.me",
-//         data:{
-//             friendNo : memberNo
-//         },
-//         success : function(res){
-//             //성공시 다시 그려주기
-//             if(res === "success"){
-//                 console.log("친구신청 성공");
-//             //commonValue.requestFriend = memberNo;
-//         }
-//         },
-//         error:function(){
-//             console.log("reply 댓글추가 통신 실패");
-//         }
-//     })
-
-
-
-
-
-
-
-
-
-
-
-
-
-//     console.log(commonValue.requestFriend.memberNo);
-//     console.log(commonValue.requestFriend);
-//     if(commonValue.requestFriend.memberNo){
-        
-//         document.getElementById('drop-fr').classList.add('ddd');
-//     }
- });
-
-
-
 function toStringDate(date){
     return new Date(date).toISOString().substring(0, 10)
 }
@@ -201,18 +157,6 @@ function getSearchInputUnit(info) {
         const liDiv = document.createElement('div');
         selectWrapLi.appendChild(liDiv);
 
-        //영석
-        // const liDiv2 = document.createElement('input');
-        // liDiv2.type = 'hidden';
-        // liDiv2.value = info.mX;
-        // selectWrapLi.appendChild(liDiv2);
-
-        // const liDiv3 = document.createElement('div');
-        // liDiv3.type = 'hidden';
-        // liDiv3.value = info.mY;
-        // selectWrapLi.appendChild(liDiv3);
-        
-
         const img = document.createElement("img");
         if (info.src) img.src = info.src;
         liDiv.appendChild(img);
@@ -296,8 +240,6 @@ function getSearchInputUnit(info) {
         return uuid;
       }
 
-    
-
       function requestFriend(memberNo){
         console.log('도착');
         $.ajax({
@@ -320,4 +262,14 @@ function getSearchInputUnit(info) {
     }
 
 
-    
+    //AJAX 통신 시작
+$( document ).ajaxStart(function() {
+    //마우스 커서를 로딩 중 커서로 변경
+    $('html').css("cursor", "wait"); 
+});
+//AJAX 통신 종료
+$( document ).ajaxStop(function() {
+    //마우스 커서를 원래대로 돌린다
+    $('html').css("cursor", "auto"); 
+});
+
