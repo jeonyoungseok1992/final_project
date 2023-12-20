@@ -80,19 +80,21 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                 </c:forEach>
 
 
-                <div class="btn-wrap">
+                <!-- <div class="btn-wrap">
                     <button type="button" class="btn-style">삭제</button>
                     <button type="button" class="btn-style">수정</button>
-                </div>
+                </div> -->
             </div>
             <div class="btn-wrap justify">
                 <div>
-                    <button href="#none" class="btn-style">목록</button>
+                    <a href="recommendMore.bo" class="btn-style">목록</a>
                 </div>
-                <div>
-                    <button type="button" class="btn-style">이전</button>
-                    <button type="button" class="btn-style">다음</button>
-                </div>
+                <c:forEach var="item" items="${list}">
+                    <div>
+                        <a href="recommendDetail.bo?recommendBoardNo=${item.recommendBoardNo - 1}" class="btn-style">이전</a>
+                        <a href="recommendDetail.bo?recommendBoardNo=${item.recommendBoardNo + 1}" class="btn-style">다음</a>
+                    </div>
+                </c:forEach>
             </div>
         </div>
     </main>

@@ -379,7 +379,7 @@ function fdList(memberNo) {
 
 
 //받은 친구요청 리스트
-function fdRequest(no, friendList) {
+function fdRequest(no) {
     console.log(friendList);
     $.ajax({
         url: "friendRequest.me",
