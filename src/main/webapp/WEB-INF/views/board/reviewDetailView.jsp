@@ -666,15 +666,10 @@
                                 
                             });
                             }
-<<<<<<< HEAD
-                        })
-                            
-                            
-                        });
-                    }
+
                   </script>  
 
-=======
+                        <script>
                             function reportTmi(){
                                 var radioVal = $('input[name="report"]:checked').val();
                                 if(radioVal === '기타'){
@@ -702,7 +697,7 @@
 
                        
                       </script>
->>>>>>> 6da014aa7fa48c87c6b73ba45d84e50575067234
+
         </body>
 
         </html>
