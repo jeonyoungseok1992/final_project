@@ -23,9 +23,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.kh.chat.MsgVo;
+import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.member.model.service.MemberService;
 import com.kh.fin.member.model.vo.Member;
 
@@ -43,12 +45,28 @@ public class MemberController {
 	public ModelAndView loginMember(Member m, ModelAndView mv, HttpSession session) {
 
 		Member loginUser = memberService.loginMember(m);
+		ArrayList<Member> frMembers = memberService.friendList(loginUser);
 
+		
+		JsonArray frMemberList = new JsonArray();
+		for (Member mem : frMembers) {		
+			JsonObject frMember = new JsonObject();
+			frMember.addProperty("frMemberNo", mem.getMemberNo());
+			frMemberList.add(frMember);
+		}
+			
+		
+		
+		
 		if (loginUser == null || !bcryptPasswordEncoder.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
 			mv.addObject("errorMsg", "로그인에 실패 하였습니다. 회원 정보를 다시 확인해주세요.");
 			mv.setViewName("errorPage/loginErrorPage");
 		} else {
+			System.out.println(frMembers);
+			System.out.println(frMemberList);
+			
 			session.setAttribute("loginUser", loginUser);
+			session.setAttribute("frMemberList", frMembers);
 			mv.setViewName("redirect:/");
 		}
 
@@ -489,7 +507,7 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value="phoneIdCheck.me", produces="application/json; charset=UTF-8")
 	public Member phoneIdCheck(Member m) {
-		
+		System.out.println(memberService.phoneIdCheck(m));
 		return memberService.phoneIdCheck(m);
 	}
 
@@ -498,7 +516,10 @@ public class MemberController {
 	//마이페이지 나의 친구목록 눌렀을 때 친구리스트
 	@ResponseBody
 	@RequestMapping(value="friendList.me", produces="application/json; charset=UTF-8")
-	public ArrayList<Member> friendList(Member m) {
+	public ArrayList<Member> friendList(Member m, HttpSession session) {
+		
+		ArrayList<Member> friendList = memberService.friendList(m);
+		session.setAttribute("friendList", friendList);
 		return memberService.friendList(m);
 	}
 	
@@ -528,13 +549,13 @@ public class MemberController {
 	//프로필 회원정보 수정페이지 저장버튼 눌렀을 때
 	@RequestMapping("/update.me")
 	public String updateMember(Member m, HttpSession session, Model model, String memberId) {
-	
-	
 		
+		String encPwd = bcryptPasswordEncoder.encode(m.getMemberPwd());
+		
+		m.setMemberPwd(encPwd);
+	
 		int result= memberService.updateMember(m);
-		
-		
-		
+		System.out.println(m);
 			if(result > 0) {
 				session.setAttribute("alertMsg", "성공적으로 회원정보가 수정되었습니다.");
 				Member loginUser = memberService.reloginMember(memberId);
@@ -550,11 +571,45 @@ public class MemberController {
 	//친구 거절버튼 눌렀을 때
 	@ResponseBody
 	@RequestMapping(value="rejectFriend.me")
-	public int rejectFriend(int friendNo, HttpSession session) {		
+	public int rejectFriend(int friendNo, HttpSession session) {
+		System.out.println(friendNo);
 		Member m = ((Member)session.getAttribute("loginUser"));
-		return memberService.rejectFriend(m, friendNo) > 0 ? m.getMemberNo() : 0;
+		int result = memberService.rejectFriend(m, friendNo);
+		System.out.println(result);
+		return result > 0 ? m.getMemberNo() : 0;
 		
 		
+	}
+	
+	
+	//친구 수락버튼 눌렀을 때
+	@ResponseBody
+	@RequestMapping(value="acceptFriend.me")
+	public int acceptFriend(int friendNo, HttpSession session) {
+		System.out.println(friendNo);
+		Member m = ((Member)session.getAttribute("loginUser"));
+		int result = memberService.acceptFriend(m, friendNo);
+		int result2 = memberService.insertFriend(m, friendNo);
+		int result3 = memberService.reverseInsertFriend(m, friendNo);
+		System.out.println(result);
+		System.out.println(result2);
+		return result*result2*result3 > 0 ? m.getMemberNo() : 0;
+	}
+	
+	//친구신청
+	@ResponseBody
+	@RequestMapping(value="requestFriend.me")
+	public String requestFriend(int friendNo, HttpSession session) {
+		System.out.println(friendNo);
+		Member m = ((Member)session.getAttribute("loginUser"));
+		int result = memberService.requestFriend(m, friendNo);
+		
+		
+		if(result > 0 ) {
+			return "success";
+		}else {
+			return "fail";
+		}
 	}
 
 
@@ -635,7 +690,7 @@ public class MemberController {
 			return memberService.leftChatList(vo);
 		}
 		
-		
+
 		
 		
 		
@@ -685,5 +740,6 @@ public class MemberController {
 		    return new Gson().toJson(memberService.memberInfor());
 		}
 		
+
 	
 }

@@ -70,9 +70,14 @@
 
 var positions = [];
 
+
+$(document).ready(function () {
+    initMap();
+
     function attractionMap(attPosition) {
         console.log(attPosition)
           
+
 
                 for (let i in attPosition) {
                     let item = attPosition[i];
@@ -86,9 +91,10 @@ var positions = [];
                 console.log(positions);
 
                 // 마커 추가는 AJAX 요청이 완료된 후에 실행되도록 이동
-                addMarkersToMap();
-            }
 
+                //addMarkersToMap();
+            }
+        });
     
 
 
@@ -151,22 +157,24 @@ polyline.setMap(map);
 
 
 
-function addMarker(mY, mX) {
-    console.log('마커 성공')
-    var container = document.getElementById('map');
-    var options = {
-        center: new kakao.maps.LatLng(mY, mX), // 받아온 좌표로 중심 설정
-        level: 4
-    };
+// function addMarker(mY, mX) {
+//     console.log('마커 성공')
+//     console.log(mY)
+//     console.log(mX)
+//     var container = document.getElementById('map');
+//     var options = {
+//         center: new kakao.maps.LatLng(mY, mX), // 받아온 좌표로 중심 설정
+//         level: 4
+//     };
 
-    var map = new kakao.maps.Map(container, options);
+//     var map = new kakao.maps.Map(container, options);
 
-    var markerPosition = new kakao.maps.LatLng(mY, mX); // 받아온 좌표로 마커 생성
-    var marker = new kakao.maps.Marker({
-        position: markerPosition
-    });
+//     var markerPosition = new kakao.maps.LatLng(mY, mX); // 받아온 좌표로 마커 생성
+//     var marker = new kakao.maps.Marker({
+//         position: markerPosition
+//     });
 
-    marker.setMap(map); // 마커 지도에 표시
-}
+//     marker.setMap(map); // 마커 지도에 표시
+// }
 
 

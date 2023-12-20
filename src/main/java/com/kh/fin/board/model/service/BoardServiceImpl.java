@@ -1277,10 +1277,42 @@ public class BoardServiceImpl implements BoardService{
 
 
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 같이가요 게시판 리스트업을 위한 카운트 함수
+	@Override
+	public int regionListCount() {
 
+		return boardDao.regionListCount(sqlSession);
+	}
+	
 
+	//메인페이지 키워드 검색
+	@Override
+	public ArrayList<Region> regionSearch(PageInfo pi, String keyword) {
 
-
+		return boardDao.regionSearch(sqlSession,pi, keyword);
+	}
 
 
 

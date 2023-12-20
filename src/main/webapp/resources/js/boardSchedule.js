@@ -1,6 +1,8 @@
 const bsValue = {
     regionData: [], /* 페이지 로드시 지역정보 가져온거 담겨있는곳*/
 }
+let mX;
+let mY;
 
 function init(regionList){
     bsValue.regionData = JSON.parse(regionList);
@@ -373,6 +375,109 @@ function selectLocation(scheduleInfo) {
 
     
 
+    $.ajax({
+        url: "attractionList.api",
+        async:false,
+        success: function(data){
+            console.log(data);
+            
+
+                let attLoca ;
+                let addTitle; 
+
+                        for(att of data){
+                            attLoca   = att.firstimage;
+                            addTitle   = att.title;
+
+                            
+                                const selectCard = selectWrapLiUnit({
+                                    mX : att.mapx,
+                                    mY : att.mapy,
+                                    src: attLoca, 
+                                    title: addTitle,
+                                    category: "명소",
+                                    className: "draggable",
+                                    id: generateShortUUID()            
+                                });
+
+                    selectWrapUl.appendChild(selectCard);
+                    }
+                console.log(attLoca);
+        
+
+        },
+        error: function(){
+            console.log("recommendTrip.bo ajax 실패");
+        }
+    })
+
+
+
+    $.ajax({
+        url: "attFoodList.api",
+        async:false,
+        success: function(data){
+            console.log(data);
+            
+
+                let attLoca ;
+                let addTitle; 
+
+                        for(att of data){
+                            attLoca   = att.firstimage;
+                            addTitle   = att.title;
+                                const selectCard = selectWrapLiUnit({
+                                    src: attLoca, 
+                                    title: addTitle,
+                                    category: "식당",
+                                    className: "draggable",
+                                    id: generateShortUUID()            
+                                });
+
+                    selectWrapUl.appendChild(selectCard);
+                    }
+                console.log(attLoca);
+        
+        },
+        error: function(){
+            console.log("recommendTrip.bo ajax 실패");
+        }
+    })
+
+    $.ajax({
+        url: "attEventList.api",
+        async:false,
+        success: function(data){
+            console.log(data);
+            
+
+                let attLoca ;
+                let addTitle; 
+
+                        for(att of data){
+
+                            attLoca   = att.firstimage;
+                            addTitle   = att.title;
+                                const selectCard = selectWrapLiUnit({
+                                    src: attLoca, 
+                                    title: addTitle,
+                                    category: "행사",
+                                    className: "draggable",
+                                    id: generateShortUUID()            
+                                });
+
+                    selectWrapUl.appendChild(selectCard);
+                    }
+                console.log(attLoca);
+        
+        },
+        error: function(){
+            console.log("recommendTrip.bo ajax 실패");
+        }
+    })
+
+
+
 
 
 
@@ -536,7 +641,7 @@ function sideModalFunk(scheduleInfo){
 
             sideModalFunk(scheduleInfo);   
     
-            
+            addMarker(mY, mX);
         }
      });
  

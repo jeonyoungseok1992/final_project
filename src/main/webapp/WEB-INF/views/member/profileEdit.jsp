@@ -48,6 +48,8 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                     <div id="edit-input">
                         <label for="nickname" style="margin-bottom: 15px;">닉네임</label>
                         <input class="form-control" type="text" placeholder="${loginUser.memberNickName}" name="memberNickName" value="${loginUser.memberNickName}" id="nickname" style="margin-bottom: 20px;">
+                        <label for="memberPwd" style="margin-bottom: 15px;">비밀번호</label>
+                        <input type="password" class="form-control" name="memberPwd" maxlength="15" placeholder="비밀번호를 입력해주세요." value="${loginUser.memberPwd}">
                         <label for="email" style="margin-bottom: 15px;">이메일</label>
                         <input class="form-control" type="email" placeholder="${loginUser.memberEmail}" name="memberEmail" id="email" value="${loginUser.memberEmail}">
                         <label for="phone" style="margin-bottom: 24px; padding-top: 23px;">핸드폰번호</label>

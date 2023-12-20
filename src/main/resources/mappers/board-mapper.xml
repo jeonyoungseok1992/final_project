@@ -30,6 +30,7 @@
 		<result column="CATEGORY_NO" property="categoryNo"/>
 		<result column="CATEGORY_NAME" property="categoryName"/>
 		<result column="MEMBER_PROFILE_IMG" property="memberProfileImg"/>
+		<result column="FROM_MEMBER_NO" property="fromMemberNo"/>
 	</resultMap>
 
 	<resultMap type="Reply" id="replyResult">
@@ -355,7 +356,7 @@
 		
 		<!-- 같이가요 게시판 디테일 페이지 -->
 		<select id="selectTogetherBoard" resultMap="boardResult">
-			SELECT  BOARD_NO
+            SELECT  BOARD_NO
 				,	BOARD_TITLE
 				,	BOARD_CONTENT
 				,	TO_CHAR(BOARD_MODIFY_DATE, 'YY-MM-DD HH24:MI:SS') AS "BOARD_MODIFY_DATE"
@@ -373,7 +374,7 @@
                 ,   ATTRACTION_NAME
                 ,   ATTRACTION_CHANGE_NAME_IMG
 			FROM 	BOARD   
-            join member on (MEMBER_NO = BOARD_WRITER)
+            join member on (MEMBER_NO = BOARD_WRITER)          
             join TRIP_PLAN on (BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
             join LOCATION using (TRIP_PLAN_NO)
             join ATTRACTION on (ATTRACTION_NO=LOCATION_ATTRACTION_NO)
@@ -903,6 +904,13 @@
 	
 	
 	
+		<!-- 메인페이지 지역 총 갯수 조회하는 쿼리문 -->
+	<select id="regionListCount" resultType="_int">
+	
+		SELECT COUNT(*)
+		FROM REGION
+		
+	</select>
 	
 	
 	
@@ -910,8 +918,20 @@
 	
 	
 	
-	
-	
+			<!--메인페이지 지역 키워드로 검색 -->
+		<select id="regionSearch" resultMap="regionResult">
+		SELECT REGION_NO
+                ,REGION_NAME
+                ,REGION_MEMO
+                ,REGION_IMG
+                ,REGION_ENG
+                ,REGION_X
+                ,REGION_Y
+		FROM REGION
+		WHERE REGION_NAME
+	        LIKE '%' || #{keyword} || '%'
+	        ORDER BY REGION_NAME DESC
+		</select>
 	
 	
 	
