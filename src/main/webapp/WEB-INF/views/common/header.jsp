@@ -16,6 +16,7 @@
    <link rel="stylesheet" href="./resources/css/common.css">
    <link rel="stylesheet" href="./resources/css/font.css">
 	<link rel="stylesheet" href="./resources/css/header.css">
+	
 <script src="./resources/js/header.js"></script>
     
 </head>
@@ -192,7 +193,8 @@
 	    $("#checkEmail").click(function () {
 	        const memberEmail = $("#memberEmail").val();
 	        const memberId = $("#memberId").val();
-	        
+	        console.log(memberEmail)
+	        console.log(memberId)
 	        const sendEmail = document.forms["sendEmail"];
 	        $.ajax({
 	            type: 'post',

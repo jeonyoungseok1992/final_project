@@ -70,17 +70,17 @@
 
 var positions = [];
 
+
 $(document).ready(function () {
     initMap();
 
-    function initMap() {
-        $.ajax({
-            url: "kakaoMap.api",
-            success: function (data) {
-                console.log(data);
+    function attractionMap(attPosition) {
+        console.log(attPosition)
+          
 
-                for (let i in data) {
-                    let item = data[i];
+
+                for (let i in attPosition) {
+                    let item = attPosition[i];
 
                     var position = {
                         title: item.title,
@@ -91,37 +91,41 @@ $(document).ready(function () {
                 console.log(positions);
 
                 // 마커 추가는 AJAX 요청이 완료된 후에 실행되도록 이동
+
                 //addMarkersToMap();
-            },
-            error: function () {
-                console.log("location.api ajax 실패");
             }
         });
-    }
-
-
-});
-    
     
 
 
 function addMarkersToMap() {
+
     var container = document.getElementById('map');
     var options = {
-        center: new kakao.maps.LatLng(37.5607522667, 126.9855149899),
-        level: 4
+        center: new kakao.maps.LatLng(positions[7].latlng.Ma, positions[7].latlng.La),
+        level: 9
     };
 
     var map = new kakao.maps.Map(container, options);
+
+
     var markers = [];
     var linePath = [];
-    console.log(container);
-    console.log(options);
+    // 마커 이미지의 이미지 주소입니다
+    var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
     for (var a = 0; a < positions.length; a++) {
+    // 마커 이미지의 이미지 크기 입니다
+    var imageSize = new kakao.maps.Size(24, 35); 
+    
+    // 마커 이미지를 생성합니다    
+    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+
+
         var marker = new kakao.maps.Marker({
             map: map,
             position: positions[a].latlng,
             title: positions[a].title,
+            image : markerImage // 마커 이미지 
             
         });
         markers.push(marker);
@@ -133,15 +137,17 @@ function addMarkersToMap() {
 
 
 
+// 지도에 표시할 선을 생성합니다
 var polyline = new kakao.maps.Polyline({
-    path: linePath,
-    strokeWeight: 2,
-    strokeColor: '#FF0000',
-
+    path: linePath, // 선을 구성하는 좌표배열 입니다
+    strokeWeight: 5, // 선의 두께 입니다
+    strokeColor: '#FFAE00', // 선의 색깔입니다
+    strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+    strokeStyle: 'solid' // 선의 스타일입니다
 });
 
-//lines.push(polyline);
-polyline.setMap(map);
+// 지도에 선을 표시합니다 
+polyline.setMap(map); 
 
 
 

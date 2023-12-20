@@ -106,6 +106,8 @@ public class MemberDao {
 	
 	
 	
+	
+	
 	// 아이디 이메일 체크 !!
 	public int idEmailCheck(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.selectOne("memberMapper.idEmailCheck",m);
@@ -428,6 +430,7 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.chatList", myNo);
 	}
 	
+
 	//친구요청 수락 눌렀을 때
 	public Member pageFriend(SqlSessionTemplate sqlSession, int boardNo, Member m) {
 	    Map<String, Object> paramMap = new HashMap<>();
@@ -436,6 +439,63 @@ public class MemberDao {
 	    paramMap.put("boardNo", boardNo);
 	    System.out.println("paramMap: " + paramMap);
 		return sqlSession.selectOne("memberMapper.pageFriend", paramMap);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//박수현 회원정보 전체
+	public ArrayList<Member> memberInfor(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("memberMapper.memberInfor");
+
 	}
 	
 

@@ -4,14 +4,17 @@ import java.util.ArrayList;
 
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
+import com.kh.fin.board.model.vo.Recommend;
 import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
+import com.kh.fin.board.model.vo.Report;
+import com.kh.fin.board.model.vo.Star;
 import com.kh.fin.common.model.vo.PageInfo;
-
 import com.kh.fin.member.model.vo.Member;
 
 public interface BoardService {
-
+	//게시글 및 댓글 신고
+	int reportContents(Report r);
 	
 	
 	
@@ -496,8 +499,8 @@ public interface BoardService {
 	//후기 게시판 댓글 수정
 	int ajaxUpdateReviewReply(Reply r);
 	
-	
-	
+	// 후기 등록 게시판 별점주기 
+	int ajaxInsertReviewStars(Star s);
 	
 	
 	
@@ -506,6 +509,39 @@ public interface BoardService {
 
 
 	// 메인페이지 일정만들기 시작
-	//ArrayList<LocationInfomation> makePlan(HashMap<String,Object> map);
+//	ArrayList<LocationInfomation> makePlan(HashMap<String,Object> map);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//박수현 추천여행지 Main
+	ArrayList<Recommend> ajaxrecommendMain();
+	//박수현 추천여행지 더보기 클릭시 전체보기
+	ArrayList<Recommend> ajaxrecommendList();
+	//박수현 추천여행지 디테일 페이지 불러오기
+	ArrayList<Recommend> selectRecommendBoard(int recommendBoardNo);
 
 }

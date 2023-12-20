@@ -92,6 +92,18 @@ function activeButton(activeStep) {
 
 //******************************************step1**************************************************
 function drawScheduleMake(scheduleInfo) {
+
+    //맵 그리기
+    var container = document.getElementById('map'); 
+		var options = { 
+			center: new kakao.maps.LatLng( scheduleInfo.regionY, scheduleInfo.regionX), 
+			level: 4
+		};
+	
+		var map = new kakao.maps.Map(container, options);
+
+
+
     console.log(scheduleInfo)
     activeButton('step1');
     document.getElementById("side-modal").style.display = "none";
@@ -274,7 +286,9 @@ function drawScheduleMake(scheduleInfo) {
 
 //******************************************step2**************************************************
 function selectLocation(scheduleInfo) {
-    console.log(scheduleInfo)
+    //map 그리고 마커찍는 함수
+    attractionMap(scheduleInfo.regionX, scheduleInfo.regionY);
+
     activeButton('step2');
     document.getElementById("side-modal").style.display = "block";
     
@@ -360,6 +374,7 @@ function selectLocation(scheduleInfo) {
     selectWrap.appendChild(selectWrapUl);
 
     
+
     $.ajax({
         url: "attractionList.api",
         async:false,
@@ -460,6 +475,8 @@ function selectLocation(scheduleInfo) {
             console.log("recommendTrip.bo ajax 실패");
         }
     })
+
+
 
 
 

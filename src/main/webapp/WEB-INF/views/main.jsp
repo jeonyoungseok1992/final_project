@@ -6,9 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="/mapping/resources/css/main.css">
+
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <!-- Optional JavaScript -->
@@ -18,7 +20,14 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- jquery 3.7.1 -->
 
+
 <script src="/mapping/resources/js/main.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/mapping/resources/css/main.css">
+<script src="./resources/js/main.js"></script>
+
 </head>
 <body>
 
@@ -38,12 +47,12 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 
     <div id="section2">
         <div class="recommend-title">추천여행</div>
-        <div class="recommend-plus"><a href="recommendList.bo">더보기</a></div>
+        <div class="recommend-plus"><a href="recommendMore.bo">더보기</a></div>
         <div class="recommend-content">
-            
-            
-        </div>
+        	
+		</div>
     </div>
+    
     <div id="section3">
         <div class="lc-question">어디로 여행을 떠나시나요?</div>
         <div class="section3-search">
@@ -53,9 +62,6 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             </button>   
         </div>
         <div id="section3-lc">
-            <div class="section3-lc-inner" onclick="redirectToPlan()">
-                
-            </div>
         </div>
     </div>
 </body>
