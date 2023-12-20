@@ -397,7 +397,7 @@ public class MemberServiceImpl implements MemberService{
 	    // 4 params(to, from, type, text) are mandatory. must be filled
 	    HashMap<String, String> params = new HashMap<String, String>();
 	    params.put("to", userPhoneNumber);    // 수신전화번호
-	    params.put("from", "01025293109");    // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+	    params.put("from", userPhoneNumber);    // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
 	    params.put("type", "SMS");
 	    params.put("text", "[TEST] 인증번호는" + "["+randomNumber+"]" + "입니다."); // 문자 내용 입력
 	    params.put("app_version", "test app 1.2"); // application name and version
@@ -422,7 +422,7 @@ public class MemberServiceImpl implements MemberService{
 	
 	//마이페이지 나의 친구목록 눌렀을 때 친구리스트
 	@Override
-	public ArrayList friendList(Member m) {
+	public ArrayList<Member> friendList(Member m) {
 		
 		return memberDao.friendList(sqlSession, m);
 	}
@@ -465,6 +465,34 @@ public class MemberServiceImpl implements MemberService{
 
 	}
 	
+	//친구요청 수락 눌렀을 때
+	@Override
+	public int acceptFriend(Member m, int friendNo) {
+		return memberDao.acceptFriend(sqlSession, m, friendNo);
+
+	}
+	
+	//친구요청 수락 눌렀을 때 friend insert
+	@Override
+	public int insertFriend(Member m, int friendNo) {
+		return memberDao.insertFriend(sqlSession, m, friendNo);
+
+	}
+	
+	//친구요청 수락 눌렀을 때 friend insert
+	@Override
+	public int reverseInsertFriend(Member m, int friendNo) {
+		return memberDao.reverseInsertFriend(sqlSession, m, friendNo);
+
+	}
+	
+	//친구요청 수 friend LOG insert
+	@Override
+	public int requestFriend(Member m, int friendNo) {
+		return memberDao.requestFriend(sqlSession, m, friendNo);
+
+	}
+	
 	//채팅  insert
 	@Override
 	public int insertChat(MsgVo vo) {
@@ -485,6 +513,13 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.chatList(sqlSession, myNo);
 	}
 
+
+
+	@Override
+	public Member pageFriend(int boardNo, Member m) {
+		
+		return memberDao.pageFriend(sqlSession, boardNo, m);
+	}
 	
 	
 	
@@ -525,6 +560,7 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public ArrayList<Member> memberInfor() {
 		return memberDao.memberInfor(sqlSession);
+
 	}
 
 }

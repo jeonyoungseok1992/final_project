@@ -1,6 +1,8 @@
 const bsValue = {
     regionData: [], /* 페이지 로드시 지역정보 가져온거 담겨있는곳*/
 }
+let mX;
+let mY;
 
 function init(regionList){
     bsValue.regionData = JSON.parse(regionList);
@@ -90,6 +92,18 @@ function activeButton(activeStep) {
 
 //******************************************step1**************************************************
 function drawScheduleMake(scheduleInfo) {
+
+    //맵 그리기
+    var container = document.getElementById('map'); 
+		var options = { 
+			center: new kakao.maps.LatLng( scheduleInfo.regionY, scheduleInfo.regionX), 
+			level: 4
+		};
+	
+		var map = new kakao.maps.Map(container, options);
+
+
+
     console.log(scheduleInfo)
     activeButton('step1');
     document.getElementById("side-modal").style.display = "none";
@@ -272,7 +286,9 @@ function drawScheduleMake(scheduleInfo) {
 
 //******************************************step2**************************************************
 function selectLocation(scheduleInfo) {
-    console.log(scheduleInfo)
+    //map 그리고 마커찍는 함수
+    attractionMap(scheduleInfo.regionX, scheduleInfo.regionY);
+
     activeButton('step2');
     document.getElementById("side-modal").style.display = "block";
     
@@ -358,24 +374,25 @@ function selectLocation(scheduleInfo) {
     selectWrap.appendChild(selectWrapUl);
 
     
+
     $.ajax({
         url: "attractionList.api",
         async:false,
         success: function(data){
             console.log(data);
             
-                 let mX;
-                 let mY;
+
                 let attLoca ;
                 let addTitle; 
 
                         for(att of data){
                             attLoca   = att.firstimage;
                             addTitle   = att.title;
-                            mX = att.mapx
-                            mY = att.mapy;
-                            addMarker(mY, mX);
+
+                            
                                 const selectCard = selectWrapLiUnit({
+                                    mX : att.mapx,
+                                    mY : att.mapy,
                                     src: attLoca, 
                                     title: addTitle,
                                     category: "명소",
@@ -458,6 +475,8 @@ function selectLocation(scheduleInfo) {
             console.log("recommendTrip.bo ajax 실패");
         }
     })
+
+
 
 
 
@@ -622,7 +641,7 @@ function sideModalFunk(scheduleInfo){
 
             sideModalFunk(scheduleInfo);   
     
-            
+            addMarker(mY, mX);
         }
      });
  

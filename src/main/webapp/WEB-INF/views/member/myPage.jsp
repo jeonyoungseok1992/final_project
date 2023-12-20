@@ -24,12 +24,11 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 </head>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
-<body>
+<body onload="init('${loginUser.memberNo}', '${frMemberList}')">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 
 		<!-- 초록색 영역부분-->
 		<div class="color-container"></div>
-
 		<!-- 프로필 정보쪽-->
 		<div class="profile-container">
 			<c:choose>

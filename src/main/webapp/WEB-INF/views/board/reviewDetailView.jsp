@@ -32,7 +32,7 @@
 
     
     <script src="./resources/js/board-api.js"></script>
-    <script src="./resources/js/reviewDetailView.js"></script>
+    <script src="./resources/js/common.js"></script>
 
 </head>
 <body onload="selectReply()">
@@ -141,36 +141,38 @@
                             </tr>
 
                             <tr>
-                                <!--프로필 수정-->
                                 <th id="profile-modify">
 
-                                        <c:choose>
-                                            <c:when test="${!empty list[0].memberProfileImg}">
-                                                <img src="${list[0].memberProfileImg}" 
-                                                type="button" class="dropdown-toggle" 
-                                                data-bs-toggle="dropdown" id="profileClickBtn">
-                                                </img>	                               
-                                            </c:when>
-                                            <c:otherwise>
-                                                <img src="resources/images/profile.png" type="button" class="dropdown-toggle" 
-                                                data-bs-toggle="dropdown" id="profileClickBtn">
-                                            </c:otherwise>
-                                        </c:choose>
-                                        <div>
-                                            <span id="board-writer" style="margin-left: 10px;">${list[0].boardWriter}</span>
-                                            <ul class="dropdown-menu hoho" style="text-align: center;" align="center">
-                                                <li><a class="dropdown-item" href="#">프로필</a></li>
-                                                <li><a class="dropdown-item" href="#">친구신청</a></li>
-                                                <li><a class="dropdown-item" href="#">대화화기</a></li>
-                                            </ul>
-                                        </div>
-                                            
-                                      
-                                         
-                                </th>
+                                    <c:choose>
+                                        <c:when test="${!empty list[0].memberProfileImg}">
+                                            <img src="${list[0].memberProfileImg}" 
+                                            type="button" class="dropdown-toggle" 
+                                            data-bs-toggle="dropdown" id="profileClickBtn">
+                                            </img>	                               
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img src="resources/images/profile.png" type="button" class="dropdown-toggle" 
+                                            data-bs-toggle="dropdown" id="profileClickBtn">
+                                        </c:otherwise>
+                                     </c:choose>
+                                    <div>   
+                                        <span id="board-writer" style="margin-left: 10px;">${list[0].boardWriter}</span>
 
-                                
-
+                                        <ul class="dropdown-menu hoho" style="text-align: center;" align="center">
+                                            <c:choose>
+                                                <c:when test="${list[0].memberNo != loginUser.memberNo}">
+                                                    <c:if test="${friend.friendMemberNo != list[0].memberNo}">
+                                                        <li><div id="drop-fr" class="dropdown-item" onclick="requestFriend(${list[0].memberNo})">친구신청</div></li>  
+                                                    </c:if>                                
+                                                    <li><a class="dropdown-item" href="chat.me?youNo=${list[0].memberNo}">대화화기</a></li>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <li><a class="dropdown-item" href="mypage.me">프로필</a></li>
+                                                </c:otherwise>
+                                             </c:choose>
+                                        </ul>
+                                    </div>    
+                            </th>
                                 <tr>
                                     <th><span class="board-createDate">${list[0].boardModifyDate}</span></th>
                                 </tr>
@@ -664,6 +666,8 @@
                                 
                             });
                             }
+                  </script>  
+		<script>
                             function reportTmi(){
                                 var radioVal = $('input[name="report"]:checked').val();
                                 if(radioVal === '기타'){

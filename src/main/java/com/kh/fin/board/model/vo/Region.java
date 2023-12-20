@@ -22,4 +22,5 @@ public class Region {
 	private String regionX;
 	private String regionY;
 	
+	
 }

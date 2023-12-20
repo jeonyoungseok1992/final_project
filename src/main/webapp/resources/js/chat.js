@@ -243,7 +243,7 @@ $(document).ready(function () {
                             <h5>${c.memberNickName} <span class="chat_date">${c.time}</span></h5>
                             <p>${c.message}</p>
                         </div>    
-                        <div class="chat-count">2</div> 
+                        <div class="chat-count">new</div> 
                     </div>
                     `
                 

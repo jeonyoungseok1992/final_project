@@ -320,7 +320,7 @@ public interface MemberService {
 	public Member phoneIdCheck(Member m);
 	
 	//마이페이지 나의 친구목록 눌렀을 때 친구리스트
-	public ArrayList friendList(Member m);
+	public ArrayList<Member> friendList(Member m);
 	
 	//마이페이지 나의 친구요청 눌렀을 때 친구리스트
 	public ArrayList friendRequest(Member m);
@@ -340,6 +340,24 @@ public interface MemberService {
 	//친구요청 거절 눌렀을 때
 	int rejectFriend(Member m, int friendNo);
 	
+	//친구요청 수락 눌렀을 때
+	int acceptFriend(Member m, int friendNo);
+	
+	//친구요청 수락 눌렀을 때 friend insert
+	int insertFriend(Member m, int friendNo);
+	
+	//친구요청 수락 눌렀을 때 friend insert
+	int reverseInsertFriend(Member m, int friendNo);
+	
+	//친구요청 수 friend LOG insert
+	int requestFriend(Member m, int friendNo);
+	
+	//디테일페이지에서 친구요청list
+	Member pageFriend(int boardNo, Member m);
+	
+	
+	
+	
 	//채팅  insert
 	int insertChat(MsgVo vo);
 	
@@ -352,5 +370,6 @@ public interface MemberService {
 	
 	//박수현 회원정보 전체
 	ArrayList<Member> memberInfor();
+
 	
 }

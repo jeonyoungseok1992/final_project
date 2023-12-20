@@ -383,6 +383,17 @@ public interface BoardService {
 	
 	
 	
+	////메인페이지 키워드 검색 게시글 총 갯수 가져오기
+	int regionListCount();
+	
+	//메인페이지 키워드 검색
+	ArrayList<Region> regionSearch(PageInfo pi, String keyword);
+	
+	
+	
+	
+	
+	
 	
 	
 	
