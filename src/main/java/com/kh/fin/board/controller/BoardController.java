@@ -1145,6 +1145,13 @@ public class BoardController {
 				return "errorPage/500page";
 			}
 		}
+		//박수현 신고테이블 전체
+//		@ResponseBody
+//		@RequestMapping(value="reportInfor.bo", produces="application/json; charset=UTF-8")
+//		public String memberInfor() {
+//			System.out.println(boardService.reportInfor());
+//		    return new Gson().toJson(boardService.reportInfor());
+//		}
 	
 
 }

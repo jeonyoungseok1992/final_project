@@ -67,6 +67,11 @@
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="chat.me">1:1 채팅</a></li>
 							<li><a class="dropdown-item" href="mypage.me">마이페이지</a></li>
+							<c:choose>
+                                <c:when test ="${loginUser.memberGrade eq 2}">
+									<li><a class="dropdown-item" href="#none">관리자 페이지</a></li>
+								</c:when>
+							</c:choose>
 							<li><a class="dropdown-item" href="logout.me">로그아웃</a></li>
 						</ul>
 					</div>

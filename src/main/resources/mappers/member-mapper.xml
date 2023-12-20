@@ -47,6 +47,7 @@
 		and MEMBER_STATUS = 'Y'
 	</select>
 	
+	<!-- 박수현 회원 전체 -->
 	<select id="memberInfor" resultMap="memberResult">
 		SELECT   MEMBER_NO
 	            ,MEMBER_ID

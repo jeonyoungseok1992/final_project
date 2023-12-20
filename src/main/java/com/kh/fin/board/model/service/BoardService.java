@@ -532,5 +532,7 @@ public interface BoardService {
 	ArrayList<Recommend> ajaxrecommendList();
 	//박수현 추천여행지 디테일 페이지 불러오기
 	ArrayList<Recommend> selectRecommendBoard(int recommendBoardNo);
+	//박수현 신고테이블 전체
+//	ArrayList<Report> reportInfor();
 
 }

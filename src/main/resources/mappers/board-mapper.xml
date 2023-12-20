@@ -1130,5 +1130,17 @@
 		FROM RECOMMEND_BOARD
 		WHERE RECOMMEND_BOARD_NO = #{recommendBoardNo}
 	</select>
+	<!--박수현 신고테이블 전체 -->
+	<!--<select id="reportInfor" resultMap="memberResult">
+		SELECT   REPORT_NO
+	            ,MEMBER_NO
+	            ,BOARD_NO
+	            ,REPLY_NO
+	            ,REPORT_DATE
+	            ,REPORT_REASON
+		FROM REPORT
+	</select>-->
+	
+
 
 </mapper>
