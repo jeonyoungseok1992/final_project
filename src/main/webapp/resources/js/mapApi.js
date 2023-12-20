@@ -72,12 +72,11 @@ var positions = [];
 
 
 $(document).ready(function () {
-
+    
+    //전역변수 positions에 매개변수로 가져온 배열 반복문 돌리면서 position에 title, latlng넣어주는 메서드
     function attractionMap(attPosition) {
         console.log(attPosition)
           
-
-
                 for (let i in attPosition) {
                     let item = attPosition[i];
 
@@ -91,12 +90,12 @@ $(document).ready(function () {
 
                 // 마커 추가는 AJAX 요청이 완료된 후에 실행되도록 이동
 
-                //addMarkersToMap();
+                // addMarkersToMap();
             }
         });
     
 
-
+//attractionMap에서 넣어준 전역변수 positions를 이용해서 지도에 마크와 타이틀 표시해주는 메서드
 function addMarkersToMap() {
 
     var container = document.getElementById('map');
@@ -119,7 +118,6 @@ function addMarkersToMap() {
     // 마커 이미지를 생성합니다    
     var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
 
-
         var marker = new kakao.maps.Marker({
             map: map,
             position: positions[a].latlng,
@@ -130,11 +128,6 @@ function addMarkersToMap() {
         markers.push(marker);
         linePath.push(positions[a].latlng);
     }
-
-
-
-
-
 
 // 지도에 표시할 선을 생성합니다
 var polyline = new kakao.maps.Polyline({
