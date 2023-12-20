@@ -631,4 +631,8 @@ public class BoardDao {
 	public ArrayList<Recommend> selectRecommendBoard(SqlSessionTemplate sqlSession, int selectRecommendBoard) {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectRecommendBoard", selectRecommendBoard);
 	}
+	//박수현 신고테이블 전체
+//	public ArrayList<Report> reportInfor(SqlSessionTemplate sqlSession) {
+//		return (ArrayList)sqlSession.selectList("boardMapper.reportInfor");
+//	}
 }

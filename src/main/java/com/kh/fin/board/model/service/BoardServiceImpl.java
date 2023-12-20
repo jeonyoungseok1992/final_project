@@ -2,23 +2,19 @@ package com.kh.fin.board.model.service;
 
 import java.util.ArrayList;
 
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import com.kh.fin.board.model.dao.BoardDao;
 import com.kh.fin.board.model.vo.Board;
+import com.kh.fin.board.model.vo.Plan;
+import com.kh.fin.board.model.vo.Recommend;
+import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.board.model.vo.Report;
 import com.kh.fin.board.model.vo.Star;
 import com.kh.fin.common.model.vo.PageInfo;
-
-
-import com.kh.fin.board.model.vo.Plan;
-import com.kh.fin.board.model.vo.Recommend;
-import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.member.model.vo.Member;
 
 @Service
@@ -1628,6 +1624,11 @@ public class BoardServiceImpl implements BoardService{
 	public ArrayList<Recommend> selectRecommendBoard(int selectRecommendBoard) {
 		return boardDao.selectRecommendBoard(sqlSession, selectRecommendBoard);
 	}
+	//박수현 신고테이블 전체
+//	@Override
+//	public ArrayList<Report> reportInfor() {
+//		return boardDao.reportInfor(sqlSession);
+//	}
 
 
 }
