@@ -72,7 +72,6 @@ var positions = [];
 
 
 $(document).ready(function () {
-    initMap();
 
     function attractionMap(attPosition) {
         console.log(attPosition)
