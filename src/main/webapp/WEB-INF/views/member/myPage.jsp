@@ -191,7 +191,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 						<div class="button-area">
 							<div>
 							<button class="scheduleTap2" onclick="fdList(${loginUser.memberNo})">친구 목록</button>
-							<button class="scheduleTap2" style="margin-left: 15px;" onclick="fdRequest(${loginUser.memberNo}, ${friendList})">친구 요청 목록</button>
+							<button class="scheduleTap2" style="margin-left: 15px;" onclick="fdRequest(${loginUser.memberNo})">친구 요청 목록</button>
 							</div>
 
 							<div class="dropdown">
