@@ -667,9 +667,11 @@
                             });
                             }
 
+
                   </script>  
 
-                        <script>
+		<script>
+
                             function reportTmi(){
                                 var radioVal = $('input[name="report"]:checked').val();
                                 if(radioVal === '기타'){
@@ -697,7 +699,6 @@
 
                        
                       </script>
-
         </body>
 
         </html>
