@@ -1713,7 +1713,7 @@ function attractionMap(index, placeList) {
             latlng: new kakao.maps.LatLng(place.mapY, place.mapX)
         })
     }
-
+    
     addMarkersToMap(positionList);
 }
 
@@ -1741,13 +1741,16 @@ function addMarkersToMap(positions) {
             map: map,
             position: positions[a].latlng,
             title: positions[a].title,
-            image: markerImage // 마커 이미지 
-
+            image: markerImage, // 마커 이미지 
+            
+            
         });
-
+        map.setCenter(positions[a].latlng);
         marker.setMap(map);
+        //removeMarker2(markers);
         //markers = [];
         markers.push(marker);
+       
         linePath.push(positions[a].latlng);
     }
 
@@ -1768,3 +1771,9 @@ function addMarkersToMap(positions) {
 }
 
 
+function removeMarker2() {
+    for (var i = 0; i < markers.length; i++) {
+        //markers[i].setMap(null);
+    }
+    //markers = [];
+}
