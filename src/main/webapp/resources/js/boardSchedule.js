@@ -4,13 +4,17 @@ const bsValue = {
     motelData: []
 }
 
-function init(regionList){
+var container;
+var options;
+var map;
+
+function init(regionList) {
     bsValue.regionData = JSON.parse(regionList);
     drawScheduleMake({
         startDate: new Date(),
         endDate: null,
-        placeInfo : [],
-        lodgingInfo : [],
+        placeInfo: [],
+        lodgingInfo: [],
         transportation: "대중교통",
         regionName: bsValue.regionData.regionName,
         regionX: bsValue.regionData.regionX,
@@ -20,7 +24,7 @@ function init(regionList){
     });
 
 
-};  
+};
 
 function getDragAfterElement(container, x) {
     const tdraggable = [
@@ -31,7 +35,7 @@ function getDragAfterElement(container, x) {
         (closest, child) => {
             const box = child.getBoundingClientRect();
             const offset = x - box.left - box.width / 2;
-      
+
             if (offset < 0 && offset > closest.offset) {
                 return { offset: offset, element: child };
             } else {
@@ -42,31 +46,31 @@ function getDragAfterElement(container, x) {
     ).element;
 }
 
-function checkPlaceAndLodgingInfo(type, scheduleInfo){
+function checkPlaceAndLodgingInfo(type, scheduleInfo) {
     const start = scheduleInfo.startDate;
     const end = scheduleInfo.endDate;
     let dateList = {};
-    
+
     for (let i = 0; i <= dateToDay(start, end); i++) {
         const tmpDate = new Date(start);
         const nowDate = new Date(tmpDate.setDate(tmpDate.getDate() + i));
 
         dateList[dateToYYYYMMDD(nowDate)] = true;
     }
-    
-    for (let unit of scheduleInfo[type]){
+
+    for (let unit of scheduleInfo[type]) {
         dateList[dateToYYYYMMDD(unit.date)] = false;
     }
-    
-    for (let date in dateList){
-        if(dateList[date])
+
+    for (let date in dateList) {
+        if (dateList[date])
             return true;
     }
 
     return false;
 }
 
-function setStepBtn(btnsInfo){
+function setStepBtn(btnsInfo) {
 
     const prevBtn = document.getElementById("prev-btn");
     const nextBtn = document.getElementById("next-btn");
@@ -97,17 +101,17 @@ function activeButton(activeStep) {
 function drawScheduleMake(scheduleInfo) {
 
     //맵 그리기
-    var container = document.getElementById('map'); 
-    var options = { 
-        center: new kakao.maps.LatLng( scheduleInfo.regionY, scheduleInfo.regionX), 
-        level: 4
+    container = document.getElementById('map');
+    options = {
+        center: new kakao.maps.LatLng(scheduleInfo.regionY, scheduleInfo.regionX),
+        level: 3
     };
 
-    var map = new kakao.maps.Map(container, options);
+    map = new kakao.maps.Map(container, options);
+    console.log(map);
 
 
 
-   
     activeButton('step1');
     document.getElementById("side-modal").style.display = "none";
 
@@ -126,15 +130,15 @@ function drawScheduleMake(scheduleInfo) {
                             <th>${dateToMMDD(nowDate)}</th>
                             <td>${getKoreanDayOfWeek(nowDate)}</td>`;
 
-                str +=  i === 0 ? `<td><input id="startTime" type="time" value="10:00"></td><td></td></tr>` : `<td></td><td><input id="endTime" type="time" value="22:00"></td></tr>`;
-                        
+                str += i === 0 ? `<td><input id="startTime" type="time" value="10:00"></td><td></td></tr>` : `<td></td><td><input id="endTime" type="time" value="22:00"></td></tr>`;
+
                 fixScheduleTB.innerHTML += str;
             }
         }
     }
 
     //일정 시작시간과 종료시간이 변했을 때 실행하는 함수
-    function updateEndDate(){
+    function updateEndDate() {
         const startInput = document.getElementById('startDate');
         const endInput = document.getElementById('endDate');
 
@@ -147,19 +151,19 @@ function drawScheduleMake(scheduleInfo) {
         }
 
         if (endDate) {
-            startInput.max = toStringDate(endDate);  
-            scheduleInfo.endDate = endDate;     
+            startInput.max = toStringDate(endDate);
+            scheduleInfo.endDate = endDate;
         }
-        
-        if(startDate && endDate) {
+
+        if (startDate && endDate) {
             drawFixSchedule(startDate, endDate);
-        } 
+        }
     }
 
     const contentZone = document.getElementById("content-zone");
     $(contentZone).empty();
 
-  
+
     const title = document.createElement("h3");
     title.innerText = bsValue.regionData.regionName;
     contentZone.appendChild(title);
@@ -188,18 +192,18 @@ function drawScheduleMake(scheduleInfo) {
     const scheduleZone = document.createElement('div');
     scheduleZone.className = "time-details";
     contentZone.appendChild(scheduleZone);
-    
+
     const scheduleZoneToggle = document.createElement('p');
     scheduleZoneToggle.className = "time";
     scheduleZoneToggle.innerHTML = "여행시간 상세설정 <span class='color'>총 24시간 00분</span>";
     scheduleZoneToggle.isToggle = true;
     scheduleZone.appendChild(scheduleZoneToggle);
-    scheduleZoneToggle.onclick = function(){
+    scheduleZoneToggle.onclick = function () {
         scheduleZoneToggle.isToggle = !scheduleZoneToggle.isToggle;
         scheduleZone.classList.toggle("toggle", !scheduleZoneToggle.isToggle);
     }
 
-    const ToggleArrow  = document.createElement('span');
+    const ToggleArrow = document.createElement('span');
     ToggleArrow.className = "arrow";
     ToggleArrow.innerHTML = "<i class='bi bi-chevron-down'></i>";
     scheduleZoneToggle.appendChild(ToggleArrow);
@@ -230,13 +234,13 @@ function drawScheduleMake(scheduleInfo) {
                                 `;
     scheduleZone.appendChild(scheduleZoneTable);
     //시간 설정 완료 버튼
-    const TimeSettingBtn  = document.createElement('button');
+    const TimeSettingBtn = document.createElement('button');
     TimeSettingBtn.className = "time-set-btn";
     TimeSettingBtn.innerText = "시간 설정 완료";
     scheduleZone.appendChild(TimeSettingBtn);
 
-    function nextStep(){
-        if (!scheduleInfo.startDate || !scheduleInfo.endDate){
+    function nextStep() {
+        if (!scheduleInfo.startDate || !scheduleInfo.endDate) {
             alert("일정을 선택해 주세요.");
             return;
         }
@@ -247,14 +251,14 @@ function drawScheduleMake(scheduleInfo) {
         startData.setHours(document.querySelector("#startTime").value.split(":")[0]);
         startData.setMinutes(document.querySelector("#startTime").value.split(":")[1]);
         scheduleInfo.startDate = new Date(startData);
-      
+
 
         //endTime
         let endData = new Date(scheduleInfo.endDate);
         endData.setHours(document.querySelector("#endTime").value.split(":")[0]);
         endData.setMinutes(document.querySelector("#endTime").value.split(":")[1]);
         scheduleInfo.endDate = new Date(endData);
-      
+
         selectLocation(scheduleInfo);
     }
     TimeSettingBtn.onclick = nextStep;
@@ -274,13 +278,13 @@ function drawScheduleMake(scheduleInfo) {
 
         updateEndDate();
     }
-    
+
     setStepBtn({
-        prev:{
+        prev: {
             display: "none"
         },
         //다음
-        next:{
+        next: {
             clickEvent: nextStep
         }
     })
@@ -289,37 +293,39 @@ function drawScheduleMake(scheduleInfo) {
 
     $.ajax({
         url: "attractionList.api",
-        data : {
-            regionNo : bsValue.regionData.regionNo 
+        data: {
+            regionNo: bsValue.regionData.regionNo
         },
-        success: function(data){
-            
-                //  let mX;
-                //  let mY;
-                let attLoca ;
-                let addTitle; 
+        success: function (data) {
 
-                        for(att of data){
-                            attLoca   = att.firstimage;
-                            addTitle   = att.title;
-                            // mX = att.mapx
-                            // mY = att.mapy;
-                            // addMarker(mY, mX);
-                            let selectCard = selectWrapLiUnit({
-                                    src: attLoca, 
-                                    title: addTitle,
-                                    category: "명소",
-                                    className: "draggable",
-                                    id: generateShortUUID()            
-                                });
-                                bsValue.attData.push(selectCard);
-                                
-                    //selectWrapUl.appendChild(selectCard);
-                    }
+            //  let mX;
+            //  let mY;
+            let attLoca;
+            let addTitle;
+
+            for (att of data) {
+                attLoca = att.firstimage;
+                addTitle = att.title;
+                mX = att.mapx
+                mY = att.mapy;
+                // addMarker(mY, mX);
+                let selectCard = selectWrapLiUnit({
+                    src: attLoca,
+                    title: addTitle,
+                    category: "명소",
+                    className: "draggable",
+                    mapX: mX,
+                    mapY: mY,
+                    id: generateShortUUID()
+                });
+                bsValue.attData.push(selectCard);
+
+                //selectWrapUl.appendChild(selectCard);
+            }
 
 
         },
-        error: function(){
+        error: function () {
             console.log("recommendTrip.bo ajax 실패");
         }
     })
@@ -328,65 +334,65 @@ function drawScheduleMake(scheduleInfo) {
 
     $.ajax({
         url: "attFoodList.api",
-        data : {
-            regionNo : bsValue.regionData.regionNo 
+        data: {
+            regionNo: bsValue.regionData.regionNo
         },
-        success: function(data){
-         
-            
+        success: function (data) {
 
-                let attLoca ;
-                let addTitle; 
 
-                        for(att of data){
-                            attLoca   = att.firstimage;
-                            addTitle   = att.title;
-                            let selectCard = selectWrapLiUnit({
-                                    src: attLoca, 
-                                    title: addTitle,
-                                    category: "식당",
-                                    className: "draggable",
-                                    id: generateShortUUID()            
-                                });
-                                bsValue.attData.push(selectCard);
-                    //selectWrapUl.appendChild(selectCard);
-                    }
-        
+
+            let attLoca;
+            let addTitle;
+
+            for (att of data) {
+                attLoca = att.firstimage;
+                addTitle = att.title;
+                let selectCard = selectWrapLiUnit({
+                    src: attLoca,
+                    title: addTitle,
+                    category: "식당",
+                    className: "draggable",
+                    id: generateShortUUID()
+                });
+                bsValue.attData.push(selectCard);
+                //selectWrapUl.appendChild(selectCard);
+            }
+
         },
-        error: function(){
+        error: function () {
             console.log("recommendTrip.bo ajax 실패");
         }
     })
 
     $.ajax({
         url: "attEventList.api",
-        data : {
-            regionNo : bsValue.regionData.regionNo 
+        data: {
+            regionNo: bsValue.regionData.regionNo
         },
-        success: function(data){
-        
-            
+        success: function (data) {
 
-                let attLoca ;
-                let addTitle; 
 
-                        for(att of data){
 
-                            attLoca   = att.firstimage;
-                            addTitle   = att.title;
-                            let selectCard = selectWrapLiUnit({
-                                    src: attLoca, 
-                                    title: addTitle,
-                                    category: "행사",
-                                    className: "draggable",
-                                    id: generateShortUUID()            
-                                });
-                                bsValue.attData.push(selectCard);
-                    //selectWrapUl.appendChild(selectCard);
-                    }
-        
+            let attLoca;
+            let addTitle;
+
+            for (att of data) {
+
+                attLoca = att.firstimage;
+                addTitle = att.title;
+                let selectCard = selectWrapLiUnit({
+                    src: attLoca,
+                    title: addTitle,
+                    category: "행사",
+                    className: "draggable",
+                    id: generateShortUUID()
+                });
+                bsValue.attData.push(selectCard);
+                //selectWrapUl.appendChild(selectCard);
+            }
+
         },
-        error: function(){
+        error: function () {
             console.log("recommendTrip.bo ajax 실패");
         }
     })
@@ -395,33 +401,33 @@ function drawScheduleMake(scheduleInfo) {
 
     $.ajax({
         url: "attMotelList.api",
-        data : {
-            regionNo : bsValue.regionData.regionNo 
+        data: {
+            regionNo: bsValue.regionData.regionNo
         },
-        success: function(data){
+        success: function (data) {
 
-            
 
-                let attLoca ;
-                let addTitle; 
 
-                        for(att of data){
+            let attLoca;
+            let addTitle;
 
-                            attLoca   = att.firstimage;
-                            addTitle   = att.title;
-                            let selectCard = selectWrapLiUnit({
-                                    src: attLoca, 
-                                    title: addTitle,
-                                    category: "추천 숙소",
-                                    className: "draggable",
-                                    id: generateShortUUID()            
-                                });
-                                bsValue.motelData.push(selectCard);
-                    //selectWrapUl.appendChild(selectCard);
-                    }
-        
+            for (att of data) {
+
+                attLoca = att.firstimage;
+                addTitle = att.title;
+                let selectCard = selectWrapLiUnit({
+                    src: attLoca,
+                    title: addTitle,
+                    category: "추천 숙소",
+                    className: "draggable",
+                    id: generateShortUUID()
+                });
+                bsValue.motelData.push(selectCard);
+                //selectWrapUl.appendChild(selectCard);
+            }
+
         },
-        error: function(){
+        error: function () {
             console.log("recommendTrip.bo ajax 실패");
         }
     })
@@ -439,7 +445,7 @@ function drawScheduleMake(scheduleInfo) {
 function selectLocation(scheduleInfo) {
     activeButton('step2');
     document.getElementById("side-modal").style.display = "block";
-    
+
 
     const contentZone = document.getElementById("content-zone");
     $(contentZone).empty();
@@ -480,7 +486,7 @@ function selectLocation(scheduleInfo) {
     tabContent1.id = 'tabContent1';
     tabContent1.className = 'tab-content2 active';
     locationContentWrap.appendChild(tabContent1);
-    
+
     const selectLocation = getSearchInputUnit({
         inputPlaceholder: "장소명을 입력하세요.",
     });
@@ -490,26 +496,26 @@ function selectLocation(scheduleInfo) {
     category.className = 'category';
     tabContent1.appendChild(category);
     const recommendedPlace = toggleButtonUnit({
-        className:"toggle",
-        innerText:"추천 장소",
+        className: "toggle",
+        innerText: "추천 장소",
     });
     recommendedPlace.setAttribute('data-filter', 'all');
     category.appendChild(recommendedPlace);
 
     const sights = toggleButtonUnit({
-        innerText:"명소", //명소
+        innerText: "명소", //명소
     });
     sights.setAttribute('data-filter', '명소');
     category.appendChild(sights);
 
     const restaurant = toggleButtonUnit({
-        innerText:"식당", //식당
+        innerText: "식당", //식당
     });
     restaurant.setAttribute('data-filter', '식당');
     category.appendChild(restaurant);
 
     const cafe = toggleButtonUnit({
-        innerText:"행사", //행사
+        innerText: "행사", //행사
     });
     cafe.setAttribute('data-filter', '행사');
     category.appendChild(cafe);
@@ -521,11 +527,11 @@ function selectLocation(scheduleInfo) {
     const selectWrapUl = document.createElement('ul');
     selectWrap.appendChild(selectWrapUl);
 
-    
 
 
-    
-    for(item of bsValue.attData){
+
+
+    for (item of bsValue.attData) {
         selectWrapUl.appendChild(item);
     }
 
@@ -542,7 +548,7 @@ function selectLocation(scheduleInfo) {
 
     categoryfilter.addEventListener('click', (ev) => {
         const filter = ev.target.dataset.filter || ev.target.parentNode.dataset.filter;
-        
+
 
 
 
@@ -561,7 +567,7 @@ function selectLocation(scheduleInfo) {
 
         saveWraps.forEach((saveWrap) => {
             const categoryValue = saveWrap.querySelector('span').dataset.filter;
-     
+
             if (filter === 'all' || filter === categoryValue) {
                 saveWrap.classList.remove('invisible');
             } else {
@@ -600,262 +606,262 @@ function selectLocation(scheduleInfo) {
         btnToggle.classList.remove('clicked');
         toggleTabContent();
 
-         // 마커를 담을 배열입니다
-         var markers = [];
-         const ulEliment = document.createElement('ul');
-         ulEliment.id = 'placesList';
-         const divEliment = document.createElement('div');
-         divEliment.id = 'pagination';
- 
-         var mapContainer = document.querySelector('.map-area'), // 지도를 표시할 div 
-             mapOption = {
-                 center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-                 level: 3 // 지도의 확대 레벨
-             };
-         tabContent2.appendChild(ulEliment);
-         tabContent2.appendChild(divEliment);
-         // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
-         var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
- 
-         // 지도를 생성합니다    
-         var map = new kakao.maps.Map(mapContainer, mapOption);
- 
-         // 장소 검색 객체를 생성합니다
-         var ps = new kakao.maps.services.Places();
-         var keywordInput = document.querySelector('#tabContent2 .form-outline .form-control');
-         var keyword = '';
-         var searchBtnn = document.querySelector('#tabContent2 .form-outline .btn.btn-primary');
-         keywordInput.addEventListener('keyup', (ev) => {
-             if (ev.key === "Enter") {
-                 keyword = keywordInput.value;
-                 // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-                 ps.keywordSearch(keyword, placesSearchCB);
-             }
- 
-         })
-         searchBtnn.addEventListener('click', (ev) => {
-             //'장소명을 입력하세요 인풋창옆에 돋보기모양 클릭하는 순간 검색 ajax'
-             if (ev.type === "click") {
-                 keyword = keywordInput.value;
-                 // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-                 ps.keywordSearch(keyword, placesSearchCB);
-             }
-         })
- 
-         // 키워드 검색 완료 시 호출되는 콜백함수 입니다
-         function placesSearchCB(data, status, pagination) {
-             if (status === kakao.maps.services.Status.OK) {
- 
-                 // 정상적으로 검색이 완료됐으면
-                 // 검색 목록과 마커를 표출합니다
-                 displayPlaces(data);
-                 // 페이지 번호를 표출합니다
-                 displayPagination(pagination);
- 
-             } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
- 
-                 alert('검색 결과가 존재하지 않습니다.');
-                 return;
- 
-             } else if (status === kakao.maps.services.Status.ERROR) {
- 
-                 alert('검색 결과 중 오류가 발생했습니다.');
-                 return;
- 
-             }
-         }
- 
-         // 검색 결과 목록과 마커를 표출하는 함수입니다
-         function displayPlaces(places) {
- 
-             var listEl = document.getElementById('placesList'),
-                 menuEl = document.getElementById('menu_wrap'),
-                 fragment = document.createDocumentFragment(),
-                 bounds = new kakao.maps.LatLngBounds(),
-                 listStr = '';
- 
-             // 검색 결과 목록에 추가된 항목들을 제거합니다
-             removeAllChildNods(listEl);
- 
-             // 지도에 표시되고 있는 마커를 제거합니다
-             removeMarker();
- 
-             for (var i = 0; i < places.length; i++) {
- 
-                 // 마커를 생성하고 지도에 표시합니다
-                 var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
-                     marker = addMarker(placePosition, i),
-                     itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
- 
-                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-                 // LatLngBounds 객체에 좌표를 추가합니다
-                 bounds.extend(placePosition);
- 
-                 // 마커와 검색결과 항목에 mouseover 했을때
-                 // 해당 장소에 인포윈도우에 장소명을 표시합니다
-                 // mouseout 했을 때는 인포윈도우를 닫습니다
-                 (function (marker, title) {
-                     kakao.maps.event.addListener(marker, 'mouseover', function () {
-                         displayInfowindow(marker, title);
-                     });
- 
-                     kakao.maps.event.addListener(marker, 'mouseout', function () {
-                         infowindow.close();
-                     });
- 
-                     itemEl.onmouseover = function () {
-                         displayInfowindow(marker, title);
-                     };
- 
-                     itemEl.onmouseout = function () {
-                         infowindow.close();
-                     };
-                 })(marker, places[i].place_name);
- 
-                 fragment.appendChild(itemEl);
-             }
- 
-             // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
-             listEl.appendChild(fragment);
-             // menuEl.scrollTop = 0;
- 
-             // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-             map.setBounds(bounds);
-         }
-         // 검색결과 항목을 Element로 반환하는 함수입니다
-         function getListItem(index, places) {
-             console.log(places)
-             var el = document.createElement('li'),
-                 itemStr = '<span class="markerbg marker_' + (index + 1) + '"></span>' +
-                     '<div class="info">' +
-                     '   <h5>' + places.place_name + '</h5>';
- 
-             if (places.road_address_name) {
-                 itemStr += '    <span>' + places.road_address_name + '</span>' +
-                     '   <span class="jibun gray">' + places.address_name + '</span>';
-             } else {
-                 itemStr += '    <span>' + places.address_name + '</span>';
-             }
- 
-             itemStr += '  <span class="tel">' + places.phone + '</span>' +
-                 '</div>';
- 
-             el.innerHTML = itemStr;
-             el.className = 'item';
-        
+        // 마커를 담을 배열입니다
+        var markers = [];
+        const ulEliment = document.createElement('ul');
+        ulEliment.id = 'placesList';
+        const divEliment = document.createElement('div');
+        divEliment.id = 'pagination';
+
+        var mapContainer = document.querySelector('.map-area'), // 지도를 표시할 div 
+            mapOption = {
+                center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+                level: 3 // 지도의 확대 레벨
+            };
+        tabContent2.appendChild(ulEliment);
+        tabContent2.appendChild(divEliment);
+        // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
+        var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+
+        // 지도를 생성합니다    
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+
+        // 장소 검색 객체를 생성합니다
+        var ps = new kakao.maps.services.Places();
+        var keywordInput = document.querySelector('#tabContent2 .form-outline .form-control');
+        var keyword = '';
+        var searchBtnn = document.querySelector('#tabContent2 .form-outline .btn.btn-primary');
+        keywordInput.addEventListener('keyup', (ev) => {
+            if (ev.key === "Enter") {
+                keyword = keywordInput.value;
+                // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+                ps.keywordSearch(keyword, placesSearchCB);
+            }
+
+        })
+        searchBtnn.addEventListener('click', (ev) => {
+            //'장소명을 입력하세요 인풋창옆에 돋보기모양 클릭하는 순간 검색 ajax'
+            if (ev.type === "click") {
+                keyword = keywordInput.value;
+                // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+                ps.keywordSearch(keyword, placesSearchCB);
+            }
+        })
+
+        // 키워드 검색 완료 시 호출되는 콜백함수 입니다
+        function placesSearchCB(data, status, pagination) {
+            if (status === kakao.maps.services.Status.OK) {
+
+                // 정상적으로 검색이 완료됐으면
+                // 검색 목록과 마커를 표출합니다
+                displayPlaces(data);
+                // 페이지 번호를 표출합니다
+                displayPagination(pagination);
+
+            } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+
+                alert('검색 결과가 존재하지 않습니다.');
+                return;
+
+            } else if (status === kakao.maps.services.Status.ERROR) {
+
+                alert('검색 결과 중 오류가 발생했습니다.');
+                return;
+
+            }
+        }
+
+        // 검색 결과 목록과 마커를 표출하는 함수입니다
+        function displayPlaces(places) {
+
+            var listEl = document.getElementById('placesList'),
+                menuEl = document.getElementById('menu_wrap'),
+                fragment = document.createDocumentFragment(),
+                bounds = new kakao.maps.LatLngBounds(),
+                listStr = '';
+
+            // 검색 결과 목록에 추가된 항목들을 제거합니다
+            removeAllChildNods(listEl);
+
+            // 지도에 표시되고 있는 마커를 제거합니다
+            removeMarker();
+
+            for (var i = 0; i < places.length; i++) {
+
+                // 마커를 생성하고 지도에 표시합니다
+                var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
+                    marker = addMarker(placePosition, i),
+                    itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
+
+                // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+                // LatLngBounds 객체에 좌표를 추가합니다
+                bounds.extend(placePosition);
+
+                // 마커와 검색결과 항목에 mouseover 했을때
+                // 해당 장소에 인포윈도우에 장소명을 표시합니다
+                // mouseout 했을 때는 인포윈도우를 닫습니다
+                (function (marker, title) {
+                    kakao.maps.event.addListener(marker, 'mouseover', function () {
+                        displayInfowindow(marker, title);
+                    });
+
+                    kakao.maps.event.addListener(marker, 'mouseout', function () {
+                        infowindow.close();
+                    });
+
+                    itemEl.onmouseover = function () {
+                        displayInfowindow(marker, title);
+                    };
+
+                    itemEl.onmouseout = function () {
+                        infowindow.close();
+                    };
+                })(marker, places[i].place_name);
+
+                fragment.appendChild(itemEl);
+            }
+
+            // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
+            listEl.appendChild(fragment);
+            // menuEl.scrollTop = 0;
+
+            // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+            map.setBounds(bounds);
+        }
+        // 검색결과 항목을 Element로 반환하는 함수입니다
+        function getListItem(index, places) {
+            console.log(places)
+            var el = document.createElement('li'),
+                itemStr = '<span class="markerbg marker_' + (index + 1) + '"></span>' +
+                    '<div class="info">' +
+                    '   <h5>' + places.place_name + '</h5>';
+
+            if (places.road_address_name) {
+                itemStr += '    <span>' + places.road_address_name + '</span>' +
+                    '   <span class="jibun gray">' + places.address_name + '</span>';
+            } else {
+                itemStr += '    <span>' + places.address_name + '</span>';
+            }
+
+            itemStr += '  <span class="tel">' + places.phone + '</span>' +
+                '</div>';
+
+            el.innerHTML = itemStr;
+            el.className = 'item';
+
             //장소 추가하기위해 검색후 나온결과값 넘기는 함수 
-           
+
             el.onclick = function () {
-        
+
                 places.id = generateShortUUID();
-                places.category ="내장소";
-                places.src="./resources/images/logo_01.png";
-                places.title=places.place_name;
-                places.date= new Date();
+                places.category = "내장소";
+                places.src = "./resources/images/logo_01.png";
+                places.title = places.place_name;
+                places.date = new Date();
                 places.className = "t-draggable";
-        
+
                 places.removeCallback = function (callbackData) {
                     scheduleInfo.placeInfo = scheduleInfo.placeInfo.filter(place => !(place.title === callbackData.title && areDatesEqual(callbackData.date, place.date)))
                     sideModalFunk(scheduleInfo);
                 }
-    
-    
+
+
                 const filterList = scheduleInfo.placeInfo.filter(place => { return place.title === places.title && areDatesEqual(places.date, place.date) }
                 )
-    
-                if (filterList.length === 0){
+
+                if (filterList.length === 0) {
                     scheduleInfo.placeInfo = [...scheduleInfo.placeInfo,
                         places
                     ]
                 }
-    
+
                 sideModalFunk(scheduleInfo);
 
-                
-    
+
+
                 // addMarker(mY, mX);
             };
-  
 
-             return el;
-         }
-         
-         
-         // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-         function addMarker(position, idx, title) {
-             var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
-                 imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
-                 imgOptions = {
-                     spriteSize: new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
-                     spriteOrigin: new kakao.maps.Point(0, (idx * 46) + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-                     offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-                 },
-                 markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
-                 marker = new kakao.maps.Marker({
-                     position: position, // 마커의 위치
-                     image: markerImage
-                 });
- 
-             marker.setMap(map); // 지도 위에 마커를 표출합니다
-             markers.push(marker);  // 배열에 생성된 마커를 추가합니다
- 
-             return marker;
-         }
- 
-         // 지도 위에 표시되고 있는 마커를 모두 제거합니다
-         function removeMarker() {
-             for (var i = 0; i < markers.length; i++) {
-                 markers[i].setMap(null);
-             }
-             markers = [];
-         }
- 
-         // 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
-         function displayPagination(pagination) {
-             var paginationEl = document.getElementById('pagination'),
-                 fragment = document.createDocumentFragment(),
-                 i;
- 
-             // 기존에 추가된 페이지번호를 삭제합니다
-             while (paginationEl.hasChildNodes()) {
-                 paginationEl.removeChild(paginationEl.lastChild);
-             }
- 
-             for (i = 1; i <= pagination.last; i++) {
-                 var el = document.createElement('a');
-                 el.href = "#";
-                 el.innerHTML = i;
- 
-                 if (i === pagination.current) {
-                     el.className = 'on';
-                 } else {
-                     el.onclick = (function (i) {
-                         return function () {
-                             pagination.gotoPage(i);
-                         }
-                     })(i);
-                 }
- 
-                 fragment.appendChild(el);
-             }
-             paginationEl.appendChild(fragment);
-         }
- 
-         // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
-         // 인포윈도우에 장소명을 표시합니다
-         function displayInfowindow(marker, title) {
-             var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
- 
-             infowindow.setContent(content);
-             infowindow.open(map, marker);
-         }
- 
-         // 검색결과 목록의 자식 Element를 제거하는 함수입니다
-         function removeAllChildNods(el) {
-             while (el.hasChildNodes()) {
-                 el.removeChild(el.lastChild);
-             }
-         }
+
+            return el;
+        }
+
+
+        // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+        function addMarker(position, idx, title) {
+            var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+                imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
+                imgOptions = {
+                    spriteSize: new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+                    spriteOrigin: new kakao.maps.Point(0, (idx * 46) + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+                    offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+                },
+                markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+                marker = new kakao.maps.Marker({
+                    position: position, // 마커의 위치
+                    image: markerImage
+                });
+
+            marker.setMap(map); // 지도 위에 마커를 표출합니다
+            markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+
+            return marker;
+        }
+
+        // 지도 위에 표시되고 있는 마커를 모두 제거합니다
+        function removeMarker() {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(null);
+            }
+            markers = [];
+        }
+
+        // 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
+        function displayPagination(pagination) {
+            var paginationEl = document.getElementById('pagination'),
+                fragment = document.createDocumentFragment(),
+                i;
+
+            // 기존에 추가된 페이지번호를 삭제합니다
+            while (paginationEl.hasChildNodes()) {
+                paginationEl.removeChild(paginationEl.lastChild);
+            }
+
+            for (i = 1; i <= pagination.last; i++) {
+                var el = document.createElement('a');
+                el.href = "#";
+                el.innerHTML = i;
+
+                if (i === pagination.current) {
+                    el.className = 'on';
+                } else {
+                    el.onclick = (function (i) {
+                        return function () {
+                            pagination.gotoPage(i);
+                        }
+                    })(i);
+                }
+
+                fragment.appendChild(el);
+            }
+            paginationEl.appendChild(fragment);
+        }
+
+        // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
+        // 인포윈도우에 장소명을 표시합니다
+        function displayInfowindow(marker, title) {
+            var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
+
+            infowindow.setContent(content);
+            infowindow.open(map, marker);
+        }
+
+        // 검색결과 목록의 자식 Element를 제거하는 함수입니다
+        function removeAllChildNods(el) {
+            while (el.hasChildNodes()) {
+                el.removeChild(el.lastChild);
+            }
+        }
     };
 
     function toggleTabContent() {
@@ -864,12 +870,12 @@ function selectLocation(scheduleInfo) {
     }
 
     sideModalFunk(scheduleInfo);
-    
+
     setStepBtn({
-        prev:{
+        prev: {
             display: "block",
-             clickEvent: function(){
-              
+            clickEvent: function () {
+
                 drawScheduleMake(scheduleInfo);
             }
         },
@@ -885,106 +891,112 @@ function selectLocation(scheduleInfo) {
     })
 
 
- 
+
 }
 //******************************************step2**************************************************
 //****************************************side modal**********************************************
-function sideModalFunk(scheduleInfo){
+function sideModalFunk(scheduleInfo) {
     const sideModal = document.getElementById("side-modal");
     $(sideModal).empty();
-    
+
     const noScroll = document.createElement('div');
     noScroll.className = "no_scroll";
-    sideModal.appendChild(noScroll); 
+    sideModal.appendChild(noScroll);
 
     const sideModalBtn = document.createElement('button');
     sideModalBtn.innerHTML = "<i class='bi bi-chevron-right'></i>";
     sideModal.appendChild(sideModalBtn);
     sideModal.isToggle = true;
-    sideModalBtn.onclick = function(){
+    sideModalBtn.onclick = function () {
         sideModal.isToggle = !sideModal.isToggle;
         sideModal.classList.toggle("active", !sideModal.isToggle);
     }
-    
+
     for (let i = 0; i <= dateToDay(scheduleInfo.startDate, scheduleInfo.endDate); i++) {
 
         // 일차 하나를 그려줄 때마다
         // 해당 일차에 맞는 명소들을 같이 보내줌
         let startDate = new Date(scheduleInfo.startDate);
         startDate = new Date(startDate.setDate(startDate.getDate() + i));
-    
+
 
         const sideModalContent = sideModalContentUnit({
-            day: "<span>" + (i + 1) + "<span>일차", 
+            day: "<span>" + (i + 1) + "<span>일차",
             date: startDate,
         }, scheduleInfo.placeInfo.filter(s => {
             return areDatesEqual(startDate, s.date);
         }));
         noScroll.appendChild(sideModalContent);
+
+        attractionMap(i, scheduleInfo.placeInfo.filter(s => {
+            return areDatesEqual(startDate, s.date);
+        }));
     }
 
 
-     // // 일정 드래그
-     const draggables = document.querySelectorAll(".draggable");
-     const containers = document.querySelectorAll(".select-wrap > ul");
-     const fixDraggable = document.querySelectorAll(".select-wrap > ul > .t-draggable");
+    // // 일정 드래그
+    const draggables = document.querySelectorAll(".draggable");
+    const containers = document.querySelectorAll(".select-wrap > ul");
+    const fixDraggable = document.querySelectorAll(".select-wrap > ul > .t-draggable");
 
-     draggables.forEach(draggable => {
+    draggables.forEach(draggable => {
         draggable.ondragstart = () => {
 
             draggable.classList.add("dragging");
-        }
- /*맵 마커 여기다!!!!!*/
-         draggable.ondragend = (ev) => {
-            draggable.classList.remove("dragging");
 
-            const info = document.querySelector(".select-dragging").info;
+        }
+        /*맵 마커 여기다!!!!!*/
+        draggable.ondragend = (ev) => {
+            draggable.classList.remove("dragging");
+            console.log("드래그 완료");
+            console.log(draggable);
+
+
+            let info = document.querySelector(".select-dragging").info;
+
             info.id = generateShortUUID();
-            console.log(info)
-            console.log(document.querySelector(".select-dragging"))
             info.removeCallback = function (callbackData) {
                 scheduleInfo.placeInfo = scheduleInfo.placeInfo.filter(place => !(place.title === callbackData.title && areDatesEqual(callbackData.date, place.date)))
                 sideModalFunk(scheduleInfo);
-            }
-            
 
-            const filterList = scheduleInfo.placeInfo.filter(place => 
-                {return place.title === info.title && areDatesEqual(info.date, place.date)}
+            }
+
+
+            const filterList = scheduleInfo.placeInfo.filter(place => { return place.title === info.title && areDatesEqual(info.date, place.date) }
             )
-            
+
             if (filterList.length === 0)
                 scheduleInfo.placeInfo = [...scheduleInfo.placeInfo,
                     info
                 ]
 
-            sideModalFunk(scheduleInfo);   
-    
-            
+            sideModalFunk(scheduleInfo);
+
+
         }
-     });
- 
+    });
+
 
     fixDraggable.forEach(draggable => {
         draggable.ondragstart = () => {
 
             draggable.classList.add("change-dragging");
- 
+
         }
-    
+
         draggable.ondragend = (ev) => {
-            
+
             const info = document.querySelector(".change-dragging").info;
 
-            const filterList = scheduleInfo.placeInfo.filter(place => 
-                {return place.title === info.title && areDatesEqual(info.date, place.date)}
+            const filterList = scheduleInfo.placeInfo.filter(place => { return place.title === info.title && areDatesEqual(info.date, place.date) }
             )
-            
+
             if (filterList.length === 0)
                 scheduleInfo.placeInfo = scheduleInfo.placeInfo.map(p => (p.id === info.id) ? info : p);
 
             sideModalFunk(scheduleInfo);
             draggable.classList.remove("change-dragging");
-            
+
         }
     });
 
@@ -995,13 +1007,13 @@ function sideModalFunk(scheduleInfo){
 
             if (document.querySelector(".dragging") || document.querySelector(".select-dragging")) {
                 let draggable = document.querySelector(".select-dragging") || document.querySelector(".dragging").cloneNode(true);
-                
-                
+
+
                 if (!draggable.classList.contains('select-dragging')) {
                     draggable.classList.add("select-dragging");
                     draggable.info = document.querySelector(".dragging").info;
                 }
-    
+
                 draggable.info = {
                     ...draggable.info,
                     className: "t-draggable",
@@ -1014,9 +1026,9 @@ function sideModalFunk(scheduleInfo){
                 } else {
                     container.insertBefore(draggable, afterElement);
                 }
-            } 
+            }
 
-            
+
             if (document.querySelector(".change-dragging")) {
                 let draggable2 = document.querySelector(".change-dragging");
 
@@ -1033,7 +1045,7 @@ function sideModalFunk(scheduleInfo){
                 }
 
             }
-            
+
         }
     });
 }
@@ -1083,7 +1095,7 @@ function selectLodging(scheduleInfo) {
     tabContent1.id = 'tabContent1';
     tabContent1.className = 'tab-content2 active';
     locationContentWrap.appendChild(tabContent1);
-    
+
     const searchInputLocation = getSearchInputUnit({
         inputPlaceholder: "장소명을 입력하세요.",
     });
@@ -1093,11 +1105,11 @@ function selectLodging(scheduleInfo) {
     category.className = 'category';
     tabContent1.appendChild(category);
     const recommendedPlace = toggleButtonUnit({
-        className:"toggle",
-        innerText:"추천 숙소",
+        className: "toggle",
+        innerText: "추천 숙소",
     });
     category.appendChild(recommendedPlace);
-    
+
     const selectWrap = document.createElement('div');
     selectWrap.className = "save-wrap";
     tabContent1.appendChild(selectWrap);
@@ -1109,7 +1121,7 @@ function selectLodging(scheduleInfo) {
 
 
 
-    for(item of bsValue.motelData){
+    for (item of bsValue.motelData) {
         selectWrapUl.appendChild(item);
     }
 
@@ -1160,10 +1172,10 @@ function selectLodging(scheduleInfo) {
     }
     sideModalLodging(scheduleInfo);
     setStepBtn({
-        prev:{
+        prev: {
             display: "block",
-             clickEvent: function(){
-              
+            clickEvent: function () {
+
                 selectLocation(scheduleInfo);
             }
         },
@@ -1181,32 +1193,34 @@ function selectLodging(scheduleInfo) {
 }
 //******************************************step3**************************************************
 //****************************************side modal**********************************************
-function sideModalLodging(scheduleInfo){
+function sideModalLodging(scheduleInfo) {
     const sideModal = document.getElementById("side-modal");
     $(sideModal).empty();
-    
+
     const noScroll = document.createElement('div');
     noScroll.className = "no_scroll";
-    sideModal.appendChild(noScroll); 
+    sideModal.appendChild(noScroll);
 
     const sideModalBtn = document.createElement('button');
     sideModalBtn.innerHTML = "<i class='bi bi-chevron-right'></i>";
     sideModal.appendChild(sideModalBtn);
     sideModal.isToggle = true;
-    sideModalBtn.onclick = function(){
+    sideModalBtn.onclick = function () {
         sideModal.isToggle = !sideModal.isToggle;
         sideModal.classList.toggle("active", !sideModal.isToggle);
+
+
     }
-    
+
     for (let i = 0; i <= dateToDay(scheduleInfo.startDate, scheduleInfo.endDate); i++) {
         // 일차 하나를 그려줄 때마다
         // 해당 일차에 맞는 명소들을 같이 보내줌
         let startDate = new Date(scheduleInfo.startDate);
         startDate = new Date(startDate.setDate(startDate.getDate() + i));
-    
+
 
         const sideModalContent = sideModalContentUnit({
-            day: "<span>" + (i + 1) + "<span>일차", 
+            day: "<span>" + (i + 1) + "<span>일차",
             date: startDate,
         }, scheduleInfo.lodgingInfo.filter(s => {
             return areDatesEqual(startDate, s.date);
@@ -1215,69 +1229,67 @@ function sideModalLodging(scheduleInfo){
     }
 
 
-     // // 일정 드래그
-     const draggables = document.querySelectorAll(".draggable");
-     const containers = document.querySelectorAll(".select-wrap > ul");
-     const fixDraggable = document.querySelectorAll(".select-wrap > ul > .t-draggable");
-   
-     // const containers = document.querySelectorAll(".container-map");
+    // // 일정 드래그
+    const draggables = document.querySelectorAll(".draggable");
+    const containers = document.querySelectorAll(".select-wrap > ul");
+    const fixDraggable = document.querySelectorAll(".select-wrap > ul > .t-draggable");
 
- 
-     draggables.forEach(draggable => {
+    // const containers = document.querySelectorAll(".container-map");
+
+
+    draggables.forEach(draggable => {
         draggable.ondragstart = () => {
 
             draggable.classList.add("dragging");
         }
- 
-         draggable.ondragend = (ev) => {
+
+        draggable.ondragend = (ev) => {
             draggable.classList.remove("dragging");
 
             const info = document.querySelector(".select-dragging").info;
             info.id = generateShortUUID();
 
-            info.removeCallback = function(callbackData){
+            info.removeCallback = function (callbackData) {
                 scheduleInfo.lodgingInfo = scheduleInfo.lodgingInfo.filter(place => !(place.title === callbackData.title && areDatesEqual(callbackData.date, place.date)))
                 sideModalLodging(scheduleInfo);
             }
 
-            const filterList = scheduleInfo.lodgingInfo.filter(place => 
-                {return place.title === info.title && areDatesEqual(info.date, place.date)}
+            const filterList = scheduleInfo.lodgingInfo.filter(place => { return place.title === info.title && areDatesEqual(info.date, place.date) }
             )
-            
+
             if (filterList.length === 0)
                 scheduleInfo.lodgingInfo = [...scheduleInfo.lodgingInfo,
                     info
                 ]
-  
-    
+
+
             sideModalLodging(scheduleInfo);
         }
-     });
- 
+    });
+
 
 
     fixDraggable.forEach(draggable => {
         draggable.ondragstart = () => {
 
             draggable.classList.add("change-dragging");
- 
-        }
-    
-        draggable.ondragend = (ev) => {
-            
-            const info = document.querySelector(".change-dragging").info;
-            
 
-            const filterList = scheduleInfo.lodgingInfo.filter(place => 
-                {return place.title === info.title && areDatesEqual(info.date, place.date)}
+        }
+
+        draggable.ondragend = (ev) => {
+
+            const info = document.querySelector(".change-dragging").info;
+
+
+            const filterList = scheduleInfo.lodgingInfo.filter(place => { return place.title === info.title && areDatesEqual(info.date, place.date) }
             )
 
-            
+
             if (filterList.length === 0)
                 scheduleInfo.lodgingInfo = scheduleInfo.lodgingInfo.map(p => (p.id === info.id) ? info : p);
-            
-            
-                sideModalLodging(scheduleInfo);
+
+
+            sideModalLodging(scheduleInfo);
             draggable.classList.remove("change-dragging");
         }
     });
@@ -1289,13 +1301,13 @@ function sideModalLodging(scheduleInfo){
 
             if (document.querySelector(".dragging") || document.querySelector(".select-dragging")) {
                 let draggable = document.querySelector(".select-dragging") || document.querySelector(".dragging").cloneNode(true);
-                
-                
+
+
                 if (!draggable.classList.contains('select-dragging')) {
                     draggable.classList.add("select-dragging");
                     draggable.info = document.querySelector(".dragging").info;
                 }
-    
+
                 draggable.info = {
                     ...draggable.info,
                     className: "t-draggable",
@@ -1307,9 +1319,9 @@ function sideModalLodging(scheduleInfo){
                 } else {
                     container.insertBefore(draggable, afterElement);
                 }
-            } 
+            }
 
-            
+
             if (document.querySelector(".change-dragging")) {
                 let draggable2 = document.querySelector(".change-dragging");
 
@@ -1364,7 +1376,7 @@ function chooseTransportation(scheduleInfo) {
 
 
             TransportationInfo(btnToggle);
-            
+
         }
     };
 
@@ -1383,7 +1395,7 @@ function chooseTransportation(scheduleInfo) {
         }
     };
 
-   
+
     function TransportationInfo() {
         if (btnToggle.isToggle) {
             scheduleInfo.transportation = "대중교통";
@@ -1391,23 +1403,23 @@ function chooseTransportation(scheduleInfo) {
             scheduleInfo.transportation = "승용차";
         }
     }
-    
 
-    const ScheduleCreationBtn  = document.createElement('button');
+
+    const ScheduleCreationBtn = document.createElement('button');
     ScheduleCreationBtn.className = "time-set-btn";
     ScheduleCreationBtn.innerText = "일정생성";
-    transportationWrap.appendChild(ScheduleCreationBtn);  
+    transportationWrap.appendChild(ScheduleCreationBtn);
 
 
     ScheduleCreationBtn.onclick = function () {
     };
 
     setStepBtn({
-        prev:{
+        prev: {
             display: "block",
-             clickEvent: function(){
-              
-             
+            clickEvent: function () {
+
+
             }
         },
         next: {
@@ -1416,3 +1428,86 @@ function chooseTransportation(scheduleInfo) {
     })
 }
 //******************************************step4**************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//지도
+
+
+
+function attractionMap(index, placeList) {
+    const positionList = [];
+    for (let place of placeList) {
+        positionList.push({
+            title: place.title,
+            latlng: new kakao.maps.LatLng(place.mapY, place.mapX)
+        })
+    }
+
+    addMarkersToMap(positionList);
+}
+
+
+
+
+
+
+
+function addMarkersToMap(positions) {
+    var markers = [];
+    var linePath = [];
+    // 마커 이미지의 이미지 주소입니다
+    var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+    for (var a = 0; a < positions.length; a++) {
+        console.log("반복문 옴");
+        // 마커 이미지의 이미지 크기 입니다
+        var imageSize = new kakao.maps.Size(24, 35);
+
+        // 마커 이미지를 생성합니다    
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+        var marker = new kakao.maps.Marker({
+
+            map: map,
+            position: positions[a].latlng,
+            title: positions[a].title,
+            image: markerImage // 마커 이미지 
+
+        });
+
+        marker.setMap(map);
+        //markers = [];
+        markers.push(marker);
+        linePath.push(positions[a].latlng);
+    }
+
+    // 지도에 표시할 선을 생성합니다
+    var polyline = new kakao.maps.Polyline({
+        path: linePath, // 선을 구성하는 좌표배열 입니다
+        strokeWeight: 5, // 선의 두께 입니다
+        strokeColor: '#FFAE00', // 선의 색깔입니다
+        strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+        strokeStyle: 'solid' // 선의 스타일입니다
+    });
+
+    // 지도에 선을 표시합니다 
+    polyline.setMap(map);
+
+
+
+}
+
+
