@@ -480,8 +480,7 @@
 			#{memberNo},
 			SYSDATE,
 			DEFAULT
-				
-		)
+			)
 		
 		
 	</insert>
