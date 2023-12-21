@@ -1,47 +1,3 @@
-// const commonValue = {}
-
- $(document).ready(function () {
-
-    console.log();
-//     $.ajax({
-//         url : "requestFriendList.me",
-//         data:{
-//             friendNo : memberNo
-//         },
-//         success : function(res){
-//             //성공시 다시 그려주기
-//             if(res === "success"){
-//                 console.log("친구신청 성공");
-//             //commonValue.requestFriend = memberNo;
-//         }
-//         },
-//         error:function(){
-//             console.log("reply 댓글추가 통신 실패");
-//         }
-//     })
-
-
-
-
-
-
-
-
-
-
-
-
-
-//     console.log(commonValue.requestFriend.memberNo);
-//     console.log(commonValue.requestFriend);
-//     if(commonValue.requestFriend.memberNo){
-        
-//         document.getElementById('drop-fr').classList.add('ddd');
-//     }
- });
-
-
-
 function toStringDate(date){
     return new Date(date).toISOString().substring(0, 10)
 }
@@ -201,24 +157,23 @@ function getSearchInputUnit(info) {
         const liDiv = document.createElement('div');
         selectWrapLi.appendChild(liDiv);
 
-        //영석
-        // const liDiv2 = document.createElement('input');
-        // liDiv2.type = 'hidden';
-        // liDiv2.value = info.mX;
-        // selectWrapLi.appendChild(liDiv2);
-
-        // const liDiv3 = document.createElement('div');
-        // liDiv3.type = 'hidden';
-        // liDiv3.value = info.mY;
-        // selectWrapLi.appendChild(liDiv3);
-        
-
         const img = document.createElement("img");
-        if (info.src) img.src = info.src;
+        if (info.src){
+            img.src = info.src;
+        } else {
+            img.src = "https://img.freepik.com/free-vector/festive-city-night-concept_74855-7363.jpg";
+
+        }
         liDiv.appendChild(img);
 
         const divDiv = document.createElement('div');
         liDiv.appendChild(divDiv);
+
+        const divDiv2 = document.createElement('div');
+        divDiv2.type = "hidden";
+        divDiv2.name = "mapX";
+        divDiv2.value = info.mapX;
+        liDiv.appendChild(divDiv2);
 
         const h5 = document.createElement('h5');
         if (info.title) h5.innerText = info.title;
@@ -280,6 +235,7 @@ function getSearchInputUnit(info) {
         for (let place of placeList) {
             sideModalUl.appendChild(selectWrapLiUnit(place));
         }
+
         return contentWrap;
     }
 
@@ -295,8 +251,6 @@ function getSearchInputUnit(info) {
       
         return uuid;
       }
-
-    
 
       function requestFriend(memberNo){
         console.log('도착');
@@ -319,34 +273,15 @@ function getSearchInputUnit(info) {
     
     }
 
-    // function fdList(boardWriter, loginNo) {
-    //     $.ajax({
-    //         url: "friendList.me",
-    //         data: {
-    //             memberNo: boardWriter
-    //         },
-    //         success: function (list) {
-    //             console.log(list);
-    //             console.log(loginNo);
-    //             let str = '';
-    //             for (let m of list) {
-    //                 if (m.memberNo == loginNo) {
-    //                     str += '<ul class="dropdown-menu hoho" style="text-align: center;" align="center">';
-    //                     if (list[0].memberNo !== loginNo) {
-    //                         str += '<li><div id="drop-fr" class="dropdown-item" onclick="requestFriend(' + list[0].memberNo + ')">친구신청</div></li>';
-    //                     }
-    //                     str += '<li><a class="dropdown-item" href="chat.me?youNo=' + list[0].memberNo + '">대화화기</a></li>';
-    //                     str += '</ul>';
-    //                 } else {
-    //                     str += '<ul class="dropdown-menu hoho" style="text-align: center;" align="center">';
-    //                     str += '<li><a class="dropdown-item" href="mypage.me">프로필</a></li>';
-    //                     str += '</ul>';
-    //                 }
-    //             }
-    //             document.querySelector("#ulfr").innerHTML = str;
-    //         },
-    //         error: function () {
-    //             console.log("friendList ajax통신 실패");
-    //         }
-    //     });
-    // }
+
+    //AJAX 통신 시작
+$( document ).ajaxStart(function() {
+    //마우스 커서를 로딩 중 커서로 변경
+    $('html').css("cursor", "wait"); 
+});
+//AJAX 통신 종료
+$( document ).ajaxStop(function() {
+    //마우스 커서를 원래대로 돌린다
+    $('html').css("cursor", "auto"); 
+});
+

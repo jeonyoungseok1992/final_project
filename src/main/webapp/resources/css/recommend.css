@@ -69,6 +69,8 @@
     font-size: 12px;
     background-color: #fff;
     border: 1px solid #dedede;
+    display: inline-block;
+    line-height: 34px;
 }
 [class^="btn"][class*="-style"] + [class^="btn"][class*="-style"] {
     margin-left: 5px;
@@ -95,6 +97,7 @@
     width: 100%;
     column-gap: 26px;
     align-items: center;
+    justify-content: space-between;
     position: relative;
     padding: 24px 0 25px;
     border-bottom: 1px solid #dedede;

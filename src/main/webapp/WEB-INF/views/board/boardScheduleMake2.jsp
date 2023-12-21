@@ -18,13 +18,15 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="./resources/js/common.js"></script>
-<script src="./resources/js/boardSchedule.js"></script>
+<script src="./resources/js/scheduleAjax.js"></script>
 <script src="./resources/js/mapApi.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9f8a44c92b8ee5a74706b1ce8e6194e"></script>
+<script src="./resources/js/boardSchedule.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9f8a44c92b8ee5a74706b1ce8e6194e&libraries=LIBRARY&libraries=services&libraries=services,clusterer,drawing"></script>
 <link rel="stylesheet" href="./resources/css/common.css">
 <link rel="stylesheet" href="./resources/css/font.css">
 <link rel="stylesheet" href="./resources/css/schedule-view.css">
 <link rel="stylesheet" href="./resources/css/schedule-make2.css">
+
 </head>
 <body onload='init(`${region}`)'>
 

@@ -37,15 +37,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 70px;
-    height: 70px;
-    background-color: aqua;
-    border-radius: 50%;
+    flex-direction: column;
     overflow: hidden;
 }
 .location-img img{
-    max-width: 100%;
-    height: 100%;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
 }
 
 
@@ -127,4 +125,7 @@
 }
 .dropdown-menu.show{
     transform: translate3d(10px, 43.5px, 0px)!important;
+}
+.note-modal-content{
+    height: 330px;
 }

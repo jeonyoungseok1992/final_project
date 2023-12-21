@@ -78,6 +78,27 @@
 		<result column="REGION_X" property="regionX"/>
 		<result column="REGION_Y" property="regionY"/>
 	</resultMap>
+	
+	<resultMap type="Report" id="reportResult">
+		<result column="REPORT_NO" property="reportNo"/>
+		<result column="MEMBER_NO" property="memberNo"/>
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="REPLY_NO" property="replyNo"/>
+		<result column="REPORT_DATE" property="reportDate"/>
+		<result column="REPORT_REASON" property="reportReason"/>
+	</resultMap>
+	
+	<resultMap type="Recommend" id="recommendResult">
+		<result column="RECOMMEND_BOARD_NO" property="recommendBoardNo"/>
+		<result column="RECOMMEND_BOARD_TITLEIMG" property="recommendTitleImg"/>
+		<result column="RECOMMEND_BOARD_REGION" property="recommendBoardRegion"/>
+		<result column="RECOMMEND_BOARD_TITLE" property="recommendBoardTitle"/>
+		<result column="RECOMMEND_BOARD_CONTENT" property="recommendBoardContent"/>
+		<result column="RECOMMEND_BOARD_CREATE_DATE" property="recommendBoardCreateDate"/>
+		<result column="RECOMMEND_BOARD_MODIFY_DATE" property="recommendBoardModifyDate"/>
+	</resultMap>
+	
+	
 
 
 
@@ -95,6 +116,26 @@
 		FROM REGION
 		WHERE REGION_NO =#{regionNo}
 	</select>
+	
+	<!-- 게시글 댓글 신고 기능 -->
+	<insert id="reportContents">
+		INSERT INTO REPORT 
+				(REPORT_NO
+				,MEMBER_NO
+                ,BOARD_NO
+				,REPLY_NO
+				,REPORT_DATE
+                ,REPORT_REASON
+				)
+		VALUES (SEQ_RPNO.NEXTVAL
+				,#{memberNo}
+				,#{boardNo}
+				,#{replyNo}
+				,SYSDATE
+                ,#{reportReason}
+							)
+		</insert>
+	
 
 
 
@@ -343,7 +384,6 @@
             order by TRIP_N_DAY
 		</select>
 	
-	
 		<!-- 같이가요 게시글 수정 관련 sql -->
 		<update id="updateTogetherBoard">
 			UPDATE BOARD
@@ -517,13 +557,14 @@
 				,BOARD_TITLE
 		        ,BOARD_CONTENT
 		        ,MEMBER_ID
-		        ,BOARD_CREATE_DATE
+		        ,TO_CHAR(BOARD_CREATE_DATE, 'YYYY/MM/DD') AS "BOARD_CREATE_DATE"
+		        ,TRIP_PLAN_THUMBNAIL
 		FROM 	BOARD
 		join member on (BOARD_WRITER = MEMBER_NO)
+		join TRIP_PLAN on (BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
 		where BOARD_CATEGORY = 1
 		AND BOARD_STATUS = 'Y'
-		
-		ORDER BY BOARD_CREATE_DATE DESC
+		ORDER BY BOARD_NO DESC
 	</select>
 	
 	
@@ -533,13 +574,12 @@
 					,B.BOARD_TITLE
 			        ,B.BOARD_CONTENT
 			        ,M.MEMBER_ID
-			        ,B.BOARD_CREATE_DATE
-			        ,R.REGION_NAME
-			      
+			        ,TO_CHAR(B.BOARD_CREATE_DATE, 'YYYY/MM/DD') AS "BOARD_CREATE_DATE"
+			        ,T.TRIP_PLAN_THUMBNAIL 
 			FROM BOARD B
 			JOIN MEMBER M ON (B.BOARD_WRITER = M.MEMBER_NO)
 			JOIN REGION R ON (B.BOARD_REGION_NO= R.REGION_NO)
-			
+			join TRIP_PLAN T on (B.BOARD_TRIP_PLAN_NO = T.TRIP_PLAN_NO)
 			WHERE B.BOARD_CATEGORY = 1
 			AND B.BOARD_STATUS = 'Y'
 			<choose>
@@ -585,15 +625,12 @@
 		                ,ATTRACTION_ADDRESS
 		                ,ATTRACTION_CHANGE_NAME_IMG
 		                ,CATEGORY_NAME
-	                
-	                
 				FROM 	BOARD   
 	            JOIN 	MEMBER ON (MEMBER_NO = BOARD_WRITER)
 	            JOIN 	TRIP_PLAN ON (BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
 	            JOIN	LOCATION USING (TRIP_PLAN_NO)
 	            JOIN 	ATTRACTION ON (ATTRACTION_NO=LOCATION_ATTRACTION_NO)
 	  			JOIN 	CATEGORY ON (ATTRACTION_CATEGORY_NO = CATEGORY_NO)
-	            
 				WHERE BOARD_NO = #{boardNo}
 	            AND BOARD_CATEGORY = 1
 				AND BOARD_STATUS = 'Y'
@@ -605,16 +642,17 @@
 	
 		<!-- 후기 댓글 조회 쿼리문 -->
 		<select id="selectReviewReplyList" resultMap="replyResult">
-				SELECT  REPLY_NO
-					    ,REPLY_CONTENT
-						,MEMBER_ID AS "REPLY_WRITER"
-						,TO_CHAR(REPLY_MODIFY_DATE, 'YYYY-MM-DD') AS "REPLY_MODIFY_DATE"
-						,MEMBER_PROFILE_IMG
-				FROM 	REPLY
-				JOIN 	MEMBER ON (REPLY_WRITER = MEMBER_NO)
-				WHERE 	REPLY_STATUS = 'Y'
-				AND 	REPLY_BOARD_NO = #{boardNo}
-				ORDER 	BY REPLY_NO
+		SELECT REPLY_NO
+				,REPLY_CONTENT
+				,MEMBER_ID AS "REPLY_WRITER"
+				,TO_CHAR(REPLY_MODIFY_DATE, 'YY-MM-DD HH24:MI:SS') AS "REPLY_MODIFY_DATE"
+				,MEMBER_PROFILE_IMG
+				,REPLY_GROUP
+		FROM REPLY
+		JOIN MEMBER ON (REPLY_WRITER = MEMBER_NO)
+		WHERE REPLY_STATUS = 'Y'
+		AND REPLY_BOARD_NO = #{boardNo}
+		ORDER BY REPLY_NO
 		</select>
 		
 	
@@ -806,6 +844,12 @@
 				WHERE REPLY_BOARD_NO = #{replyBoardNo}
 				AND REPLY_NO = #{replyNo} 
 		</update>
+		
+		<!-- 후기 게시글 작성시 별점주기 -->
+		<insert id="ajaxInsertReviewStars" >
+				INSERT INTO STAR (ATTRACTION_NO, STAR_GRADE) 
+				VALUES (#{attractionNo}, #{starGrade})   
+		</insert>
 		
 		
 	
@@ -1055,4 +1099,68 @@
 	</select>
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 박수현 추천여행지 Main-->
+	<select id="ajaxrecommendMain" resultMap="recommendResult">
+		SELECT RECOMMEND_BOARD_NO
+                ,RECOMMEND_BOARD_TITLEIMG
+                ,RECOMMEND_BOARD_REGION
+                ,RECOMMEND_BOARD_TITLE
+		FROM RECOMMEND_BOARD
+		WHERE ROWNUM &lt;= 3
+	</select>
+	<!-- 박수현 추천여행지 더보기 클릭시 리스트-->
+	<select id="ajaxrecommendList" resultMap="recommendResult">
+		SELECT RECOMMEND_BOARD_NO
+				,RECOMMEND_BOARD_TITLE
+				,RECOMMEND_BOARD_CONTENT
+                ,RECOMMEND_BOARD_TITLEIMG
+		FROM RECOMMEND_BOARD
+	</select>
+	<!-- 박수현 추천여행지 디테일 페이지 불러오기-->
+	<select id="selectRecommendBoard" resultMap="recommendResult">
+		SELECT RECOMMEND_BOARD_NO
+				,RECOMMEND_BOARD_REGION
+				,RECOMMEND_BOARD_TITLE	
+				,RECOMMEND_BOARD_MODIFY_DATE
+				,RECOMMEND_BOARD_CONTENT
+		FROM RECOMMEND_BOARD
+		WHERE RECOMMEND_BOARD_NO = #{recommendBoardNo}
+	</select>
+	<!--박수현 신고테이블 전체 -->
+	<!--<select id="reportInfor" resultMap="memberResult">
+		SELECT   REPORT_NO
+	            ,MEMBER_NO
+	            ,BOARD_NO
+	            ,REPLY_NO
+	            ,REPORT_DATE
+	            ,REPORT_REASON
+		FROM REPORT
+	</select>-->
+	
+
+
 </mapper>

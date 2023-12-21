@@ -2,20 +2,19 @@ package com.kh.fin.board.model.service;
 
 import java.util.ArrayList;
 
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import com.kh.fin.board.model.dao.BoardDao;
 import com.kh.fin.board.model.vo.Board;
-import com.kh.fin.board.model.vo.Reply;
-import com.kh.fin.common.model.vo.PageInfo;
-
-
 import com.kh.fin.board.model.vo.Plan;
+import com.kh.fin.board.model.vo.Recommend;
 import com.kh.fin.board.model.vo.Region;
+import com.kh.fin.board.model.vo.Reply;
+import com.kh.fin.board.model.vo.Report;
+import com.kh.fin.board.model.vo.Star;
+import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.member.model.vo.Member;
 
 @Service
@@ -32,7 +31,12 @@ public class BoardServiceImpl implements BoardService{
 	public Region selectOneRegion(int regionNo) {
 		return boardDao.selectOneRegion(sqlSession,regionNo);
 	}
-
+	
+	//게시글 및 댓글 신고
+	@Override
+	public int reportContents(Report r) {
+		return boardDao.reportContents(sqlSession,r);
+	}
 
 
 	
@@ -361,7 +365,11 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.reviewDeleteBoard(sqlSession,boardNo);
 	}
 	
-
+	// 후기 등록 게시판 별점주기 
+	@Override
+	public int ajaxInsertReviewStars(Star s) {
+		return boardDao.ajaxInsertReviewStars(sqlSession,s);
+	}
 	
 	
 
@@ -1109,6 +1117,157 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 
 
@@ -1450,6 +1609,26 @@ public class BoardServiceImpl implements BoardService{
 
 	
 	
-	
+	//박수현 추천여행지 Main
+	@Override
+	public ArrayList<Recommend> ajaxrecommendMain() {
+		return boardDao.ajaxrecommendMain(sqlSession);
+	}
+	//박수현 추천여행지 더보기 클릭시 전체보기
+	@Override
+	public ArrayList<Recommend> ajaxrecommendList() {
+		return boardDao.ajaxrecommendList(sqlSession);
+	}
+	//박수현 추천여행지 디테일 페이지 불러오기
+	@Override
+	public ArrayList<Recommend> selectRecommendBoard(int selectRecommendBoard) {
+		return boardDao.selectRecommendBoard(sqlSession, selectRecommendBoard);
+	}
+	//박수현 신고테이블 전체
+//	@Override
+//	public ArrayList<Report> reportInfor() {
+//		return boardDao.reportInfor(sqlSession);
+//	}
+
 
 }

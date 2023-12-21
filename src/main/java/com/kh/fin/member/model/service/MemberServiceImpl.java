@@ -514,10 +514,53 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 
+
 	@Override
 	public Member pageFriend(int boardNo, Member m) {
 		
 		return memberDao.pageFriend(sqlSession, boardNo, m);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//박수현 회원정보 전체
+	@Override
+	public ArrayList<Member> memberInfor() {
+		return memberDao.memberInfor(sqlSession);
+
 	}
 
 }

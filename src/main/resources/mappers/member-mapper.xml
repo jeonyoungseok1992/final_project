@@ -50,6 +50,25 @@
 		and MEMBER_STATUS = 'Y'
 	</select>
 	
+	<!-- 박수현 회원 전체 -->
+	<select id="memberInfor" resultMap="memberResult">
+		SELECT   MEMBER_NO
+	            ,MEMBER_ID
+	            ,MEMBER_PWD
+	            ,MEMBER_NAME
+	            ,MEMBER_NICKNAME
+	            ,MEMBER_EMAIL
+	            ,MEMBER_PHONE
+	            ,MEMBER_PROFILE_IMG
+	            ,MEMBER_CREATE_DATE
+	            ,MEMBER_MODIFY_DATE
+	            ,MEMBER_RIGHT
+	            ,MEMBER_STATUS
+	            ,MEMBER_GRADE
+		FROM MEMBER
+	</select>
+
+	
 
 
 

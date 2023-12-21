@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -696,5 +695,51 @@ public class MemberController {
 		
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//박수현 회원정보 전체
+		@ResponseBody
+		@RequestMapping(value="memberInfor.me", produces="application/json; charset=UTF-8")
+		public String memberInfor() {
+			System.out.println(memberService.memberInfor());
+		    return new Gson().toJson(memberService.memberInfor());
+		}
+		
+
 	
 }
