@@ -1,6 +1,7 @@
 const bsValue = {
     regionData: [], /* 페이지 로드시 지역정보 가져온거 담겨있는곳*/
-    attData: []
+    attData: [],
+    motelData: []
 }
 
 function init(regionList){
@@ -17,7 +18,7 @@ function init(regionList){
         regionNo: bsValue.regionData.regionNo
 
     });
-    console.log(typeof bsValue.regionData.regionY);
+
 
 };  
 
@@ -106,7 +107,7 @@ function drawScheduleMake(scheduleInfo) {
 
 
 
-    console.log(scheduleInfo)
+   
     activeButton('step1');
     document.getElementById("side-modal").style.display = "none";
 
@@ -246,14 +247,14 @@ function drawScheduleMake(scheduleInfo) {
         startData.setHours(document.querySelector("#startTime").value.split(":")[0]);
         startData.setMinutes(document.querySelector("#startTime").value.split(":")[1]);
         scheduleInfo.startDate = new Date(startData);
-        console.log(scheduleInfo.startDate)
+      
 
         //endTime
         let endData = new Date(scheduleInfo.endDate);
         endData.setHours(document.querySelector("#endTime").value.split(":")[0]);
         endData.setMinutes(document.querySelector("#endTime").value.split(":")[1]);
         scheduleInfo.endDate = new Date(endData);
-        console.log(scheduleInfo.endDate)
+      
         selectLocation(scheduleInfo);
     }
     TimeSettingBtn.onclick = nextStep;
@@ -315,8 +316,7 @@ function drawScheduleMake(scheduleInfo) {
                                 
                     //selectWrapUl.appendChild(selectCard);
                     }
-        console.log(bsValue.attData);
-        console.log(bsValue.attData[0]);
+
 
         },
         error: function(){
@@ -332,7 +332,7 @@ function drawScheduleMake(scheduleInfo) {
             regionNo : bsValue.regionData.regionNo 
         },
         success: function(data){
-            console.log(data);
+         
             
 
                 let attLoca ;
@@ -364,7 +364,7 @@ function drawScheduleMake(scheduleInfo) {
             regionNo : bsValue.regionData.regionNo 
         },
         success: function(data){
-            console.log(data);
+        
             
 
                 let attLoca ;
@@ -393,9 +393,38 @@ function drawScheduleMake(scheduleInfo) {
 
 
 
+    $.ajax({
+        url: "attMotelList.api",
+        data : {
+            regionNo : bsValue.regionData.regionNo 
+        },
+        success: function(data){
 
-    console.log(1111111111111111111);
-    console.log(bsValue.regionData.selectCard);
+            
+
+                let attLoca ;
+                let addTitle; 
+
+                        for(att of data){
+
+                            attLoca   = att.firstimage;
+                            addTitle   = att.title;
+                            let selectCard = selectWrapLiUnit({
+                                    src: attLoca, 
+                                    title: addTitle,
+                                    category: "추천 숙소",
+                                    className: "draggable",
+                                    id: generateShortUUID()            
+                                });
+                                bsValue.motelData.push(selectCard);
+                    //selectWrapUl.appendChild(selectCard);
+                    }
+        
+        },
+        error: function(){
+            console.log("recommendTrip.bo ajax 실패");
+        }
+    })
 
 
 
@@ -408,7 +437,6 @@ function drawScheduleMake(scheduleInfo) {
 
 //******************************************step2**************************************************
 function selectLocation(scheduleInfo) {
-    console.log(scheduleInfo)
     activeButton('step2');
     document.getElementById("side-modal").style.display = "block";
     
@@ -1013,7 +1041,6 @@ function sideModalFunk(scheduleInfo){
 
 //******************************************step3**************************************************
 function selectLodging(scheduleInfo) {
-    console.log(scheduleInfo)
     activeButton('step3');
     document.getElementById("side-modal").style.display = "block";
 
@@ -1078,6 +1105,13 @@ function selectLodging(scheduleInfo) {
     const selectWrapUl = document.createElement('ul');
     selectWrapUl.id = 'ulajax'
     selectWrap.appendChild(selectWrapUl);
+
+
+
+
+    for(item of bsValue.motelData){
+        selectWrapUl.appendChild(item);
+    }
 
     // for (let i = 0; i < 3; i++) {
     //     const selectCard = selectWrapLiUnit({
@@ -1623,7 +1657,6 @@ function chooseTransportation(scheduleInfo) {
 
 
     ScheduleCreationBtn.onclick = function () {
-        console.log(scheduleInfo);
     };
 
     setStepBtn({
@@ -1631,7 +1664,7 @@ function chooseTransportation(scheduleInfo) {
             display: "block",
              clickEvent: function(){
               
-                console.log(scheduleInfo);
+             
             }
         },
         next: {
