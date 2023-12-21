@@ -713,33 +713,41 @@ function selectLocation(scheduleInfo) {
  
              el.innerHTML = itemStr;
              el.className = 'item';
+        
             //장소 추가하기위해 검색후 나온결과값 넘기는 함수 
            
             el.onclick = function () {
-                // places
+        
+                places.id = generateShortUUID();
+                places.category ="내장소";
+                places.src="./resources/images/logo_01.png";
+                places.title=places.place_name;
+                places.date= new Date();
+                places.className = "t-draggable";
+        
+                places.removeCallback = function (callbackData) {
+                    scheduleInfo.placeInfo = scheduleInfo.placeInfo.filter(place => !(place.title === callbackData.title && areDatesEqual(callbackData.date, place.date)))
+                    sideModalFunk(scheduleInfo);
+                }
+    
+    
+                const filterList = scheduleInfo.placeInfo.filter(place => { return place.title === places.title && areDatesEqual(places.date, place.date) }
+                )
+    
+                if (filterList.length === 0){
+                    scheduleInfo.placeInfo = [...scheduleInfo.placeInfo,
+                        places
+                    ]
+                }
+    
+                sideModalFunk(scheduleInfo);
+
                 
-                // const info = document.querySelector(".select-dragging").info;
-                // info.id = generateShortUUID();
-    
-                // info.removeCallback = function (callbackData) {
-                //     scheduleInfo.placeInfo = scheduleInfo.placeInfo.filter(place => !(place.title === callbackData.title && areDatesEqual(callbackData.date, place.date)))
-                //     sideModalFunk(scheduleInfo);
-                // }
-    
-    
-                // const filterList = scheduleInfo.placeInfo.filter(place => { return place.title === info.title && areDatesEqual(info.date, place.date) }
-                // )
-    
-                // if (filterList.length === 0){
-                //     scheduleInfo.placeInfo = [...scheduleInfo.placeInfo,
-                //         info
-                //     ]
-                // }
-    
-                // sideModalFunk(scheduleInfo);
     
                 // addMarker(mY, mX);
             };
+  
+
              return el;
          }
          
@@ -903,7 +911,8 @@ function sideModalFunk(scheduleInfo) {
 
             const info = document.querySelector(".select-dragging").info;
             info.id = generateShortUUID();
-
+            console.log(info)
+            console.log(document.querySelector(".select-dragging"))
             info.removeCallback = function (callbackData) {
                 scheduleInfo.placeInfo = scheduleInfo.placeInfo.filter(place => !(place.title === callbackData.title && areDatesEqual(callbackData.date, place.date)))
                 sideModalFunk(scheduleInfo);
