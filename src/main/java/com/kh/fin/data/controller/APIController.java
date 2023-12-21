@@ -354,7 +354,6 @@ public class APIController {
 	@ResponseBody
 	@RequestMapping(value="attEventList.api", produces="application/json; charset=UTF-8")
 	public JsonArray attEventList(int regionNo) throws IOException {
-		System.out.println(regionNo);
 		String apiKey = "JqBbpU80RaM%2BotpAP5CAxpqUfrlpz7%2FNT%2FV4tuBHrrs4aoMORzmFabSkWXHJXOVLMac7U7zdk1jbAUH%2BctPQlg%3D%3D"; // 여기에 실제 API 키를 넣어주세요
 	    String baseUrl = "https://apis.data.go.kr/B551011/KorService1/areaBasedList1";
 	    String baseUrl2 = "https://apis.data.go.kr/B551011/KorService1/locationBasedList1";
@@ -453,6 +452,126 @@ public class APIController {
 
 	    
 	}
+	
+	
+	
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(value="attMotelList.api", produces="application/json; charset=UTF-8")
+	public JsonArray attMotelList(int regionNo) throws IOException {
+		System.out.println("모텔 옴");
+		String apiKey = "JqBbpU80RaM%2BotpAP5CAxpqUfrlpz7%2FNT%2FV4tuBHrrs4aoMORzmFabSkWXHJXOVLMac7U7zdk1jbAUH%2BctPQlg%3D%3D"; // 여기에 실제 API 키를 넣어주세요
+	    String baseUrl = "https://apis.data.go.kr/B551011/KorService1/areaBasedList1";
+	    String baseUrl2 = "https://apis.data.go.kr/B551011/KorService1/locationBasedList1";
+	    // URL 구성을 위해 StringBuilder를 사용합니다.
+	    StringBuilder urlBuilder = new StringBuilder(baseUrl);
+	    urlBuilder.append("?serviceKey=").append(apiKey);
+	    
+	    StringBuilder urlBuilder2 = new StringBuilder(baseUrl2);
+	    urlBuilder2.append("?serviceKey=").append(apiKey);
+	    if (1 ==regionNo) {
+	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=1");
+	    } else if (2 ==regionNo) {
+	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=2");
+	    } else if (3 ==regionNo) {
+	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=3");
+	    }else if (4 ==regionNo) {
+	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=5");
+	    } else if (5 ==regionNo) {
+	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=4");
+	    } else if (6 ==regionNo) {
+	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=7");
+	    } else if (7 ==regionNo) {
+	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=6");
+	    } else if (8 ==regionNo) {
+	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.0533328346432&mapY=37.28899674266975&radius=10000&contentTypeId=32");
+	    } else if (9 ==regionNo) {
+	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.73000431027823&mapY=37.88529271588802&radius=10000&contentTypeId=32");
+	    } else if (10 ==regionNo) {
+	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.49159874489123&mapY=36.63535445860653&radius=10000&contentTypeId=32");
+	    } else if (11 ==regionNo) {
+	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=126.67292904748435&mapY=36.65878596833474&radius=10000&contentTypeId=32");
+	    } else if (12 ==regionNo) {
+	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.10887986301702&mapY=35.82017977840777&radius=10000&contentTypeId=32");
+	    } else if (13 ==regionNo) {
+	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=126.46278106600714&mapY=34.81602307435137&radius=10000&contentTypeId=32");
+	    } else if (14 ==regionNo) {
+	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=128.50580062317167&mapY=36.575951606061714&radius=10000&contentTypeId=32");
+	    } else if (15 ==regionNo) {
+	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=128.69205767632846&mapY=35.23763542805831&radius=10000&contentTypeId=32");
+	    } else if (16 ==regionNo) {
+	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=126.49827754759696&mapY=33.48892035330222&radius=10000&contentTypeId=32");					  
+	    } 
+	    
+	    
+	    if(1 <= regionNo && regionNo <= 7) {
+	    	URL requestUrl = new URL(urlBuilder.toString());
+		    HttpURLConnection urlConnection = (HttpURLConnection) requestUrl.openConnection();
+		    urlConnection.setRequestMethod("GET");
+
+		    BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+		    StringBuilder responseText = new StringBuilder();
+		    String line;
+
+		    while ((line = br.readLine()) != null) {
+		        responseText.append(line);
+		    }
+
+		    JsonObject totalObj = JsonParser.parseString(responseText.toString()).getAsJsonObject();
+		    JsonObject responseObj = totalObj.getAsJsonObject("response");
+		    JsonObject bodyObj = responseObj.getAsJsonObject("body");
+		    JsonObject itemsObj = bodyObj.getAsJsonObject("items");
+		    JsonArray itemArr = itemsObj.getAsJsonArray("item");
+		    
+		    br.close();
+		    urlConnection.disconnect();
+		    
+		    return itemArr;
+	    	
+	    } else {
+	    	URL requestUrl = new URL(urlBuilder2.toString());
+		    HttpURLConnection urlConnection = (HttpURLConnection) requestUrl.openConnection();
+		    urlConnection.setRequestMethod("GET");
+
+		    BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+		    StringBuilder responseText = new StringBuilder();
+		    String line;
+
+		    while ((line = br.readLine()) != null) {
+		        responseText.append(line);
+		    }
+
+		    JsonObject totalObj = JsonParser.parseString(responseText.toString()).getAsJsonObject();
+		    JsonObject responseObj = totalObj.getAsJsonObject("response");
+		    JsonObject bodyObj = responseObj.getAsJsonObject("body");
+		    JsonObject itemsObj = bodyObj.getAsJsonObject("items");
+		    JsonArray itemArr = itemsObj.getAsJsonArray("item");
+		    
+		    br.close();
+		    urlConnection.disconnect();
+		    
+		    return itemArr;
+	    } 
+	    	
+
+	    
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
