@@ -169,6 +169,12 @@ function getSearchInputUnit(info) {
         const divDiv = document.createElement('div');
         liDiv.appendChild(divDiv);
 
+        const divDiv2 = document.createElement('div');
+        divDiv2.type = "hidden";
+        divDiv2.name = "mapX";
+        divDiv2.value = info.mapX;
+        liDiv.appendChild(divDiv2);
+
         const h5 = document.createElement('h5');
         if (info.title) h5.innerText = info.title;
         divDiv.appendChild(h5);
@@ -229,6 +235,7 @@ function getSearchInputUnit(info) {
         for (let place of placeList) {
             sideModalUl.appendChild(selectWrapLiUnit(place));
         }
+
         return contentWrap;
     }
 
