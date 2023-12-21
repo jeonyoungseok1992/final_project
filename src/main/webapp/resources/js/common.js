@@ -158,7 +158,12 @@ function getSearchInputUnit(info) {
         selectWrapLi.appendChild(liDiv);
 
         const img = document.createElement("img");
-        if (info.src) img.src = info.src;
+        if (info.src){
+            img.src = info.src;
+        } else {
+            img.src = "https://img.freepik.com/free-vector/festive-city-night-concept_74855-7363.jpg";
+
+        }
         liDiv.appendChild(img);
 
         const divDiv = document.createElement('div');

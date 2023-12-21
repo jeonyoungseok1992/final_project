@@ -1,14 +1,15 @@
 const bsValue = {
     regionData: [], /* 페이지 로드시 지역정보 가져온거 담겨있는곳*/
+    attData: []
 }
 
-function init(regionList) {
+function init(regionList){
     bsValue.regionData = JSON.parse(regionList);
     drawScheduleMake({
         startDate: new Date(),
         endDate: null,
-        placeInfo: [],
-        lodgingInfo: [],
+        placeInfo : [],
+        lodgingInfo : [],
         transportation: "대중교통",
         regionName: bsValue.regionData.regionName,
         regionX: bsValue.regionData.regionX,
@@ -18,7 +19,7 @@ function init(regionList) {
     });
     console.log(typeof bsValue.regionData.regionY);
 
-};
+};  
 
 function getDragAfterElement(container, x) {
     const tdraggable = [
@@ -29,7 +30,7 @@ function getDragAfterElement(container, x) {
         (closest, child) => {
             const box = child.getBoundingClientRect();
             const offset = x - box.left - box.width / 2;
-
+      
             if (offset < 0 && offset > closest.offset) {
                 return { offset: offset, element: child };
             } else {
@@ -40,31 +41,31 @@ function getDragAfterElement(container, x) {
     ).element;
 }
 
-function checkPlaceAndLodgingInfo(type, scheduleInfo) {
+function checkPlaceAndLodgingInfo(type, scheduleInfo){
     const start = scheduleInfo.startDate;
     const end = scheduleInfo.endDate;
     let dateList = {};
-
+    
     for (let i = 0; i <= dateToDay(start, end); i++) {
         const tmpDate = new Date(start);
         const nowDate = new Date(tmpDate.setDate(tmpDate.getDate() + i));
 
         dateList[dateToYYYYMMDD(nowDate)] = true;
     }
-
-    for (let unit of scheduleInfo[type]) {
+    
+    for (let unit of scheduleInfo[type]){
         dateList[dateToYYYYMMDD(unit.date)] = false;
     }
-
-    for (let date in dateList) {
-        if (dateList[date])
+    
+    for (let date in dateList){
+        if(dateList[date])
             return true;
     }
 
     return false;
 }
 
-function setStepBtn(btnsInfo) {
+function setStepBtn(btnsInfo){
 
     const prevBtn = document.getElementById("prev-btn");
     const nextBtn = document.getElementById("next-btn");
@@ -95,7 +96,6 @@ function activeButton(activeStep) {
 function drawScheduleMake(scheduleInfo) {
 
     //맵 그리기
-
     var container = document.getElementById('map'); 
     var options = { 
         center: new kakao.maps.LatLng( scheduleInfo.regionY, scheduleInfo.regionX), 
@@ -125,15 +125,15 @@ function drawScheduleMake(scheduleInfo) {
                             <th>${dateToMMDD(nowDate)}</th>
                             <td>${getKoreanDayOfWeek(nowDate)}</td>`;
 
-                str += i === 0 ? `<td><input id="startTime" type="time" value="10:00"></td><td></td></tr>` : `<td></td><td><input id="endTime" type="time" value="22:00"></td></tr>`;
-
+                str +=  i === 0 ? `<td><input id="startTime" type="time" value="10:00"></td><td></td></tr>` : `<td></td><td><input id="endTime" type="time" value="22:00"></td></tr>`;
+                        
                 fixScheduleTB.innerHTML += str;
             }
         }
     }
 
     //일정 시작시간과 종료시간이 변했을 때 실행하는 함수
-    function updateEndDate() {
+    function updateEndDate(){
         const startInput = document.getElementById('startDate');
         const endInput = document.getElementById('endDate');
 
@@ -146,13 +146,13 @@ function drawScheduleMake(scheduleInfo) {
         }
 
         if (endDate) {
-            startInput.max = toStringDate(endDate);
-            scheduleInfo.endDate = endDate;
+            startInput.max = toStringDate(endDate);  
+            scheduleInfo.endDate = endDate;     
         }
-
-        if (startDate && endDate) {
+        
+        if(startDate && endDate) {
             drawFixSchedule(startDate, endDate);
-        }
+        } 
     }
 
     const contentZone = document.getElementById("content-zone");
@@ -187,18 +187,18 @@ function drawScheduleMake(scheduleInfo) {
     const scheduleZone = document.createElement('div');
     scheduleZone.className = "time-details";
     contentZone.appendChild(scheduleZone);
-
+    
     const scheduleZoneToggle = document.createElement('p');
     scheduleZoneToggle.className = "time";
     scheduleZoneToggle.innerHTML = "여행시간 상세설정 <span class='color'>총 24시간 00분</span>";
     scheduleZoneToggle.isToggle = true;
     scheduleZone.appendChild(scheduleZoneToggle);
-    scheduleZoneToggle.onclick = function () {
+    scheduleZoneToggle.onclick = function(){
         scheduleZoneToggle.isToggle = !scheduleZoneToggle.isToggle;
         scheduleZone.classList.toggle("toggle", !scheduleZoneToggle.isToggle);
     }
 
-    const ToggleArrow = document.createElement('span');
+    const ToggleArrow  = document.createElement('span');
     ToggleArrow.className = "arrow";
     ToggleArrow.innerHTML = "<i class='bi bi-chevron-down'></i>";
     scheduleZoneToggle.appendChild(ToggleArrow);
@@ -229,13 +229,13 @@ function drawScheduleMake(scheduleInfo) {
                                 `;
     scheduleZone.appendChild(scheduleZoneTable);
     //시간 설정 완료 버튼
-    const TimeSettingBtn = document.createElement('button');
+    const TimeSettingBtn  = document.createElement('button');
     TimeSettingBtn.className = "time-set-btn";
     TimeSettingBtn.innerText = "시간 설정 완료";
     scheduleZone.appendChild(TimeSettingBtn);
 
-    function nextStep() {
-        if (!scheduleInfo.startDate || !scheduleInfo.endDate) {
+    function nextStep(){
+        if (!scheduleInfo.startDate || !scheduleInfo.endDate){
             alert("일정을 선택해 주세요.");
             return;
         }
@@ -273,16 +273,137 @@ function drawScheduleMake(scheduleInfo) {
 
         updateEndDate();
     }
-
+    
     setStepBtn({
-        prev: {
+        prev:{
             display: "none"
         },
         //다음
-        next: {
+        next:{
             clickEvent: nextStep
         }
     })
+
+
+
+    $.ajax({
+        url: "attractionList.api",
+        async:false,
+        data : {
+            regionNo : bsValue.regionData.regionNo 
+        },
+        success: function(data){
+            
+                //  let mX;
+                //  let mY;
+                let attLoca ;
+                let addTitle; 
+
+                        for(att of data){
+                            attLoca   = att.firstimage;
+                            addTitle   = att.title;
+                            // mX = att.mapx
+                            // mY = att.mapy;
+                            // addMarker(mY, mX);
+                            let selectCard = selectWrapLiUnit({
+                                    src: attLoca, 
+                                    title: addTitle,
+                                    category: "명소",
+                                    className: "draggable",
+                                    id: generateShortUUID()            
+                                });
+                                bsValue.attData.push(selectCard);
+                                
+                    //selectWrapUl.appendChild(selectCard);
+                    }
+        console.log(bsValue.attData);
+        console.log(bsValue.attData[0]);
+
+        },
+        error: function(){
+            console.log("recommendTrip.bo ajax 실패");
+        }
+    })
+
+
+
+    $.ajax({
+        url: "attFoodList.api",
+        async:false,
+        data : {
+            regionNo : bsValue.regionData.regionNo 
+        },
+        success: function(data){
+            console.log(data);
+            
+
+                let attLoca ;
+                let addTitle; 
+
+                        for(att of data){
+                            attLoca   = att.firstimage;
+                            addTitle   = att.title;
+                            let selectCard = selectWrapLiUnit({
+                                    src: attLoca, 
+                                    title: addTitle,
+                                    category: "식당",
+                                    className: "draggable",
+                                    id: generateShortUUID()            
+                                });
+                                bsValue.attData.push(selectCard);
+                    //selectWrapUl.appendChild(selectCard);
+                    }
+        
+        },
+        error: function(){
+            console.log("recommendTrip.bo ajax 실패");
+        }
+    })
+
+    $.ajax({
+        url: "attEventList.api",
+        async:false,
+        data : {
+            regionNo : bsValue.regionData.regionNo 
+        },
+        success: function(data){
+            console.log(data);
+            
+
+                let attLoca ;
+                let addTitle; 
+
+                        for(att of data){
+
+                            attLoca   = att.firstimage;
+                            addTitle   = att.title;
+                            let selectCard = selectWrapLiUnit({
+                                    src: attLoca, 
+                                    title: addTitle,
+                                    category: "행사",
+                                    className: "draggable",
+                                    id: generateShortUUID()            
+                                });
+                                bsValue.attData.push(selectCard);
+                    //selectWrapUl.appendChild(selectCard);
+                    }
+        
+        },
+        error: function(){
+            console.log("recommendTrip.bo ajax 실패");
+        }
+    })
+
+
+
+
+    console.log(1111111111111111111);
+    console.log(bsValue.regionData.selectCard);
+
+
+
+
+
 
 }
 
@@ -291,10 +412,9 @@ function drawScheduleMake(scheduleInfo) {
 //******************************************step2**************************************************
 function selectLocation(scheduleInfo) {
     console.log(scheduleInfo)
-
     activeButton('step2');
     document.getElementById("side-modal").style.display = "block";
-
+    
 
     const contentZone = document.getElementById("content-zone");
     $(contentZone).empty();
@@ -335,56 +455,36 @@ function selectLocation(scheduleInfo) {
     tabContent1.id = 'tabContent1';
     tabContent1.className = 'tab-content2 active';
     locationContentWrap.appendChild(tabContent1);
-
+    
     const selectLocation = getSearchInputUnit({
         inputPlaceholder: "장소명을 입력하세요.",
     });
     tabContent1.appendChild(selectLocation);
 
-    //동건 추가 -- 키워드 검색부분
-    const searchFormContent = document.querySelector('.form-outline .form-control');
-    const searchFormIcon = document.querySelector('.form-outline .btn.btn-primary');
-    searchFormContent.addEventListener('keyup', (ev) => {
-        //'장소명을 입력하세요 인풋창에 엔터치는순간 검색 ajax'
-        if (ev.key === "Enter") {
-            console.log(searchFormContent.value)
-        }
-
-
-    })
-    searchFormIcon.addEventListener('click', (ev) => {
-        //'장소명을 입력하세요 인풋창옆에 돋보기모양 클릭하는 순간 검색 ajax'
-        if (ev.type === "click") {
-            console.log(searchFormContent.value)
-        }
-
-    })
-    //동건 추가 -- 키워드 검색부분 끝
-
     const category = document.createElement('div');
     category.className = 'category';
     tabContent1.appendChild(category);
     const recommendedPlace = toggleButtonUnit({
-        className: "toggle",
-        innerText: "추천 장소",
+        className:"toggle",
+        innerText:"추천 장소",
     });
     recommendedPlace.setAttribute('data-filter', 'all');
     category.appendChild(recommendedPlace);
 
     const sights = toggleButtonUnit({
-        innerText: "명소", //명소
+        innerText:"명소", //명소
     });
     sights.setAttribute('data-filter', '명소');
     category.appendChild(sights);
 
     const restaurant = toggleButtonUnit({
-        innerText: "식당", //식당
+        innerText:"식당", //식당
     });
     restaurant.setAttribute('data-filter', '식당');
     category.appendChild(restaurant);
 
     const cafe = toggleButtonUnit({
-        innerText: "행사", //행사
+        innerText:"행사", //행사
     });
     cafe.setAttribute('data-filter', '행사');
     category.appendChild(cafe);
@@ -397,118 +497,12 @@ function selectLocation(scheduleInfo) {
     selectWrap.appendChild(selectWrapUl);
 
     
-    $.ajax({
-        url: "attractionList.api",
-        async:false,
-        data : {
-            regionNo : bsValue.regionData.regionNo 
-        },
-        success: function(data){
-            console.log(data);
-            
-                //  let mX;
-                //  let mY;
-                let attLoca ;
-                let addTitle; 
-
-                        for(att of data){
-                            attLoca   = att.firstimage;
-                            addTitle   = att.title;
-                            // mX = att.mapx
-                            // mY = att.mapy;
-                            // addMarker(mY, mX);
-                                const selectCard = selectWrapLiUnit({
-                                    src: attLoca, 
-                                    title: addTitle,
-                                    category: "명소",
-                                    className: "draggable",
-                                    id: generateShortUUID()            
-                                });
-
-                    selectWrapUl.appendChild(selectCard);
-                    }
-                console.log(attLoca);
-        
-
-        },
-        error: function(){
-            console.log("recommendTrip.bo ajax 실패");
-        }
-    })
 
 
-
-    $.ajax({
-        url: "attFoodList.api",
-        async:false,
-        data : {
-            regionNo : bsValue.regionData.regionNo 
-        },
-        success: function(data){
-            console.log(data);
-            
-
-                let attLoca ;
-                let addTitle; 
-
-                        for(att of data){
-                            attLoca   = att.firstimage;
-                            addTitle   = att.title;
-                                const selectCard = selectWrapLiUnit({
-                                    src: attLoca, 
-                                    title: addTitle,
-                                    category: "식당",
-                                    className: "draggable",
-                                    id: generateShortUUID()            
-                                });
-
-                    selectWrapUl.appendChild(selectCard);
-                    }
-                console.log(attLoca);
-        
-        },
-        error: function(){
-            console.log("recommendTrip.bo ajax 실패");
-        }
-    })
-
-    $.ajax({
-        url: "attEventList.api",
-        async:false,
-        data : {
-            regionNo : bsValue.regionData.regionNo 
-        },
-        success: function(data){
-            console.log(data);
-            
-
-                let attLoca ;
-                let addTitle; 
-
-                        for(att of data){
-
-                            attLoca   = att.firstimage;
-                            addTitle   = att.title;
-                                const selectCard = selectWrapLiUnit({
-                                    src: attLoca, 
-                                    title: addTitle,
-                                    category: "행사",
-                                    className: "draggable",
-                                    id: generateShortUUID()            
-                                });
-
-                    selectWrapUl.appendChild(selectCard);
-                    }
-                console.log(attLoca);
-        
-        },
-        error: function(){
-            console.log("recommendTrip.bo ajax 실패");
-        }
-    })
-
-
-
+    
+    for(item of bsValue.attData){
+        selectWrapUl.appendChild(item);
+    }
 
 
 
@@ -523,6 +517,17 @@ function selectLocation(scheduleInfo) {
 
     categoryfilter.addEventListener('click', (ev) => {
         const filter = ev.target.dataset.filter || ev.target.parentNode.dataset.filter;
+        
+
+
+
+
+
+
+
+
+
+
 
 
         if (filter == null) {
@@ -531,7 +536,7 @@ function selectLocation(scheduleInfo) {
 
         saveWraps.forEach((saveWrap) => {
             const categoryValue = saveWrap.querySelector('span').dataset.filter;
-
+     
             if (filter === 'all' || filter === categoryValue) {
                 saveWrap.classList.remove('invisible');
             } else {
@@ -562,7 +567,6 @@ function selectLocation(scheduleInfo) {
         btnToggle2.classList.remove('clicked');
         toggleTabContent();
     };
-
 
     btnToggle2.onclick = function () {
         btnToggle2.isToggle = !btnToggle2.isToggle;
@@ -835,12 +839,12 @@ function selectLocation(scheduleInfo) {
     }
 
     sideModalFunk(scheduleInfo);
-
+    
     setStepBtn({
-        prev: {
+        prev:{
             display: "block",
-            clickEvent: function () {
-
+             clickEvent: function(){
+              
                 drawScheduleMake(scheduleInfo);
             }
         },
@@ -856,37 +860,37 @@ function selectLocation(scheduleInfo) {
     })
 
 
-
+ 
 }
 //******************************************step2**************************************************
 //****************************************side modal**********************************************
-function sideModalFunk(scheduleInfo) {
+function sideModalFunk(scheduleInfo){
     const sideModal = document.getElementById("side-modal");
     $(sideModal).empty();
-
+    
     const noScroll = document.createElement('div');
     noScroll.className = "no_scroll";
-    sideModal.appendChild(noScroll);
+    sideModal.appendChild(noScroll); 
 
     const sideModalBtn = document.createElement('button');
     sideModalBtn.innerHTML = "<i class='bi bi-chevron-right'></i>";
     sideModal.appendChild(sideModalBtn);
     sideModal.isToggle = true;
-    sideModalBtn.onclick = function () {
+    sideModalBtn.onclick = function(){
         sideModal.isToggle = !sideModal.isToggle;
         sideModal.classList.toggle("active", !sideModal.isToggle);
     }
-
+    
     for (let i = 0; i <= dateToDay(scheduleInfo.startDate, scheduleInfo.endDate); i++) {
 
         // 일차 하나를 그려줄 때마다
         // 해당 일차에 맞는 명소들을 같이 보내줌
         let startDate = new Date(scheduleInfo.startDate);
         startDate = new Date(startDate.setDate(startDate.getDate() + i));
-
+    
 
         const sideModalContent = sideModalContentUnit({
-            day: "<span>" + (i + 1) + "<span>일차",
+            day: "<span>" + (i + 1) + "<span>일차", 
             date: startDate,
         }, scheduleInfo.placeInfo.filter(s => {
             return areDatesEqual(startDate, s.date);
@@ -895,18 +899,18 @@ function sideModalFunk(scheduleInfo) {
     }
 
 
-    // // 일정 드래그
-    const draggables = document.querySelectorAll(".draggable");
-    const containers = document.querySelectorAll(".select-wrap > ul");
-    const fixDraggable = document.querySelectorAll(".select-wrap > ul > .t-draggable");
+     // // 일정 드래그
+     const draggables = document.querySelectorAll(".draggable");
+     const containers = document.querySelectorAll(".select-wrap > ul");
+     const fixDraggable = document.querySelectorAll(".select-wrap > ul > .t-draggable");
 
-    draggables.forEach(draggable => {
+     draggables.forEach(draggable => {
         draggable.ondragstart = () => {
 
             draggable.classList.add("dragging");
         }
-        /*맵 마커 여기다!!!!!*/
-        draggable.ondragend = (ev) => {
+ /*맵 마커 여기다!!!!!*/
+         draggable.ondragend = (ev) => {
             draggable.classList.remove("dragging");
 
             const info = document.querySelector(".select-dragging").info;
@@ -917,45 +921,45 @@ function sideModalFunk(scheduleInfo) {
                 scheduleInfo.placeInfo = scheduleInfo.placeInfo.filter(place => !(place.title === callbackData.title && areDatesEqual(callbackData.date, place.date)))
                 sideModalFunk(scheduleInfo);
             }
+            
 
-
-            const filterList = scheduleInfo.placeInfo.filter(place => { return place.title === info.title && areDatesEqual(info.date, place.date) }
+            const filterList = scheduleInfo.placeInfo.filter(place => 
+                {return place.title === info.title && areDatesEqual(info.date, place.date)}
             )
-
-            if (filterList.length === 0){
+            
+            if (filterList.length === 0)
                 scheduleInfo.placeInfo = [...scheduleInfo.placeInfo,
                     info
                 ]
-            }
 
-            sideModalFunk(scheduleInfo);
-            // addMarker(mY, mX);
-
- 
+            sideModalFunk(scheduleInfo);   
+    
+            
         }
-    });
-
+     });
+ 
 
     fixDraggable.forEach(draggable => {
         draggable.ondragstart = () => {
 
             draggable.classList.add("change-dragging");
-
+ 
         }
-
+    
         draggable.ondragend = (ev) => {
-
+            
             const info = document.querySelector(".change-dragging").info;
 
-            const filterList = scheduleInfo.placeInfo.filter(place => { return place.title === info.title && areDatesEqual(info.date, place.date) }
+            const filterList = scheduleInfo.placeInfo.filter(place => 
+                {return place.title === info.title && areDatesEqual(info.date, place.date)}
             )
-
+            
             if (filterList.length === 0)
                 scheduleInfo.placeInfo = scheduleInfo.placeInfo.map(p => (p.id === info.id) ? info : p);
 
             sideModalFunk(scheduleInfo);
             draggable.classList.remove("change-dragging");
-
+            
         }
     });
 
@@ -966,13 +970,13 @@ function sideModalFunk(scheduleInfo) {
 
             if (document.querySelector(".dragging") || document.querySelector(".select-dragging")) {
                 let draggable = document.querySelector(".select-dragging") || document.querySelector(".dragging").cloneNode(true);
-
-
+                
+                
                 if (!draggable.classList.contains('select-dragging')) {
                     draggable.classList.add("select-dragging");
                     draggable.info = document.querySelector(".dragging").info;
                 }
-
+    
                 draggable.info = {
                     ...draggable.info,
                     className: "t-draggable",
@@ -985,9 +989,9 @@ function sideModalFunk(scheduleInfo) {
                 } else {
                     container.insertBefore(draggable, afterElement);
                 }
-            }
+            } 
 
-
+            
             if (document.querySelector(".change-dragging")) {
                 let draggable2 = document.querySelector(".change-dragging");
 
@@ -1004,7 +1008,7 @@ function sideModalFunk(scheduleInfo) {
                 }
 
             }
-
+            
         }
     });
 }
@@ -1055,7 +1059,7 @@ function selectLodging(scheduleInfo) {
     tabContent1.id = 'tabContent1';
     tabContent1.className = 'tab-content2 active';
     locationContentWrap.appendChild(tabContent1);
-
+    
     const searchInputLocation = getSearchInputUnit({
         inputPlaceholder: "장소명을 입력하세요.",
     });
@@ -1065,11 +1069,11 @@ function selectLodging(scheduleInfo) {
     category.className = 'category';
     tabContent1.appendChild(category);
     const recommendedPlace = toggleButtonUnit({
-        className: "toggle",
-        innerText: "추천 숙소",
+        className:"toggle",
+        innerText:"추천 숙소",
     });
     category.appendChild(recommendedPlace);
-
+    
     const selectWrap = document.createElement('div');
     selectWrap.className = "save-wrap";
     tabContent1.appendChild(selectWrap);
@@ -1077,7 +1081,6 @@ function selectLodging(scheduleInfo) {
     const selectWrapUl = document.createElement('ul');
     selectWrapUl.id = 'ulajax'
     selectWrap.appendChild(selectWrapUl);
-
 
     // for (let i = 0; i < 3; i++) {
     //     const selectCard = selectWrapLiUnit({
@@ -1126,10 +1129,10 @@ function selectLodging(scheduleInfo) {
     }
     sideModalLodging(scheduleInfo);
     setStepBtn({
-        prev: {
+        prev:{
             display: "block",
-            clickEvent: function () {
-
+             clickEvent: function(){
+              
                 selectLocation(scheduleInfo);
             }
         },
@@ -1147,32 +1150,32 @@ function selectLodging(scheduleInfo) {
 }
 //******************************************step3**************************************************
 //****************************************side modal**********************************************
-function sideModalLodging(scheduleInfo) {
+function sideModalLodging(scheduleInfo){
     const sideModal = document.getElementById("side-modal");
     $(sideModal).empty();
-
+    
     const noScroll = document.createElement('div');
     noScroll.className = "no_scroll";
-    sideModal.appendChild(noScroll);
+    sideModal.appendChild(noScroll); 
 
     const sideModalBtn = document.createElement('button');
     sideModalBtn.innerHTML = "<i class='bi bi-chevron-right'></i>";
     sideModal.appendChild(sideModalBtn);
     sideModal.isToggle = true;
-    sideModalBtn.onclick = function () {
+    sideModalBtn.onclick = function(){
         sideModal.isToggle = !sideModal.isToggle;
         sideModal.classList.toggle("active", !sideModal.isToggle);
     }
-
+    
     for (let i = 0; i <= dateToDay(scheduleInfo.startDate, scheduleInfo.endDate); i++) {
         // 일차 하나를 그려줄 때마다
         // 해당 일차에 맞는 명소들을 같이 보내줌
         let startDate = new Date(scheduleInfo.startDate);
         startDate = new Date(startDate.setDate(startDate.getDate() + i));
-
+    
 
         const sideModalContent = sideModalContentUnit({
-            day: "<span>" + (i + 1) + "<span>일차",
+            day: "<span>" + (i + 1) + "<span>일차", 
             date: startDate,
         }, scheduleInfo.lodgingInfo.filter(s => {
             return areDatesEqual(startDate, s.date);
@@ -1181,67 +1184,69 @@ function sideModalLodging(scheduleInfo) {
     }
 
 
-    // // 일정 드래그
-    const draggables = document.querySelectorAll(".draggable");
-    const containers = document.querySelectorAll(".select-wrap > ul");
-    const fixDraggable = document.querySelectorAll(".select-wrap > ul > .t-draggable");
+     // // 일정 드래그
+     const draggables = document.querySelectorAll(".draggable");
+     const containers = document.querySelectorAll(".select-wrap > ul");
+     const fixDraggable = document.querySelectorAll(".select-wrap > ul > .t-draggable");
+   
+     // const containers = document.querySelectorAll(".container-map");
 
-    // const containers = document.querySelectorAll(".container-map");
-
-
-    draggables.forEach(draggable => {
+ 
+     draggables.forEach(draggable => {
         draggable.ondragstart = () => {
 
             draggable.classList.add("dragging");
         }
-
-        draggable.ondragend = (ev) => {
+ 
+         draggable.ondragend = (ev) => {
             draggable.classList.remove("dragging");
 
             const info = document.querySelector(".select-dragging").info;
             info.id = generateShortUUID();
 
-            info.removeCallback = function (callbackData) {
+            info.removeCallback = function(callbackData){
                 scheduleInfo.lodgingInfo = scheduleInfo.lodgingInfo.filter(place => !(place.title === callbackData.title && areDatesEqual(callbackData.date, place.date)))
                 sideModalLodging(scheduleInfo);
             }
 
-            const filterList = scheduleInfo.lodgingInfo.filter(place => { return place.title === info.title && areDatesEqual(info.date, place.date) }
+            const filterList = scheduleInfo.lodgingInfo.filter(place => 
+                {return place.title === info.title && areDatesEqual(info.date, place.date)}
             )
-
+            
             if (filterList.length === 0)
                 scheduleInfo.lodgingInfo = [...scheduleInfo.lodgingInfo,
                     info
                 ]
-
-
+  
+    
             sideModalLodging(scheduleInfo);
         }
-    });
-
+     });
+ 
 
 
     fixDraggable.forEach(draggable => {
         draggable.ondragstart = () => {
 
             draggable.classList.add("change-dragging");
-
+ 
         }
-
+    
         draggable.ondragend = (ev) => {
-
+            
             const info = document.querySelector(".change-dragging").info;
+            
 
-
-            const filterList = scheduleInfo.lodgingInfo.filter(place => { return place.title === info.title && areDatesEqual(info.date, place.date) }
+            const filterList = scheduleInfo.lodgingInfo.filter(place => 
+                {return place.title === info.title && areDatesEqual(info.date, place.date)}
             )
 
-
+            
             if (filterList.length === 0)
                 scheduleInfo.lodgingInfo = scheduleInfo.lodgingInfo.map(p => (p.id === info.id) ? info : p);
-
-
-            sideModalLodging(scheduleInfo);
+            
+            
+                sideModalLodging(scheduleInfo);
             draggable.classList.remove("change-dragging");
         }
     });
@@ -1253,13 +1258,13 @@ function sideModalLodging(scheduleInfo) {
 
             if (document.querySelector(".dragging") || document.querySelector(".select-dragging")) {
                 let draggable = document.querySelector(".select-dragging") || document.querySelector(".dragging").cloneNode(true);
-
-
+                
+                
                 if (!draggable.classList.contains('select-dragging')) {
                     draggable.classList.add("select-dragging");
                     draggable.info = document.querySelector(".dragging").info;
                 }
-
+    
                 draggable.info = {
                     ...draggable.info,
                     className: "t-draggable",
@@ -1271,9 +1276,9 @@ function sideModalLodging(scheduleInfo) {
                 } else {
                     container.insertBefore(draggable, afterElement);
                 }
-            }
+            } 
 
-
+            
             if (document.querySelector(".change-dragging")) {
                 let draggable2 = document.querySelector(".change-dragging");
 
@@ -1328,7 +1333,7 @@ function chooseTransportation(scheduleInfo) {
 
 
             TransportationInfo(btnToggle);
-
+            
         }
     };
 
@@ -1347,7 +1352,7 @@ function chooseTransportation(scheduleInfo) {
         }
     };
 
-
+   
     function TransportationInfo() {
         if (btnToggle.isToggle) {
             scheduleInfo.transportation = "대중교통";
@@ -1355,12 +1360,12 @@ function chooseTransportation(scheduleInfo) {
             scheduleInfo.transportation = "승용차";
         }
     }
+    
 
-
-    const ScheduleCreationBtn = document.createElement('button');
+    const ScheduleCreationBtn  = document.createElement('button');
     ScheduleCreationBtn.className = "time-set-btn";
     ScheduleCreationBtn.innerText = "일정생성";
-    transportationWrap.appendChild(ScheduleCreationBtn);
+    transportationWrap.appendChild(ScheduleCreationBtn);  
 
 
     ScheduleCreationBtn.onclick = function () {
@@ -1368,10 +1373,10 @@ function chooseTransportation(scheduleInfo) {
     };
 
     setStepBtn({
-        prev: {
+        prev:{
             display: "block",
-            clickEvent: function () {
-
+             clickEvent: function(){
+              
                 console.log(scheduleInfo);
             }
         },
