@@ -100,3 +100,28 @@ $.ajax({
     }
 })
 }
+
+//최종일정 짜는 ajax
+function scheduleMakeAjax(scheduleInfo){
+    $.ajax({
+        url: "totalScheduleMake.bo",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(scheduleInfo),
+        success: function(res){
+            if(res ==="success"){
+                // moveFinalSchedule();
+            }
+        
+        },
+        error: function(){
+            console.log("totalScheduleMake.bo ajax 실패");
+        }
+    })
+}
+
+//최종일정 데이터가지고 페이지로 가기
+function moveFinalSchedule(){
+
+}

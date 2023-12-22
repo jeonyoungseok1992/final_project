@@ -13,6 +13,7 @@ import com.kh.fin.board.model.vo.Recommend;
 import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.board.model.vo.Report;
+import com.kh.fin.board.model.vo.ScheduleDTO;
 import com.kh.fin.board.model.vo.Star;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.member.model.vo.Member;
@@ -37,8 +38,12 @@ public class BoardServiceImpl implements BoardService{
 	public int reportContents(Report r) {
 		return boardDao.reportContents(sqlSession,r);
 	}
-
-
+	
+	//여행플랜짜기 1교통수단 넣기
+	@Override
+	public int insertTripPlan(ScheduleDTO schedule) {
+		return boardDao.insertTripPlan(sqlSession,schedule);
+	}
 	
 	
 	
@@ -1629,6 +1634,8 @@ public class BoardServiceImpl implements BoardService{
 //	public ArrayList<Report> reportInfor() {
 //		return boardDao.reportInfor(sqlSession);
 //	}
+
+	
 
 
 }

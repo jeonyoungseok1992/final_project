@@ -8,6 +8,7 @@ import com.kh.fin.board.model.vo.Recommend;
 import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.board.model.vo.Report;
+import com.kh.fin.board.model.vo.ScheduleDTO;
 import com.kh.fin.board.model.vo.Star;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.member.model.vo.Member;
@@ -16,7 +17,8 @@ public interface BoardService {
 	//게시글 및 댓글 신고
 	int reportContents(Report r);
 	
-	
+	//여행플랜짜기 1. TRIP_PLAN 넣기
+	int insertTripPlan(ScheduleDTO schedule);
 	
 
 	

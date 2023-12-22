@@ -4,7 +4,7 @@ const bsValue = {
     motelData: []
 }
 
-function init(regionList){
+function init(regionList, memberNo){
     bsValue.regionData = JSON.parse(regionList);
     drawScheduleMake({
         startDate: new Date(),
@@ -15,8 +15,8 @@ function init(regionList){
         regionName: bsValue.regionData.regionName,
         regionX: bsValue.regionData.regionX,
         regionY: bsValue.regionData.regionY,
-        regionNo: bsValue.regionData.regionNo
-
+        regionNo: bsValue.regionData.regionNo,
+        memberNo : memberNo,
     });
 
 
@@ -724,7 +724,6 @@ function selectLocation(scheduleInfo) {
          }
          // 검색결과 항목을 Element로 반환하는 함수입니다
          function getListItem(index, places) {
-             console.log(places)
              var el = document.createElement('li'),
                  itemStr = '<span class="markerbg marker_' + (index + 1) + '"></span>' +
                      '<div class="info">' +
@@ -746,7 +745,6 @@ function selectLocation(scheduleInfo) {
             //장소 추가하기위해 검색후 나온결과값 넘기는 함수 
            
             el.onclick = function () {
-        
                 places.id = generateShortUUID();
                 places.category ="내장소";
                 places.src="./resources/images/logo_01.png";
@@ -940,9 +938,8 @@ function sideModalFunk(scheduleInfo){
 
             const info = document.querySelector(".select-dragging").info;
             info.id = generateShortUUID();
-            console.log(info)
-            console.log(document.querySelector(".select-dragging"))
             info.removeCallback = function (callbackData) {
+                console.log(callbackData)
                 scheduleInfo.placeInfo = scheduleInfo.placeInfo.filter(place => !(place.title === callbackData.title && areDatesEqual(callbackData.date, place.date)))
                 sideModalFunk(scheduleInfo);
             }
@@ -1041,6 +1038,7 @@ function sideModalFunk(scheduleInfo){
 
 //******************************************step3**************************************************
 function selectLodging(scheduleInfo) {
+
     activeButton('step3');
     document.getElementById("side-modal").style.display = "block";
 
@@ -1307,22 +1305,22 @@ function selectLodging(scheduleInfo) {
                places.date= new Date();
                places.className = "t-draggable";
        
-               places.removeCallback = function (callbackData) {
-                   scheduleInfo.placeInfo = scheduleInfo.placeInfo.filter(place => !(place.title === callbackData.title && areDatesEqual(callbackData.date, place.date)))
-                   sideModalFunk(scheduleInfo);
-               }
-   
-   
-               const filterList = scheduleInfo.placeInfo.filter(place => { return place.title === places.title && areDatesEqual(places.date, place.date) }
-               )
-   
-               if (filterList.length === 0){
-                   scheduleInfo.placeInfo = [...scheduleInfo.placeInfo,
-                       places
-                   ]
-               }
-   
-               sideModalFunk(scheduleInfo);
+               places.removeCallback = function(callbackData){
+                    scheduleInfo.lodgingInfo = scheduleInfo.lodgingInfo.filter(place => !(place.title === callbackData.title && areDatesEqual(callbackData.date, place.date)))
+                    sideModalLodging(scheduleInfo);
+                }
+
+                const filterList = scheduleInfo.lodgingInfo.filter(place => 
+                    {return place.title === places.title && areDatesEqual(places.date, place.date)}
+                )
+                
+                if (filterList.length === 0)
+                    scheduleInfo.lodgingInfo = [...scheduleInfo.lodgingInfo,
+                        places
+                    ]
+    
+        
+                sideModalLodging(scheduleInfo);
 
                
    
@@ -1646,6 +1644,7 @@ function chooseTransportation(scheduleInfo) {
             scheduleInfo.transportation = "대중교통";
         } else if (btnToggle2.isToggle) {
             scheduleInfo.transportation = "승용차";
+            console.log(scheduleInfo)
         }
     }
     
@@ -1657,13 +1656,45 @@ function chooseTransportation(scheduleInfo) {
 
 
     ScheduleCreationBtn.onclick = function () {
+        // html2canvas(document.getElementById("map"), {useCORS: true}).then(function(canvas) {
+       
+        //     const myImg = canvas.toDataURL("image/jpeg");
+        //     const src = myImg.replace("image/jpeg", "image/octet-stream");
+			  
+        //     document.body.innerHTML = "<img src = '"+src+"'/>";
+
+                 //     var formData = new FormData();
+
+            //      formData.append("imgSrc", myImg);
+
+                // $.ajax({
+                //     type : "POST",
+                //     data : formData,
+                //     async:false,
+                //     processData: false,
+                //     contentType: false,
+                //     dataType : "text",
+                //     url : "captureImgSave.bo",
+                //     success : function(data) {
+                //         console.log(data);
+                //     },
+                //     error : function() {
+                //         alert("error");
+                //     }
+                // });
+
+            // })
+
+        scheduleMakeAjax(scheduleInfo);
+        
+        
     };
 
     setStepBtn({
         prev:{
             display: "block",
              clickEvent: function(){
-              
+                selectLodging(scheduleInfo);
              
             }
         },
