@@ -477,12 +477,12 @@ public class BoardController {
 		
 		ArrayList<Board> list = boardService.selectTogetherBoard(boardNo);
 		Member m = ((Member)session.getAttribute("loginUser"));
-		Member mem = memberService.pageFriend(boardNo, m);
+		//Member mem = memberService.pageFriend(boardNo, m);
 		//Member frMember = memberService.requestFriendList(boardNo, m);
 		if(!(list == null) ) {
 			
 			model.addAttribute("list", list);
-			model.addAttribute("friend",mem);
+			//model.addAttribute("friend",mem);
 			//model.addAttribute("frMember", frMember);
 			
 			return "board/boardTogetherDetailView";

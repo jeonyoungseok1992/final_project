@@ -3,7 +3,7 @@ const bsValue = {
     attData: [],
     motelData: [],
     markers: [],
-    linePath : [],
+    linePath : {},
 }
 
 var container;
@@ -935,7 +935,7 @@ function sideModalFunk(scheduleInfo) {
     }
 
 
-    removeMarker2();
+    removeMarker2("place");
     //removelinePath();
     for (let i = 0; i <= dateToDay(scheduleInfo.startDate, scheduleInfo.endDate); i++) {
 
@@ -955,7 +955,7 @@ function sideModalFunk(scheduleInfo) {
 
         attractionMap(i, scheduleInfo.placeInfo.filter(s => {
             return areDatesEqual(startDate, s.date);
-        }));
+        }), "place");
     }
 
 
@@ -1498,6 +1498,8 @@ function sideModalLodging(scheduleInfo) {
 
     }
     
+    
+    removeMarker2("lodging");
     for (let i = 0; i <= dateToDay(scheduleInfo.startDate, scheduleInfo.endDate); i++) {
         // 일차 하나를 그려줄 때마다
         // 해당 일차에 맞는 명소들을 같이 보내줌
@@ -1515,7 +1517,7 @@ function sideModalLodging(scheduleInfo) {
 
         attractionMap(i, scheduleInfo.lodgingInfo.filter(s => {
             return areDatesEqual(startDate, s.date);
-        }));
+        }), "lodging");
         
     }
 
@@ -1739,7 +1741,7 @@ function chooseTransportation(scheduleInfo) {
 
 
 
-function attractionMap(index, placeList) {
+function attractionMap(index, placeList, type) {
     const positionList = [];
     for (let place of placeList) {
         positionList.push({
@@ -1748,7 +1750,7 @@ function attractionMap(index, placeList) {
         })
     }
     console.log(index); 
-    addMarkersToMap(index,positionList);
+    addMarkersToMap(index,positionList, type);
 }
 
 
@@ -1757,11 +1759,11 @@ function attractionMap(index, placeList) {
 
 
 
-function addMarkersToMap(index, positions) {
+function addMarkersToMap(index, positions, type) {
     console.log(111); 
     console.log(index); 
 
-    var linePath = [];
+    //var linePath = [];
     // 마커 이미지의 이미지 주소입니다
     if (index === 0) {
         var imageSrc = "/mapping/resources/images/free-icon-location-5582962.png";
@@ -1770,19 +1772,33 @@ function addMarkersToMap(index, positions) {
 
     } else if (index === 2) {
         var imageSrc ="/mapping/resources/images/free-icon-location-pin-8637632.png";
-    }else if (index === 3) {
+    } else if (index === 3) {
         var imageSrc ="/mapping/resources/images/free-icon-maps-and-flags-447031.png";
     }
+
+  
+    //라인을 지워주는 코드
+    //지금 내가 다시그릴 명소, 숙소만 초기화
+    if (bsValue.linePath[index]){
+        bsValue.linePath[index] = bsValue.linePath[index].filter(p => p.tripType !== type);
+    } else {
+        bsValue.linePath[index] = [];
+    }
+
+    //라인을 지워주는 코드
+    //지금 내가 다시그릴 명소, 숙소만 초기화
+    if (bsValue.linePath[type + index]) {
+        bsValue.linePath[type + index].setMap(null);
+    } 
    
-    for (var a = 0; a < positions.length; a++) {
-        console.log("반복문 옴");
+    for (let a = 0; a < positions.length; a++) {
         // 마커 이미지의 이미지 크기 입니다
-        var imageSize = new kakao.maps.Size(24, 35);
+        let imageSize = new kakao.maps.Size(24, 35);
 
         // 마커 이미지를 생성합니다    
-        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+        let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
-        var marker = new kakao.maps.Marker({
+        let marker = new kakao.maps.Marker({
 
             map: map,
             position: positions[a].latlng,
@@ -1794,15 +1810,21 @@ function addMarkersToMap(index, positions) {
 
         map.setCenter(positions[a].latlng);
         marker.setMap(map);
-        bsValue.markers.push(marker);
+        marker.tripType = type;
         
-        linePath.push(positions[a].latlng);
+        bsValue.markers.push(marker);
+        positions[a].latlng.tripType = type;
+        console.log(positions[a].latlng.tripType);
+        console.log(positions);
+        
+        bsValue.linePath[index].push(positions[a].latlng);
+        
     }
 
-    var polyline;
+    let polyline;
     if (index === 0) {
         polyline = new kakao.maps.Polyline({
-            path: linePath,
+            path: bsValue.linePath[index],
             strokeWeight: 5,
             strokeColor: '#e95a60c2',
             strokeOpacity: 0.7,
@@ -1810,7 +1832,7 @@ function addMarkersToMap(index, positions) {
         });
     } else if (index === 1) {
         polyline = new kakao.maps.Polyline({
-            path: linePath,
+            path: bsValue.linePath[index],
             strokeWeight: 5,
             strokeColor: '#4d60c7c2',
             strokeOpacity: 0.7,
@@ -1818,7 +1840,7 @@ function addMarkersToMap(index, positions) {
         });
     } else if (index === 2) {
         polyline = new kakao.maps.Polyline({
-            path: linePath,
+            path: bsValue.linePath[index],
             strokeWeight: 5,
             strokeColor: '#87e5ccc2',
             strokeOpacity: 0.7,
@@ -1826,7 +1848,7 @@ function addMarkersToMap(index, positions) {
         });
     }else if (index === 3) {
         polyline = new kakao.maps.Polyline({
-            path: linePath,
+            path: bsValue.linePath[index],
             strokeWeight: 5,
             strokeColor: '#000000a6',
             strokeOpacity: 0.7,
@@ -1835,14 +1857,14 @@ function addMarkersToMap(index, positions) {
     }
     else{
         polyline = new kakao.maps.Polyline({
-            path: linePath,
+            path: bsValue.linePath[index],
             strokeWeight: 5,
             strokeColor: '#eb4a4a',
             strokeOpacity: 0.7,
             strokeStyle: 'solid'
         });
     }
-    
+    bsValue.linePath[type + index] = polyline;
     
      
 
@@ -1850,7 +1872,7 @@ function addMarkersToMap(index, positions) {
     // 지도에 선을 표시합니다 
     polyline.setMap(map);
 
-   
+    console.log(bsValue)
 }
 
   
@@ -1865,9 +1887,11 @@ function addMarkersToMap(index, positions) {
 
 
 
-function removeMarker2() {
+function removeMarker2(type) {
+
     for (var i = 0; i < bsValue.markers.length; i++) {
-        bsValue.markers[i].setMap(null);
+        if (bsValue.markers[i].tripType === type)
+            bsValue.markers[i].setMap(null);
     }
     bsValue.markers.length = 0; // 배열을 비우는 방식으로 수정
 }
