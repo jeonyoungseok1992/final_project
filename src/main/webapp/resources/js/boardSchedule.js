@@ -1,12 +1,15 @@
 const bsValue = {
     regionData: [], /* 페이지 로드시 지역정보 가져온거 담겨있는곳*/
     attData: [],
-    motelData: []
+    motelData: [],
+    markers: [],
+    linePath : [],
 }
 
 var container;
 var options;
 var map;
+
 
 function init(regionList) {
     bsValue.regionData = JSON.parse(regionList);
@@ -104,7 +107,7 @@ function drawScheduleMake(scheduleInfo) {
     container = document.getElementById('map');
     options = {
         center: new kakao.maps.LatLng(scheduleInfo.regionY, scheduleInfo.regionX),
-        level: 3
+        level: 4
     };
 
     map = new kakao.maps.Map(container, options);
@@ -347,14 +350,20 @@ function drawScheduleMake(scheduleInfo) {
             for (att of data) {
                 attLoca = att.firstimage;
                 addTitle = att.title;
+                mX = att.mapx
+                mY = att.mapy;
+                // addMarker(mY, mX);
                 let selectCard = selectWrapLiUnit({
                     src: attLoca,
                     title: addTitle,
                     category: "식당",
                     className: "draggable",
+                    mapX: mX,
+                    mapY: mY,
                     id: generateShortUUID()
                 });
                 bsValue.attData.push(selectCard);
+
                 //selectWrapUl.appendChild(selectCard);
             }
 
@@ -377,17 +386,22 @@ function drawScheduleMake(scheduleInfo) {
             let addTitle;
 
             for (att of data) {
-
                 attLoca = att.firstimage;
                 addTitle = att.title;
+                mX = att.mapx
+                mY = att.mapy;
+                // addMarker(mY, mX);
                 let selectCard = selectWrapLiUnit({
                     src: attLoca,
                     title: addTitle,
                     category: "행사",
                     className: "draggable",
+                    mapX: mX,
+                    mapY: mY,
                     id: generateShortUUID()
                 });
                 bsValue.attData.push(selectCard);
+
                 //selectWrapUl.appendChild(selectCard);
             }
 
@@ -412,17 +426,22 @@ function drawScheduleMake(scheduleInfo) {
             let addTitle;
 
             for (att of data) {
-
                 attLoca = att.firstimage;
                 addTitle = att.title;
+                mX = att.mapx
+                mY = att.mapy;
+                // addMarker(mY, mX);
                 let selectCard = selectWrapLiUnit({
                     src: attLoca,
                     title: addTitle,
                     category: "추천 숙소",
                     className: "draggable",
+                    mapX: mX,
+                    mapY: mY,
                     id: generateShortUUID()
                 });
                 bsValue.motelData.push(selectCard);
+
                 //selectWrapUl.appendChild(selectCard);
             }
 
@@ -759,6 +778,8 @@ function selectLocation(scheduleInfo) {
                 places.title = places.place_name;
                 places.date = new Date();
                 places.className = "t-draggable";
+                places.mapX= places.x;
+                places.mapY=places.y;
 
                 places.removeCallback = function (callbackData) {
                     scheduleInfo.placeInfo = scheduleInfo.placeInfo.filter(place => !(place.title === callbackData.title && areDatesEqual(callbackData.date, place.date)))
@@ -896,6 +917,7 @@ function selectLocation(scheduleInfo) {
 //******************************************step2**************************************************
 //****************************************side modal**********************************************
 function sideModalFunk(scheduleInfo) {
+    console.log(scheduleInfo);
     const sideModal = document.getElementById("side-modal");
     $(sideModal).empty();
 
@@ -912,6 +934,9 @@ function sideModalFunk(scheduleInfo) {
         sideModal.classList.toggle("active", !sideModal.isToggle);
     }
 
+
+    removeMarker2();
+    //removelinePath();
     for (let i = 0; i <= dateToDay(scheduleInfo.startDate, scheduleInfo.endDate); i++) {
 
         // 일차 하나를 그려줄 때마다
@@ -1104,6 +1129,7 @@ function selectLodging(scheduleInfo) {
     const category = document.createElement('div');
     category.className = 'category';
     tabContent1.appendChild(category);
+    
     const recommendedPlace = toggleButtonUnit({
         className: "toggle",
         innerText: "추천 숙소",
@@ -1318,18 +1344,20 @@ function selectLodging(scheduleInfo) {
                places.title=places.place_name;
                places.date= new Date();
                places.className = "t-draggable";
+               places.mapX= places.x;
+               places.mapY=places.y;
        
                places.removeCallback = function (callbackData) {
-                   scheduleInfo.placeInfo = scheduleInfo.placeInfo.filter(place => !(place.title === callbackData.title && areDatesEqual(callbackData.date, place.date)))
+                   scheduleInfo.lodgingInfo = scheduleInfo.lodgingInfo.filter(place => !(place.title === callbackData.title && areDatesEqual(callbackData.date, place.date)))
                    sideModalFunk(scheduleInfo);
                }
    
    
-               const filterList = scheduleInfo.placeInfo.filter(place => { return place.title === places.title && areDatesEqual(places.date, place.date) }
+               const filterList = scheduleInfo.lodgingInfo.filter(place => { return place.title === places.title && areDatesEqual(places.date, place.date) }
                )
    
                if (filterList.length === 0){
-                   scheduleInfo.placeInfo = [...scheduleInfo.placeInfo,
+                   scheduleInfo.lodgingInfo = [...scheduleInfo.lodgingInfo,
                        places
                    ]
                }
@@ -1451,6 +1479,7 @@ function selectLodging(scheduleInfo) {
 //******************************************step3**************************************************
 //****************************************side modal**********************************************
 function sideModalLodging(scheduleInfo) {
+    console.log(scheduleInfo);
     const sideModal = document.getElementById("side-modal");
     $(sideModal).empty();
 
@@ -1468,7 +1497,7 @@ function sideModalLodging(scheduleInfo) {
 
 
     }
-
+    
     for (let i = 0; i <= dateToDay(scheduleInfo.startDate, scheduleInfo.endDate); i++) {
         // 일차 하나를 그려줄 때마다
         // 해당 일차에 맞는 명소들을 같이 보내줌
@@ -1483,6 +1512,11 @@ function sideModalLodging(scheduleInfo) {
             return areDatesEqual(startDate, s.date);
         }));
         noScroll.appendChild(sideModalContent);
+
+        attractionMap(i, scheduleInfo.lodgingInfo.filter(s => {
+            return areDatesEqual(startDate, s.date);
+        }));
+        
     }
 
 
@@ -1713,8 +1747,8 @@ function attractionMap(index, placeList) {
             latlng: new kakao.maps.LatLng(place.mapY, place.mapX)
         })
     }
-    
-    addMarkersToMap(positionList);
+    console.log(index); 
+    addMarkersToMap(index,positionList);
 }
 
 
@@ -1723,11 +1757,23 @@ function attractionMap(index, placeList) {
 
 
 
-function addMarkersToMap(positions) {
-    var markers = [];
+function addMarkersToMap(index, positions) {
+    console.log(111); 
+    console.log(index); 
+
     var linePath = [];
     // 마커 이미지의 이미지 주소입니다
-    var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+    if (index === 0) {
+        var imageSrc = "/mapping/resources/images/free-icon-location-5582962.png";
+    } else if (index === 1) {
+        var imageSrc = "/mapping/resources/images/free-icon-location-7976202.png";
+
+    } else if (index === 2) {
+        var imageSrc ="/mapping/resources/images/free-icon-location-pin-8637632.png";
+    }else if (index === 3) {
+        var imageSrc ="/mapping/resources/images/free-icon-maps-and-flags-447031.png";
+    }
+   
     for (var a = 0; a < positions.length; a++) {
         console.log("반복문 옴");
         // 마커 이미지의 이미지 크기 입니다
@@ -1745,35 +1791,92 @@ function addMarkersToMap(positions) {
             
             
         });
+
         map.setCenter(positions[a].latlng);
         marker.setMap(map);
-        //removeMarker2(markers);
-        //markers = [];
-        markers.push(marker);
-       
+        bsValue.markers.push(marker);
+        
         linePath.push(positions[a].latlng);
     }
 
-    // 지도에 표시할 선을 생성합니다
-    var polyline = new kakao.maps.Polyline({
-        path: linePath, // 선을 구성하는 좌표배열 입니다
-        strokeWeight: 5, // 선의 두께 입니다
-        strokeColor: '#FFAE00', // 선의 색깔입니다
-        strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-        strokeStyle: 'solid' // 선의 스타일입니다
-    });
+    var polyline;
+    if (index === 0) {
+        polyline = new kakao.maps.Polyline({
+            path: linePath,
+            strokeWeight: 5,
+            strokeColor: '#e95a60c2',
+            strokeOpacity: 0.7,
+            strokeStyle: 'solid'
+        });
+    } else if (index === 1) {
+        polyline = new kakao.maps.Polyline({
+            path: linePath,
+            strokeWeight: 5,
+            strokeColor: '#4d60c7c2',
+            strokeOpacity: 0.7,
+            strokeStyle: 'solid'
+        });
+    } else if (index === 2) {
+        polyline = new kakao.maps.Polyline({
+            path: linePath,
+            strokeWeight: 5,
+            strokeColor: '#87e5ccc2',
+            strokeOpacity: 0.7,
+            strokeStyle: 'solid'
+        });
+    }else if (index === 3) {
+        polyline = new kakao.maps.Polyline({
+            path: linePath,
+            strokeWeight: 5,
+            strokeColor: '#000000a6',
+            strokeOpacity: 0.7,
+            strokeStyle: 'solid'
+        });
+    }
+    else{
+        polyline = new kakao.maps.Polyline({
+            path: linePath,
+            strokeWeight: 5,
+            strokeColor: '#eb4a4a',
+            strokeOpacity: 0.7,
+            strokeStyle: 'solid'
+        });
+    }
+    
+    
+     
+
 
     // 지도에 선을 표시합니다 
     polyline.setMap(map);
 
-
-
+   
 }
+
+  
+
+
+
+
+
+
+
+
+
 
 
 function removeMarker2() {
-    for (var i = 0; i < markers.length; i++) {
-        //markers[i].setMap(null);
+    for (var i = 0; i < bsValue.markers.length; i++) {
+        bsValue.markers[i].setMap(null);
     }
-    //markers = [];
+    bsValue.markers.length = 0; // 배열을 비우는 방식으로 수정
 }
+
+// function removelinePath() {
+//     for (var i = 0; i < bsValue.linePath.length; i++) {
+//         if (bsValue.linePath[i] instanceof kakao.maps.Polyline) {
+//             bsValue.linePath[i].setMap(null);
+//         }
+//     }
+//     bsValue.linePath.length = 0;
+// }
