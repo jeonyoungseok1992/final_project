@@ -12,6 +12,7 @@ import com.kh.fin.board.model.vo.Recommend;
 import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.board.model.vo.Report;
+import com.kh.fin.board.model.vo.ScheduleDTO;
 import com.kh.fin.board.model.vo.Star;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.member.model.vo.Member;
@@ -42,8 +43,10 @@ public class BoardDao {
 		return sqlSession.insert("boardMapper.reportContents", r);
 	}
 	
-	
-	
+	//여행플랜짜기 1교통수단 넣기
+	public int insertTripPlan(SqlSessionTemplate sqlSession , ScheduleDTO schedule) {
+		return sqlSession.insert("boardMapper.insertTripPlan",schedule );
+	}
 	
 	
 	

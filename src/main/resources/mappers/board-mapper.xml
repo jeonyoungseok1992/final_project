@@ -136,7 +136,26 @@
 							)
 		</insert>
 	
-
+	<!-- 여행플랜짜기 1. TRIP_PLAN 넣기 -->
+	<insert id="insertTripPlan">
+		INSERT INTO TRIP_PLAN 
+				(TRIP_PLAN_NO
+				,TRIP_PLANNER_NO
+				,TRIP_PLAN_TITLE
+				,TRIP_START_DATE
+				,TRIP_END_DATE
+				,TRANSPORTATION_NO
+				,TRIP_PLAN_THUMBNAIL
+				)
+		VALUES (SEQ_TPNO.NEXTVAL
+				,#{memberNo}
+				,TO_CHAR(SYSDATE, 'YY/MM/DD') || '일정'
+				,#{startDate}
+				,#{endDate}
+				,#{transportationNo}
+				,'https://mobile.busan.com/nas/wcms/wcms_data/photos/2022/12/17/2022121712041864096_l.jpg'
+							)
+	</insert>
 
 
 				

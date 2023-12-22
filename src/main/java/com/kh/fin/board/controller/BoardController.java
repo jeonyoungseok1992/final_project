@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,6 +34,7 @@ import com.kh.fin.board.model.vo.Recommend;
 import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.board.model.vo.Report;
+import com.kh.fin.board.model.vo.ScheduleDTO;
 import com.kh.fin.board.model.vo.Star;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.common.template.Pagenation;
@@ -87,7 +90,67 @@ public class BoardController {
 			return "fail";
 		}
 	}
+//	//일정 생성시 map 캡쳐 후 내 로컬에 저장 하는 메서드
+//	@RequestMapping("/captureImgSave.bo")
+//    public String handleImageUpload(@RequestParam("imgSrc") String imgFile) {
+//		 try {
+//			 // Base64 디코딩
+//	            byte[] decodedImg = Base64.getDecoder().decode(imgFile);
+//	            System.out.println(decodedImg);
+//	            // 이미지 파일로 저장
+//	            
+//	            
+//	            return "Success";
+//	        } catch (Exception e) {
+//	            e.printStackTrace();
+//	            return "Error";
+//	        }
+//		
+//		
+//	
+//    }
 	
+	
+	
+	
+	
+	//모든 일정 저장해주고 짜여진 일정 넣어주기
+	@RequestMapping(value="/totalScheduleMake.bo")
+	public String totalScheduleMake(@RequestBody ScheduleDTO schedule) {
+		System.out.println(schedule);
+		
+		if(schedule.getTransportation().equals("대중교통")) {
+			schedule.setTransportationNo(1);
+		}else if(schedule.getTransportation().equals("승용차")){
+			schedule.setTransportationNo(2);
+		}
+		
+		//insert 순서 1.TRIP_PLAN 2.ATTRACTION  5. LOCATION
+		int result1 = boardService.insertTripPlan(schedule);
+		System.out.println(result1);
+		
+		
+		List<ScheduleDTO.PlaceInfo> placeInfoList = schedule.getPlaceInfo();
+
+		for (ScheduleDTO.PlaceInfo placeInfo : placeInfoList) {
+
+		}
+		List<ScheduleDTO.LodgingInfo> lodgingInfoList = schedule.getLodgingInfo();
+
+		for (ScheduleDTO.LodgingInfo lodgingInfo : lodgingInfoList) {
+		   
+		}
+		
+		
+//		if(result > 0 ) {
+//			return "success";
+//		}else {
+//			return "fail";
+//		}
+		return "fail";
+	}
+	
+
 	
 	
 	
