@@ -67,6 +67,7 @@
 		<result column="REGION_NO" property="regionNo"/>
 		<result column="REGION_NAME" property="regionName"/>
 		<result column="TRIP_N_DAY" property="tripNday"/>
+		
 	</resultMap>
 	
 	<resultMap type="Region" id="regionResult">
@@ -137,7 +138,7 @@
 		</insert>
 	
 	<!-- 여행플랜짜기 1. TRIP_PLAN 넣기 -->
-	<insert id="insertTripPlan">
+	<insert id="insertTripPlan" >
 		INSERT INTO TRIP_PLAN 
 				(TRIP_PLAN_NO
 				,TRIP_PLANNER_NO
@@ -155,9 +156,99 @@
 				,#{transportationNo}
 				,'https://mobile.busan.com/nas/wcms/wcms_data/photos/2022/12/17/2022121712041864096_l.jpg'
 							)
+		<selectKey keyProperty="tripPlanNo" resultType="Integer" order="AFTER">
+			SELECT SEQ_TPNO.currval FROM dual
+		</selectKey>
+
 	</insert>
-
-
+	<!--여행플랜짜기 2. Attraction(숙소아닌모든거) 넣기-->
+	<insert id="insertAttraction">
+		INSERT INTO ATTRACTION
+				(ATTRACTION_NO
+				,ATTRACTION_NAME
+				,ATTRACTION_X
+				,ATTRACTION_Y
+				,ATTRACTION_CHANGE_NAME_IMG
+				,ATTRACTION_CATEGORY_NO
+				,ATTRACTION_REGION_NO
+				)
+		VALUES (SEQ_ARTNO.NEXTVAL
+				,#{title}
+				,#{mapX}
+				,#{mapY}
+		<choose>
+			<when test="src == ''">
+				,DEFAULT
+			</when>
+			<otherwise>
+				,#{src}
+			</otherwise>
+		</choose>
+				,#{attractionCategoryNo}
+				,#{regionNo}
+							)
+	</insert>
+	<!--여행플랜짜기 2. Attraction(숙소) 넣기-->
+	<insert id="insertHotel">
+		INSERT INTO ATTRACTION
+				(ATTRACTION_NO
+				,ATTRACTION_NAME
+				,ATTRACTION_X
+				,ATTRACTION_Y
+				,ATTRACTION_CHANGE_NAME_IMG
+				,ATTRACTION_CATEGORY_NO
+				,ATTRACTION_REGION_NO
+				)
+		VALUES (SEQ_ARTNO.NEXTVAL
+				,#{title}
+				,#{mapX}
+				,#{mapY}
+		<choose>
+			<when test="src == ''">
+				,DEFAULT
+			</when>
+			<otherwise>
+				,#{src}
+			</otherwise>
+		</choose>
+				,#{attractionCategoryNo}
+				,#{regionNo}
+							)
+	</insert>
+	
+	<!-- 여행플랜짜기 3.location(숙소 아닌 모든거) 넣기	 -->
+	<insert id="insertLocation">
+		INSERT INTO LOCATION 
+				(LOCATION_NO
+				,TRIP_N_DAY
+				,LOCATION_N
+				,LOCATION_ATTRACTION_NO
+				,TRIP_PLAN_NO
+				)
+		VALUES (SEQ_LCNO.NEXTVAL
+				,#{tripNday}
+				,SEQ_LCNO.CURRVAL
+				,SEQ_ARTNO.CURRVAL
+				,SEQ_TPNO.CURRVAL
+							)
+	</insert>
+	<!-- 여행플랜짜기 3.location(숙소) 넣기	 -->
+	<insert id="insertLocationHotel">
+		INSERT INTO LOCATION 
+				(LOCATION_NO
+				,TRIP_N_DAY
+				,LOCATION_N
+				,LOCATION_ATTRACTION_NO
+				,TRIP_PLAN_NO
+				)
+		VALUES (SEQ_LCNO.NEXTVAL
+				,#{tripNday}
+				,SEQ_LCNO.CURRVAL
+				,SEQ_ARTNO.CURRVAL
+				,SEQ_TPNO.CURRVAL
+							)
+	</insert>
+	
 				
 	
 	
@@ -303,8 +394,8 @@
 	<select id="selectPlanList" resultMap="planResult">
  		select  TRIP_PLAN_NO
 				,TRIP_PLAN_TITLE
-		        ,TO_CHAR(TRIP_START_DATE, 'YYYY/MM/DD') AS "TRIP_START_DATE"
-		        ,TO_CHAR(TRIP_END_DATE, 'YYYY/MM/DD') AS "TRIP_END_DATE"
+		        ,TRIP_START_DATE
+		        ,TRIP_END_DATE
                 ,LOCATION_NO
                 ,TRIP_PLAN_THUMBNAIL
                 ,ATTRACTION_NO
@@ -334,13 +425,17 @@
                 ,ATTRACTION_CHANGE_NAME_IMG
                 ,TRIP_N_DAY
                 ,REGION_NO
+                ,REGION_NAME
+                ,TRIP_START_DATE
+                ,TRIP_END_DATE
+                ,CATEGORY_NAME
 		from TRIP_PLAN
 		join member on (TRIP_PLANNER_NO = MEMBER_NO)
         join location using (TRIP_PLAN_NO)
         join ATTRACTION on (LOCATION_ATTRACTION_NO = ATTRACTION_NO)
         join REGION on (REGION_NO = ATTRACTION_REGION_NO)
+        join category on (CATEGORY_NO = ATTRACTION_CATEGORY_NO)
 		where TRIP_PLAN_NO = #{tripPlanNo}
-		order by TRIP_N_DAY
 	</select>
 	
 	<!-- plan max day 조회하는 쿼리문 -->
@@ -758,8 +853,8 @@
 		<select id="selectPlanListRe" resultMap="planResult">
 		 		select  TRIP_PLAN_NO
 						,TRIP_PLAN_TITLE
-				        ,TO_CHAR(TRIP_START_DATE, 'YYYY/MM/DD') AS "TRIP_START_DATE"
-				        ,TO_CHAR(TRIP_END_DATE, 'YYYY/MM/DD') AS "TRIP_END_DATE"
+				        ,TRIP_START_DATE
+				        ,TRIP_END_DATE
 		                ,LOCATION_NO
 		                ,TRIP_PLAN_THUMBNAIL
 		                ,ATTRACTION_NO
@@ -1075,8 +1170,8 @@
 		        ,BOARD_CONTENT
 		        ,BOARD_WRITER
 		        ,TO_CHAR(BOARD_MODIFY_DATE, 'YYYY-MM-DD') AS BOARD_MODIFY_DATE       
-		        ,TO_CHAR(TRIP_START_DATE, 'YYYY-MM-DD') AS TRIP_START_DATE       
-		        ,TO_CHAR(TRIP_END_DATE, 'YYYY-MM-DD') AS TRIP_END_DATE       
+		        ,TRIP_START_DATE       
+		        ,TRIP_END_DATE       
 		from board
 		join member on (BOARD_WRITER = MEMBER_NO)
 		JOIN TRIP_PLAN ON(BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
@@ -1106,8 +1201,8 @@
 		        ,BOARD_CONTENT
 		        ,BOARD_WRITER
 		        ,TO_CHAR(BOARD_MODIFY_DATE, 'YYYY-MM-DD') AS BOARD_MODIFY_DATE       
-		        ,TO_CHAR(TRIP_START_DATE, 'YYYY-MM-DD') AS TRIP_START_DATE       
-		        ,TO_CHAR(TRIP_END_DATE, 'YYYY-MM-DD') AS TRIP_END_DATE
+		        ,TRIP_START_DATE       
+		        ,TRIP_END_DATE
 		from board
 		join member on (BOARD_WRITER = MEMBER_NO)
 		JOIN TRIP_PLAN ON(BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)

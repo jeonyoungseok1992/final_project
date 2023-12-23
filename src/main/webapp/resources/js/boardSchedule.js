@@ -1706,11 +1706,11 @@ function chooseTransportation(scheduleInfo) {
 
     ScheduleCreationBtn.onclick = function () {
         // html2canvas(document.getElementById("map"), {useCORS: true}).then(function(canvas) {
-       
         //     const myImg = canvas.toDataURL("image/jpeg");
         //     const src = myImg.replace("image/jpeg", "image/octet-stream");
 			  
         //     document.body.innerHTML = "<img src = '"+src+"'/>";
+        // });
 
                  //     var formData = new FormData();
 

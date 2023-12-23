@@ -14,6 +14,8 @@ import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.board.model.vo.Report;
 import com.kh.fin.board.model.vo.ScheduleDTO;
 import com.kh.fin.board.model.vo.Star;
+import com.kh.fin.board.model.vo.attractionDTO;
+import com.kh.fin.board.model.vo.hotelDTO;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.member.model.vo.Member;
 
@@ -48,8 +50,23 @@ public class BoardDao {
 		return sqlSession.insert("boardMapper.insertTripPlan",schedule );
 	}
 	
+	//여행플랜짜기 2. Attraction(숙소 아닌 모든거) 넣기
+	public int insertAttraction(SqlSessionTemplate sqlSession ,attractionDTO attraction) {
+		return sqlSession.insert("boardMapper.insertAttraction",attraction);
+	}
 	
-	
+	//여행플랜짜기 2. Attraction(숙소) 넣기
+		public int insertHotel(SqlSessionTemplate sqlSession ,hotelDTO hotel) {
+			return sqlSession.insert("boardMapper.insertHotel",hotel);
+		}
+	//여행플랜짜기 3.location(숙소 아닌 모든거) 넣기	
+	public int insertLocation(SqlSessionTemplate sqlSession ,attractionDTO attraction) {
+		return sqlSession.insert("boardMapper.insertLocation",attraction);
+	}
+	//여행플랜짜기 3.location(숙소) 넣기	
+		public int insertLocationHotel(SqlSessionTemplate sqlSession ,hotelDTO hotel) {
+			return sqlSession.insert("boardMapper.insertLocationHotel",hotel);
+		}
 	
 	
 	

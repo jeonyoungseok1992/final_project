@@ -4,8 +4,11 @@ package com.kh.fin.board.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -16,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +40,8 @@ import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.board.model.vo.Report;
 import com.kh.fin.board.model.vo.ScheduleDTO;
 import com.kh.fin.board.model.vo.Star;
+import com.kh.fin.board.model.vo.attractionDTO;
+import com.kh.fin.board.model.vo.hotelDTO;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.common.template.Pagenation;
 import com.kh.fin.member.model.service.MemberService;
@@ -115,42 +121,171 @@ public class BoardController {
 	
 	
 	//모든 일정 저장해주고 짜여진 일정 넣어주기
+	@ResponseBody
 	@RequestMapping(value="/totalScheduleMake.bo")
 	public String totalScheduleMake(@RequestBody ScheduleDTO schedule) {
 		System.out.println(schedule);
-		
+	
 		if(schedule.getTransportation().equals("대중교통")) {
 			schedule.setTransportationNo(1);
 		}else if(schedule.getTransportation().equals("승용차")){
 			schedule.setTransportationNo(2);
 		}
 		
+		// 문자열을 Instant으로 변환
+        Instant e = Instant.parse(schedule.getEndDate());
+        Instant s = Instant.parse(schedule.getStartDate());
+
+        // Instant을 LocalDate로 변환 (시간 부분을 제외)
+        LocalDate en = e.atZone(ZoneId.of("UTC")).toLocalDate();
+        LocalDate st = s.atZone(ZoneId.of("UTC")).toLocalDate();
+
+        // LocalDate를 다른 형식으로 출력
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String endDate = en.format(outputFormatter);
+        String startDate = st.format(outputFormatter);
+
+        // 문자열을 LocalDate로 변환
+        LocalDate start = LocalDate.parse(startDate);
+        LocalDate end = LocalDate.parse(endDate);
+
+        
+        // 두 날짜 간의 날짜 목록 생성
+        List<LocalDate> dateList = new ArrayList<>();
+        LocalDate currentDate = start;
+
+        while (!currentDate.isAfter(end)) {
+            dateList.add(currentDate);
+            currentDate = currentDate.plusDays(1);
+        }
+
 		//insert 순서 1.TRIP_PLAN 2.ATTRACTION  5. LOCATION
 		int result1 = boardService.insertTripPlan(schedule);
-		System.out.println(result1);
+		System.out.println("result1 : " +result1);
 		
 		
-		List<ScheduleDTO.PlaceInfo> placeInfoList = schedule.getPlaceInfo();
 
-		for (ScheduleDTO.PlaceInfo placeInfo : placeInfoList) {
+	        
+	        
+		
+		
+		
+		List<attractionDTO> attractionDTOList = new ArrayList<>();
+		//날짜 가공해야하는부분
+		
+			for (attractionDTO attraction : schedule.getPlaceInfo()) {
+				// attractionDTO 객체 생성
+			    attractionDTO newAttraction = new attractionDTO();
+				if(attraction.getCategory().equals("추천 숙소")) {
+					newAttraction.setAttractionCategoryNo(4);;
+				}else if(attraction.getCategory().equals("행사")){
+					newAttraction.setAttractionCategoryNo(3);
+				}else if(attraction.getCategory().equals("식당")){
+					newAttraction.setAttractionCategoryNo(2);
+				}else {
+					newAttraction.setAttractionCategoryNo(1);
+				}
+				//n일차 넣어주는곳
+				for (int i = 0; i < dateList.size(); i++) {
+					Instant ins = Instant.parse(attraction.getDate());
+					LocalDate inss = ins.atZone(ZoneId.of("UTC")).toLocalDate();
+					String thisDate = inss.format(outputFormatter);
+					LocalDate date = dateList.get(i);
+					if(outputFormatter.format(date).equals(thisDate)) {
+						newAttraction.setTripNday(i+1);
+					}
+				}
 
-		}
-		List<ScheduleDTO.LodgingInfo> lodgingInfoList = schedule.getLodgingInfo();
-
-		for (ScheduleDTO.LodgingInfo lodgingInfo : lodgingInfoList) {
 		   
+			    newAttraction.setRegionNo(schedule.getRegionNo());
+			    newAttraction.setSrc(attraction.getSrc());
+			    newAttraction.setTitle(attraction.getTitle());
+			    newAttraction.setDate(attraction.getDate());
+			    newAttraction.setMapX(attraction.getMapX());
+			    newAttraction.setMapY(attraction.getMapY());
+			    
+			    // 생성된 attractionDTO를 리스트에 추가
+			    attractionDTOList.add(newAttraction);
+			}
+		
+		int result2 = 0;
+		int result3 =0;
+		for(attractionDTO attraction :attractionDTOList) {
+			result2 += boardService.insertAttraction(attraction);
+			result3 += boardService.insertLocation(attraction);
 		}
+		System.out.println("result2 : " + result2);
+		System.out.println("result3 : " + result3);
 		
+		List<hotelDTO> hotelDTOlist = new ArrayList<>();
+			for (hotelDTO hotel : schedule.getLodgingInfo()) {
+				// attractionDTO 객체 생성
+				hotelDTO newHotel = new hotelDTO();
+				if(hotel.getCategory().equals("추천 숙소")) {
+					newHotel.setAttractionCategoryNo(4);
+				}else if(hotel.getCategory().equals("행사")){
+					newHotel.setAttractionCategoryNo(3);
+				}else if(hotel.getCategory().equals("식당")){
+					newHotel.setAttractionCategoryNo(2);
+				}else {
+					newHotel.setAttractionCategoryNo(1);
+				}
+				
+				//n일차 넣어주는곳
+				for (int i = 0; i < dateList.size(); i++) {
+					Instant ins = Instant.parse(hotel.getDate());
+					LocalDate inss = ins.atZone(ZoneId.of("UTC")).toLocalDate();
+					String thisDate = inss.format(outputFormatter);
+					LocalDate date2 = dateList.get(i);
+					if(outputFormatter.format(date2).equals(thisDate)) {
+						newHotel.setTripNday(i+1);
+					}
+				}
+	
+			   
+				newHotel.setRegionNo(schedule.getRegionNo());
+				newHotel.setSrc(hotel.getSrc());
+				newHotel.setTitle(hotel.getTitle());
+				newHotel.setDate(hotel.getDate());
+				newHotel.setMapX(hotel.getMapX());
+				newHotel.setMapY(hotel.getMapY());
+	
+	
+			    // 생성된 attractionDTO를 리스트에 추가
+				hotelDTOlist.add(newHotel);
+			}
 		
-//		if(result > 0 ) {
-//			return "success";
-//		}else {
-//			return "fail";
-//		}
-		return "fail";
+		int result4 = 0;
+		int result5 = 0;
+		for(hotelDTO hotel :hotelDTOlist) {
+			result4 += boardService.insertHotel(hotel);
+			result5 += boardService.insertLocationHotel(hotel);
+		}
+		System.out.println("result4 : " + result4);
+		System.out.println("result5 : " + result5);
+
+      
+		System.out.println(schedule.getTripPlanNo());
+		
+		if(result1*result2*result3*result4*result5 >0) {
+			return  Integer.toString(schedule.getTripPlanNo());
+		}
+		else { 
+		
+			return "fail";
+		}
 	}
 	
-
+	//내가 짠 최종일정 보여주는 페이지
+	@RequestMapping("finalPlan.bo")
+	public ModelAndView selectFinalSchedule(int tripPlanNo, ModelAndView mv){
+		
+		mv.addObject("list",boardService.selectOneTripPlan(tripPlanNo))
+		.addObject("maxNday",boardService.countMaxPlanDay(tripPlanNo))
+		.setViewName("board/boardScheduleView");
+		
+		return mv;
+	}
 	
 	
 	

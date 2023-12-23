@@ -98,11 +98,13 @@
     border-radius: 5px;
 }
 .scroll > div > ul > li > div > div {
-    padding-right: 150px;
+  
+    width: 200px;
 }
 .scroll > div > ul > li > div > div > h5 {
     font-weight: 700;
     font-size: 12px;
+    overflow: hidden;
 }
 .scroll > div > ul > li > div > div > span {
     color: #b2d8b5;
