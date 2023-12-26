@@ -110,18 +110,14 @@ function scheduleMakeAjax(scheduleInfo){
         dataType: "json",
         data: JSON.stringify(scheduleInfo),
         success: function(res){
-            if(res ==="success"){
-                // moveFinalSchedule();
-            }
+            console.log(res)
+                //최종일정 페이지로 가기
+                window.location.href = "finalPlan.bo?tripPlanNo="+res;
+            
         
         },
         error: function(){
             console.log("totalScheduleMake.bo ajax 실패");
         }
     })
-}
-
-//최종일정 데이터가지고 페이지로 가기
-function moveFinalSchedule(){
-
 }
