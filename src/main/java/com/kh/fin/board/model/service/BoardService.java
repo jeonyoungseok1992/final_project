@@ -1,6 +1,7 @@
 package com.kh.fin.board.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.kh.fin.board.model.vo.Board;
 import com.kh.fin.board.model.vo.Plan;
@@ -33,6 +34,9 @@ public interface BoardService {
 	
 	//여행플랜짜기 3. location(숙소) 넣기
 	int insertLocationHotel(hotelDTO hotel);
+	
+	//여행플랜짜기 최종
+	int insertTotalScheduleMake(ScheduleDTO schedule, List<attractionDTO> attractionDTOList,List<hotelDTO> hotelDTOlist);
 	
 	
 	

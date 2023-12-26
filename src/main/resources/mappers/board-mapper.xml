@@ -67,6 +67,8 @@
 		<result column="REGION_NO" property="regionNo"/>
 		<result column="REGION_NAME" property="regionName"/>
 		<result column="TRIP_N_DAY" property="tripNday"/>
+		<result column="ATTRACTION_X" property="attractionX"/>
+		<result column="ATTRACTION_Y" property="attractionY"/>
 		
 	</resultMap>
 	
@@ -429,6 +431,8 @@
                 ,TRIP_START_DATE
                 ,TRIP_END_DATE
                 ,CATEGORY_NAME
+                ,ATTRACTION_X
+                ,ATTRACTION_Y
 		from TRIP_PLAN
 		join member on (TRIP_PLANNER_NO = MEMBER_NO)
         join location using (TRIP_PLAN_NO)
