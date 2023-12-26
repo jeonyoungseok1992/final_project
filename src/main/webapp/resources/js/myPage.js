@@ -210,7 +210,7 @@ function together(memberNo) {
                     <div class="mySchedule-content">
                         <span>${b.boardTitle}</span>
                         <!-- <span style="font-size: 14px; font-weight: 400; color: gray;">전주</span> -->
-                        <span style="font-size: 18px; font-weight: 600; display: flex; justify-content: space-between;">${b.tripStartDate}~${b.tripEndDate}<span style="font-size: 13px; color: gray;">최근 수정일 ${b.boardModifyDate}</span></span>									
+                        <span style="font-size: 18px; font-weight: 600; display: flex; justify-content: space-between;">${b.tripStartDate.substring(0,10)}~${b.tripEndDate.substring(0,10)}<span style="font-size: 13px; color: gray;">최근 수정일 ${b.boardModifyDate}</span></span>									
                     </div>
 
                     <div class="dropdown">
@@ -281,7 +281,7 @@ function review(memberNo) {
                     <div class="mySchedule-content">
                         <span>${b.boardTitle}</span>
                         <!-- <span style="font-size: 14px; font-weight: 400; color: gray;">전주</span> -->
-                        <span style="font-size: 18px; font-weight: 600; display: flex; justify-content: space-between;">${b.tripStartDate}~${b.tripEndDate}<span style="font-size: 13px; color: gray;">최근 수정일 ${b.boardModifyDate}</span></span>									
+                        <span style="font-size: 18px; font-weight: 600; display: flex; justify-content: space-between;">${b.tripStartDate.substring(0,10)}~${b.tripEndDate.substring(0,10)}<span style="font-size: 13px; color: gray;">최근 수정일 ${b.boardModifyDate}</span></span>									
                     </div>
 
                     <div class="dropdown">

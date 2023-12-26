@@ -100,3 +100,24 @@ $.ajax({
     }
 })
 }
+
+//최종일정 짜는 ajax
+function scheduleMakeAjax(scheduleInfo){
+    $.ajax({
+        url: "totalScheduleMake.bo",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(scheduleInfo),
+        success: function(res){
+            console.log(res)
+                //최종일정 페이지로 가기
+                window.location.href = "finalPlan.bo?tripPlanNo="+res;
+            
+        
+        },
+        error: function(){
+            console.log("totalScheduleMake.bo ajax 실패");
+        }
+    })
+}

@@ -33,5 +33,7 @@ public class Plan {
 	private String regionName;
 	private int tripNday;
 	private int maxNday;
-
+	private int attractionCategoryNo;
+	private String category;
+	
 }

@@ -13,7 +13,10 @@ import com.kh.fin.board.model.vo.Recommend;
 import com.kh.fin.board.model.vo.Region;
 import com.kh.fin.board.model.vo.Reply;
 import com.kh.fin.board.model.vo.Report;
+import com.kh.fin.board.model.vo.ScheduleDTO;
 import com.kh.fin.board.model.vo.Star;
+import com.kh.fin.board.model.vo.attractionDTO;
+import com.kh.fin.board.model.vo.hotelDTO;
 import com.kh.fin.common.model.vo.PageInfo;
 import com.kh.fin.member.model.vo.Member;
 
@@ -37,10 +40,33 @@ public class BoardServiceImpl implements BoardService{
 	public int reportContents(Report r) {
 		return boardDao.reportContents(sqlSession,r);
 	}
-
-
 	
-	
+	//여행플랜짜기 1교통수단 넣기
+	@Override
+	public int insertTripPlan(ScheduleDTO schedule) {
+		return boardDao.insertTripPlan(sqlSession,schedule);
+	}
+	//여행플랜짜기 2. Attraction(숙소아닌 모든거) 넣기
+	@Override
+	public int insertAttraction(attractionDTO attraction) {
+		return boardDao.insertAttraction(sqlSession,attraction);
+	}
+	//여행플랜짜기 2. Attraction(숙소) 넣기
+	@Override
+	public int insertHotel(hotelDTO hotel) {
+		return boardDao.insertHotel(sqlSession,hotel);
+	}
+
+	//여행플랜짜기 3.location(숙소아닌 모든거) 넣기
+	@Override
+	public int insertLocation(attractionDTO attraction) {
+		return boardDao.insertLocation(sqlSession,attraction);
+	}
+	//여행플랜짜기 3.location(숙소) 넣기
+	@Override
+	public int insertLocationHotel(hotelDTO hotel) {
+		return boardDao.insertLocationHotel(sqlSession,hotel);
+	}
 	
 	
 	
@@ -1629,6 +1655,15 @@ public class BoardServiceImpl implements BoardService{
 //	public ArrayList<Report> reportInfor() {
 //		return boardDao.reportInfor(sqlSession);
 //	}
+
+	
+
+	
+
+
+
+
+	
 
 
 }

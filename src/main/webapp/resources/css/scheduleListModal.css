@@ -76,11 +76,13 @@
     .travel-list > div .tab-menu > button .travel-list-text p {
         font-size: 16px;
         margin-bottom: 8px;
+        color: black;
     }
     .travel-list > div .tab-menu > button .travel-list-text h3 {
         padding-bottom: 24px;
         font-size: 24px;
         font-weight: 700;
+        color: black;
     }
     .travel-detail {
         padding: 24px;

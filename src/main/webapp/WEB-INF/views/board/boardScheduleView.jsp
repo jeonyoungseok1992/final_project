@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +26,14 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
         <div class="header-fixed">
             <a href="" class="logo"><img src="./resources/images/logo_001.png" alt=""></a>
             <div class="dropdown">
-                <button type="button" class="profile" data-bs-toggle="dropdown"><img src="./resources/images/profile.png" alt=""></button>
+                <c:choose>
+                    <c:when test="${not empty loginUser.memberProfileImg}">
+                    <button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown"><img class="title-img" src="${loginUser.memberProfileImg}" alt=""></button>
+                    </c:when>
+                    <c:otherwise>
+                    <button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown"><img src="/mapping/resources/images/profile.png" alt=""></button>
+                    </c:otherwise>	   
+                </c:choose>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">1:1 채팅</a></li>
                     <li><a class="dropdown-item" href="#">마이페이지</a></li>
@@ -81,71 +89,27 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                     <div class="tab-contents">
                         <div tabindex="0" role="tabpane2" id="tabPanel2" aria-labelledby="tab2">
                             <div class="step2">
-                                <h4>여행지</h4>
-                                <div class="date-time">2023.11.25(토) - 2023.11.26(일)</div>
+                                <h4>${list[0].regionName}</h4>
+                                <div class="date-time">${list[0].tripStartDate.substring(0,10)} - ${list[0].tripEndDate.substring(0,10)}</div>
                             </div>
                             <div class="schedule-wrap-all">
                                 <div class="scroll">
-                                    <div>
-                                        <div class="day-date">
-                                            <h5>1일차</h5>
-                                            <div>11.26(일)</div>
+                                <c:forEach var="i" begin = "1" end = "${maxNday}" step="1">
+                                        <div>
+                                            <div class="day-date">
+                                                <h5>${i}일차</h5>
+                                                <!-- <div>11.26(일)</div> -->
+                                            </div>
+                                            <ul>
+                                                <c:forEach var="p" items="${list }" varStatus="loop">
+                                                    <c:if test="${i eq p.tripNday}">
+                                                        <li><span class="number">${loop.index + 1}</span><div><div><span>${p.categoryName}</span><h5>${p.attractionName}</h5></div><img src="${p.attractionChangeNameImg}" alt=""></div></li>
+                                                    </c:if>
+                                                </c:forEach>
+                                            </ul>
                                         </div>
-                                        <ul>
-                                            <li><span class="number">1</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                            <li><span class="number">2</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                            <li><span class="number">3</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                            <li><span class="number">4</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <div class="day-date">
-                                            <h5>2일차</h5>
-                                            <div>11.26(일)</div>
-                                        </div>
-                                        <ul>
-                                            <li><span class="number">1</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                            <li><span class="number">2</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                            <li><span class="number">3</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                            <li><span class="number">4</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <div class="day-date">
-                                            <h5>3일차</h5>
-                                            <div>11.26(일)</div>
-                                        </div>
-                                        <ul>
-                                            <li><span class="number">1</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                            <li><span class="number">2</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                            <li><span class="number">3</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                            <li><span class="number">4</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <div class="day-date">
-                                            <h5>1일차</h5>
-                                            <div>11.26(일)</div>
-                                        </div>
-                                        <ul>
-                                            <li><span class="number">1</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                            <li><span class="number">2</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                            <li><span class="number">3</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                            <li><span class="number">4</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <div class="day-date">
-                                            <h5>1일차</h5>
-                                            <div>11.26(일)</div>
-                                        </div>
-                                        <ul>
-                                            <li><span class="number">1</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                            <li><span class="number">2</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                            <li><span class="number">3</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                            <li><span class="number">4</span><div><div><span>명소</span><h5>여행지</h5></div><img src="./resources/images/place_sample.jpg" alt=""></div></li>
-                                        </ul>
-                                    </div>
+                                </c:forEach>
+    
                                 </div>
                             </div>
                         </div>
@@ -163,7 +127,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                 
         function copyText(){ 
         
-            navigator.clipboard.writeText(inputTag.value).then(res=>{
+            navigator.clipboard.writeText(window.location.href).then(res=>{
                 alert("url이 복사되었습니다.");
             })
         }

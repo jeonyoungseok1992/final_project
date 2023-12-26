@@ -75,7 +75,7 @@ function drawPlan(tmpList){
     let str1 ="";
     for(let i in tmpList){
         str1 += `<button index="`+i+`" role="tab" aria-selected="true" aria-controls="tabPanel1" id="tab1" class="active"><div class="travel-list-text" >
-        <p>${tmpList[i].tripStartDate}-${tmpList[i].tripEndDate}</p><h3>${tmpList[i].regionName}</h3></div><img src="${tmpList[i].tripPlanThumbnail}" alt=""></button>`
+        <p>${tmpList[i].tripStartDate.substring(0,10)}-${tmpList[i].tripEndDate.substring(0,10)}</p><h3>${tmpList[i].regionName}</h3></div><img src="${tmpList[i].tripPlanThumbnail}" alt=""></button>`
     }
     
     $(".tab-menu.button-group.button-type").html(str1);
