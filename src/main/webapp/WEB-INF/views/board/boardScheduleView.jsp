@@ -101,9 +101,11 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                                                 <!-- <div>11.26(일)</div> -->
                                             </div>
                                             <ul>
-                                                <c:forEach var="p" items="${list }" varStatus="loop">
+                                            <c:set var="num" value="0" />
+                                                <c:forEach var="p" items="${list}">
                                                     <c:if test="${i eq p.tripNday}">
-                                                        <li><span class="number">${loop.index + 1}</span><div><div><span>${p.categoryName}</span><h5>${p.attractionName}</h5></div><img src="${p.attractionChangeNameImg}" alt=""></div></li>
+                                                    	<c:set var="num" value="${num + 1}" />
+                                                        <li><span class="number"><c:out value="${num}" /></span><div><div><span>${p.categoryName}</span><h5>${p.attractionName}</h5></div><img src="${p.attractionChangeNameImg}" alt=""></div></li>
                                                     </c:if>
                                                 </c:forEach>
                                             </ul>

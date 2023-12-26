@@ -1,10 +1,12 @@
 package com.kh.fin.board.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.fin.board.model.dao.BoardDao;
 import com.kh.fin.board.model.vo.Board;
@@ -67,8 +69,28 @@ public class BoardServiceImpl implements BoardService{
 	public int insertLocationHotel(hotelDTO hotel) {
 		return boardDao.insertLocationHotel(sqlSession,hotel);
 	}
-	
-	
+	//여행플랜 최종
+	@Transactional
+	@Override
+	public int insertTotalScheduleMake(ScheduleDTO schedule, List<attractionDTO> attractionDTOList,
+			List<hotelDTO> hotelDTOlist) {
+		int result=0;
+		result +=boardDao.insertTripPlan(sqlSession,schedule);
+		
+		for(attractionDTO attraction :attractionDTOList) {
+			result +=boardDao.insertAttraction(sqlSession,attraction);
+			result +=boardDao.insertLocation(sqlSession,attraction);
+		}
+		
+		for(hotelDTO hotel :hotelDTOlist) {
+			result +=boardDao.insertHotel(sqlSession,hotel);
+			result +=boardDao.insertLocationHotel(sqlSession,hotel);
+		}
+		
+		
+		
+		return result;
+	}
 	
 	
 	
@@ -1655,6 +1677,8 @@ public class BoardServiceImpl implements BoardService{
 //	public ArrayList<Report> reportInfor() {
 //		return boardDao.reportInfor(sqlSession);
 //	}
+
+
 
 	
 

@@ -158,17 +158,6 @@ public class BoardController {
             dateList.add(currentDate);
             currentDate = currentDate.plusDays(1);
         }
-
-		//insert 순서 1.TRIP_PLAN 2.ATTRACTION  5. LOCATION
-		int result1 = boardService.insertTripPlan(schedule);
-		System.out.println("result1 : " +result1);
-		
-		
-
-	        
-	        
-		
-		
 		
 		List<attractionDTO> attractionDTOList = new ArrayList<>();
 		//날짜 가공해야하는부분
@@ -207,15 +196,7 @@ public class BoardController {
 			    // 생성된 attractionDTO를 리스트에 추가
 			    attractionDTOList.add(newAttraction);
 			}
-		
-		int result2 = 0;
-		int result3 =0;
-		for(attractionDTO attraction :attractionDTOList) {
-			result2 += boardService.insertAttraction(attraction);
-			result3 += boardService.insertLocation(attraction);
-		}
-		System.out.println("result2 : " + result2);
-		System.out.println("result3 : " + result3);
+	
 		
 		List<hotelDTO> hotelDTOlist = new ArrayList<>();
 			for (hotelDTO hotel : schedule.getLodgingInfo()) {
@@ -254,20 +235,10 @@ public class BoardController {
 			    // 생성된 attractionDTO를 리스트에 추가
 				hotelDTOlist.add(newHotel);
 			}
+			//가공한 모든정보 한번에 insert 
+			int result = boardService.insertTotalScheduleMake(schedule,attractionDTOList, hotelDTOlist);
 		
-		int result4 = 0;
-		int result5 = 0;
-		for(hotelDTO hotel :hotelDTOlist) {
-			result4 += boardService.insertHotel(hotel);
-			result5 += boardService.insertLocationHotel(hotel);
-		}
-		System.out.println("result4 : " + result4);
-		System.out.println("result5 : " + result5);
-
-      
-		System.out.println(schedule.getTripPlanNo());
-		
-		if(result1*result2*result3*result4*result5 >0) {
+		if(result >0) {
 			return  Integer.toString(schedule.getTripPlanNo());
 		}
 		else { 

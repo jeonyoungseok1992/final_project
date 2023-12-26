@@ -35,5 +35,8 @@ public class Plan {
 	private int maxNday;
 	private int attractionCategoryNo;
 	private String category;
+	private String attractionX;
+	private String attractionY;
+	
 	
 }
