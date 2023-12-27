@@ -256,6 +256,7 @@
 
                 
                 <script>
+                    /* 댓글정보 가져와서 그려주는 함수*/
                 function selectReply(){
                     $.ajax({
                         url : "reviewRlist.bo",
@@ -442,6 +443,7 @@
                 }
                 </script>
                 <script>
+                    /*댓글 지우는 함수*/
                     function reviewReplyDelete(num) {
                     $.ajax({
                         url : "reviewReplyDelete.bo",
@@ -591,6 +593,7 @@
 				    </div> 
                     
                     <script>
+                        /*댓글 수정 함수*/
                         function updateTogetherReply (replyNo){
                             $.ajax({
                                 url : "togetherReplyUpdate.bo",
@@ -609,15 +612,18 @@
                                 }
                             })
                         }
+                        /* 댓글 번호 가져올 함수*/
                         function numinit(num){
                             document.querySelector('.updateReplyNo').value = num;
                         }
+                        /* 댓글 신고 누르면 컨텐츠 내용 가져오는 함수 */
                         function contentsInit1(num){
                         const val1 = document.getElementById('board'+num).innerText;
                         document.getElementById('rcontent').innerText =val1;
                         document.querySelector('.rptBoard').value = num;
 
                          }
+                         /* 댓글 신고 누르면 컨텐츠 내용 가져오는 함수 */
                         function contentsInit(num){
                             const val = document.getElementById('reply' + num).innerText;
                             document.querySelector('.rptContent').value = val;
@@ -625,7 +631,7 @@
                             document.querySelector('.rptReply').value = num;
                             
                         }
-    
+                        /*답글버튼 누르면 인풋창 그려주고 데이터 값 ajax 넘기는 함수*/
                         function drawInput(ev,replyNo){
                            $(".reply-tr").remove();
                         
@@ -671,7 +677,7 @@
                   </script>  
 
 		<script>
-
+                            /*신고 함수*/
                             function reportTmi(){
                                 var radioVal = $('input[name="report"]:checked').val();
                                 if(radioVal === '기타'){
