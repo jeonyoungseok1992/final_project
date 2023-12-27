@@ -16,10 +16,20 @@
 <!-- jquery 3.7.1 -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js"
+  integrity="sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJXVJZUkTk/oX4U9GhUIs3/z8" crossorigin="anonymous"></script>
+<script src="./resources/js/boardScheduleView.js"></script>
 <link rel="stylesheet" href="./resources/css/common.css">
 <link rel="stylesheet" href="./resources/css/font.css">
 <link rel="stylesheet" href="./resources/css/schedule-make.css">
 <link rel="stylesheet" href="./resources/css/schedule-view.css">
+<!-- You can use Open Graph tags to customize link previews.
+Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
+<meta property="og:url"           content="http://localhost:8009/mapping/finalPlan.bo?tripPlanNo=${list[0].tripPlanNo}"/>
+<meta property="og:type"          content="website" />
+<meta property="og:title"         content="Mapping" />
+<meta property="og:description"   content="#함께하면 더욱 즐거운 여행, 같이가요 우리" />
+<meta property="og:image"         content="https://img.freepik.com/premium-photo/bukchon-hanok-village-with-seoul-city-skyline-cityscape-of-south-korea_255553-4703.jpg" />
 </head>
 <body>
     <div class="travel-wrap">
@@ -69,9 +79,9 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                                     <div class="layer-contents" id="snsCont">
                                         <div class="sns-share">
                                             <button type="button" title="새창"><img src="resources/images/logo_001.png" alt="mapping logo" style="width: 100px; height: 48px; padding: 10px;">친구공유</button>
-                                            <button type="button" title="새창"><i class="ico-kakao"></i>카카오톡</button>
-                                            <button type="button" title="새창"><i class="ico-facebook"></i>페이스북</button>
-                                            <button type="button" title="새창"><i class="ico-blog"></i>네이버 블로그</button>
+                                            <button type="button" title="새창"><a id="kakaotalk-sharing-btn" href="javascript:shareMessage(${list[0].tripPlanNo})"><i class="ico-kakao"></i></a>카카오톡</button>
+                                            <button type="button" onclick="shareFacebook()" title="새창"><i class="ico-facebook"></i>페이스북</button>
+                                            <button type="button" onclick="shareNaverblog()" title="새창"><i class="ico-blog"></i>네이버 블로그</button>
                                         </div>
                                         <div class="form-control-map">
                                             <input class="copy-value" type="text" value="https://mapping/" title="공유 URL">
@@ -123,16 +133,9 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             </div>
         </div>
     </div>
-    
-    <script>
-        let inputTag = document.querySelector(".copy-value");
-                
-        function copyText(){ 
-        
-            navigator.clipboard.writeText(window.location.href).then(res=>{
-                alert("url이 복사되었습니다.");
-            })
-        }
-    </script>
+    <form id="myform">
+        <input type="hidden" id="url" value="http://localhost:8009/mapping/finalPlan.bo?tripPlanNo=${list[0].tripPlanNo}"><br/>
+        <input type="hidden" id="title" value="mapping 일정 공유하기"><br/>
+    </form>
 </body>
 </html>
