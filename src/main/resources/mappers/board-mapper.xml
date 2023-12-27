@@ -156,7 +156,7 @@
 				,#{startDate}
 				,#{endDate}
 				,#{transportationNo}
-				,'https://mobile.busan.com/nas/wcms/wcms_data/photos/2022/12/17/2022121712041864096_l.jpg'
+				,'resources/images/thumbnail.png'
 							)
 		<selectKey keyProperty="tripPlanNo" resultType="Integer" order="AFTER">
 			SELECT SEQ_TPNO.currval FROM dual

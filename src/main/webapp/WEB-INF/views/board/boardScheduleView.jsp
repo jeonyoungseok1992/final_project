@@ -34,7 +34,7 @@ Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
 <body>
     <div class="travel-wrap">
         <div class="header-fixed">
-            <a href="" class="logo"><img src="./resources/images/logo_001.png" alt=""></a>
+            <a href="${pageContext.request.contextPath}" class="logo"><img src="./resources/images/logo_001.png" alt=""></a>
             <div class="dropdown">
                 <c:choose>
                     <c:when test="${not empty loginUser.memberProfileImg}">

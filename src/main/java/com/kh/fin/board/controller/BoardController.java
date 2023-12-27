@@ -1088,7 +1088,7 @@ public class BoardController {
 		System.out.println(b);
 		int result = boardService.insertReviewBoard(b);
 		if(result > 0) { //성공 => 같이가요 리스트 페이지 재요청
-			session.setAttribute("alertMsg", "같이가요 게시글 작성 완료");
+			session.setAttribute("alertMsg", "후기 게시글 작성 완료");
 			return "redirect:review.bo";
 		}else {
 			model.addAttribute("errorMsg", "게시글 작성 실패");
