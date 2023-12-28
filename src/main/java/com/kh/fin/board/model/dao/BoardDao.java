@@ -1,12 +1,15 @@
 package com.kh.fin.board.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.fin.board.model.vo.Board;
+import com.kh.fin.board.model.vo.Good;
 import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.board.model.vo.Recommend;
 import com.kh.fin.board.model.vo.Region;
@@ -68,10 +71,29 @@ public class BoardDao {
 			return sqlSession.insert("boardMapper.insertLocationHotel",hotel);
 		}
 	
+		
+	//좋아요 개수세기
+	public int selectGoodCount(SqlSessionTemplate sqlSession , int boardNo) {
+		return sqlSession.selectOne("boardMapper.selectGoodCount",boardNo);
+	}
+	//좋아요 정보 (내가눌렀는지)
+	public Good selectGood(SqlSessionTemplate sqlSession , int memberNo,int boardNo) {
+		Map<String, Integer> paramMap = new HashMap<>();
+	    paramMap.put("boardNo", boardNo);
+	    paramMap.put("memberNo", memberNo);
+	    
+	    return sqlSession.selectOne("boardMapper.selectGood",paramMap); 
+	}
 	
+	//좋아요 누르면 insert
+	public int ajaxInsertLike(SqlSessionTemplate sqlSession,Map<String, Integer> paramMap) {
+		return sqlSession.insert("boardMapper.ajaxInsertLike",paramMap);
+	}
 	
-	
-	
+	//좋아요 다시누르면 delete
+	public int ajaxDeleteLike(SqlSessionTemplate sqlSession,Map<String, Integer> paramMap) {
+		return sqlSession.delete("boardMapper.ajaxDeleteLike",paramMap);
+	}
 	
 	
 	

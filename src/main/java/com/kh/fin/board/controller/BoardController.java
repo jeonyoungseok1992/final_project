@@ -10,8 +10,10 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -19,7 +21,6 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.kh.fin.board.model.service.BoardService;
 import com.kh.fin.board.model.vo.Board;
+import com.kh.fin.board.model.vo.Good;
 import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.board.model.vo.Recommend;
 import com.kh.fin.board.model.vo.Region;
@@ -96,25 +98,7 @@ public class BoardController {
 			return "fail";
 		}
 	}
-//	//일정 생성시 map 캡쳐 후 내 로컬에 저장 하는 메서드
-//	@RequestMapping("/captureImgSave.bo")
-//    public String handleImageUpload(@RequestParam("imgSrc") String imgFile) {
-//		 try {
-//			 // Base64 디코딩
-//	            byte[] decodedImg = Base64.getDecoder().decode(imgFile);
-//	            System.out.println(decodedImg);
-//	            // 이미지 파일로 저장
-//	            
-//	            
-//	            return "Success";
-//	        } catch (Exception e) {
-//	            e.printStackTrace();
-//	            return "Error";
-//	        }
-//		
-//		
-//	
-//    }
+
 	
 	
 	
@@ -646,12 +630,33 @@ public class BoardController {
 		
 		ArrayList<Board> list = boardService.selectTogetherBoard(boardNo);
 		Member m = ((Member)session.getAttribute("loginUser"));
+
 		//Member mem = memberService.pageFriend(boardNo, m);
+
+			
+		
+		//총 좋아요 개수 가져오기
+		int count = boardService.selectGoodCount(boardNo);
+		//내가 좋아요 누른지 여부 가져오기
+		Good g=null;
+		Member mem= null;
+		if(!(m==null)) {
+			mem = memberService.pageFriend(boardNo, m);
+			g = boardService.selectGood(m.getMemberNo(),boardNo );
+		}
+
 		//Member frMember = memberService.requestFriendList(boardNo, m);
 		if(!(list == null) ) {
 			
 			model.addAttribute("list", list);
+
 			//model.addAttribute("friend",mem);
+
+			model.addAttribute("friend",mem);
+			model.addAttribute("count",count);
+			model.addAttribute("Good",g);
+			
+
 			//model.addAttribute("frMember", frMember);
 			
 			return "board/boardTogetherDetailView";
@@ -965,12 +970,20 @@ public class BoardController {
 		Member m = ((Member)session.getAttribute("loginUser"));
 		ArrayList<Board> list = boardService.selectReviewBoard(boardNo);
 		
-		Member mem = memberService.pageFriend(boardNo, m);
+		//총 좋아요 개수 가져오기
+		int count = boardService.selectGoodCount(boardNo);
+		//내가 좋아요 누른지 여부 가져오기
+		Good g =null;
+		Member mem = null;
+		if(!(m ==null)) {
+			g = boardService.selectGood(m.getMemberNo(),boardNo );
+			mem = memberService.pageFriend(boardNo, m);
+		}
 		if(!(list == null) ) {
 			model.addAttribute("friend",mem);
 			model.addAttribute("list",list);
-			System.out.println(mem);
-			System.out.println(list);
+			model.addAttribute("count",count);
+			model.addAttribute("Good",g);
 			return "board/reviewDetailView";
 		}else {
 			model.addAttribute("errorMsg", "같이가요 게시글 조회 실패");
@@ -1090,7 +1103,7 @@ public class BoardController {
 		System.out.println(b);
 		int result = boardService.insertReviewBoard(b);
 		if(result > 0) { //성공 => 같이가요 리스트 페이지 재요청
-			session.setAttribute("alertMsg", "같이가요 게시글 작성 완료");
+			session.setAttribute("alertMsg", "후기 게시글 작성 완료");
 			return "redirect:review.bo";
 		}else {
 			model.addAttribute("errorMsg", "게시글 작성 실패");
@@ -1218,6 +1231,36 @@ public class BoardController {
 			
 		}
 		
+		
+		//좋아요 누르기
+		@ResponseBody
+		@RequestMapping(value="like.bo")
+		public String ajaxInsertLike(int memberNo, int boardNo)  {
+			Map<String, Integer> paramMap = new HashMap<>();
+		    paramMap.put("boardNo", boardNo);
+		    paramMap.put("memberNo", memberNo);
+		    
+		    //내가 좋아요 누른지 여부 가져오기
+		    int result = 0;
+		    String str = null;
+			Good g = boardService.selectGood(memberNo, boardNo);
+			if(g == null) {
+				result = boardService.ajaxInsertLike(paramMap);
+				str = "i";
+			}else {
+				result = boardService.ajaxDeleteLike(paramMap);
+				str = "d";
+			}
+		    
+			if(result > 0 ) {
+				//총 좋아요 개수 다시 가져오기
+				int count = boardService.selectGoodCount(boardNo);
+				return str+Integer.toString(count);
+			}else {
+				return "fail";
+			}
+			
+		}
 		
 		
 		

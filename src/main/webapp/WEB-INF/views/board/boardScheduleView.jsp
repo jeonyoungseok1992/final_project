@@ -147,3 +147,12 @@
         </script>
     </body>
     </html>
+
+    </div>
+    <form id="myform">
+        <input type="hidden" id="url" value="http://localhost:8009/mapping/finalPlan.bo?tripPlanNo=${list[0].tripPlanNo}"><br/>
+        <input type="hidden" id="title" value="mapping 일정 공유하기"><br/>
+    </form>
+</body>
+</html>
+

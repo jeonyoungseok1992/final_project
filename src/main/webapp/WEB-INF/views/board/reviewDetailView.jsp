@@ -185,13 +185,22 @@
                             <span id="board${list[0].boardNo}">${list[0].boardContent}</span>
                         </div>
                     
-
+                        <c:if test="${!(empty loginUser) }">  
                         <div id="like-warn">
                             <tr>
                                 <th style="vertical-align:middle; width: 45px ;height: 45px;">
-                                    <button id="like">
-                                        <img src="resources/images/like.png" style="width: 45px; height: 45px;" alt="좋아요"> 27
+                                 
+                                    <button id="like" >
+                                        <c:choose>
+                                            <c:when test="${!empty Good}">
+                                                <img src="resources/images/like.png" id="like-img" style="width: 45px; height: 45px;" alt="좋아요" onclick="likeinit(`${loginUser.memberNo}`,`${list[0].boardNo}`)"> <span id="countarea">${count}</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <img src="resources/images/like.png" style="width: 45px; height: 45px;" alt="좋아요" onclick="likeinit(`${loginUser.memberNo}`,`${list[0].boardNo}`)"> <span id="countarea">${count}</span>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </button>
+                                   
                                 </th>
 
                                 <th style="vertical-align:middle; width: 50px ;height: 50px;">
@@ -201,7 +210,7 @@
                                 </th>
                             </tr>
                         </div>
-
+                        </c:if> 
                      
                         <table id="replyArea" class="table" align="center">
                                 <c:choose>
@@ -256,6 +265,7 @@
 
                 
                 <script>
+                    /* 댓글정보 가져와서 그려주는 함수*/
                 function selectReply(){
                     $.ajax({
                         url : "reviewRlist.bo",
@@ -442,6 +452,7 @@
                 }
                 </script>
                 <script>
+                    /*댓글 지우는 함수*/
                     function reviewReplyDelete(num) {
                     $.ajax({
                         url : "reviewReplyDelete.bo",
@@ -591,6 +602,7 @@
 				    </div> 
                     
                     <script>
+                        /*댓글 수정 함수*/
                         function updateTogetherReply (replyNo){
                             $.ajax({
                                 url : "togetherReplyUpdate.bo",
@@ -609,15 +621,18 @@
                                 }
                             })
                         }
+                        /* 댓글 번호 가져올 함수*/
                         function numinit(num){
                             document.querySelector('.updateReplyNo').value = num;
                         }
+                        /* 댓글 신고 누르면 컨텐츠 내용 가져오는 함수 */
                         function contentsInit1(num){
                         const val1 = document.getElementById('board'+num).innerText;
                         document.getElementById('rcontent').innerText =val1;
                         document.querySelector('.rptBoard').value = num;
 
                          }
+                         /* 댓글 신고 누르면 컨텐츠 내용 가져오는 함수 */
                         function contentsInit(num){
                             const val = document.getElementById('reply' + num).innerText;
                             document.querySelector('.rptContent').value = val;
@@ -625,7 +640,7 @@
                             document.querySelector('.rptReply').value = num;
                             
                         }
-    
+                        /*답글버튼 누르면 인풋창 그려주고 데이터 값 ajax 넘기는 함수*/
                         function drawInput(ev,replyNo){
                            $(".reply-tr").remove();
                         
@@ -671,7 +686,7 @@
                   </script>  
 
 		<script>
-
+                            /*신고 함수*/
                             function reportTmi(){
                                 var radioVal = $('input[name="report"]:checked').val();
                                 if(radioVal === '기타'){
@@ -697,7 +712,29 @@
                                 })
                             }
 
-                       
+                            //좋아요 넣어주기
+                            function likeinit(memberNo,boardNo){
+                            $.ajax({
+                                url : "like.bo",
+                                data : {
+                                    memberNo : memberNo,
+                                    boardNo : boardNo,
+                                },
+                                success : function(res){
+                                    if(res.substr(0,1) === 'i'){
+                                        document.querySelector('#like > img').id = 'like-img';
+                                    }else if(res.substr(0,1) === 'd'){
+                                        document.querySelector('#like > img').removeAttribute('id');
+                                    }
+                                        
+                                    document.getElementById('countarea').innerText = res.substr(1); 
+                                },
+                                error:function(){
+                                    console.log("like.bo ajax 통신 실패");
+                                }
+                            })
+
+                    } 
                       </script>
         </body>
 

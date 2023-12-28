@@ -959,9 +959,13 @@ function sideModalFunk(scheduleInfo) {
     const sideModal = document.getElementById("side-modal");
     $(sideModal).empty();
 
+    const scrollArea = document.createElement('div');
+    scrollArea.className = "scroll_area"
+    sideModal.appendChild(scrollArea);
+
     const noScroll = document.createElement('div');
     noScroll.className = "no_scroll";
-    sideModal.appendChild(noScroll);
+    scrollArea.appendChild(noScroll);
 
     const sideModalBtn = document.createElement('button');
     sideModalBtn.innerHTML = "<i class='bi bi-chevron-right'></i>";
@@ -1527,9 +1531,13 @@ function sideModalLodging(scheduleInfo) {
     const sideModal = document.getElementById("side-modal");
     $(sideModal).empty();
 
+    const scrollArea = document.createElement('div');
+    scrollArea.className = "scroll_area"
+    sideModal.appendChild(scrollArea);
+
     const noScroll = document.createElement('div');
     noScroll.className = "no_scroll";
-    sideModal.appendChild(noScroll);
+    scrollArea.appendChild(noScroll);
 
     const sideModalBtn = document.createElement('button');
     sideModalBtn.innerHTML = "<i class='bi bi-chevron-right'></i>";
