@@ -630,12 +630,17 @@ public class BoardController {
 		
 		ArrayList<Board> list = boardService.selectTogetherBoard(boardNo);
 		Member m = ((Member)session.getAttribute("loginUser"));
-		Member mem = memberService.pageFriend(boardNo, m);
+			
 		
 		//총 좋아요 개수 가져오기
 		int count = boardService.selectGoodCount(boardNo);
 		//내가 좋아요 누른지 여부 가져오기
-		Good g = boardService.selectGood(m.getMemberNo(),boardNo );
+		Good g=null;
+		Member mem= null;
+		if(!(m==null)) {
+			mem = memberService.pageFriend(boardNo, m);
+			g = boardService.selectGood(m.getMemberNo(),boardNo );
+		}
 		//Member frMember = memberService.requestFriendList(boardNo, m);
 		if(!(list == null) ) {
 			
@@ -958,9 +963,12 @@ public class BoardController {
 		//총 좋아요 개수 가져오기
 		int count = boardService.selectGoodCount(boardNo);
 		//내가 좋아요 누른지 여부 가져오기
-		Good g = boardService.selectGood(m.getMemberNo(),boardNo );
-		
-		Member mem = memberService.pageFriend(boardNo, m);
+		Good g =null;
+		Member mem = null;
+		if(!(m ==null)) {
+			g = boardService.selectGood(m.getMemberNo(),boardNo );
+			mem = memberService.pageFriend(boardNo, m);
+		}
 		if(!(list == null) ) {
 			model.addAttribute("friend",mem);
 			model.addAttribute("list",list);

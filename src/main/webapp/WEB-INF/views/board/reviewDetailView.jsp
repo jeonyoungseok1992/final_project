@@ -185,10 +185,11 @@
                             <span id="board${list[0].boardNo}">${list[0].boardContent}</span>
                         </div>
                     
-
+                        <c:if test="${!(empty loginUser) }">  
                         <div id="like-warn">
                             <tr>
                                 <th style="vertical-align:middle; width: 45px ;height: 45px;">
+                                 
                                     <button id="like" >
                                         <c:choose>
                                             <c:when test="${!empty Good}">
@@ -199,6 +200,7 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </button>
+                                   
                                 </th>
 
                                 <th style="vertical-align:middle; width: 50px ;height: 50px;">
@@ -208,7 +210,7 @@
                                 </th>
                             </tr>
                         </div>
-
+                        </c:if> 
                      
                         <table id="replyArea" class="table" align="center">
                                 <c:choose>
