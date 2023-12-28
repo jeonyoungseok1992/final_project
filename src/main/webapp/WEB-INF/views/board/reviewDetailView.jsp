@@ -189,8 +189,15 @@
                         <div id="like-warn">
                             <tr>
                                 <th style="vertical-align:middle; width: 45px ;height: 45px;">
-                                    <button id="like">
-                                        <img src="resources/images/like.png" style="width: 45px; height: 45px;" alt="좋아요"> 27
+                                    <button id="like" >
+                                        <c:choose>
+                                            <c:when test="${!empty Good}">
+                                                <img src="resources/images/like.png" id="like-img" style="width: 45px; height: 45px;" alt="좋아요" onclick="likeinit(`${loginUser.memberNo}`,`${list[0].boardNo}`)"> <span id="countarea">${count}</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <img src="resources/images/like.png" style="width: 45px; height: 45px;" alt="좋아요" onclick="likeinit(`${loginUser.memberNo}`,`${list[0].boardNo}`)"> <span id="countarea">${count}</span>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </button>
                                 </th>
 
@@ -703,7 +710,29 @@
                                 })
                             }
 
-                       
+                            //좋아요 넣어주기
+                            function likeinit(memberNo,boardNo){
+                            $.ajax({
+                                url : "like.bo",
+                                data : {
+                                    memberNo : memberNo,
+                                    boardNo : boardNo,
+                                },
+                                success : function(res){
+                                    if(res.substr(0,1) === 'i'){
+                                        document.querySelector('#like > img').id = 'like-img';
+                                    }else if(res.substr(0,1) === 'd'){
+                                        document.querySelector('#like > img').removeAttribute('id');
+                                    }
+                                        
+                                    document.getElementById('countarea').innerText = res.substr(1); 
+                                },
+                                error:function(){
+                                    console.log("like.bo ajax 통신 실패");
+                                }
+                            })
+
+                    } 
                       </script>
         </body>
 

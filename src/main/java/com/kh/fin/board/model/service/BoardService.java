@@ -2,8 +2,10 @@ package com.kh.fin.board.model.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.kh.fin.board.model.vo.Board;
+import com.kh.fin.board.model.vo.Good;
 import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.board.model.vo.Recommend;
 import com.kh.fin.board.model.vo.Region;
@@ -38,11 +40,17 @@ public interface BoardService {
 	//여행플랜짜기 최종
 	int insertTotalScheduleMake(ScheduleDTO schedule, List<attractionDTO> attractionDTOList,List<hotelDTO> hotelDTOlist);
 	
+	//좋아요 개수세기 
+	int selectGoodCount(int boardNo);
 	
+	//좋아요 정보가져오기
+	Good selectGood(int memberNo,int boardNo );
 	
+	//좋아요 누르면 인서트
+	int ajaxInsertLike(Map<String, Integer> paramMap);
 	
-	
-	
+	//좋아요 다시누르면 지우기
+	int ajaxDeleteLike(Map<String, Integer> paramMap);
 	
 	
 	

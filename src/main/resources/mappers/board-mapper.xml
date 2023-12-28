@@ -101,7 +101,16 @@
 		<result column="RECOMMEND_BOARD_MODIFY_DATE" property="recommendBoardModifyDate"/>
 	</resultMap>
 	
+	<resultMap type="Good" id="goodResult">
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="MEMBER_NO" property="memberNo"/>
+		<result column="GOOD_DATE" property="goodDate"/>
+	</resultMap>
 	
+
+
+
+
 
 
 
@@ -727,7 +736,7 @@
 				SELECT   BOARD_NO
 						,BOARD_TITLE
 						,BOARD_CONTENT
-						,TO_CHAR(BOARD_MODIFY_DATE, 'YYYY-MM-DD') AS "BOARD_MODIFY_DATE"
+						,TO_CHAR(BOARD_MODIFY_DATE, 'YY-MM-DD HH24:MI:SS') AS "BOARD_MODIFY_DATE"
 		                ,BOARD_REPORT
 		                ,MEMBER_NO
 		                ,MEMBER_ID
@@ -970,9 +979,30 @@
 		</insert>
 		
 		
-	
-	
-	
+		<!-- //좋아요 개수세기 -->
+		<select id="selectGoodCount" resultType="_int">
+		
+			SELECT COUNT(*)
+			FROM GOOD
+			WHERE board_no = #{boardNo}
+			
+		</select>
+		
+		<!-- 좋아요 정보 (내가눌렀는지) -->
+		<select id="selectGood" resultMap="goodResult">
+				SELECT   BOARD_NO
+						,MEMBER_NO
+						,GOOD_DATE
+				FROM 	GOOD   
+				WHERE board_no = #{boardNo}
+				and MEMBER_NO = #{memberNo}
+		</select>
+		<!-- 좋아요 눌렀으면 지우기 -->
+		<delete id="ajaxDeleteLike">
+			delete from GOOD
+			WHERE board_no = #{boardNo}
+			and MEMBER_NO = #{memberNo}
+		</delete>
 
 	
 	
@@ -1053,6 +1083,17 @@
 	
 	
 	
+	<!-- 좋아요 누르기  -->
+	<insert id="ajaxInsertLike">
+		INSERT INTO GOOD 
+					(board_no
+					,member_no
+					,good_date)
+        VALUES 
+			        (#{boardNo}
+			        ,#{memberNo}
+			        ,SYSDATE)
+	</insert>
 	
 	
 	

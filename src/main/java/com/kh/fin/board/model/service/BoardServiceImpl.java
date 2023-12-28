@@ -2,6 +2,7 @@ package com.kh.fin.board.model.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.fin.board.model.dao.BoardDao;
 import com.kh.fin.board.model.vo.Board;
+import com.kh.fin.board.model.vo.Good;
 import com.kh.fin.board.model.vo.Plan;
 import com.kh.fin.board.model.vo.Recommend;
 import com.kh.fin.board.model.vo.Region;
@@ -92,9 +94,21 @@ public class BoardServiceImpl implements BoardService{
 		return result;
 	}
 	
-	
-	
-	
+	//좋아요 개수 가져오기
+	@Override
+	public int selectGoodCount(int boardNo) {
+		return boardDao.selectGoodCount(sqlSession,boardNo);
+	}
+	//좋아요정보가져오기
+	@Override
+	public Good selectGood(int memberNo, int boardNo ) {
+		return boardDao.selectGood(sqlSession,memberNo,boardNo);
+	}
+	//좋아요 다시누르면 딜리트
+	@Override
+	public int ajaxDeleteLike(Map<String, Integer> paramMap) {
+		return boardDao.ajaxDeleteLike(sqlSession,paramMap);
+	}
 	
 	
 	
@@ -418,6 +432,15 @@ public class BoardServiceImpl implements BoardService{
 	public int ajaxInsertReviewStars(Star s) {
 		return boardDao.ajaxInsertReviewStars(sqlSession,s);
 	}
+	
+	//좋아요클릭시 인서트
+	@Override
+	public int ajaxInsertLike(Map<String, Integer> paramMap) {
+		
+		return boardDao.ajaxInsertLike(sqlSession,paramMap);
+	}
+	
+
 	
 	
 
@@ -1677,6 +1700,15 @@ public class BoardServiceImpl implements BoardService{
 //	public ArrayList<Report> reportInfor() {
 //		return boardDao.reportInfor(sqlSession);
 //	}
+
+
+
+
+
+
+
+
+
 
 
 
