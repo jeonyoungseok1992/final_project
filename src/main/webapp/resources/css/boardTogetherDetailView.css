@@ -457,4 +457,7 @@ transform: translate3d(10px, 205.5px, 0px)!important;
     margin-left: 10px;
     color: white;
 }
-    
+#like-img{
+    background:#b2d8b5;
+    border-radius: 50%;
+}
