@@ -3,14 +3,16 @@ const bsValue = {
     attData: [],
     motelData: [],
     markers: [],
-    linePath : [],
+    linePath : {},
+    linePath2 : {},
 }
 var container;
 var options;
 var map;
+var map2;
 
 function init(regionList,memberNo) {
-
+    console.log(regionList);
     bsValue.regionData = JSON.parse(regionList);
     drawScheduleMake({
         startDate: new Date(),
@@ -450,6 +452,44 @@ function drawScheduleMake(scheduleInfo) {
         }
     })
 
+    $.ajax({
+        url: "attEventList.api",
+        data: {
+            regionNo: bsValue.regionData.regionNo
+        },
+        success: function (data) {
+
+
+
+            let attLoca;
+            let addTitle;
+
+            for (att of data) {
+                attLoca = att.firstimage;
+                addTitle = att.title;
+                mX = att.mapx
+                mY = att.mapy;
+                // addMarker(mY, mX);
+                let selectCard = selectWrapLiUnit({
+                    src: attLoca,
+                    title: addTitle,
+                    category: "추천 장소",
+                    className: "draggable",
+                    mapX: mX,
+                    mapY: mY,
+                    id: generateShortUUID()
+                });
+                bsValue.attData.push(selectCard);
+
+                //selectWrapUl.appendChild(selectCard);
+            }
+
+        },
+        error: function () {
+            console.log("recommendTrip.bo ajax 실패");
+        }
+    })
+
 
 
 
@@ -514,10 +554,10 @@ function selectLocation(scheduleInfo) {
     category.className = 'category';
     tabContent1.appendChild(category);
     const recommendedPlace = toggleButtonUnit({
-        className: "toggle",
+        //className: "toggle",
         innerText: "추천 장소",
     });
-    recommendedPlace.setAttribute('data-filter', 'all');
+    //recommendedPlace.setAttribute('data-filter', 'all');
     category.appendChild(recommendedPlace);
 
     const sights = toggleButtonUnit({
@@ -937,7 +977,7 @@ function sideModalFunk(scheduleInfo) {
     }
 
 
-    removeMarker2();
+    removeMarker2("place");
     //removelinePath();
     for (let i = 0; i <= dateToDay(scheduleInfo.startDate, scheduleInfo.endDate); i++) {
 
@@ -957,7 +997,10 @@ function sideModalFunk(scheduleInfo) {
 
         attractionMap(i, scheduleInfo.placeInfo.filter(s => {
             return areDatesEqual(startDate, s.date);
-        }));
+        }), "place");
+
+
+
     }
 
 
@@ -1507,6 +1550,8 @@ function sideModalLodging(scheduleInfo) {
 
     }
     
+    
+    removeMarker2("lodging");
     for (let i = 0; i <= dateToDay(scheduleInfo.startDate, scheduleInfo.endDate); i++) {
         // 일차 하나를 그려줄 때마다
         // 해당 일차에 맞는 명소들을 같이 보내줌
@@ -1524,7 +1569,7 @@ function sideModalLodging(scheduleInfo) {
 
         attractionMap(i, scheduleInfo.lodgingInfo.filter(s => {
             return areDatesEqual(startDate, s.date);
-        }));
+        }), "lodging");
         
     }
 
@@ -1782,7 +1827,8 @@ function chooseTransportation(scheduleInfo) {
 
 
 
-function attractionMap(index, placeList) {
+function attractionMap(index, placeList, type) {    
+   
     const positionList = [];
     for (let place of placeList) {
         positionList.push({
@@ -1790,8 +1836,7 @@ function attractionMap(index, placeList) {
             latlng: new kakao.maps.LatLng(place.mapY, place.mapX)
         })
     }
-    console.log(index); 
-    addMarkersToMap(index,positionList);
+    addMarkersToMap(index,positionList, type);
 }
 
 
@@ -1800,32 +1845,48 @@ function attractionMap(index, placeList) {
 
 
 
-function addMarkersToMap(index, positions) {
-    console.log(111); 
-    console.log(index); 
+function addMarkersToMap(index, positions, type) {
 
-    var linePath = [];
+    //var linePath = [];
     // 마커 이미지의 이미지 주소입니다
-    if (index === 0) {
-        var imageSrc = "/mapping/resources/images/free-icon-location-5582962.png";
+    let imageSrc
+    if (index === 0 ) {
+        imageSrc = "/mapping/resources/images/free-icon-location-5582962.png";
     } else if (index === 1) {
-        var imageSrc = "/mapping/resources/images/free-icon-location-7976202.png";
+        imageSrc = "/mapping/resources/images/free-icon-location-7976202.png";
 
     } else if (index === 2) {
-        var imageSrc ="/mapping/resources/images/free-icon-location-pin-8637632.png";
-    }else if (index === 3) {
-        var imageSrc ="/mapping/resources/images/free-icon-maps-and-flags-447031.png";
+        imageSrc ="/mapping/resources/images/free-icon-location-pin-8637632.png";
+    } else if (index === 3) {
+        imageSrc ="/mapping/resources/images/free-icon-maps-and-flags-447031.png";
+    } else{
+        imageSrc = "/mapping/resources/images/free-icon-location-5582962.png";
     }
+
+  
+    //라인을 지워주는 코드
+    //지금 내가 다시그릴 명소, 숙소만 초기화
+    if (bsValue.linePath[index]){
+        bsValue.linePath[index] = bsValue.linePath[index].filter(p => p.tripType !== type);
+    } else {
+        bsValue.linePath[index] = [];
+    }
+
+    //라인을 지워주는 코드
+    //지금 내가 다시그릴 명소, 숙소만 초기화
+    if (bsValue.linePath[type + index]) {
+        bsValue.linePath[type + index].setMap(null);
+    } 
    
-    for (var a = 0; a < positions.length; a++) {
-        console.log("반복문 옴");
+  
+    for (let a = 0; a < positions.length; a++) {
         // 마커 이미지의 이미지 크기 입니다
-        var imageSize = new kakao.maps.Size(24, 35);
+        let imageSize = new kakao.maps.Size(24, 35);
 
         // 마커 이미지를 생성합니다    
-        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+        let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
-        var marker = new kakao.maps.Marker({
+        let marker = new kakao.maps.Marker({
 
             map: map,
             position: positions[a].latlng,
@@ -1834,18 +1895,24 @@ function addMarkersToMap(index, positions) {
             
             
         });
-
-        map.setCenter(positions[a].latlng);
+        console.log(marker)
+        if (a === positions.length - 1)
+            map.setCenter(positions[a].latlng);
         marker.setMap(map);
-        bsValue.markers.push(marker);
+        marker.tripType = type;
         
-        linePath.push(positions[a].latlng);
-    }
+        bsValue.markers.push(marker);
+        positions[a].latlng.tripType = type;
 
-    var polyline;
+        
+        bsValue.linePath[index].push(positions[a].latlng);
+        console.log(bsValue.linePath[index])
+    }
+   
+    let polyline;
     if (index === 0) {
         polyline = new kakao.maps.Polyline({
-            path: linePath,
+            path: bsValue.linePath[index],
             strokeWeight: 5,
             strokeColor: '#e95a60c2',
             strokeOpacity: 0.7,
@@ -1853,7 +1920,7 @@ function addMarkersToMap(index, positions) {
         });
     } else if (index === 1) {
         polyline = new kakao.maps.Polyline({
-            path: linePath,
+            path: bsValue.linePath[index],
             strokeWeight: 5,
             strokeColor: '#4d60c7c2',
             strokeOpacity: 0.7,
@@ -1861,7 +1928,7 @@ function addMarkersToMap(index, positions) {
         });
     } else if (index === 2) {
         polyline = new kakao.maps.Polyline({
-            path: linePath,
+            path: bsValue.linePath[index],
             strokeWeight: 5,
             strokeColor: '#87e5ccc2',
             strokeOpacity: 0.7,
@@ -1869,7 +1936,7 @@ function addMarkersToMap(index, positions) {
         });
     }else if (index === 3) {
         polyline = new kakao.maps.Polyline({
-            path: linePath,
+            path: bsValue.linePath[index],
             strokeWeight: 5,
             strokeColor: '#000000a6',
             strokeOpacity: 0.7,
@@ -1878,22 +1945,21 @@ function addMarkersToMap(index, positions) {
     }
     else{
         polyline = new kakao.maps.Polyline({
-            path: linePath,
+            path: bsValue.linePath[index],
             strokeWeight: 5,
             strokeColor: '#eb4a4a',
             strokeOpacity: 0.7,
             strokeStyle: 'solid'
         });
     }
-    
-    
-     
+    bsValue.linePath[type + index] = polyline;
+    console.log(polyline)
+    console.log(bsValue.linePath[type + index])
 
 
     // 지도에 선을 표시합니다 
     polyline.setMap(map);
 
-   
 }
 
   
@@ -1908,9 +1974,11 @@ function addMarkersToMap(index, positions) {
 
 
 
-function removeMarker2() {
+function removeMarker2(type) {
+
     for (var i = 0; i < bsValue.markers.length; i++) {
-        bsValue.markers[i].setMap(null);
+        if (bsValue.markers[i].tripType === type)
+            bsValue.markers[i].setMap(null);
     }
     bsValue.markers.length = 0; // 배열을 비우는 방식으로 수정
 }
@@ -1923,3 +1991,146 @@ function removeMarker2() {
 //     }
 //     bsValue.linePath.length = 0;
 // }
+
+function init2(list){
+
+
+    const parsedList = JSON.parse(list);
+    console.log(parsedList);
+
+    //맵 그리기
+    container = document.getElementById('map2');
+    options = {
+        center: new kakao.maps.LatLng(parsedList[0].attractionY, parsedList[0].attractionX),
+        level: 7,
+        draggable : true,
+    };
+
+    map2 = new kakao.maps.Map(container, options);
+
+
+
+    let positions = {};
+    for(let i = 0; i < parsedList.length; i++){
+        if (!positions[parsedList[i].tripNday])
+            positions[parsedList[i].tripNday] = [];
+
+
+        positions[parsedList[i].tripNday].push({
+            title: parsedList[i].attractionName,
+            latlng: new kakao.maps.LatLng( parsedList[i].attractionY, parsedList[i].attractionX)
+        })
+        // attractionMap2(parsedList[i].tripNday, parsedList[i]);
+        // finish(parsedList[i].tripNday);
+    }
+    console.log(positions)
+
+    for(let i in positions) {
+        addMarkersToMap2(i, positions[i]);
+    }
+
+    
+}
+
+
+
+function addMarkersToMap2(index, positions) {
+
+ 
+    let linePath = {};
+    // 마커 이미지의 이미지 주소입니다
+    let imageSrc
+    if (index == 0 ) {
+        imageSrc = "/mapping/resources/images/free-icon-location-5582962.png";
+    } else if (index == 1) {
+        imageSrc = "/mapping/resources/images/free-icon-location-7976202.png";
+
+    } else if (index == 2) {
+        imageSrc ="/mapping/resources/images/free-icon-location-pin-8637632.png";
+    } else if (index == 3) {
+        imageSrc ="/mapping/resources/images/free-icon-maps-and-flags-447031.png";
+    } else{
+        imageSrc = "/mapping/resources/images/free-icon-location-5582962.png";
+    }
+
+    
+    for (let a = 0; a < positions.length; a++) {
+        // 마커 이미지의 이미지 크기 입니다
+        let imageSize = new kakao.maps.Size(24, 35);
+        
+
+        // 마커 이미지를 생성합니다    
+        let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+        let marker = new kakao.maps.Marker({
+            map: map2,
+            position: positions[a].latlng,
+            title: positions[a].title,
+            image: markerImage, // 마커 이미지 
+        });
+        console.log(marker)
+
+        
+        marker.setMap(map2);
+        
+
+        if (!linePath[index]){
+            linePath[index] = [];
+        }
+        linePath[index].push(positions[a].latlng);
+
+        if (a === positions.length - 1)
+            map2.setCenter(positions[a].latlng);
+    }
+
+       
+    let polyline;
+    for (let i in linePath) {
+        let lineData = {
+            path: linePath[i],
+            strokeWeight: 5,
+            strokeColor: '#eb4a4a',
+            strokeOpacity: 0.7,
+            strokeStyle: 'solid'
+        }
+        if (index == 0) {
+            lineData.strokeColor = '#e95a60c2';
+            polyline = new kakao.maps.Polyline(lineData);
+        } else if (index == 1) {
+            lineData.strokeColor = '#4d60c7c2';
+            polyline = new kakao.maps.Polyline(lineData);
+
+        } else if (index == 2) {
+            lineData.strokeColor = '#87e5ccc2';
+            polyline = new kakao.maps.Polyline(lineData);
+
+        }else if (index == 3) {
+            lineData.strokeColor = '#000000a6';
+            polyline = new kakao.maps.Polyline(lineData);
+
+        }
+        else{
+            polyline = new kakao.maps.Polyline(lineData);
+        }
+
+        polyline.setMap(map2);
+    }
+       
+    
+        
+
+
+     
+
+
+    // 지도에 선을 표시합니다 
+    
+
+
+}
+
+
+
+
+
+

@@ -580,3 +580,9 @@ body {
     overflow: scroll;
     height: 100%;
 }
+
+
+
+#shareModal{
+    width: auto;
+}

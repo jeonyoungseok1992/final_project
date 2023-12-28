@@ -45,15 +45,15 @@ public class MemberController {
 	public ModelAndView loginMember(Member m, ModelAndView mv, HttpSession session) {
 
 		Member loginUser = memberService.loginMember(m);
-		ArrayList<Member> frMembers = memberService.friendList(loginUser);
-
-		
-		JsonArray frMemberList = new JsonArray();
-		for (Member mem : frMembers) {		
-			JsonObject frMember = new JsonObject();
-			frMember.addProperty("frMemberNo", mem.getMemberNo());
-			frMemberList.add(frMember);
-		}
+//		ArrayList<Member> frMembers = memberService.friendList(loginUser);
+//
+//		
+//		JsonArray frMemberList = new JsonArray();
+//		for (Member mem : frMembers) {		
+//			JsonObject frMember = new JsonObject();
+//			frMember.addProperty("frMemberNo", mem.getMemberNo());
+//			frMemberList.add(frMember);
+//		}
 			
 		
 		
@@ -62,11 +62,11 @@ public class MemberController {
 			mv.addObject("errorMsg", "로그인에 실패 하였습니다. 회원 정보를 다시 확인해주세요.");
 			mv.setViewName("errorPage/loginErrorPage");
 		} else {
-			System.out.println(frMembers);
-			System.out.println(frMemberList);
+			//System.out.println(frMembers);
+			//System.out.println(frMemberList);
 			
 			session.setAttribute("loginUser", loginUser);
-			session.setAttribute("frMemberList", frMembers);
+			//session.setAttribute("frMemberList", frMembers);
 			mv.setViewName("redirect:/");
 		}
 
@@ -561,7 +561,7 @@ public class MemberController {
 				Member loginUser = memberService.reloginMember(memberId);
 				session.setAttribute("loginUser", loginUser);
 				
-				return "redirect:/profileEdit.me";
+				return "redirect:/mypage.me";
 			} else {
 				model.addAttribute("errorMsg", "회원정보수정 실패");
 				return "common/errorPage";

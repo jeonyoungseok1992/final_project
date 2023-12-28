@@ -394,16 +394,15 @@
     <!-- 마이페이지 친구목록 -->
 	<select id="friendList" resultMap="memberResult">
 		
-		SELECT FRIEND_MEMBER_NO as MEMBER_NO
+		SELECT FRIEND_MEMBER_NO
 	        ,MEMBER_NICKNAME
 	        ,MEMBER_PROFILE_IMG
 		FROM(
-		    SELECT FRIEND_MEMBER_NO
+		    SELECT *
 		    FROM FRIEND 
-		    JOIN MEMBER  using (MEMBER_NO)
 		    WHERE MEMBER_NO = #{memberNo}
                 and friend_status = 'Y')
-		JOIN MEMBER ON (FRIEND_MEMBER_NO = MEMBER_NO)
+		JOIN MEMBER M ON (FRIEND_MEMBER_NO = M.MEMBER_NO)
 	
 
 	</select>

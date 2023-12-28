@@ -103,6 +103,7 @@ $.ajax({
 
 //최종일정 짜는 ajax
 function scheduleMakeAjax(scheduleInfo){
+    console.log(scheduleInfo);
     $.ajax({
         url: "totalScheduleMake.bo",
         type: "POST",

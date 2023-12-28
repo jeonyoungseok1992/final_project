@@ -234,18 +234,18 @@ public class BoardController {
 	//내가 짠 최종일정 보여주는 페이지
 	@RequestMapping("finalPlan.bo")
 	public ModelAndView selectFinalSchedule(int tripPlanNo, ModelAndView mv){
-		
 		mv.addObject("list",boardService.selectOneTripPlan(tripPlanNo))
 		.addObject("maxNday",boardService.countMaxPlanDay(tripPlanNo))
+		.addObject("list2", new Gson().toJson(boardService.selectOneTripPlan(tripPlanNo)))
 		.setViewName("board/boardScheduleView");
-		
+		System.out.println(new Gson().toJson(boardService.selectOneTripPlan(tripPlanNo)));
 		return mv;
 	}
 	
 	
 	
 	
-	
+
 	
 	
 	
@@ -630,6 +630,9 @@ public class BoardController {
 		
 		ArrayList<Board> list = boardService.selectTogetherBoard(boardNo);
 		Member m = ((Member)session.getAttribute("loginUser"));
+
+		//Member mem = memberService.pageFriend(boardNo, m);
+
 			
 		
 		//총 좋아요 개수 가져오기
@@ -641,14 +644,19 @@ public class BoardController {
 			mem = memberService.pageFriend(boardNo, m);
 			g = boardService.selectGood(m.getMemberNo(),boardNo );
 		}
+
 		//Member frMember = memberService.requestFriendList(boardNo, m);
 		if(!(list == null) ) {
 			
 			model.addAttribute("list", list);
+
+			//model.addAttribute("friend",mem);
+
 			model.addAttribute("friend",mem);
 			model.addAttribute("count",count);
 			model.addAttribute("Good",g);
 			
+
 			//model.addAttribute("frMember", frMember);
 			
 			return "board/boardTogetherDetailView";
@@ -729,6 +737,7 @@ public class BoardController {
 			
 			JsonObject newReply = new JsonObject();
 			newReply.addProperty("replyNo", r.getReplyNo());
+			newReply.addProperty("memberNo", r.getMemberNo());
 			newReply.addProperty("memberProfileImg", r.getMemberProfileImg());
 			newReply.addProperty("replyWriter", r.getReplyWriter());
 			newReply.addProperty("replyModifyDate", r.getReplyModifyDate());
@@ -740,6 +749,7 @@ public class BoardController {
 				if(r.getReplyNo() == tmpR.getReplyGroup()) {
 					JsonObject RReply = new JsonObject();
 					RReply.addProperty("replyNo", tmpR.getReplyNo());
+					newReply.addProperty("memberNo", tmpR.getMemberNo());
 					RReply.addProperty("memberProfileImg", tmpR.getMemberProfileImg());
 					RReply.addProperty("replyWriter", tmpR.getReplyWriter());
 					RReply.addProperty("replyModifyDate", tmpR.getReplyModifyDate());
