@@ -132,7 +132,7 @@
                                                 <li><a class="dropdown-item" href="chat.me?youNo=${list[0].memberNo}">대화화기</a></li>
                                             </c:when>
                                             <c:otherwise>
-                                                <li><a class="dropdown-item" href="mypage.me">프로필</a></li>
+                                                <li><a class="dropdown-item" href="mypage.me">마이페이지</a></li>
                                             </c:otherwise>
                                          </c:choose>
                                         </ul>

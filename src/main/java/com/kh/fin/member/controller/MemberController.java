@@ -561,7 +561,7 @@ public class MemberController {
 				Member loginUser = memberService.reloginMember(memberId);
 				session.setAttribute("loginUser", loginUser);
 				
-				return "redirect:/profileEdit.me";
+				return "redirect:/mypage.me";
 			} else {
 				model.addAttribute("errorMsg", "회원정보수정 실패");
 				return "common/errorPage";

@@ -35,6 +35,7 @@
 
 	<resultMap type="Reply" id="replyResult">
 		<result column="REPLY_NO" property="replyNo"/>
+		<result column="MEMBER_NO" property="memberNo"/>
 		<result column="REPLY_BOARD_NO" property="replyBoardNo"/>
 		<result column="REPLY_WRITER" property="replyWriter"/>
 		<result column="REPLY_CONTENT" property="replyContent"/>
@@ -523,6 +524,7 @@
 	<!-- 같이가요 댓글 조회 쿼리문 -->
 	<select id="selectTogetherReplyList" resultMap="replyResult">
 		SELECT REPLY_NO
+				,MEMBER_NO
 				,REPLY_CONTENT
 				,MEMBER_ID AS "REPLY_WRITER"
 				,TO_CHAR(REPLY_MODIFY_DATE, 'YY-MM-DD HH24:MI:SS') AS "REPLY_MODIFY_DATE"
@@ -761,11 +763,12 @@
 		<!-- 후기 댓글 조회 쿼리문 -->
 		<select id="selectReviewReplyList" resultMap="replyResult">
 		SELECT REPLY_NO
-				,REPLY_CONTENT
-				,MEMBER_ID AS "REPLY_WRITER"
-				,TO_CHAR(REPLY_MODIFY_DATE, 'YY-MM-DD HH24:MI:SS') AS "REPLY_MODIFY_DATE"
-				,MEMBER_PROFILE_IMG
-				,REPLY_GROUP
+			,REPLY_CONTENT
+			,MEMBER_ID AS "REPLY_WRITER"
+		             ,MEMBER_NO
+			,TO_CHAR(REPLY_MODIFY_DATE, 'YY-MM-DD HH24:MI:SS') AS "REPLY_MODIFY_DATE"
+			,MEMBER_PROFILE_IMG
+			,REPLY_GROUP
 		FROM REPLY
 		JOIN MEMBER ON (REPLY_WRITER = MEMBER_NO)
 		WHERE REPLY_STATUS = 'Y'
@@ -840,7 +843,8 @@
 		                ,ATTRACTION_CHANGE_NAME_IMG
 		                ,TRIP_N_DAY
 		                ,REGION_NO
-		                
+		                ,ATTRACTION_X
+		                ,ATTRACTION_Y
 				FROM 	TRIP_PLAN
 				JOIN 	MEMBER ON (TRIP_PLANNER_NO = MEMBER_NO)
 		        JOIN	location using (TRIP_PLAN_NO)

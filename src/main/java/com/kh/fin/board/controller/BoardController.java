@@ -250,18 +250,18 @@ public class BoardController {
 	//내가 짠 최종일정 보여주는 페이지
 	@RequestMapping("finalPlan.bo")
 	public ModelAndView selectFinalSchedule(int tripPlanNo, ModelAndView mv){
-		
 		mv.addObject("list",boardService.selectOneTripPlan(tripPlanNo))
 		.addObject("maxNday",boardService.countMaxPlanDay(tripPlanNo))
+		.addObject("list2", new Gson().toJson(boardService.selectOneTripPlan(tripPlanNo)))
 		.setViewName("board/boardScheduleView");
-		
+		System.out.println(new Gson().toJson(boardService.selectOneTripPlan(tripPlanNo)));
 		return mv;
 	}
 	
 	
 	
 	
-	
+
 	
 	
 	
@@ -732,6 +732,7 @@ public class BoardController {
 			
 			JsonObject newReply = new JsonObject();
 			newReply.addProperty("replyNo", r.getReplyNo());
+			newReply.addProperty("memberNo", r.getMemberNo());
 			newReply.addProperty("memberProfileImg", r.getMemberProfileImg());
 			newReply.addProperty("replyWriter", r.getReplyWriter());
 			newReply.addProperty("replyModifyDate", r.getReplyModifyDate());
@@ -743,6 +744,7 @@ public class BoardController {
 				if(r.getReplyNo() == tmpR.getReplyGroup()) {
 					JsonObject RReply = new JsonObject();
 					RReply.addProperty("replyNo", tmpR.getReplyNo());
+					newReply.addProperty("memberNo", tmpR.getMemberNo());
 					RReply.addProperty("memberProfileImg", tmpR.getMemberProfileImg());
 					RReply.addProperty("replyWriter", tmpR.getReplyWriter());
 					RReply.addProperty("replyModifyDate", tmpR.getReplyModifyDate());
