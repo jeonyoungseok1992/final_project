@@ -462,7 +462,7 @@ body {
     height: 100vh;
 }
 .side-modal.active{
-    width: 40px;
+    width: 400px;
     transition: width .3s ease;
 }
 .no_scroll {
@@ -511,9 +511,6 @@ body {
     border-radius: 8px;
     min-width: 255px;
     min-height: 60px;
-}
-#shareModal{
-    width: auto;
 }
 
 /* map */
@@ -582,4 +579,10 @@ body {
 .scroll_area{
     overflow: scroll;
     height: 100%;
+}
+
+
+
+#shareModal{
+    width: auto;
 }
