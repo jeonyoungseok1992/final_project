@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <!-- Optional JavaScript -->
@@ -17,8 +18,11 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="./resources/js/myPage.js"></script>
+
 <link rel="stylesheet" href="./resources/css/myPage.css">
 <link rel="stylesheet" href="./resources/css/board-card.css">
+<link rel="stylesheet" href="./resources/css/schedule-view.css">
+
 
 
 </head>
@@ -205,6 +209,48 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 					</div>
 				</div>
 			</div>
+
+			
+
+
+
+
+
+
+
+
+
+		<!--// 친구공유 modal -->
+
+		<div class="modal fade" id="shareModal">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content style">
+			
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">공유하기</h4>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+			
+					<!-- Modal body -->
+					<div class="modal-body">
+						<div class="layer-contents" id="snsCont">
+							<div class="sns-share">
+								<button type="button" title="새창"><img src="resources/images/logo_001.png" alt="mapping logo" style="width: 100px; height: 48px; padding: 10px;">친구공유</button>
+								<button type="button" title="새창"><a id="kakaotalk-sharing-btn" href="javascript:shareMessage(${list[0].tripPlanNo})"><i class="ico-kakao"></i></a>카카오톡</button>
+								<button type="button" onclick="shareFacebook()" title="새창"><i class="ico-facebook"></i>페이스북</button>
+								<button type="button" onclick="shareNaverblog()" title="새창"><i class="ico-blog"></i>네이버 블로그</button>
+							</div>
+							<div class="form-control-map">
+								<input class="copy-value" type="text" value="https://mapping/" title="공유 URL">
+								<button onclick="copyText()" type="button" ><strong class="color">복사</strong></button>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
 			
 			
 
