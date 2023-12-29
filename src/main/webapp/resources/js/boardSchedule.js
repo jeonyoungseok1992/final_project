@@ -2009,24 +2009,32 @@ function init2(list){
     map2 = new kakao.maps.Map(container, options);
 
 
+    
+
+
 
     let positions = {};
     for(let i = 0; i < parsedList.length; i++){
         if (!positions[parsedList[i].tripNday])
             positions[parsedList[i].tripNday] = [];
-
+            console.log(positions[parsedList[i].tripNday]);
 
         positions[parsedList[i].tripNday].push({
             title: parsedList[i].attractionName,
-            latlng: new kakao.maps.LatLng( parsedList[i].attractionY, parsedList[i].attractionX)
+            latlng: new kakao.maps.LatLng( parsedList[i].attractionY, parsedList[i].attractionX),
+            tripNday: parsedList[i].tripNday
         })
         // attractionMap2(parsedList[i].tripNday, parsedList[i]);
         // finish(parsedList[i].tripNday);
+        console.log(positions)
+        console.log(positions[1])
     }
     console.log(positions)
 
     for(let i in positions) {
+        console.log(positions[i])
         addMarkersToMap2(i, positions[i]);
+
     }
 
     
