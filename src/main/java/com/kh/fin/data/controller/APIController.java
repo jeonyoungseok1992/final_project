@@ -162,37 +162,37 @@ public class APIController {
 	    StringBuilder urlBuilder2 = new StringBuilder(baseUrl2);
 	    urlBuilder2.append("?serviceKey=").append(apiKey);
 	    if (1 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=12&areaCode=1");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=12&areaCode=1");
 	    } else if (2 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=12&areaCode=2");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=12&areaCode=2");
 	    } else if (3 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=12&areaCode=3");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=12&areaCode=3");
 	    }else if (4 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=12&areaCode=5");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=12&areaCode=5");
 	    } else if (5 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=12&areaCode=4");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=12&areaCode=4");
 	    } else if (6 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=12&areaCode=7");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=12&areaCode=7");
 	    } else if (7 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=12&areaCode=6");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=12&areaCode=6");
 	    } else if (8 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.0533388346432&mapY=37.28899674266975&radius=10000&contentTypeId=12");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=127.0533388346432&mapY=37.28899674266975&radius=10000&contentTypeId=12");
 	    } else if (9 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.73000431027823&mapY=37.88529271588802&radius=10000&contentTypeId=12");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=127.73000431027823&mapY=37.88529271588802&radius=10000&contentTypeId=12");
 	    } else if (10 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.49159874489123&mapY=36.63535445860653&radius=10000&contentTypeId=12");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=127.49159874489123&mapY=36.63535445860653&radius=10000&contentTypeId=12");
 	    } else if (11 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=126.67292904748435&mapY=36.65878596833474&radius=10000&contentTypeId=12");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=126.67292904748435&mapY=36.65878596833474&radius=10000&contentTypeId=12");
 	    } else if (12 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.10887986301702&mapY=35.82017977840777&radius=10000&contentTypeId=12");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=127.10887986301702&mapY=35.82017977840777&radius=10000&contentTypeId=12");
 	    } else if (13 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=126.46278106600714&mapY=34.81602307435137&radius=10000&contentTypeId=12");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=126.46278106600714&mapY=34.81602307435137&radius=10000&contentTypeId=12");
 	    } else if (14 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=128.50580062317167&mapY=36.575951606061714&radius=10000&contentTypeId=12");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=128.50580062317167&mapY=36.575951606061714&radius=10000&contentTypeId=12");
 	    } else if (15 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=128.69205767632846&mapY=35.23763542805831&radius=10000&contentTypeId=12");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=128.69205767632846&mapY=35.23763542805831&radius=10000&contentTypeId=12");
 	    } else if (16 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=126.49827754759696&mapY=33.48892035330222&radius=10000&contentTypeId=12");					  
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=126.49827754759696&mapY=33.48892035330222&radius=10000&contentTypeId=12");					  
 	    } 
 	    
 	    if(1 <= regionNo && regionNo <= 7) {
@@ -262,37 +262,37 @@ public class APIController {
 	    StringBuilder urlBuilder2 = new StringBuilder(baseUrl2);
 	    urlBuilder2.append("?serviceKey=").append(apiKey);
 	    if (1 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=39&areaCode=1");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=39&areaCode=1");
 	    } else if (2 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=39&areaCode=2");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=39&areaCode=2");
 	    } else if (3 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=39&areaCode=3");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=39&areaCode=3");
 	    }else if (4 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=39&areaCode=5");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=39&areaCode=5");
 	    } else if (5 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=39&areaCode=4");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=39&areaCode=4");
 	    } else if (6 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=39&areaCode=7");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=39&areaCode=7");
 	    } else if (7 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=39&areaCode=6");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=39&areaCode=6");
 	    } else if (8 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.0533388346432&mapY=37.28899674266975&radius=10000&contentTypeId=39");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=127.0533388346432&mapY=37.28899674266975&radius=10000&contentTypeId=39");
 	    } else if (9 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.73000431027823&mapY=37.88529271588802&radius=10000&contentTypeId=39");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=127.73000431027823&mapY=37.88529271588802&radius=10000&contentTypeId=39");
 	    } else if (10 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.49159874489123&mapY=36.63535445860653&radius=10000&contentTypeId=39");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=127.49159874489123&mapY=36.63535445860653&radius=10000&contentTypeId=39");
 	    } else if (11 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=126.67292904748435&mapY=36.65878596833474&radius=10000&contentTypeId=39");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=126.67292904748435&mapY=36.65878596833474&radius=10000&contentTypeId=39");
 	    } else if (12 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.10887986301702&mapY=35.82017977840777&radius=10000&contentTypeId=39");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=127.10887986301702&mapY=35.82017977840777&radius=10000&contentTypeId=39");
 	    } else if (13 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=126.46278106600714&mapY=34.81602307435137&radius=10000&contentTypeId=39");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=126.46278106600714&mapY=34.81602307435137&radius=10000&contentTypeId=39");
 	    } else if (14 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=128.50580062317167&mapY=36.575951606061714&radius=10000&contentTypeId=39");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=128.50580062317167&mapY=36.575951606061714&radius=10000&contentTypeId=39");
 	    } else if (15 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=128.69205767632846&mapY=35.23763542805831&radius=10000&contentTypeId=39");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=128.69205767632846&mapY=35.23763542805831&radius=10000&contentTypeId=39");
 	    } else if (16 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=126.49827754759696&mapY=33.48892035330222&radius=10000&contentTypeId=39");					  
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=126.49827754759696&mapY=33.48892035330222&radius=10000&contentTypeId=39");					  
 	    } 
 	    
 	    
@@ -364,37 +364,37 @@ public class APIController {
 	    StringBuilder urlBuilder2 = new StringBuilder(baseUrl2);
 	    urlBuilder2.append("?serviceKey=").append(apiKey);
 	    if (1 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=15&areaCode=1");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=15&areaCode=1");
 	    } else if (2 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=15&areaCode=2");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=15&areaCode=2");
 	    } else if (3 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=15&areaCode=3");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=15&areaCode=3");
 	    }else if (4 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=15&areaCode=5");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=15&areaCode=5");
 	    } else if (5 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=15&areaCode=4");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=15&areaCode=4");
 	    } else if (6 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=15&areaCode=7");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=15&areaCode=7");
 	    } else if (7 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=15&areaCode=6");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=15&areaCode=6");
 	    } else if (8 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.0533388346432&mapY=37.28899674266975&radius=10000&contentTypeId=15");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=127.0533388346432&mapY=37.28899674266975&radius=10000&contentTypeId=15");
 	    } else if (9 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.73000431027823&mapY=37.88529271588802&radius=10000&contentTypeId=15");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=127.73000431027823&mapY=37.88529271588802&radius=10000&contentTypeId=15");
 	    } else if (10 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.49159874489123&mapY=36.63535445860653&radius=10000&contentTypeId=15");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=127.49159874489123&mapY=36.63535445860653&radius=10000&contentTypeId=15");
 	    } else if (11 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=126.67292904748435&mapY=36.65878596833474&radius=10000&contentTypeId=15");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=126.67292904748435&mapY=36.65878596833474&radius=10000&contentTypeId=15");
 	    } else if (12 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.10887986301702&mapY=35.82017977840777&radius=10000&contentTypeId=15");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=127.10887986301702&mapY=35.82017977840777&radius=10000&contentTypeId=15");
 	    } else if (13 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=126.46278106600714&mapY=34.81602307435137&radius=10000&contentTypeId=15");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=126.46278106600714&mapY=34.81602307435137&radius=10000&contentTypeId=15");
 	    } else if (14 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=128.50580062317167&mapY=36.575951606061714&radius=10000&contentTypeId=15");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=128.50580062317167&mapY=36.575951606061714&radius=10000&contentTypeId=15");
 	    } else if (15 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=128.69205767632846&mapY=35.23763542805831&radius=10000&contentTypeId=15");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=128.69205767632846&mapY=35.23763542805831&radius=10000&contentTypeId=15");
 	    } else if (16 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=126.49827754759696&mapY=33.48892035330222&radius=10000&contentTypeId=15");					  
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=126.49827754759696&mapY=33.48892035330222&radius=10000&contentTypeId=15");					  
 	    } 
 	    
 	    
@@ -472,37 +472,37 @@ public class APIController {
 	    StringBuilder urlBuilder2 = new StringBuilder(baseUrl2);
 	    urlBuilder2.append("?serviceKey=").append(apiKey);
 	    if (1 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=1");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=32&areaCode=1");
 	    } else if (2 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=2");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=32&areaCode=2");
 	    } else if (3 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=3");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=32&areaCode=3");
 	    }else if (4 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=5");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=32&areaCode=5");
 	    } else if (5 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=4");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=32&areaCode=4");
 	    } else if (6 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=7");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=32&areaCode=7");
 	    } else if (7 ==regionNo) {
-	    	urlBuilder.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=6");
+	    	urlBuilder.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&contentTypeId=32&areaCode=6");
 	    } else if (8 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.0533328346432&mapY=37.28899674266975&radius=10000&contentTypeId=32");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=127.0533328346432&mapY=37.28899674266975&radius=10000&contentTypeId=32");
 	    } else if (9 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.73000431027823&mapY=37.88529271588802&radius=10000&contentTypeId=32");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=127.73000431027823&mapY=37.88529271588802&radius=10000&contentTypeId=32");
 	    } else if (10 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.49159874489123&mapY=36.63535445860653&radius=10000&contentTypeId=32");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=127.49159874489123&mapY=36.63535445860653&radius=10000&contentTypeId=32");
 	    } else if (11 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=126.67292904748435&mapY=36.65878596833474&radius=10000&contentTypeId=32");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=126.67292904748435&mapY=36.65878596833474&radius=10000&contentTypeId=32");
 	    } else if (12 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=127.10887986301702&mapY=35.82017977840777&radius=10000&contentTypeId=32");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=127.10887986301702&mapY=35.82017977840777&radius=10000&contentTypeId=32");
 	    } else if (13 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=126.46278106600714&mapY=34.81602307435137&radius=10000&contentTypeId=32");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=126.46278106600714&mapY=34.81602307435137&radius=10000&contentTypeId=32");
 	    } else if (14 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=128.50580062317167&mapY=36.575951606061714&radius=10000&contentTypeId=32");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=128.50580062317167&mapY=36.575951606061714&radius=10000&contentTypeId=32");
 	    } else if (15 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=128.69205767632846&mapY=35.23763542805831&radius=10000&contentTypeId=32");
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=128.69205767632846&mapY=35.23763542805831&radius=10000&contentTypeId=32");
 	    } else if (16 ==regionNo) {
-	    	urlBuilder2.append("&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=126.49827754759696&mapY=33.48892035330222&radius=10000&contentTypeId=32");					  
+	    	urlBuilder2.append("&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=126.49827754759696&mapY=33.48892035330222&radius=10000&contentTypeId=32");					  
 	    } 
 	    
 	    
