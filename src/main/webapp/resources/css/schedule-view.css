@@ -145,3 +145,61 @@
 .form-control-map .color {
     color: #b2d8b5;
 }
+
+#modal-header{
+    width: 500px;
+    height: 150px;
+}
+.modal-body.login label{
+    display: block;
+    text-align: left;
+    width: 350px;
+    font-weight :bold;
+    cursor: unset;
+    }
+.modal-body.login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.modal-body.login input{
+	
+    border: 1px solid gainsboro;
+    height: 40px;
+    margin: 15px 0px;
+    width: 350px;
+    padding-left: 15px;
+	
+}
+.modal-title.updatest{
+    font-size: 24px;
+     font-weight: 700;
+     line-height: 35px;
+ }
+ .btn.updatest{
+    height: 60px;
+     padding: 0 40px;
+     font-weight: 700;
+     border-radius: 0;
+     margin-top: 16px;
+     background-color: #b2d8b5;
+     border: none;
+     font-size: 16px;
+     width: 350px;
+ }
+ .btn-secondary.updatest:hover{
+    opacity: .8;
+     background-color: #b2d8b5;
+     border-color: #b2d8b5;
+ }
+ table.update  tbody tr td input{
+    width: 100%;
+     border: 1px solid gainsboro;
+     height: 40px;
+     margin: 15px 0px;
+     padding-left: 15px; 
+  
+ }
+ .modal-backdrop{
+     z-index: 999;
+ }
