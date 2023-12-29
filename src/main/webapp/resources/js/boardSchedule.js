@@ -452,43 +452,43 @@ function drawScheduleMake(scheduleInfo) {
         }
     })
 
-    $.ajax({
-        url: "attEventList.api",
-        data: {
-            regionNo: bsValue.regionData.regionNo
-        },
-        success: function (data) {
+    // $.ajax({
+    //     url: "attEventList.api",
+    //     data: {
+    //         regionNo: bsValue.regionData.regionNo
+    //     },
+    //     success: function (data) {
 
 
 
-            let attLoca;
-            let addTitle;
+    //         let attLoca;
+    //         let addTitle;
 
-            for (att of data) {
-                attLoca = att.firstimage;
-                addTitle = att.title;
-                mX = att.mapx
-                mY = att.mapy;
-                // addMarker(mY, mX);
-                let selectCard = selectWrapLiUnit({
-                    src: attLoca,
-                    title: addTitle,
-                    category: "추천 장소",
-                    className: "draggable",
-                    mapX: mX,
-                    mapY: mY,
-                    id: generateShortUUID()
-                });
-                bsValue.attData.push(selectCard);
+    //         for (att of data) {
+    //             attLoca = att.firstimage;
+    //             addTitle = att.title;
+    //             mX = att.mapx
+    //             mY = att.mapy;
+    //             // addMarker(mY, mX);
+    //             let selectCard = selectWrapLiUnit({
+    //                 src: attLoca,
+    //                 title: addTitle,
+    //                 category: "추천 장소",
+    //                 className: "draggable",
+    //                 mapX: mX,
+    //                 mapY: mY,
+    //                 id: generateShortUUID()
+    //             });
+    //             bsValue.attData.push(selectCard);
 
-                //selectWrapUl.appendChild(selectCard);
-            }
+    //             //selectWrapUl.appendChild(selectCard);
+    //         }
 
-        },
-        error: function () {
-            console.log("recommendTrip.bo ajax 실패");
-        }
-    })
+    //     },
+    //     error: function () {
+    //         console.log("recommendTrip.bo ajax 실패");
+    //     }
+    // })
 
 
 

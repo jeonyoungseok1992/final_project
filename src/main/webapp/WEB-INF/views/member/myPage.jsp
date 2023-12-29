@@ -74,7 +74,6 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 						<div class="button-area">
 							<div>
 							<button class="scheduleTap1">나의 일정</button>
-							<button class="scheduleTap1" style="margin-left: 15px;">공유된 일정</button>
 							</div>
 
 							<div class="dropdown">
@@ -106,7 +105,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 							  </ul>
 						</div>
 						<!--ajax호출부 -->		
-							<div class="myTogetherSchedule">
+							<div id="myTogetherSchedule">
 
 							</div>
 								
@@ -125,7 +124,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 						</div>
 
 						<!-- ajax 부분-->
-						<div class="myReviewSchedule">
+						<div id="myReviewSchedule">
 
 						</div>
 					</div>
