@@ -48,8 +48,8 @@ Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
                 </c:choose>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">1:1 채팅</a></li>
-                    <li><a class="dropdown-item" href="#">마이페이지</a></li>
-                    <li><a class="dropdown-item" href="#">로그아웃</a></li>
+                    <li><a class="dropdown-item" href="mypage.me">마이페이지</a></li>
+                    <li><a class="dropdown-item" href="logout.me">로그아웃</a></li>
                 </ul>
             </div>
         </div>

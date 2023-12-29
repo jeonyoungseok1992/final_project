@@ -102,14 +102,17 @@ $.ajax({
 }
 
 //최종일정 짜는 ajax
-function scheduleMakeAjax(scheduleInfo){
-    console.log(scheduleInfo);
+function scheduleMakeAjax(scheduleInfo, Title){
+    const dataToSend = {
+        ...JSON.parse(JSON.stringify(scheduleInfo)),
+        tripPlanTitle:Title,
+    }
     $.ajax({
         url: "totalScheduleMake.bo",
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        data: JSON.stringify(scheduleInfo),
+        data: JSON.stringify(dataToSend),
         success: function(res){
             console.log(res)
                 //최종일정 페이지로 가기

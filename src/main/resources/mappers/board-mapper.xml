@@ -162,7 +162,7 @@
 				)
 		VALUES (SEQ_TPNO.NEXTVAL
 				,#{memberNo}
-				,TO_CHAR(SYSDATE, 'YY/MM/DD') || '일정'
+				,#{tripPlanTitle}
 				,#{startDate}
 				,#{endDate}
 				,#{transportationNo}
