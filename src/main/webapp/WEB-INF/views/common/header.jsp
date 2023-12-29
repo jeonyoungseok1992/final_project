@@ -127,27 +127,27 @@
 				<!-- Modal body -->
 				<div id="mobileNo2">
 					<tr >
-						<th>
-							<label id="pNumber"  for="phone">휴대폰 번호</label>
-						</th>
-						<td>
-							<p>
-								<div id="p1">
-									<input id="phone" type="text" name="phone" placeholder="전화번호 입력(-제외)" required/>
-									<span id="phoneChk" class="doubleChk">인증번호 보내기</span><br/>
-								</div>
-								<div id="p2">
-									<input id="phone2" type="text" name="phone2" title="인증번호 입력" disabled required/>
-									<span id="phoneChk2" class="doubleChk">본인인증</span>
-									
-								</div>
-								<div class="point successPhoneChk"></div>
-								<input type="hidden" id="phoneDoubleChk"/>
-							</p>
-								<div id="idNext" onclick="idNext()">다음</div>
-						</td>
+					   <th>
+						  <label id="pNumber"  for="phone">휴대폰 번호</label>
+					   </th>
+					   <td>
+						  <p>
+							 <div id="p1">
+								<input id="phone" type="text" name="phone" placeholder="전화번호 입력(-제외)" required/>
+								<button id="phoneChk" class="doubleChk">인증번호 보내기</button><br/>
+							 </div>
+							 <div id="p2">
+								<input id="phone2" type="text" name="phone2" title="인증번호 입력" disabled required/>
+								<button id="phoneChk2" class="doubleChk">본인인증</button>
+								
+							 </div>
+							 <div class="point successPhoneChk"></div>
+							 <input type="hidden" id="phoneDoubleChk"/>
+						  </p>
+							 <button id="idNext" onclick="idNext()">다음</button>
+					   </td>
 					</tr>
-				</div>
+				 </div>
 				
 			
 

@@ -158,6 +158,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                         let submitBtn = document.querySelector("#mem-enroll-form button[type=submit]");
                         submitBtn.removeAttribute("disabled");
                         inInput.setAttribute("readonly", true);
+                        inInput.id ="disable_input";
                         checkBtnId.setAttribute("disabled", true); // 중복 확인 버튼을 읽기 전용으로 설정
                         } else {
                         inInput.focus();
@@ -194,7 +195,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                 $.ajax({
                     url: "nickNameCheck.me",
                     data: {
-                    "checkId": inInput.value
+                    checkNickName: inInput.value
                     },
                     success: function (res) {
                     if (res === "NNNNY") {
@@ -202,6 +203,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
                         let submitBtn = document.querySelector("#mem-enroll-form button[type=submit]");
                         submitBtn.removeAttribute("disabled");
                         inInput.setAttribute("readonly", true);
+                        inInput.id ="disable_input";
                         checkBtnNick.setAttribute("disabled", true); // 중복 확인 버튼을 읽기 전용으로 설정
                         } else {
                         inInput.focus();

@@ -245,18 +245,32 @@ table.update  tbody tr td input{
 }
 
 #mobileNo2{
-    height: 200px;
+    height: 280px;
     display: flex;
-       flex-direction: column;
-
+    flex-direction: column;
     justify-content: center;
-    padding-left: 149px;
+    align-items: center;
+
 }   
 
 
 #pNumber{
     font-size: x-large;
     padding-bottom: 28px;
+}
+#phone{
+    border: 1px solid gainsboro;
+    height: 40px;
+    margin: 15px 0px;
+    width: 350px;
+    padding-left: 15px;
+}
+#phone2{
+    border: 1px solid gainsboro;
+    height: 40px;
+    margin: 15px 0px;
+    width: 350px;
+    padding-left: 15px;
 }
 
 #phoneChk{
@@ -265,7 +279,7 @@ table.update  tbody tr td input{
     color: white;
     border: 1px solid;
     border-radius: 5px; 
-    height: 45px;
+    height: 40px;
     margin-left: 5px
 }
 #phoneChk2{
@@ -274,7 +288,7 @@ table.update  tbody tr td input{
     color: white;
     border: 1px solid;
     border-radius: 5px;
-    height: 27px;
+    height: 40px;
     margin-left: 5px;
     padding: 4px;
 }
@@ -289,11 +303,12 @@ table.update  tbody tr td input{
 
 
 #idNext{
-    width: 40px;
+    width: 433px;
     background: #b2d8b5;
     color: white;
     border: 1px solid;
     border-radius: 5px;
-    height: 27px;
+    height: 50px;
     padding: 3px;
+    margin-bottom: 20px;
 }
