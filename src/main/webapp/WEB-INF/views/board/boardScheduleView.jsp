@@ -60,7 +60,6 @@ Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
                         <li><button tabindex="0" role="tab" aria-selected="true" aria-controls="tabPanel1" id="tab1" class="active">전체일정</button></li>
                     </ul>
                     <div class="btn-wrap">
-                        <button class="edit-btn">편집</button>
                         <button type="button" data-bs-toggle="modal" data-bs-target="#shareModal">친구공유</button>
                     </div>
                     
@@ -80,7 +79,7 @@ Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
                                 <div class="modal-body">
                                     <div class="layer-contents" id="snsCont">
                                         <div class="sns-share">
-                                            <button type="button" title="새창"><img src="resources/images/logo_001.png" alt="mapping logo" style="width: 100px; height: 48px; padding: 10px;">친구공유</button>
+                                            <button type="button" title="새창"><img src="resources/images/logo_001.png" alt="mapping logo" style="width: 100px; height: 48px; padding: 10px;">QR공유</button>
                                             <button type="button" title="새창"><a id="kakaotalk-sharing-btn" href="javascript:shareMessage(${list[0].tripPlanNo})"><i class="ico-kakao"></i></a>카카오톡</button>
                                             <button type="button" onclick="shareFacebook()" title="새창"><i class="ico-facebook"></i>페이스북</button>
                                             <button type="button" onclick="shareNaverblog()" title="새창"><i class="ico-blog"></i>네이버 블로그</button>

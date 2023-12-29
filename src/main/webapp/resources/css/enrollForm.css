@@ -19,6 +19,9 @@ h2{
     padding-left: 15px;
     
 } 
+#disable_input{
+    background: lightgray;
+}
 
 #mem-enroll-form{
     position: relative;

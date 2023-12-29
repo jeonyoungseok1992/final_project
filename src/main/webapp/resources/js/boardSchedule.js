@@ -1136,7 +1136,7 @@ function selectLodging(scheduleInfo) {
     contentZone.appendChild(locationTitleWrap);
 
     const title = document.createElement("h4");
-    title.innerText = "여행지";
+    title.innerText = bsValue.regionData.regionName;
     locationTitleWrap.appendChild(title);
 
     const timeZone = document.createElement("div");

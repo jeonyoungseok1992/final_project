@@ -5,7 +5,7 @@ var code2 = "";
 $("#phoneChk").click(function(event){
 	
 	var phone = $("#phone").val();
-
+	console.log(phone)
 	if (phone.trim() === '') {
         // 전화번호가 입력되지 않은 경우
         alert("전화번호를 입력하세요."); // 또는 다른 작업 수행 가능
