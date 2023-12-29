@@ -7,9 +7,70 @@ function init(memberNo, frMemberList) {
     myPageValue.frMembers = frMemberList;
     console.log("마이페이지 시작");
 
+
+
+
+
+
+
+
+
+
+
+
 }
 
 $(document).ready(function () {
+
+    $.ajax({
+        url: "myTripPlanList.bo",
+        success: function (list) {
+            console.log(list);
+            let str = "";
+            for (p of list) {
+               console.log(p)
+                str += `
+                <div class="mySchedule">
+                    <div ><img id="mainImg" style="width: 180px; height: 180px;" src="${p.tripPlanThumbnail}" alt="전주사진"></div>
+
+                    <div class="mySchedule-content">
+                        <span>${p.tripPlanTitle}</span>
+                        <span style="font-size: 18px; font-weight: 600; display: flex; justify-content: space-between;">${p.tripStartDate} ~ ${p.tripEndDate}</span>									
+                    </div>
+
+                    <div class="dropdown">
+                        <img class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" src="resources/images/moreIcons.png" alt="더보기" >
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="#">공유</a></li>
+                        <li><a class="dropdown-item" href="#">삭제</a></li>
+                        
+                        </ul>
+                    </div>
+
+                </div>
+                `
+            }
+
+            document.querySelector("#mySchedule-container").innerHTML = str;
+
+        },
+        error: function () {
+            console.log("myTripPlanList ajax통신 실패");
+        }
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     let $tab2 = $('.ui-tab');
 

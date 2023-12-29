@@ -242,6 +242,17 @@ public class BoardController {
 		return mv;
 	}
 	
+	//내가 짠 나의 일정list
+	@ResponseBody
+	@RequestMapping(value="myTripPlanList.bo")
+	public ArrayList<Plan> myTripPlanList(HttpSession session){
+		int memberNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
+		System.out.println(boardService.myTripPlanList(memberNo));
+		return boardService.myTripPlanList(memberNo);
+	}
+	
+	
+	
 	
 	
 	

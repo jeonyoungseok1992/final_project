@@ -413,6 +413,9 @@ public interface BoardService {
 	//메인페이지 키워드 검색
 	ArrayList<Region> regionSearch(PageInfo pi, String keyword);
 	
+	//내가 짠 일정list
+	ArrayList<Plan> myTripPlanList(int memberNo);
+		
 	
 	
 	
