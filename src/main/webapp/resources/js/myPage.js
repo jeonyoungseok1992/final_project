@@ -265,7 +265,7 @@ function together(memberNo) {
             let str3 = "";
             for (b of obb.list) {
                 str3 += `
-                    <div id="mySchedule">
+                    <div class="tripBoard">
                     <div style="width: 180px; height: 180px;"><img id="mainImg" src="resources/images/Jeonju.jpeg" alt="전주사진"></div>
 
                     <div class="mySchedule-content">
@@ -309,7 +309,7 @@ function together(memberNo) {
 
             str4 += "</ul>"; // pagination 마감
 
-            document.querySelector(".myTogetherSchedule").innerHTML = str3 + str4;
+            document.querySelector("#myTogetherSchedule").innerHTML = str3 + str4;
 
         },
         error: function () {
@@ -336,7 +336,7 @@ function review(memberNo) {
             let str = "";
             for (b of obj.list) {
                 str += `
-                    <div id="mySchedule">
+                    <div class="tripBoard">
                     <div style="width: 180px; height: 180px;"><img id="mainImg" src="resources/images/Jeonju.jpeg" alt="전주사진"></div>
 
                     <div class="mySchedule-content">
@@ -381,7 +381,7 @@ function review(memberNo) {
 
             str2 += "</ul>"; // pagination 마감
 
-            document.querySelector(".myReviewSchedule").innerHTML = str + str2;
+            document.querySelector("#myReviewSchedule").innerHTML = str + str2;
 
         },
         error: function () {
