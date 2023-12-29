@@ -1700,6 +1700,14 @@ public class BoardServiceImpl implements BoardService{
 //	public ArrayList<Report> reportInfor() {
 //		return boardDao.reportInfor(sqlSession);
 //	}
+	
+	
+	
+	//내가 짠 일정list
+	@Override
+	public ArrayList<Plan> myTripPlanList(int memberNo) {		
+		return boardDao.myTripPlanList(sqlSession, memberNo);
+	}
 
 
 

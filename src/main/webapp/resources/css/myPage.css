@@ -71,7 +71,7 @@ body{
     align-items: center;
 }
 
-#mySchedule{
+.mySchedule{
     padding: 12px;
     box-shadow: 0 2px 8px 0 rgba(31,38,135,.08)!important;
     border-radius: 8px;
@@ -81,7 +81,7 @@ body{
     align-items: center;
     justify-content: center;
 }
-#mySchedule #mainImg{
+.mySchedule #mainImg{
     width: 180px;
     height: 180px;
     border: none;

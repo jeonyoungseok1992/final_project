@@ -677,4 +677,49 @@ public class BoardDao {
 //	public ArrayList<Report> reportInfor(SqlSessionTemplate sqlSession) {
 //		return (ArrayList)sqlSession.selectList("boardMapper.reportInfor");
 //	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public ArrayList<Plan> myTripPlanList(SqlSessionTemplate sqlSession, int memberNo){
+		return (ArrayList)sqlSession.selectList("boardMapper.myTripPlanList", memberNo);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

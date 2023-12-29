@@ -1324,6 +1324,39 @@
 		FROM REPORT
 	</select>-->
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!--내가 짠 나의 일정list -->
+	<select id="myTripPlanList" resultMap="planResult">
+		select 
+			TRIP_PLAN_NO
+			,TRIP_PLANNER_NO
+			,TRIP_PLAN_TITLE
+	        ,SUBSTR(TRIP_START_DATE, 1, INSTR(TRIP_START_DATE, 'T') - 1) AS TRIP_START_DATE
+        	,SUBSTR(TRIP_END_DATE, 1, INSTR(TRIP_END_DATE, 'T') - 1) AS TRIP_END_DATE
+            ,TRIP_PLAN_THUMBNAIL
+		from TRIP_PLAN
+		where TRIP_PLANner_no = #{memberNo}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 </mapper>

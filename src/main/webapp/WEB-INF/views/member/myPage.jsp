@@ -16,10 +16,10 @@
 <!-- jquery 3.7.1 -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
+<script src="./resources/js/myPage.js"></script>
 <link rel="stylesheet" href="./resources/css/myPage.css">
 <link rel="stylesheet" href="./resources/css/board-card.css">
-<script src="./resources/js/myPage.js"></script>
+
 
 </head>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
@@ -88,63 +88,9 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
 						<!-- ajax 호출부 /기능구현시 - 전체일정으로 먼저 나와야하고 버튼색깔도 바꿔야함-->
 						
 							<!-- 나의일정 -> 전체일정 탭시작-->
-							<div id="mySchedule">
-								<div style="width: 180px; height: 180px;"><img id="mainImg" src="resources/images/Jeonju.jpeg" alt="전주사진"></div>
-
-								<div class="mySchedule-content">
-									<span>전주</span>
-									<span style="font-size: 14px; font-weight: 400; color: gray;">나의 퇴사 여행</span>
-									<span style="font-size: 18px; font-weight: 600; display: flex; justify-content: space-between;">2020-10-17 ~ 2020-11-01<span style="font-size: 13px; color: gray;">최근 수정일 2020-12-01</span></span>									
-								</div>
-
-								<div class="dropdown">
-									<img class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" src="resources/images/moreIcons.png" alt="더보기" >
-									<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									  <li><a class="dropdown-item" href="#">공유</a></li>
-									  <li><a class="dropdown-item" href="#">삭제</a></li>
-									 
-									</ul>
-								  </div>
-
-							</div>
-							<div id="mySchedule">
-								<div style="width: 180px; height: 180px;"><img id="mainImg" src="resources/images/Jeonju.jpeg" alt="전주사진"></div>
-
-								<div class="mySchedule-content">
-									<span>전주</span>
-									<span style="font-size: 14px; font-weight: 400; color: gray;">나의 퇴사 여행</span>
-									<span style="font-size: 18px; font-weight: 600; display: flex; justify-content: space-between;">2020-10-17 ~ 2020-11-01<span style="font-size: 13px; color: gray;">최근 수정일 2020-12-01</span></span>									
-								</div>
-
-								<div class="dropdown">
-										<img class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" src="resources/images/moreIcons.png" alt="더보기" style="transform:rotate(90deg) translateY(50%); width: 30px; height: 30px; cursor: pointer;">
-									<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									  <li><a class="dropdown-item" href="#">공유</a></li>
-									  <li><a class="dropdown-item" href="#">삭제</a></li>
-									  
-									</ul>
-								  </div>
-
-							</div>	
-							<div id="mySchedule">
-								<div style="width: 180px; height: 180px;"><img id="mainImg" src="resources/images/Jeonju.jpeg" alt="전주사진"></div>
-
-								<div class="mySchedule-content">
-									<span>전주</span>
-									<span style="font-size: 14px; font-weight: 400; color: gray;">나의 퇴사 여행</span>
-									<span style="font-size: 18px; font-weight: 600; display: flex; justify-content: space-between;">2020-10-17 ~ 2020-11-01<span style="font-size: 13px; color: gray;">최근 수정일 2020-12-01</span></span>									
-								</div>
-
-								<div class="dropdown">
-										<img class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" src="resources/images/moreIcons.png" alt="더보기" >
-									<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									  <li><a class="dropdown-item" href="#">공유</a></li>
-									  <li><a class="dropdown-item" href="#">삭제</a></li>
-									</ul>
-								  </div>
-
-							</div>
+							<div id="mySchedule-container"></div>
 							<!-- 나의일정 -> 전체일정 탭 끝-->	
+							
 							<!-- 나의일정 -> 공유된 일정(전체일정이랑 같은 양식으로 뿌리면 됨) -->	
 					</div>
 					<!-- 나의 일정 탭 끝-->
