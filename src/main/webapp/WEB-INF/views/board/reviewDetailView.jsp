@@ -208,7 +208,7 @@
                                             <button type="button" data-bs-toggle="modal" data-bs-target="#reportModal" id="warn" onclick="contentsInit1('${list[0].boardNo}')">
                                                 <i style="font-size: 1.5rem; color: #000;" class="bi bi-exclamation-triangle"></i>
                                             </button>
-                                        </th>
+                                     </th>
                                      </c:if>
                                 </c:if>
                             </tr>

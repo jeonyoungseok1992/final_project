@@ -41,7 +41,7 @@ $(document).ready(function () {
                     <div class="dropdown">
                         <img class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" src="resources/images/moreIcons.png" alt="더보기" >
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="#">공유</a></li>
+                        <li><button type="button" data-bs-toggle="modal" data-bs-target="#shareModal">친구공유</button></li>
                         <li><a class="dropdown-item" href="#">삭제</a></li>
                         
                         </ul>
