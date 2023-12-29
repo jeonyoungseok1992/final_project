@@ -2,6 +2,8 @@ package com.kh.fin.board.model.vo;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestBody;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +29,7 @@ public class ScheduleDTO {
     private int tripPlannerNo;
     private int transportationNo;
     private int tripPlanNo;
+    private String tripPlanTitle;
 
    
    

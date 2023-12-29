@@ -70,5 +70,30 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
         </div>
         
     </div>
+
+    <!-- 일정 생성 누르면 일정 타이틀 입력받는 모달-->    		
+	<div class="modal fade" id="inputTitle">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+		
+				<!-- Modal Header -->
+			   <div class="modal-header" style="border-bottom: none;padding: 30px;display: block;">
+					<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 20px;">
+						 <h4 class="modal-title updatest">일정 제목 입력</h4>
+						 <span style="font-size: 15px;">나만의 일정이름을 입력해주세요.</span>
+					</div>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" style="position: absolute; top: 20px; right: 20px;"></button>
+				</div>
+				<!-- Modal body -->
+				<div class="modal-body login" align="center" style="padding: 24px;">
+			                <label align="center" for="tripPlanTitle">제목</label>
+			                <input type="text" id="tripPlanTitle" name="tripPlanTitle" placeholder="일정제목을 입력해주세요" required/>
+		                    <button type="button" id="insertScheduleBtn" data-bs-dismiss="modal" class="btn btn-sm btn-secondary updatest">제출</button>
+					
+					 
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

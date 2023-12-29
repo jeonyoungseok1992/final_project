@@ -1754,43 +1754,17 @@ function chooseTransportation(scheduleInfo) {
     const ScheduleCreationBtn = document.createElement('button');
     ScheduleCreationBtn.className = "time-set-btn";
     ScheduleCreationBtn.innerText = "일정생성";
+    // 모달을 호출하기 위한 부트스트랩 속성 추가
+    ScheduleCreationBtn.setAttribute('data-bs-toggle', 'modal');
+    ScheduleCreationBtn.setAttribute('data-bs-target', '#inputTitle');
+     
     transportationWrap.appendChild(ScheduleCreationBtn);
 
-
-    ScheduleCreationBtn.onclick = function () {
-        // html2canvas(document.getElementById("map"), {useCORS: true}).then(function(canvas) {
-        //     const myImg = canvas.toDataURL("image/jpeg");
-        //     const src = myImg.replace("image/jpeg", "image/octet-stream");
-			  
-        //     document.body.innerHTML = "<img src = '"+src+"'/>";
-        // });
-
-                 //     var formData = new FormData();
-
-            //      formData.append("imgSrc", myImg);
-
-                // $.ajax({
-                //     type : "POST",
-                //     data : formData,
-                //     async:false,
-                //     processData: false,
-                //     contentType: false,
-                //     dataType : "text",
-                //     url : "captureImgSave.bo",
-                //     success : function(data) {
-                //         console.log(data);
-                //     },
-                //     error : function() {
-                //         alert("error");
-                //     }
-                // });
-
-            // })
-
-        scheduleMakeAjax(scheduleInfo);
-        
-        
-    };
+    document.getElementById('insertScheduleBtn').onclick= function(){
+        const tripTitle = document.getElementById('tripPlanTitle').value
+        console.log(tripTitle)
+        scheduleMakeAjax(scheduleInfo,tripTitle);
+    }
 
     setStepBtn({
         prev: {
