@@ -367,6 +367,33 @@ public interface MemberService {
 	//채팅방 목록
 	ArrayList<MsgVo> chatList(int myNo);
 	
+	//안읽은 메세지 갯수체크
+	int chatCheck(MsgVo vo);
+	
+	//채팅 읽음으로 바꿔주기
+	int readChat(MsgVo vo);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	//박수현 회원정보 전체
 	ArrayList<Member> memberInfor();

@@ -312,3 +312,35 @@ table.update  tbody tr td input{
     padding: 3px;
     margin-bottom: 20px;
 }
+
+/*친구목록관련*/
+.myfriend{
+    padding: 12px;
+    box-shadow: 0 2px 8px 0 rgba(31,38,135,.08)!important;
+    border-radius: 8px;
+    margin: 8px 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.myfriend:first-child{
+    display: flex;
+    align-items: center;
+}
+
+.title-img{
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+}
+
+.title-img2{
+    width: 50px;
+    height: 50px;
+    border-radius: 35px;
+}
+
+.chatCount{
+    margin-left: 2px;
+}

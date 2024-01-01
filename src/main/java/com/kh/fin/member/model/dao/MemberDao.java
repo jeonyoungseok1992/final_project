@@ -441,9 +441,17 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.pageFriend", paramMap);
 	}
 	
+	//안읽은 메세지 갯수체크
+	public int chatCheck(SqlSessionTemplate sqlSession, MsgVo vo) {
+		return sqlSession.selectOne("memberMapper.chatCheck", vo);
+
+	}
 	
-	
-	
+	//채팅 읽음으로 바꿔주기
+	public int readChat(SqlSessionTemplate sqlSession, MsgVo MsgVo) {
+		return sqlSession.update("memberMapper.readChat", MsgVo);
+
+	}
 	
 	
 	

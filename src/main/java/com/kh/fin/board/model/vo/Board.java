@@ -47,6 +47,7 @@ public class Board {
 	private String categoryName;
 	private String memberProfileImg;
 	private int fromMemberNo;
+	private String regionImg;
 	
 	
 }

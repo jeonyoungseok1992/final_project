@@ -27,7 +27,6 @@ public class Plan {
 	private String attractionMemo;
 	private String attractionAddress;
 	private String categoryName;
-	
 	private String attractionChangeNameImg;
 	private int regionNo;
 	private String regionName;
@@ -37,6 +36,7 @@ public class Plan {
 	private String category;
 	private String attractionX;
 	private String attractionY;
+	private String regionImg;
 	
 	
 }

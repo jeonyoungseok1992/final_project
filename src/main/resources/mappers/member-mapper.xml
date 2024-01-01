@@ -28,6 +28,7 @@
 		<result column="YOU_NO" property="youNo"/>
 		<result column="MEMBER_PROFILE_IMG" property="memberProfileImg"/>
 		<result column="MEMBER_NICKNAME" property="memberNickName"/>
+		<result column="CHAT_CHECK" property="chatCheck"/>
 	</resultMap>
 
 	<!-- 로그인 쿼리문 -->
@@ -433,16 +434,16 @@
      <!-- 마이페이지 삭제 후 친구목록 -->
 	<select id="refriendDelete" resultMap="memberResult">
 		
-		SELECT FRIEND_MEMBER_NO as MEMBER_NO
-	        ,MEMBER_NICKNAME
-	        ,MEMBER_PROFILE_IMG
-		FROM(
-		    SELECT FRIEND_MEMBER_NO
-		    FROM FRIEND 
-		    JOIN MEMBER  using (MEMBER_NO)
-		    WHERE MEMBER_NO = #{mno}
-                and friend_status = 'Y')
-		JOIN MEMBER ON (FRIEND_MEMBER_NO = MEMBER_NO)
+			SELECT FRIEND_MEMBER_NO as MEMBER_NO
+		        ,MEMBER_NICKNAME
+		        ,MEMBER_PROFILE_IMG
+			FROM(
+			    SELECT FRIEND_MEMBER_NO
+			    FROM FRIEND 
+			    JOIN MEMBER  using (MEMBER_NO)
+			    WHERE MEMBER_NO = #{mno}
+	                and friend_status = 'Y')
+			JOIN MEMBER ON (FRIEND_MEMBER_NO = MEMBER_NO)
 	
 
 	</select> 
@@ -560,13 +561,15 @@
 			my_No,
 			you_No,
 			chat_message,
-			chat_time
+			chat_time,
+			chat_check
 		)
 		VALUES(	
 			#{myNo},
 			#{youNo},
 			#{message},
-			#{time}
+			#{time},
+			#{youNo}
 				
 		)
 		
@@ -631,10 +634,21 @@
   
   
   
+     <!-- 안읽은 메세지 갯수 가져오는 쿼리문 -->
+	<select id="chatCheck" resultType="_int">
+		SELECT COUNT(*)
+		    FROM CHAT
+		    WHERE CHAT_CHECK = #{myNo} and my_no = #{youNo}
+	</select>
   
   
-  
-  
+  	<!--채팅 읽음으로 바꿔주기  -->
+	<update id="readChat">
+      UPDATE chat
+         SET 
+            CHAT_CHECK = 9999
+      WHERE CHAT_CHECK = #{myNo} and my_no = #{youNo}
+   </update>
   
   
   
