@@ -113,6 +113,7 @@ $(document).ready(function () {
  
     readChat(receive.youNo);
     chatList();
+    chatCheck();
     
     
     }
