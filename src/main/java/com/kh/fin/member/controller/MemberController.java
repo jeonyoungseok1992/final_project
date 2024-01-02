@@ -502,6 +502,7 @@ public class MemberController {
 		
 		return Integer.toString(randomNumber);
 	}
+
 	
 	//핸드폰 인증할 때 아이디 체크
 	@ResponseBody
