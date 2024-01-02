@@ -1,0 +1,827 @@
+DROP TABLE MEMBER CASCADE CONSTRAINTS;
+DROP TABLE TRIP_PLAN CASCADE CONSTRAINTS;
+DROP TABLE REGION CASCADE CONSTRAINTS;
+DROP TABLE CATEGORY CASCADE CONSTRAINTS;
+DROP TABLE RECOMMEND_BOARD CASCADE CONSTRAINTS;
+DROP TABLE CHAT;
+
+
+DROP TABLE ATTRACTION CASCADE CONSTRAINTS;
+DROP TABLE STAR CASCADE CONSTRAINTS;
+DROP TABLE LOCATION CASCADE CONSTRAINTS;
+DROP TABLE TRANSPORTATION CASCADE CONSTRAINTS;
+DROP TABLE FRIEND CASCADE CONSTRAINTS;
+DROP TABLE FRIEND_LOG CASCADE CONSTRAINTS;
+DROP TABLE BOARD CASCADE CONSTRAINTS;
+
+DROP TABLE ATTACHMENT CASCADE CONSTRAINTS;
+DROP TABLE GOOD CASCADE CONSTRAINTS;
+DROP TABLE REPLY CASCADE CONSTRAINTS;
+DROP TABLE REPORT CASCADE CONSTRAINTS;
+DROP TABLE NOTICE CASCADE CONSTRAINTS;
+
+
+
+
+
+
+CREATE TABLE MEMBER(
+MEMBER_NO NUMBER PRIMARY KEY,
+MEMBER_ID VARCHAR2(30) NOT NULL,
+MEMBER_PWD VARCHAR2(100) NOT NULL,
+MEMBER_NAME VARCHAR2(15) NOT NULL,
+MEMBER_NICKNAME VARCHAR2(30) NOT NULL,
+MEMBER_EMAIL VARCHAR2(100),
+MEMBER_PHONE VARCHAR(13),
+MEMBER_PROFILE_IMG VARCHAR2(255) default null,
+MEMBER_CREATE_DATE DATE DEFAULT SYSDATE,
+MEMBER_MODIFY_DATE DATE DEFAULT SYSDATE,
+MEMBER_RIGHT VARCHAR2(1) DEFAULT 'Y' CHECK (MEMBER_RIGHT IN('Y', 'N')),
+MEMBER_STATUS VARCHAR2(1) DEFAULT 'Y' CHECK (MEMBER_STATUS IN('Y', 'N')),
+MEMBER_GRADE VARCHAR2(1) DEFAULT 1 CHECK (MEMBER_GRADE IN('1', '2'))
+);
+
+DROP SEQUENCE SEQ_MNO;
+CREATE SEQUENCE SEQ_MNO
+NOCACHE;
+
+COMMENT ON COLUMN MEMBER.MEMBER_NO IS '회원번호';
+COMMENT ON COLUMN MEMBER.MEMBER_ID IS '회원아이디';
+COMMENT ON COLUMN MEMBER.MEMBER_PWD IS '회원비밀번호';
+COMMENT ON COLUMN MEMBER.MEMBER_NAME IS '회원명';
+COMMENT ON COLUMN MEMBER.MEMBER_NICKNAME IS '회원닉네임';
+COMMENT ON COLUMN MEMBER.MEMBER_EMAIL IS '회원이메일';
+COMMENT ON COLUMN MEMBER.MEMBER_PHONE IS '회원전화번호';
+COMMENT ON COLUMN MEMBER.MEMBER_PROFILE_IMG IS '회원프로필사진';
+COMMENT ON COLUMN MEMBER.MEMBER_CREATE_DATE IS '회원가입일';
+COMMENT ON COLUMN MEMBER.MEMBER_MODIFY_DATE IS '정보수정일';
+COMMENT ON COLUMN MEMBER.MEMBER_RIGHT IS '회원글쓰기권한';
+COMMENT ON COLUMN MEMBER.MEMBER_STATUS IS '회원상태';
+COMMENT ON COLUMN MEMBER.MEMBER_GRADE IS '회원등급';
+
+CREATE TABLE TRANSPORTATION(
+TRANSPORTATION_NO NUMBER PRIMARY KEY,
+TRANSPORTATION_TYPE VARCHAR2(20) NOT NULL
+);
+
+DROP SEQUENCE SEQ_TTNO;
+CREATE SEQUENCE SEQ_TTNO
+NOCACHE;
+
+
+CREATE TABLE REGION(
+REGION_NO NUMBER PRIMARY KEY,
+REGION_NAME VARCHAR2(30) NOT NULL,
+REGION_MEMO VARCHAR2(100) NOT NULL,
+REGION_IMG VARCHAR2(200) NOT NULL,
+REGION_ENG VARCHAR2(30) NOT NULL,
+REGION_X VARCHAR2(100) NOT NULL,
+REGION_Y VARCHAR2(100) NOT NULL
+);
+
+DROP SEQUENCE SEQ_RNO;
+CREATE SEQUENCE SEQ_RNO
+NOCACHE;
+
+CREATE TABLE CATEGORY(
+CATEGORY_NO NUMBER PRIMARY KEY,
+CATEGORY_NAME VARCHAR2(20) NOT NULL
+);
+
+
+
+CREATE TABLE RECOMMEND_BOARD(
+RECOMMEND_BOARD_NO NUMBER PRIMARY KEY,
+RECOMMEND_BOARD_TITLE VARCHAR2(100) NOT NULL,
+RECOMMEND_BOARD_CONTENT VARCHAR2(100) NOT NULL,
+RECOMMEND_BOARD_CREATE_DATE DATE DEFAULT SYSDATE,
+RECOMMEND_BOARD_MODIFY_DATE DATE DEFAULT SYSDATE,
+RECOMMEND_BOARD_REGION VARCHAR2(50) NOT NULL,
+RECOMMEND_BOARD_TITLEIMG VARCHAR2(100) NOT NULL
+);
+
+DROP SEQUENCE SEQ_RBNO;
+CREATE SEQUENCE SEQ_RBNO
+NOCACHE;
+
+
+
+
+CREATE TABLE ATTRACTION(
+ATTRACTION_NO NUMBER PRIMARY KEY,
+ATTRACTION_NAME VARCHAR2(300) NOT NULL,
+ATTRACTION_MEMO VARCHAR2(3000) ,
+ATTRACTION_ADDRESS VARCHAR2(1000),
+ATTRACTION_IN VARCHAR2(300),
+ATTRACTION_OUT VARCHAR2(300),
+ATTRACTION_X VARCHAR(100) ,
+ATTRACTION_Y VARCHAR(100) ,
+ATTRACTION_ORIGIN_NAME_IMG VARCHAR(300) ,
+ATTRACTION_CHANGE_NAME_IMG VARCHAR(300) DEFAULT 'resources/images/logo_01.png',
+ATTRACTION_CATEGORY_NO NUMBER NOT NULL,
+ATTRACTION_REGION_NO NUMBER NOT NULL,
+FOREIGN KEY (ATTRACTION_CATEGORY_NO) REFERENCES CATEGORY(CATEGORY_NO),
+FOREIGN KEY (ATTRACTION_REGION_NO) REFERENCES REGION(REGION_NO)
+);
+
+DROP SEQUENCE SEQ_ARTNO;
+CREATE SEQUENCE SEQ_ARTNO
+NOCACHE;
+
+
+
+
+
+
+
+
+
+
+CREATE TABLE TRIP_PLAN(
+TRIP_PLAN_NO NUMBER PRIMARY KEY,
+TRIP_PLANNER_NO NUMBER NOT NULL,
+TRIP_PLAN_TITLE VARCHAR2(100) NOT NULL,
+TRIP_START_DATE VARCHAR2(100) NOT NULL,
+TRIP_END_DATE VARCHAR2(100) NOT NULL,
+TRANSPORTATION_NO NUMBER NOT NULL,
+TRIP_PLAN_THUMBNAIL VARCHAR2(300) NOT NULL,
+FOREIGN KEY (TRIP_PLANNER_NO) REFERENCES MEMBER(MEMBER_NO),
+FOREIGN KEY (TRANSPORTATION_NO) REFERENCES TRANSPORTATION(TRANSPORTATION_NO)
+);
+
+
+
+
+DROP SEQUENCE SEQ_TPNO;
+CREATE SEQUENCE SEQ_TPNO
+NOCACHE;
+
+CREATE TABLE LOCATION(
+LOCATION_NO NUMBER PRIMARY KEY,
+TRIP_N_DAY NUMBER NOT NULL,
+LOCATION_N NUMBER NOT NULL,
+LOCATION_ATTRACTION_NO NUMBER,
+TRIP_PLAN_NO NUMBER NOT NULL,
+FOREIGN KEY (LOCATION_ATTRACTION_NO) REFERENCES ATTRACTION(ATTRACTION_NO),
+FOREIGN KEY (TRIP_PLAN_NO) REFERENCES TRIP_PLAN(TRIP_PLAN_NO)
+);
+DROP SEQUENCE SEQ_LCNO;
+CREATE SEQUENCE SEQ_LCNO
+NOCACHE;
+
+
+
+CREATE TABLE STAR(
+ATTRACTION_NO NUMBER NOT NULL,
+STAR_GRADE NUMBER NOT NULL,
+FOREIGN KEY (ATTRACTION_NO) REFERENCES ATTRACTION(ATTRACTION_NO)
+);
+
+
+
+
+
+
+
+
+
+CREATE TABLE FRIEND_LOG(
+FROM_MEMBER_NO NUMBER NOT NULL,
+TO_MEMBER_NO NUMBER NOT NULL,
+LOG_STATUS NUMBER NOT NULL,
+FOREIGN KEY (FROM_MEMBER_NO) REFERENCES MEMBER(MEMBER_NO),
+FOREIGN KEY (TO_MEMBER_NO) REFERENCES MEMBER(MEMBER_NO),
+CONSTRAINT FRIEND_LOG_PK PRIMARY KEY(FROM_MEMBER_NO, TO_MEMBER_NO)
+);
+
+DROP SEQUENCE SEQ_FLNO;
+CREATE SEQUENCE SEQ_FLNO
+NOCACHE;
+
+
+CREATE TABLE FRIEND(
+MEMBER_NO NUMBER NOT NULL,
+FRIEND_MEMBER_NO NUMBER NOT NULL,
+FRIEND_ENROLL_DATE DATE DEFAULT SYSDATE,
+FRIEND_STATUS VARCHAR2(1) DEFAULT 'Y' CHECK (FRIEND_STATUS IN('Y', 'N')),
+FOREIGN KEY (FRIEND_MEMBER_NO) REFERENCES MEMBER(MEMBER_NO),
+FOREIGN KEY (MEMBER_NO) REFERENCES MEMBER(MEMBER_NO),
+CONSTRAINT FRIEND__PK PRIMARY KEY(FRIEND_MEMBER_NO, MEMBER_NO)
+);
+
+DROP SEQUENCE SEQ_FNO;
+CREATE SEQUENCE SEQ_FNO
+NOCACHE;
+
+
+
+
+CREATE TABLE BOARD(
+BOARD_NO NUMBER PRIMARY KEY,
+BOARD_TITLE VARCHAR2(100) NOT NULL,
+BOARD_CONTENT VARCHAR2(500) NOT NULL,
+BOARD_CREATE_DATE DATE DEFAULT SYSDATE,
+BOARD_MODIFY_DATE DATE DEFAULT SYSDATE,
+BOARD_REPORT NUMBER,
+BOARD_WRITER NUMBER NOT NULL,
+BOARD_TRIP_PLAN_NO NUMBER NOT NULL,
+BOARD_CATEGORY NUMBER NOT NULL,
+BOARD_STATUS VARCHAR2(1) DEFAULT 'Y' CHECK (BOARD_STATUS IN('Y', 'N')),
+BOARD_REGION_NO NUMBER NOT NULL,
+FOREIGN KEY (BOARD_WRITER) REFERENCES MEMBER(MEMBER_NO),
+FOREIGN KEY (BOARD_TRIP_PLAN_NO) REFERENCES TRIP_PLAN(TRIP_PLAN_NO),
+FOREIGN KEY (BOARD_REGION_NO) REFERENCES REGION(REGION_NO) 
+);
+
+
+
+DROP SEQUENCE SEQ_BNO;
+CREATE SEQUENCE SEQ_BNO
+NOCACHE;
+
+
+CREATE TABLE ATTACHMENT(
+ATTACHMENT_NO NUMBER PRIMARY KEY,
+ATTACHMENT_BOARD_NO NUMBER NOT NULL,
+ATTACHMENT_ORIGIN_NAME VARCHAR2(100) NOT NULL,
+ATTACHMENT_CHANGE_NAME VARCHAR2(100) NOT NULL,
+ATTACHMENT_FILE_PATH VARCHAR2(100) NOT NULL,
+ATTACHMENT_UPLOAD_DATE DATE DEFAULT SYSDATE,
+ATTACHMENT_IMG_LEVEL NUMBER NOT NULL,
+FOREIGN KEY (ATTACHMENT_BOARD_NO) REFERENCES BOARD(BOARD_NO)
+);
+
+DROP SEQUENCE SEQ_ACMNO;
+CREATE SEQUENCE SEQ_ACMNO
+NOCACHE;
+
+
+
+CREATE TABLE REPLY(
+REPLY_NO NUMBER PRIMARY KEY,
+REPLY_BOARD_NO NUMBER NOT NULL,
+REPLY_WRITER NUMBER NOT NULL,
+REPLY_CONTENT VARCHAR2(100) NOT NULL,
+REPLY_CREATE_DATE DATE DEFAULT SYSDATE,
+REPLY_MODIFY_DATE DATE DEFAULT SYSDATE,
+REPLY_REPORT NUMBER,
+REPLY_STATUS VARCHAR2(1) DEFAULT 'Y' CHECK (REPLY_STATUS IN('Y', 'N')),
+REPLY_GROUP NUMBER,
+FOREIGN KEY (REPLY_BOARD_NO) REFERENCES BOARD(BOARD_NO),
+FOREIGN KEY (REPLY_WRITER) REFERENCES MEMBER(MEMBER_NO)
+);
+
+DROP SEQUENCE SEQ_RNO;
+CREATE SEQUENCE SEQ_RNO
+NOCACHE;
+
+CREATE TABLE REPORT (
+    REPORT_NO NUMBER PRIMARY KEY,
+    MEMBER_NO NUMBER,
+    BOARD_NO NUMBER,
+    REPLY_NO NUMBER,
+    REPORT_DATE DATE DEFAULT SYSDATE,
+    REPORT_REASON VARCHAR2(500) NOT NULL,
+    FOREIGN KEY (MEMBER_NO) REFERENCES MEMBER(MEMBER_NO),
+    FOREIGN KEY (BOARD_NO) REFERENCES BOARD(BOARD_NO) ON DELETE SET NULL,
+    FOREIGN KEY (REPLY_NO) REFERENCES REPLY(REPLY_NO) ON DELETE SET NULL
+);
+DROP SEQUENCE SEQ_RPNO;
+CREATE SEQUENCE SEQ_RPNO
+NOCACHE;
+
+
+CREATE TABLE GOOD(
+BOARD_NO NUMBER,
+MEMBER_NO NUMBER,
+GOOD_DATE DATE DEFAULT SYSDATE,
+PRIMARY KEY (BOARD_NO, MEMBER_NO),
+FOREIGN KEY (BOARD_NO) REFERENCES BOARD(BOARD_NO),
+FOREIGN KEY (MEMBER_NO) REFERENCES MEMBER(MEMBER_NO)
+);
+
+DROP SEQUENCE SEQ_LNO;
+CREATE SEQUENCE SEQ_LNO
+NOCACHE;
+
+
+
+
+
+
+
+
+CREATE TABLE NOTICE(
+NOTICE_NO NUMBER PRIMARY KEY,
+NOTICE_TITLE VARCHAR2(100) NOT NULL,
+NOTICE_CONTENT VARCHAR2(200) NOT NULL
+);
+
+DROP SEQUENCE SEQ_NNO;
+CREATE SEQUENCE SEQ_NNO
+NOCACHE;
+
+
+
+
+CREATE TABLE CHAT(
+MY_NO NUMBER NOT NULL,
+YOU_NO NUMBER NOT NULL,
+CHAT_MESSAGE VARCHAR2(100),
+CHAT_TIME DATE DEFAULT SYSDATE,
+CHAT_CHECK NUMBER NOT NULL
+);
+
+
+
+
+
+
+
+
+--임동건
+INSERT INTO MEMBER
+VALUES (SEQ_MNO.NEXTVAL, 'ehdrjs', '$2a$10$IpLmMNh7lTZxPTT3QxWdIO81XILXVo4FynmcjGdtoHlybxJbRmZWe', '임동건', '임동간', 'nathomme@naver.com', '01020460854', default, default, default, DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO MEMBER
+VALUES (SEQ_MNO.NEXTVAL, 'dudtjr', '$2a$10$IpLmMNh7lTZxPTT3QxWdIO81XILXVo4FynmcjGdtoHlybxJbRmZWe', '전영석', '렌코쿠', 'miracles92@naver.com', '01025293109', default, default, default,DEFAULT , DEFAULT, DEFAULT);
+INSERT INTO MEMBER
+VALUES (SEQ_MNO.NEXTVAL, 'tngus', '$2a$10$IpLmMNh7lTZxPTT3QxWdIO81XILXVo4FynmcjGdtoHlybxJbRmZWe', '박수현', '현수', 'suh4522@gmail.com', '01020460853', default, default, default,DEFAULT , DEFAULT, DEFAULT);
+INSERT INTO MEMBER
+VALUES (SEQ_MNO.NEXTVAL, 'dltkr', '$2a$10$IpLmMNh7lTZxPTT3QxWdIO81XILXVo4FynmcjGdtoHlybxJbRmZWe', '안이삭', '삭삭이', 'nathomme@naver.com', '01020460852', default, default, default,DEFAULT , DEFAULT, DEFAULT);
+INSERT INTO MEMBER
+VALUES (SEQ_MNO.NEXTVAL, 'admin', '$2a$10$IpLmMNh7lTZxPTT3QxWdIO81XILXVo4FynmcjGdtoHlybxJbRmZWe', '관리자', '관리자', 'admin@gmail.com', '01011112222', default, default, default,DEFAULT , DEFAULT, 2);
+
+
+
+INSERT INTO CATEGORY
+VALUES (1, '명소');
+INSERT INTO CATEGORY
+VALUES (2, '식당');
+INSERT INTO CATEGORY
+VALUES (3, '행사');
+INSERT INTO CATEGORY
+VALUES (4, '숙소');
+
+
+INSERT INTO REGION
+VALUES (SEQ_RNO.NEXTVAL, '서울특별시','지역설명자리','resources/images/region/Seoul.jpeg','Seoul','126.97865792284956','37.56680843627139');
+INSERT INTO REGION
+VALUES (SEQ_RNO.NEXTVAL, '인천광역시','지역설명자리','resources/images/region/Incheon.jpg','Incheon','126.70524705960231','37.45593010488935');
+INSERT INTO REGION
+VALUES (SEQ_RNO.NEXTVAL, '대전광역시','지역설명자리','resources/images/region/Deajeon.jpeg','Deajeon','127.38479245016396','36.350412871364114');
+INSERT INTO REGION
+VALUES (SEQ_RNO.NEXTVAL, '광주광역시','지역설명자리','resources/images/region/Gwangju.jpeg','Gwangju','126.85169583370285','35.16009077366852');
+INSERT INTO REGION
+VALUES (SEQ_RNO.NEXTVAL, '대구광역시','지역설명자리','resources/images/region/Daegu.jpeg','Daegu','128.600292239707','35.89249703925343');
+INSERT INTO REGION
+VALUES (SEQ_RNO.NEXTVAL, '울산광역시','지역설명자리','resources/images/region/Ulsan.jpeg','Ulsan','129.31165708971452','35.539544036421646');
+INSERT INTO REGION
+VALUES (SEQ_RNO.NEXTVAL, '부산광역시','지역설명자리','resources/images/region/Busan.jpeg','Busan','129.0750402260944','35.17962305860681');
+INSERT INTO REGION
+VALUES (SEQ_RNO.NEXTVAL, '경기도','지역설명자리','resources/images/region/Gyeonggi-do.jpeg','Gyeonggi-do','127.0533388346432','37.28899674266975');
+INSERT INTO REGION
+VALUES (SEQ_RNO.NEXTVAL, '강원도','지역설명자리','resources/images/region/Gangwon-do.jpeg','Gangwon-do','127.73000431027823','37.88529271588802');
+INSERT INTO REGION
+VALUES (SEQ_RNO.NEXTVAL, '충청북도','지역설명자리','resources/images/region/Chungcheongbuk-do.jpeg','Chungcheongbuk-do','127.49159874489123','36.63535445860653');
+INSERT INTO REGION
+VALUES (SEQ_RNO.NEXTVAL, '충청남도','지역설명자리','resources/images/region/Chungcheongnam-do.jpeg','Chungcheongnam-do','126.67292904748435','36.65878596833474');
+INSERT INTO REGION
+VALUES (SEQ_RNO.NEXTVAL, '전라북도','지역설명자리','resources/images/region/Jeollabuk-do.jpeg','Jeollabuk-do','127.10887986301702','35.82017977840777');
+INSERT INTO REGION
+VALUES (SEQ_RNO.NEXTVAL, '전라남도','지역설명자리','resources/images/region/Jeollanam-do.jpeg','Jeollanam-do','126.46278106600714','34.81602307435137');
+INSERT INTO REGION
+VALUES (SEQ_RNO.NEXTVAL, '경상북도','지역설명자리','resources/images/region/Gyeongsangbuk-do.jpeg','Gyeongsangbuk-do','128.50580062317167','36.575951606061714');
+INSERT INTO REGION
+VALUES (SEQ_RNO.NEXTVAL, '경상남도','지역설명자리','resources/images/region/Gyeongsangnam-do.jpeg','Gyeongsangnam-do','128.69205767632846','35.23763542805831');
+INSERT INTO REGION
+VALUES (SEQ_RNO.NEXTVAL, '제주도','지역설명자리','resources/images/region/jejudo.jpeg','jejudo','126.49827754759696','33.48892035330222');
+
+
+
+
+--서울, 명소 
+--행 1
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'도선사(서울)','강북구 북한산 능선에 자리 잡은 도선사는 대한불교조계종 직할교구 본사인 조계사의 말사이다. 호국참회 본찰 도선사는 경문왕 2년(862) 도선국사가 창건하였다고 전한다. 신라말의 도선국사가 명산승지를 답사하다가 산세가 절묘하고 풍경이 청수하여 1,000년 뒤의 말법시대에 불법을 다시 일으킬 곳이라고 예견하고 건립한 사찰이다. 그 뒤 조선 후기까지의 중건·중수에 관한 기록은 전하지 않으나 북한산성을 쌓을 때는 승병들이 이 절에서 방번(보초 임무)을 서기도 한 기록이 전해지고 있다.
+도선사 명부전에는 생전 인연이 깊었던 고 박정희 대통령과 고 육영수 여사(대덕화), 고 정주영 현대그룹 회장의 영정이 봉안되어 있으며, 명부전 앞뜰에는 200여 년 전 어떤 고승이 인도에서 가져와 심었다는 보리수가 고목이 되어 있고, 12세 소년이 썼다는 기록이 새겨진 대웅전 현판 글씨는 보는 이들의 감탄을 자아내게 한다. 천불전으로 오르는 길옆 연못 청담 심지에서는 참배객들이 동전을 던지며 소원을 빌기도 한다. 
+도선사까지 도착하는 셔틀버스를 운영하므로 지하철을 이용하여 이곳을 방문할 경우 홈페이지>종무행정>오시는길 내용을 참조하면 된다.','서울특별시 강북구 삼양로173길 504(우이동)','연중개방','연중개방','37.6552274686','126.9897341460','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',1,1);
+--행 2
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'관악산 낙성대공원','낙성대공원은 고려의 명장 인헌공 강감찬 장군(948년∼1031년)을 기리기 위해 조성된 곳이다. 낙성대는 강감찬 장군이 태어난 곳으로 장군이 태어날 때 출생지에 큰 별이 떨어졌다는 전설에 따라 붙은 이름이다. 1973년 서울특별시에서 주변 지역을 정돈하여 사당과 부속건물을 조성하였다. 공원 동쪽에 사당을 지어 안국사라 하여 장군의 영정을 모셨고 정면에는 외삼문인 안국문과 내삼문을 세웠다. 안국사는 고려시대 목조 건축양식을 대표하는 영주 부석사 무량수전을 본떠 세웠으며 팔각 청기와 지붕이 올려져 있어 웅장한 느낌을 준다. 문 안에는 낙성대 3층석탑을 강감찬 장군 생가터에서 옮겨왔으며, 탑 맞은편에는 사적비를 세워놓았다. 
+낙성대공원은 울창한 숲을 이루고 계절 따라 꽃이 피고, 가을에는 단풍으로 물들어 풍광이 아름다운 곳이다. 자작나무숲, 소나무숲, 참나무숲, 사시나무 군락지, 전나무숲 등이 형성되어 있으며 산책로의 길이는 총 3km에 이른다. 그 외에도 연못과 야외놀이마당, 야외예식장도 있다. 위치가 서울대학교 후문으로 통하는 길과 인접해 있기 때문에 찾는 사람이 많아 서울 남부지역의 명소가 되고 있다.','서울특별시 관악구 낙성대로 77','연중무휴','연중무휴','37.4711316683','126.9602475997','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg',1,1);
+--행 3
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'서울 방이동 고분군','서울 방이동 고분군은 1975년 잠실지구 토지구획정리사업을 하다가 발견된 고분 유적이다. 이곳에서 1976년까지 8기의 고분이 조사되었고 1983년에 복원 공사를 시행하여 공원으로 만들었다. 고분이 있는 방이동 일대는 원래 해발 30~50m 가량의 나지막한 구릉이었으나 개발로 인해 지금은 평지가 되었다. 
+1~6호 무덤은 같은 구릉에 있고 7호와 8호 무덤은 조금 떨어진 구릉에 있다. 모든 무덤의 봉분은 원형이다. 무덤의 내부에는 생토면 위에 다듬은 돌을 이용해 방형 또는, 장방형의 널방을 쌓고 널길을 만들었으나, 세부적으로는 무덤마다 조금씩 차이가 있다. 대부분의 무덤은 도굴당하였으나, 일부 무덤에서 회청색 경질의 굽접시와 항아리 등이 출토되었다. 발굴될 당시 이들 유물을 백제시대의 것으로 추정하여 백제 고분군으로 이름 지었으나, 지금은 통일신라시대의 것으로 보고 있다.
+방이동 백제고분군 인접한 곳에 올림픽공원, 석촌호수 등이 있어 연계해서 즐기는 것도 좋다. 수도권 지하철 9호선 송파나루역 3번 출구에서 600m에 위치하고 있다.','서울특별시 송파구 오금로 219(방이동)','연중무휴','연중무휴','37.5081579775','127.1178488772','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',1,1);
+--행 4
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'관음사(서울)','관음사는 관악산 주봉에서 북동쪽으로 뻗어있는 마지막 봉우리의 기슭에 있는 사찰이다. 대한불교조계종 직할교구 본사인 조계사의 말사이다. 신라 제51대 진성여왕 9년(895)에 도선국사가 창건한 비보사찰의 하나다. 비보사찰은 명당에 절을 세우고 기도하면 나라가 융성하게 된다는 불교의 호국 사상에서 비롯되었다. 
+천여 년 동안 기도의 도량으로 사용되어 오다가 1924년 주지 석주가 증축하였다. 1974년 진선당 박종하 스님이 주지로 부임하여 중건하기 시작하여 대웅전, 용왕각, 종각, 즉심시불의 비문석탑을 세웠다. 항간에 조선 고종 20년경에 봉은사의 스님들이 개창했던 것이라고 하지만 실제로는 그 당시 중건되었던 사실이 와전된 것으로 생각된다. 
+세간의 소리를 듣고 있다가 곧바로 구제해 준다는 관세음보살을 모시고 있기에, 관음사라고 부르게 되었다고 한다.','서울특별시 관악구 승방1길 109-80(남현동)','연중무휴','연중무휴','37.4676601403','126.9765239933','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg',1,1);
+--행 5
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'서울 신림동 굴참나무','서울 신림동 굴참나무는 남부순환로 난곡사거리에서 약 1.5km 정도 거리에 위치한 2차 건영아파트 단지 내에 있다. 이 나무는 참나무과에 속한 낙엽교목이며 참나무류는 우리나라 전역에서 잘 자라는 수종이다. 우리나라에서는 전통적으로 숯을 참나무로 구웠으며, 자연 번식으로는 그 수요를 충당하지 못하였기 때문에 신림동 굴참나무와 같이 수형이 좋고 수관폭이 방대한 노거수는 남아있는 것이 매우 드문 실정이다. 이 나무는 높이 17m, 가슴높이 둘레 2.5m, 나무 밑부분의 둘레가 2.9m에 달하며, 오랜 세월 동안 조상들의 관심과 보살핌 가운데 살아온 나무로 민속적, 생물학적 자료로서의 가치가 높아 천연기념물로 지정, 보호하고 있다.
+전설에 의하면 약 1,000년 전에 강감찬 장군이 이곳을 지나가다가 지팡이를 꽂아 놓은 것이 자라서 현재와 같은 커다란 나무가 되었다고 한다. 실제 수령은 약 250살 정도 되었을 것으로 추정한다. 인근에는 장군이 별당으로 사용하였다는 칠불사가 있으며, 연 2회 음력 7월 1일과 10월 1일 수명 보존(목신)과 동리의 평안을 위하여 고사를 지내고 있다.','서울특별시 관악구 난곡로35길 28-7','','','37.4710197967','126.9169737649','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg',1,1);
+--행 6
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'양천향교','강서구 가양동에 있는 양천향교는 서울에 유일하게 남은 향교로, 서울특별시 기념물로 지정된 곳이다. 조선조 태종 12년(1411)에 건립됐으며 1963년 경기도 김포군 가양리에서 서울특별시로 편입되면서 서울에 남아있는 유일한 향교가 되었다. 양천향교는 과거 일제 강점기 일제의 압박 속에서도 제향을 한 번도 거르지 않았다고 한다.
+건물로는 대성전, 명륜당, 전사청, 동재, 서재, 내삼문, 외삼문과 부속건물 등 8동이 있다. 현재 양천향교에서는 봄과 가을 2회에 걸쳐 석전을 봉행하고 있으며, 지역주민과 초, 중학생을 대상으로 한문과 서예 및 사군자 등을 가르치는 등 청소년의 인성교육 및 옛 전통문화 재현에 노력하고 있다. 양천향교 외삼문 앞에 있는 유예당은 2007년 강서구청에서 신축한 것으로 유예당 놀이마당에서는 문화행사와 각종 민속놀이를 공연한다.
+주변의 겸재정선미술관, 궁산땅굴역사전시관, 궁산근린공원, 소악루, 고성지 등과 연계 방문이 가능하며 서울도보해설관광 양천로 겸재정선 코스에 포함되어 있다. 
+양천향교는 수도권 지하철 9호선 양천향교역 2번 출구에서 약 500m 떨어진 곳에 위치하고 있다.','서울특별시 강서구 양천로47나길 53','매주 월요일','매주 월요일','37.5729593554','126.8400029129','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg',1,1);
+--행 7
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'서울 양천고성지','양천고성지는 조선시대 양천현의 주산인 궁산(宮山)에 있는 테뫼식 산성터이다. 궁산은 한강변에 있는 약 74m의 나지막한 봉우리이다. 궁산의 남쪽에 안양천이 흘러 한강과 만나고 한강 건너편 북쪽에는 행주산성이 있다. 양천 고성은 궁산의 정상부에 있은 둘레 200m 정도의 평지를 둘러 만든 것으로 보인다. 기록에 의하면 성벽의 길이는 218m이다. 돌로 기초를 만들고 그 위에 흙을 쌓은 토석혼축성으로 추정된다.
+신증동국여지승람, 여지도서, 대동지지 등 문헌 기록에 등장하며, 축성 시기는 언제인지 알 수 없다. 그러나, 몇 차례의 지표조사에서 통일신라의 토기조각과 기와 조각이 많이 나왔고, 강 건너에 있는 행주산성이 통일신라 때에 지어진 것으로 볼 때, 양천 고성도 통일신라 때에 만들어진 것으로 보인다. 또한, 임진왜란 당시 김천일 장군 등이 의병을 이끌고 이 성에 주둔하였다가 권율 장군을 도와 행주대첩에 참가하기도 했다. 1994년에는 산 정상 동편에 예부터 전해 내려오는 소악루가 아름답게 복원되어 강서구민들의 관광 휴식처가 되고 있다. 
+서울 양천고성지는 수도권 지하철 양천향교역 2번 출구에서 약 500m 떨어진 곳에 위치하고 있다.','서울특별시 강서구 가양동','연중개방','연중개방','37.5740425776','126.8408278075','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',1,1);
+--행 8
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'천호공원','강동지역의 대표적 근린공원인 천호공원은 강동구 천호동에 위치한 공원으로 음악 분수, 야외무대, 체력단련시설을 갖추고 시민들의 여가생활 및 노년층의 휴식공간으로 각광을 받고 있다. 1998년 서울특별시가 공장이적지 공원화 사업의 일환으로 조성된 이 공원의 규모는 작지만, 1998년 개장 이후 인근 주민들의 산책, 운동, 나들이 공간으로 이용되었다. 2007년에는 해공도서관이 들어서 문화공간으로 한 단계 수준을 향상시켰고, 최근에는 음악분수, 야외무대 등 주요 시설이 오래되고 낡아 주민의 시설 현대화 요구에 따라 음악 분수와 야외무대, 각종 체육시설, 편의시설을 재정비하여 쾌적하고 문화가 가득한 공원으로 재조성하였다. 
+특히, 새로 설치된 음악 분수는 음악에 맞추어 워터스크린형, 원형 멀티 벡터형, 안개형, 시간차형 등 다양한 모양으로 연출되는 아름다운 분수를 감상할 수 있도록 하였다. 이 외에도 윗몸일으키기, 다리운동, 버터플라이 등의 체력단련시설과 족구, 배드민턴, 농구 등의 운동시설뿐만 아니라 공원 곳곳에 벤치와 육각정, 산책로 등 다양한 편의시설을 개선, 보완하여 주민들에게 보다 많은 사랑을 받고 있다.','서울특별시 강동구 올림픽로 702(천호동)','연중개방','연중개방','37.5447233407','127.1269358994','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg',1,1);
+--행 9
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'강동예찬시비','강동예찬시비는 서울 정도 600년을 기념하기 위하여, 조선 초기의 서거정이 지은 해 질 무렵의 한강변과 강동지역의 아름다운 전원충경을 노래한 시를 옛 광나루였던 광진교 입구에 한강의 쌍돛배의 모습으로 건립한 것이다. 
+일찍이 6,000년 전에 선사시대의 조상들이 살았으며 삼국시대에 국가의 요충지로 중요시되었던 광나루는, 조선시대에 한강의 5대 나루터의 하나로 번성하였으며 한양에서 한양 뱃길을 건너 구천면 길을 지나는 왕의 능 참배길로도 이용되었다. 이처럼 광나루는 역사적 의미가 클 뿐만 아니라 주변 경관이 수려하여 많은 시민, 묵객 등이 즐겨 찾던 곳이다. 따라서 강동예찬시비는 한강을 조망하는 훌륭한 쉼터이자 지방자치시대를 맞아 지역주민들이 고장에 대한 자긍심과 애향심을 간직할 수 있는 한강변의 문화명소이다.','서울특별시 강동구 천호동','','','37.5426873535','127.1207004140','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',1,1);
+--행 10
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'삼각산','서울시 북쪽 외곽에 병풍을 친 듯이 솟아 있는 삼각산은 우이동 종점에서 오를 수 있다. 삼각산은 북한산의 핵심을 이루고 있는 산봉으로 산의 최고봉인 백운대, 인수봉, 만경대(국망봉)의 높은 세 봉우리가 뿔처럼 높이 서 있어서 붙여진 이름이다. 세 봉우리 중에서 가장 높은 백운대는 해발 836.5m로 정상에 오르면 사방이 탁 트여서 전망 폭이 넓고, 봉 위에는 많은 사람이 앉을 수 있는 넓은 암반이 있기도 하다. 동북쪽으로는 산맥이 서로 통하는 도봉산의 연봉이 줄을 잇고, 아래로 강북, 도봉, 노원구가 한눈에 내려다보인다. 남쪽으로 눈을 돌리면 한강 건너 옆으로 뻗어나간 남한산을 바라볼 수 있고 서남쪽으로는 관악산이 눈에 들어온다. 
+삼각산 일대의 지질기반은 중생대말의 화강암으로 구성되어 있다. 다른 지역에서는 보기 드문 담조색을 띠고 있는데 장구한 세월에 걸친 지반의 상승과 침식작용으로 지표에 노출되고 다시 절리와 표면에 생긴 풍화작용으로 오늘날과 같은 산모양이 된 것이다. 따라서 높이에 비해 산세가 험준하고 경사가 심하며 암벽으로 된 바위 봉우리들이 주축을 이루고 있다.','서울특별시 강북구 삼양로173길 460(탐방지원센터)','','','37.6582465830','126.9909006206','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg',1,1);
+--행 11
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'호국충혼위령비','서울 지하철 9호선 개화역에서 15분 거리에 개화산호국공원안에 호국충혼위령비가 있다. 1950년 6월 25일 북한의 무력 남침으로 조국의 운명이 위태로워지자, 육군 제1사단 11, 12, 15연대 소속 장병 1,100여 명은 김포지구로 후퇴하여 6월 26일부터 30일까지 개화산에 최후의 방어진을 치고 적의 대병력을 맞아 전투를 벌였다. 그러나 안타깝게도 본부와 통신이 두절되고 탄약과 보급이 끊긴 채 북한군의 수와 화력에 밀려 부대원 전원이 개화산 골짜기에서 장렬히 산화하는 비운을 맞이하였다. 조국과 민족을 위해 목숨을 바친 이들의 넋을 위로하기 위해 1994년 개화산에 위령비를 건립하였다. 4.7m 높이의 위령비는 팔각형 비석 받침이 가지런히 모은 두 손 모양과 연꽃을 형상화한 비석 위에 올려진 형태이다. 위령비를 중심으로 좌측에는 1,100여 명의 전사자 이름이, 우측에는 참전유공자와 무공수훈자, 생존자 이름이 새겨져 있다.  매년 6월 28일 이곳에서 위령제를 지내고 있다.','서울특별시 강서구 개화동로13길 56-33(개화동)','','','37.5807272474','126.8036199031','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg',1,1);
+--행 12
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'서울 삼전도비','조선 병자호란 때 청에 패배해 굴욕적인 강화협정을 맺고, 청태종의 요구에 따라 그의 공덕을 적은 비석이다. 조선 인조 17년(1639)에 세워진 비석으로 높이 3.95m, 폭 1.4m이고, 제목은 [대청황제공덕비(大淸皇帝功德碑)]로 되어 있다. 조선 전기까지 조선에 조공을 바쳐오던 여진족은 명나라가 어지러운 틈을 타 급속히 성장하여 후금을 건국하고, 더욱더 세력을 확장하여 조선을 침략하는 등 압력을 행사하면서 조선과의 관계가 원만하지 못하였다. 나라의 이름을 청으로 바꾼 여진족이 조선에게 신하로서의 예를 갖출 것을 요구하자 두 나라의 관계가 단절되었다.
+결국 인조 14년(1636) 청나라 태종은 10만의 군사를 이끌고 직접 조선에 쳐들어와 병자호란을 일으켰다. 남한산성에 머물며 항전하던 인조가 결국 청나라의 군대가 머물고 있는 한강가의 삼전도 나루터에서 항복을 하면서 부끄러운 강화협정을 맺게 되었다. 병자호란이 끝난 뒤 청태종은 자신의 공덕을 새긴 기념비를 세우도록 조선에 강요했고 그 결과 삼전도비가 세워졌다. 비문은 이경석이 짓고 글씨는 오준이 썼으며, [대청황제 공덕비]라는 제목은 여이징이 썼다. 비석 앞면의 왼쪽에는 몽골 글자, 오른쪽에는 만주 글자, 뒷면에는 한자로 쓰여져 있어 만주어 및 몽골어를 연구하는데도 중요한 자료이다.
+송파나루공원의 석촌호수 동호와 서호 사이에 이 비가 서있다.','서울특별시 송파구 잠실로 148','','','37.5102657658','127.1011836669','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg',1,1);
+--행 13
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'올림픽대교','올림픽대교는 서울 광진구 구의동과 송파구 풍납동을 연결하는 다리로 대한민국 세계화의 시발점인 제24회 서울올림픽을 영구히 기념하고 올림픽 경기장 주변 교통처리를 위해 건설된 다리이다.
+국내 최초의 콘크리트 사장교이며 길이는 1.5km에 이른다. 88서울올림픽을 뜻하는 높이 88m의 주탑 4개가 서 있으며, 주탑은 올림픽 성화대 모양을 형상화하였다. 4개의 주탑은 연·월·일·시의 4주와 4계절, 4방향을 의미하며, 케이블 24개는 제24회 서울 올림픽 경기를 의미하며 그 예술성이 우수하다. 올림픽대교 건설과 함께 남단 고수부지에는 2,500평 규모의 도로공원과 지구촌의 화합을 상징하는 지름 6m의 5륜과 24개의 기념 조형물이 조성되었다.
+올림픽대교는 서울올림픽개최를 기념하기 위해 건설되었고 현상공모에 의하여 교량형식이 선정된 국내 최초의 콘크리트 사장교라는 점에서 우리나라 교량사에 많은 기록을 남긴 다리이다.','서울특별시 송파구 신천동','','','37.5324160470','127.1053604352','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',1,1);
+--행 14
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'방화대교','방화대교는 인천국제공항이 21세기 동북아시아 허브 공항의 역할을 수행할 수 있도록 건설된 한강대교 중 하나이다. 길이 2.6㎞로 한강 교량 중 가장 긴 교량이며, 국내 최초로 장경간 아치 트러스 구조로 설계, 시공된 한강의 27번째 교량으로 예술성과 기능성이 우수하다. 다리의 아치는 전통 사찰과 기와집 처마의 부드러운 이미지를 차용하여 개화산 봉우리, 덕양산 봉우리에 이어 인위적인 세 번째 봉우리가 되었다. 이륙하려는 듯한 거대한 항공기를 연상시키는 기하학적인 형상과 밤이면 한강 물결에 비치는 황홀한 야경이 보는 이로 하여금 감탄을 자아내게 한다. 다리의 조명이 켜지는 시간은 대략 저녁 19:00에서 23:30분까지이므로 다리와 한국의 야경을 감상하며 드라이브를 즐기기에 시간적 여유가 있다. 야경도 아름답지만, 해 질 녘 방화대교 너머로 지는 태양이 방화대교의 아치와 어우러지는 모습은 절로 감탄이 나오는 절경이다.
+방화대교 자체가 서울의 외곽에 위치해 있어 답답한 도심에서 벗어나 여유로운 기분으로 자전거길이나 산책길을 즐길 수 있다.','서울특별시 강서구 방화동','','','37.5876685005','126.8256843610','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg',1,1);
+--행 15
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'키즈오토파크','키즈오토파크는 서울 어린이대공원 내 상상나라 뒤편에 있는 어린이교통안전체험관이다. 어린이들이 체험을 통해 교통안전을 쉽고 재미있게 배울 수 있도록 교육함으로 선진 교통 시민을 육성하고자 NGO(한국생활안전연합)와 기업(현대자동차그룹)과 지자체(서울특별시)가 함께 설립하였다. 3,000㎡ 부지에 운전 코스와 신호등 등을 배치해 어린이들이 자동차를 운전하며 교통문화를 체험할 수 있는 시설이 마련되어 있다. 이곳에는 오토 가상체험시설, 보행교육장, 주행교육장, 교통안전 면허시험장, 오토부스 등 다양한 시설을 갖추고 있다. 입체 동영상을 통해서 가상 체험, 안전띠 체험, 보행 실습 등 다양한 교육프로그램을 체험할 수 있다. 키즈오토파크에서는 현대자동차의 과거 차종을 모델로 하여 안정적이고 편안하게 주행할 수 있도록 제작된 체험차를 이용하여 프로그램을 운영한다. 키즈오토파크를 방문하기 전 홈페이지에서 사전 예약은 필수이다.
+[초등 체험교육]을 수료한 초등학생 1학년~4학년 어린이들에게는 시험(필기 시험, 보행 시험, 주행 시험)을 치른 후 어린이 교통안전 면허증를 발급해 준다.','서울특별시 광진구 능동로 216(능동)','월요일','월요일','37.5493607781','127.0762931559','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',1,1);
+--행 16
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'신선경과 류인호 묘역','신선경과 류인호 묘역은 조선 전기 문신인 신선경과 사위 류인호의 묘역이다. 신선경은 세조 대 원종공신 2등으로 사헌부 장령, 성종 대 동지중추부사 등을 두루 거쳤으며 덕종의 후궁 숙의 신씨의 아버지이다. 류인호는 신선경의 사위로 성종 대에서 중종대에 걸쳐 사헌부 장령, 공조참의 등을 지냈다.
+신선경과 부인 청주 한씨의 쌍분묘 옆에 사위인 류인호와 거창 신씨의 합장묘가 나란히 조성되어 있고 그 앞에는 후손인 수사공 류장구의 묘소가 있다. 신선경 부부의 묘에는 묘표와 상석, 문인석을 세웠고 류인호 부부 묘에는 묘표와 상석, 망주석을 세웠다.
+신선경와 류인호 묘는 조선 전기의 묘제를 잘 보여주는 중요한 사례이다. 사위인 거창 신씨 묘역에는 사위와 외손자의 무덤이 함께 조성되어 있어 처가살이를 비롯하여 아들, 딸에게 재산을 고르게 나누어 주던 조선 전기 사회상을 짐작할 수 있다. 
+수도권 지하철 5호선 개롱역 1번 출구에서 650m에 위치하고 있다.','서울특별시 송파구 동남로 263(오금동)','연중무휴','연중무휴','37.5027894247','127.1327087891','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg',1,1);
+--행 17
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'오금공원','오금공원은 해발 200m의 야산을 친환경적으로 조성한 공원으로 갖가지 나무와 꽃, 잔디가 어우러져 있다. 33년간 닫혀있던 오금배수지를 새롭게 재조성한 열린 공간으로 송파 전경을 한눈에 내려다볼 수 있는 여가 쉼터이자 전망 명소다.  산책로, 주민 건강을 위한 각종 운동기구, 배드민턴장과 테니스장 등의 체육 시설을 다양하게 갖추고 있다. 넓은 공간으로 잘 정리된 론볼링장과 다목적경기장은 예약 후 사용 가능하다. 
+아이들을 위한 공간으로 유아숲체험원과 모험 놀이터가 준비되어 있다. 유아숲체험은  오전 9시부터 오후 4시까지로 산림교육 전문가의 지도에 따라 이루어진다. 모험 놀이터는 밧줄 오르기, 암벽 오르기, 그물 오르기, 미끄럼틀, 거미줄 건너기 등 아이들이 자연과 함께 신나게 즐길 수 있는 놀이터이다. 또한, 이곳은 반려견 출입이 가능해서 목줄과 배설물 봉투를 지참하고 반려견과 산책을 할 수 있다. 
+지하철 5호선 오금역에 인접해 있으며, 가락동 송파경찰서 대각선 방향, 오금동 송파우체국 건너편에 자리하고 있다.','서울특별시 송파구 오금로 363(오금동)','연중개방','연중개방','37.5052557863','127.1316810347','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg',1,1);
+--행 18
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'관악산 생태공원','2007년 12월 개원한 관악산 생태공원은 미성동 일대 76,521m²의 면적으로 조성되었다. 지형 여건을 최대한 살려 상부는 생태숲 구역으로, 물길이 모이는 하부 쪽은 생태연못 구역으로 각각 나누었다. 생태숲 구역은 활엽수림으로 복원했고, 생태연못 구역에는 수생식물과 다양한 수서생물이 살 수 있도록 하였다. 생태연못 및 야외학습장은 개구리, 청설모, 딱따구리 등 다양한 동, 식물을 관찰하고 느티나무, 자작나무, 낙우송 등 나무 그늘에서 쉴 수 있는 공간이 마련되어 있다. 또한, 생태학습장과 비를 피할 수 있는 정자를 만들어 다양한 생태학습이 가능하도록 조성하였다. 생태공원 옆으로 유아숲체험원이 있어 어린아이들이 숲속교실, 숲속동물원, 나무암벽, 통나무건너기 등 숲속에서 다양한 경험과 놀이를 할 수 있다. 
+관악산생태공원안에는 선우체육관, 테니스장 등의 운동시설과 산책로가 있어 가벼운 산책과 운동을 즐길 수도 있다.','서울특별시 관악구 석수동','연중무휴','연중무휴','37.4208230076','126.9260354605','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg',1,1);
+--행 19
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'관악산공원 야외식물원','관악산공원 입구에서 5분 정도 걸어 들어가면 관악산공원 야외식물원을 만날 수 있다. 등산로 초입에 야생화 학습장이 있어 신기한 꽃들과 사진도 찍고 푯말에 표기된 꽃들의 이름을 외우는 재미도 있다. 계곡 옆 자연학습장에 조성된 1,000㎡ 규모 휴식 공간에는 19종의 농작물과 1,630본의 식재가 있어 농촌풍경을 그대로 옮겨 놓은 듯하다. 5월 말~6월에는 장미농원에서 장미 오감 체험도 할 수 있다. 식물원 중앙의 장미원을 비롯한 초화원, 관목원, 철쭉동산, 자연학습당, 벚나무쉼터, 물놀이데크, 간이퇴비장, 건강쉼터 등이 있다. 또 정자, 그늘막, 원두막 같은 조형물을 만들어 두었다. 상류 쪽으로 1km에 이르는 구간에는 어른 허리까지 물이 차는 자연형 수영장이 있으며, 관악산공원 정문을 통해 야외식물원 쪽으로 올라가면 신림계곡이 있다. 이곳에서 둘레길 2구간인 호압사 방향의 관악산 도란도란 걷는 길로 올라갈 수 있다.','서울 관악구 대학동 203번지 일대','연중무휴','연중무휴','37.4585690064','126.9472963541','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',1,1);
+--행 20
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'강서습지생태공원','방화대교 남쪽 끝에서 행주대교 남쪽 끝 사이 한강 둔치에 있는 생태공원이다. 서울시 생태관광명소 30개소 중 하나로 선정된 강서습지생태공원은 담수지·저습지 등을 조성하고 습생·수생식물을 심은 습지 공원으로 2002년 7월에 개원되었다. 
+물억새 등 습지식물을 식재하여 새들이 휴식을 취할 수 있도록 하였으며 하중도, 자연관찰로, 습초지 등 습지 생태계를 복원하여 하천의 자연정화 기능을 극대화하고 있다. 습지를 가로질러 두 곳의 탐방로와 조류 조망대 등이 있는데 조류전망대에서는 행주대교와 방화대교, 한강을 한눈에 볼 수 있다. 또한 방화대교 하부, 가족 피크닉장 앞, 행주대교 하부에는 체력단련기구 등을 갖춰 시민의 여가 활동과 스포츠 공간으로의 기능을 하고 있다. 한강을 따라 자전거길과 산책로가 조성되어 있어 다양한 방법으로 강서습지생태공원을 즐길 수 있다.
+강서습지생태공원은 생태학습프로그램도 운영하고 있으므로 아이들과 함께 습지생태공원의 프로그램을 참여하여 자연을 공부해 보는 것도 좋다. 생태학습프로그램 참여는 [서울시 공공서비스예약사이트]접속>교육강좌>자연과학>[공원명]으로 검새>프로그램 예약신청을 하면 된다.','서울특별시 강서구 양천로27길 279-23(방화동)','연중무휴','연중무휴','37.5860879769','126.8171490732','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg',1,1);
+
+--서울, 식당
+--행 1
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'도선사(서울)','강북구 북한산 능선에 자리 잡은 도선사는 대한불교조계종 직할교구 본사인 조계사의 말사이다. 호국참회 본찰 도선사는 경문왕 2년(862) 도선국사가 창건하였다고 전한다. 신라말의 도선국사가 명산승지를 답사하다가 산세가 절묘하고 풍경이 청수하여 1,000년 뒤의 말법시대에 불법을 다시 일으킬 곳이라고 예견하고 건립한 사찰이다. 그 뒤 조선 후기까지의 중건·중수에 관한 기록은 전하지 않으나 북한산성을 쌓을 때는 승병들이 이 절에서 방번(보초 임무)을 서기도 한 기록이 전해지고 있다.
+도선사 명부전에는 생전 인연이 깊었던 고 박정희 대통령과 고 육영수 여사(대덕화), 고 정주영 현대그룹 회장의 영정이 봉안되어 있으며, 명부전 앞뜰에는 200여 년 전 어떤 고승이 인도에서 가져와 심었다는 보리수가 고목이 되어 있고, 12세 소년이 썼다는 기록이 새겨진 대웅전 현판 글씨는 보는 이들의 감탄을 자아내게 한다. 천불전으로 오르는 길옆 연못 청담 심지에서는 참배객들이 동전을 던지며 소원을 빌기도 한다. 
+도선사까지 도착하는 셔틀버스를 운영하므로 지하철을 이용하여 이곳을 방문할 경우 홈페이지>종무행정>오시는길 내용을 참조하면 된다.','서울특별시 강북구 삼양로173길 504(우이동)','연중개방','연중개방','37.6552274686','126.9897341460','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',2,1);
+--행 2
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'관악산 낙성대공원','낙성대공원은 고려의 명장 인헌공 강감찬 장군(948년∼1031년)을 기리기 위해 조성된 곳이다. 낙성대는 강감찬 장군이 태어난 곳으로 장군이 태어날 때 출생지에 큰 별이 떨어졌다는 전설에 따라 붙은 이름이다. 1973년 서울특별시에서 주변 지역을 정돈하여 사당과 부속건물을 조성하였다. 공원 동쪽에 사당을 지어 안국사라 하여 장군의 영정을 모셨고 정면에는 외삼문인 안국문과 내삼문을 세웠다. 안국사는 고려시대 목조 건축양식을 대표하는 영주 부석사 무량수전을 본떠 세웠으며 팔각 청기와 지붕이 올려져 있어 웅장한 느낌을 준다. 문 안에는 낙성대 3층석탑을 강감찬 장군 생가터에서 옮겨왔으며, 탑 맞은편에는 사적비를 세워놓았다. 
+낙성대공원은 울창한 숲을 이루고 계절 따라 꽃이 피고, 가을에는 단풍으로 물들어 풍광이 아름다운 곳이다. 자작나무숲, 소나무숲, 참나무숲, 사시나무 군락지, 전나무숲 등이 형성되어 있으며 산책로의 길이는 총 3km에 이른다. 그 외에도 연못과 야외놀이마당, 야외예식장도 있다. 위치가 서울대학교 후문으로 통하는 길과 인접해 있기 때문에 찾는 사람이 많아 서울 남부지역의 명소가 되고 있다.','서울특별시 관악구 낙성대로 77','연중무휴','연중무휴','37.4711316683','126.9602475997','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg',2,1);
+--행 3
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'서울 방이동 고분군','서울 방이동 고분군은 1975년 잠실지구 토지구획정리사업을 하다가 발견된 고분 유적이다. 이곳에서 1976년까지 8기의 고분이 조사되었고 1983년에 복원 공사를 시행하여 공원으로 만들었다. 고분이 있는 방이동 일대는 원래 해발 30~50m 가량의 나지막한 구릉이었으나 개발로 인해 지금은 평지가 되었다. 
+1~6호 무덤은 같은 구릉에 있고 7호와 8호 무덤은 조금 떨어진 구릉에 있다. 모든 무덤의 봉분은 원형이다. 무덤의 내부에는 생토면 위에 다듬은 돌을 이용해 방형 또는, 장방형의 널방을 쌓고 널길을 만들었으나, 세부적으로는 무덤마다 조금씩 차이가 있다. 대부분의 무덤은 도굴당하였으나, 일부 무덤에서 회청색 경질의 굽접시와 항아리 등이 출토되었다. 발굴될 당시 이들 유물을 백제시대의 것으로 추정하여 백제 고분군으로 이름 지었으나, 지금은 통일신라시대의 것으로 보고 있다.
+방이동 백제고분군 인접한 곳에 올림픽공원, 석촌호수 등이 있어 연계해서 즐기는 것도 좋다. 수도권 지하철 9호선 송파나루역 3번 출구에서 600m에 위치하고 있다.','서울특별시 송파구 오금로 219(방이동)','연중무휴','연중무휴','37.5081579775','127.1178488772','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',2,1);
+--행 4
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'관음사(서울)','관음사는 관악산 주봉에서 북동쪽으로 뻗어있는 마지막 봉우리의 기슭에 있는 사찰이다. 대한불교조계종 직할교구 본사인 조계사의 말사이다. 신라 제51대 진성여왕 9년(895)에 도선국사가 창건한 비보사찰의 하나다. 비보사찰은 명당에 절을 세우고 기도하면 나라가 융성하게 된다는 불교의 호국 사상에서 비롯되었다. 
+천여 년 동안 기도의 도량으로 사용되어 오다가 1924년 주지 석주가 증축하였다. 1974년 진선당 박종하 스님이 주지로 부임하여 중건하기 시작하여 대웅전, 용왕각, 종각, 즉심시불의 비문석탑을 세웠다. 항간에 조선 고종 20년경에 봉은사의 스님들이 개창했던 것이라고 하지만 실제로는 그 당시 중건되었던 사실이 와전된 것으로 생각된다. 
+세간의 소리를 듣고 있다가 곧바로 구제해 준다는 관세음보살을 모시고 있기에, 관음사라고 부르게 되었다고 한다.','서울특별시 관악구 승방1길 109-80(남현동)','연중무휴','연중무휴','37.4676601403','126.9765239933','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg',2,1);
+--행 5
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'서울 신림동 굴참나무','서울 신림동 굴참나무는 남부순환로 난곡사거리에서 약 1.5km 정도 거리에 위치한 2차 건영아파트 단지 내에 있다. 이 나무는 참나무과에 속한 낙엽교목이며 참나무류는 우리나라 전역에서 잘 자라는 수종이다. 우리나라에서는 전통적으로 숯을 참나무로 구웠으며, 자연 번식으로는 그 수요를 충당하지 못하였기 때문에 신림동 굴참나무와 같이 수형이 좋고 수관폭이 방대한 노거수는 남아있는 것이 매우 드문 실정이다. 이 나무는 높이 17m, 가슴높이 둘레 2.5m, 나무 밑부분의 둘레가 2.9m에 달하며, 오랜 세월 동안 조상들의 관심과 보살핌 가운데 살아온 나무로 민속적, 생물학적 자료로서의 가치가 높아 천연기념물로 지정, 보호하고 있다.
+전설에 의하면 약 1,000년 전에 강감찬 장군이 이곳을 지나가다가 지팡이를 꽂아 놓은 것이 자라서 현재와 같은 커다란 나무가 되었다고 한다. 실제 수령은 약 250살 정도 되었을 것으로 추정한다. 인근에는 장군이 별당으로 사용하였다는 칠불사가 있으며, 연 2회 음력 7월 1일과 10월 1일 수명 보존(목신)과 동리의 평안을 위하여 고사를 지내고 있다.','서울특별시 관악구 난곡로35길 28-7','','','37.4710197967','126.9169737649','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg',2,1);
+--행 6
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'양천향교','강서구 가양동에 있는 양천향교는 서울에 유일하게 남은 향교로, 서울특별시 기념물로 지정된 곳이다. 조선조 태종 12년(1411)에 건립됐으며 1963년 경기도 김포군 가양리에서 서울특별시로 편입되면서 서울에 남아있는 유일한 향교가 되었다. 양천향교는 과거 일제 강점기 일제의 압박 속에서도 제향을 한 번도 거르지 않았다고 한다.
+건물로는 대성전, 명륜당, 전사청, 동재, 서재, 내삼문, 외삼문과 부속건물 등 8동이 있다. 현재 양천향교에서는 봄과 가을 2회에 걸쳐 석전을 봉행하고 있으며, 지역주민과 초, 중학생을 대상으로 한문과 서예 및 사군자 등을 가르치는 등 청소년의 인성교육 및 옛 전통문화 재현에 노력하고 있다. 양천향교 외삼문 앞에 있는 유예당은 2007년 강서구청에서 신축한 것으로 유예당 놀이마당에서는 문화행사와 각종 민속놀이를 공연한다.
+주변의 겸재정선미술관, 궁산땅굴역사전시관, 궁산근린공원, 소악루, 고성지 등과 연계 방문이 가능하며 서울도보해설관광 양천로 겸재정선 코스에 포함되어 있다. 
+양천향교는 수도권 지하철 9호선 양천향교역 2번 출구에서 약 500m 떨어진 곳에 위치하고 있다.','서울특별시 강서구 양천로47나길 53','매주 월요일','매주 월요일','37.5729593554','126.8400029129','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg',2,1);
+--행 7
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'서울 양천고성지','양천고성지는 조선시대 양천현의 주산인 궁산(宮山)에 있는 테뫼식 산성터이다. 궁산은 한강변에 있는 약 74m의 나지막한 봉우리이다. 궁산의 남쪽에 안양천이 흘러 한강과 만나고 한강 건너편 북쪽에는 행주산성이 있다. 양천 고성은 궁산의 정상부에 있은 둘레 200m 정도의 평지를 둘러 만든 것으로 보인다. 기록에 의하면 성벽의 길이는 218m이다. 돌로 기초를 만들고 그 위에 흙을 쌓은 토석혼축성으로 추정된다.
+신증동국여지승람, 여지도서, 대동지지 등 문헌 기록에 등장하며, 축성 시기는 언제인지 알 수 없다. 그러나, 몇 차례의 지표조사에서 통일신라의 토기조각과 기와 조각이 많이 나왔고, 강 건너에 있는 행주산성이 통일신라 때에 지어진 것으로 볼 때, 양천 고성도 통일신라 때에 만들어진 것으로 보인다. 또한, 임진왜란 당시 김천일 장군 등이 의병을 이끌고 이 성에 주둔하였다가 권율 장군을 도와 행주대첩에 참가하기도 했다. 1994년에는 산 정상 동편에 예부터 전해 내려오는 소악루가 아름답게 복원되어 강서구민들의 관광 휴식처가 되고 있다. 
+서울 양천고성지는 수도권 지하철 양천향교역 2번 출구에서 약 500m 떨어진 곳에 위치하고 있다.','서울특별시 강서구 가양동','연중개방','연중개방','37.5740425776','126.8408278075','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',2,1);
+--행 8
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'천호공원','강동지역의 대표적 근린공원인 천호공원은 강동구 천호동에 위치한 공원으로 음악 분수, 야외무대, 체력단련시설을 갖추고 시민들의 여가생활 및 노년층의 휴식공간으로 각광을 받고 있다. 1998년 서울특별시가 공장이적지 공원화 사업의 일환으로 조성된 이 공원의 규모는 작지만, 1998년 개장 이후 인근 주민들의 산책, 운동, 나들이 공간으로 이용되었다. 2007년에는 해공도서관이 들어서 문화공간으로 한 단계 수준을 향상시켰고, 최근에는 음악분수, 야외무대 등 주요 시설이 오래되고 낡아 주민의 시설 현대화 요구에 따라 음악 분수와 야외무대, 각종 체육시설, 편의시설을 재정비하여 쾌적하고 문화가 가득한 공원으로 재조성하였다. 
+특히, 새로 설치된 음악 분수는 음악에 맞추어 워터스크린형, 원형 멀티 벡터형, 안개형, 시간차형 등 다양한 모양으로 연출되는 아름다운 분수를 감상할 수 있도록 하였다. 이 외에도 윗몸일으키기, 다리운동, 버터플라이 등의 체력단련시설과 족구, 배드민턴, 농구 등의 운동시설뿐만 아니라 공원 곳곳에 벤치와 육각정, 산책로 등 다양한 편의시설을 개선, 보완하여 주민들에게 보다 많은 사랑을 받고 있다.','서울특별시 강동구 올림픽로 702(천호동)','연중개방','연중개방','37.5447233407','127.1269358994','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg',2,1);
+--행 9
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'강동예찬시비','강동예찬시비는 서울 정도 600년을 기념하기 위하여, 조선 초기의 서거정이 지은 해 질 무렵의 한강변과 강동지역의 아름다운 전원충경을 노래한 시를 옛 광나루였던 광진교 입구에 한강의 쌍돛배의 모습으로 건립한 것이다. 
+일찍이 6,000년 전에 선사시대의 조상들이 살았으며 삼국시대에 국가의 요충지로 중요시되었던 광나루는, 조선시대에 한강의 5대 나루터의 하나로 번성하였으며 한양에서 한양 뱃길을 건너 구천면 길을 지나는 왕의 능 참배길로도 이용되었다. 이처럼 광나루는 역사적 의미가 클 뿐만 아니라 주변 경관이 수려하여 많은 시민, 묵객 등이 즐겨 찾던 곳이다. 따라서 강동예찬시비는 한강을 조망하는 훌륭한 쉼터이자 지방자치시대를 맞아 지역주민들이 고장에 대한 자긍심과 애향심을 간직할 수 있는 한강변의 문화명소이다.','서울특별시 강동구 천호동','','','37.5426873535','127.1207004140','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',2,1);
+--행 10
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'삼각산','서울시 북쪽 외곽에 병풍을 친 듯이 솟아 있는 삼각산은 우이동 종점에서 오를 수 있다. 삼각산은 북한산의 핵심을 이루고 있는 산봉으로 산의 최고봉인 백운대, 인수봉, 만경대(국망봉)의 높은 세 봉우리가 뿔처럼 높이 서 있어서 붙여진 이름이다. 세 봉우리 중에서 가장 높은 백운대는 해발 836.5m로 정상에 오르면 사방이 탁 트여서 전망 폭이 넓고, 봉 위에는 많은 사람이 앉을 수 있는 넓은 암반이 있기도 하다. 동북쪽으로는 산맥이 서로 통하는 도봉산의 연봉이 줄을 잇고, 아래로 강북, 도봉, 노원구가 한눈에 내려다보인다. 남쪽으로 눈을 돌리면 한강 건너 옆으로 뻗어나간 남한산을 바라볼 수 있고 서남쪽으로는 관악산이 눈에 들어온다. 
+삼각산 일대의 지질기반은 중생대말의 화강암으로 구성되어 있다. 다른 지역에서는 보기 드문 담조색을 띠고 있는데 장구한 세월에 걸친 지반의 상승과 침식작용으로 지표에 노출되고 다시 절리와 표면에 생긴 풍화작용으로 오늘날과 같은 산모양이 된 것이다. 따라서 높이에 비해 산세가 험준하고 경사가 심하며 암벽으로 된 바위 봉우리들이 주축을 이루고 있다.','서울특별시 강북구 삼양로173길 460(탐방지원센터)','','','37.6582465830','126.9909006206','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg',2,1);
+--행 11
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'호국충혼위령비','서울 지하철 9호선 개화역에서 15분 거리에 개화산호국공원안에 호국충혼위령비가 있다. 1950년 6월 25일 북한의 무력 남침으로 조국의 운명이 위태로워지자, 육군 제1사단 11, 12, 15연대 소속 장병 1,100여 명은 김포지구로 후퇴하여 6월 26일부터 30일까지 개화산에 최후의 방어진을 치고 적의 대병력을 맞아 전투를 벌였다. 그러나 안타깝게도 본부와 통신이 두절되고 탄약과 보급이 끊긴 채 북한군의 수와 화력에 밀려 부대원 전원이 개화산 골짜기에서 장렬히 산화하는 비운을 맞이하였다. 조국과 민족을 위해 목숨을 바친 이들의 넋을 위로하기 위해 1994년 개화산에 위령비를 건립하였다. 4.7m 높이의 위령비는 팔각형 비석 받침이 가지런히 모은 두 손 모양과 연꽃을 형상화한 비석 위에 올려진 형태이다. 위령비를 중심으로 좌측에는 1,100여 명의 전사자 이름이, 우측에는 참전유공자와 무공수훈자, 생존자 이름이 새겨져 있다.  매년 6월 28일 이곳에서 위령제를 지내고 있다.','서울특별시 강서구 개화동로13길 56-33(개화동)','','','37.5807272474','126.8036199031','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg',2,1);
+--행 12
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'서울 삼전도비','조선 병자호란 때 청에 패배해 굴욕적인 강화협정을 맺고, 청태종의 요구에 따라 그의 공덕을 적은 비석이다. 조선 인조 17년(1639)에 세워진 비석으로 높이 3.95m, 폭 1.4m이고, 제목은 [대청황제공덕비(大淸皇帝功德碑)]로 되어 있다. 조선 전기까지 조선에 조공을 바쳐오던 여진족은 명나라가 어지러운 틈을 타 급속히 성장하여 후금을 건국하고, 더욱더 세력을 확장하여 조선을 침략하는 등 압력을 행사하면서 조선과의 관계가 원만하지 못하였다. 나라의 이름을 청으로 바꾼 여진족이 조선에게 신하로서의 예를 갖출 것을 요구하자 두 나라의 관계가 단절되었다.
+결국 인조 14년(1636) 청나라 태종은 10만의 군사를 이끌고 직접 조선에 쳐들어와 병자호란을 일으켰다. 남한산성에 머물며 항전하던 인조가 결국 청나라의 군대가 머물고 있는 한강가의 삼전도 나루터에서 항복을 하면서 부끄러운 강화협정을 맺게 되었다. 병자호란이 끝난 뒤 청태종은 자신의 공덕을 새긴 기념비를 세우도록 조선에 강요했고 그 결과 삼전도비가 세워졌다. 비문은 이경석이 짓고 글씨는 오준이 썼으며, [대청황제 공덕비]라는 제목은 여이징이 썼다. 비석 앞면의 왼쪽에는 몽골 글자, 오른쪽에는 만주 글자, 뒷면에는 한자로 쓰여져 있어 만주어 및 몽골어를 연구하는데도 중요한 자료이다.
+송파나루공원의 석촌호수 동호와 서호 사이에 이 비가 서있다.','서울특별시 송파구 잠실로 148','','','37.5102657658','127.1011836669','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg',2,1);
+--행 13
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'올림픽대교','올림픽대교는 서울 광진구 구의동과 송파구 풍납동을 연결하는 다리로 대한민국 세계화의 시발점인 제24회 서울올림픽을 영구히 기념하고 올림픽 경기장 주변 교통처리를 위해 건설된 다리이다.
+국내 최초의 콘크리트 사장교이며 길이는 1.5km에 이른다. 88서울올림픽을 뜻하는 높이 88m의 주탑 4개가 서 있으며, 주탑은 올림픽 성화대 모양을 형상화하였다. 4개의 주탑은 연·월·일·시의 4주와 4계절, 4방향을 의미하며, 케이블 24개는 제24회 서울 올림픽 경기를 의미하며 그 예술성이 우수하다. 올림픽대교 건설과 함께 남단 고수부지에는 2,500평 규모의 도로공원과 지구촌의 화합을 상징하는 지름 6m의 5륜과 24개의 기념 조형물이 조성되었다.
+올림픽대교는 서울올림픽개최를 기념하기 위해 건설되었고 현상공모에 의하여 교량형식이 선정된 국내 최초의 콘크리트 사장교라는 점에서 우리나라 교량사에 많은 기록을 남긴 다리이다.','서울특별시 송파구 신천동','','','37.5324160470','127.1053604352','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',2,1);
+--행 14
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'방화대교','방화대교는 인천국제공항이 21세기 동북아시아 허브 공항의 역할을 수행할 수 있도록 건설된 한강대교 중 하나이다. 길이 2.6㎞로 한강 교량 중 가장 긴 교량이며, 국내 최초로 장경간 아치 트러스 구조로 설계, 시공된 한강의 27번째 교량으로 예술성과 기능성이 우수하다. 다리의 아치는 전통 사찰과 기와집 처마의 부드러운 이미지를 차용하여 개화산 봉우리, 덕양산 봉우리에 이어 인위적인 세 번째 봉우리가 되었다. 이륙하려는 듯한 거대한 항공기를 연상시키는 기하학적인 형상과 밤이면 한강 물결에 비치는 황홀한 야경이 보는 이로 하여금 감탄을 자아내게 한다. 다리의 조명이 켜지는 시간은 대략 저녁 19:00에서 23:30분까지이므로 다리와 한국의 야경을 감상하며 드라이브를 즐기기에 시간적 여유가 있다. 야경도 아름답지만, 해 질 녘 방화대교 너머로 지는 태양이 방화대교의 아치와 어우러지는 모습은 절로 감탄이 나오는 절경이다.
+방화대교 자체가 서울의 외곽에 위치해 있어 답답한 도심에서 벗어나 여유로운 기분으로 자전거길이나 산책길을 즐길 수 있다.','서울특별시 강서구 방화동','','','37.5876685005','126.8256843610','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg',2,1);
+--행 15
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'키즈오토파크','키즈오토파크는 서울 어린이대공원 내 상상나라 뒤편에 있는 어린이교통안전체험관이다. 어린이들이 체험을 통해 교통안전을 쉽고 재미있게 배울 수 있도록 교육함으로 선진 교통 시민을 육성하고자 NGO(한국생활안전연합)와 기업(현대자동차그룹)과 지자체(서울특별시)가 함께 설립하였다. 3,000㎡ 부지에 운전 코스와 신호등 등을 배치해 어린이들이 자동차를 운전하며 교통문화를 체험할 수 있는 시설이 마련되어 있다. 이곳에는 오토 가상체험시설, 보행교육장, 주행교육장, 교통안전 면허시험장, 오토부스 등 다양한 시설을 갖추고 있다. 입체 동영상을 통해서 가상 체험, 안전띠 체험, 보행 실습 등 다양한 교육프로그램을 체험할 수 있다. 키즈오토파크에서는 현대자동차의 과거 차종을 모델로 하여 안정적이고 편안하게 주행할 수 있도록 제작된 체험차를 이용하여 프로그램을 운영한다. 키즈오토파크를 방문하기 전 홈페이지에서 사전 예약은 필수이다.
+[초등 체험교육]을 수료한 초등학생 1학년~4학년 어린이들에게는 시험(필기 시험, 보행 시험, 주행 시험)을 치른 후 어린이 교통안전 면허증를 발급해 준다.','서울특별시 광진구 능동로 216(능동)','월요일','월요일','37.5493607781','127.0762931559','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',2,1);
+--행 16
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'신선경과 류인호 묘역','신선경과 류인호 묘역은 조선 전기 문신인 신선경과 사위 류인호의 묘역이다. 신선경은 세조 대 원종공신 2등으로 사헌부 장령, 성종 대 동지중추부사 등을 두루 거쳤으며 덕종의 후궁 숙의 신씨의 아버지이다. 류인호는 신선경의 사위로 성종 대에서 중종대에 걸쳐 사헌부 장령, 공조참의 등을 지냈다.
+신선경과 부인 청주 한씨의 쌍분묘 옆에 사위인 류인호와 거창 신씨의 합장묘가 나란히 조성되어 있고 그 앞에는 후손인 수사공 류장구의 묘소가 있다. 신선경 부부의 묘에는 묘표와 상석, 문인석을 세웠고 류인호 부부 묘에는 묘표와 상석, 망주석을 세웠다.
+신선경와 류인호 묘는 조선 전기의 묘제를 잘 보여주는 중요한 사례이다. 사위인 거창 신씨 묘역에는 사위와 외손자의 무덤이 함께 조성되어 있어 처가살이를 비롯하여 아들, 딸에게 재산을 고르게 나누어 주던 조선 전기 사회상을 짐작할 수 있다. 
+수도권 지하철 5호선 개롱역 1번 출구에서 650m에 위치하고 있다.','서울특별시 송파구 동남로 263(오금동)','연중무휴','연중무휴','37.5027894247','127.1327087891','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg',2,1);
+--행 17
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'오금공원','오금공원은 해발 200m의 야산을 친환경적으로 조성한 공원으로 갖가지 나무와 꽃, 잔디가 어우러져 있다. 33년간 닫혀있던 오금배수지를 새롭게 재조성한 열린 공간으로 송파 전경을 한눈에 내려다볼 수 있는 여가 쉼터이자 전망 명소다.  산책로, 주민 건강을 위한 각종 운동기구, 배드민턴장과 테니스장 등의 체육 시설을 다양하게 갖추고 있다. 넓은 공간으로 잘 정리된 론볼링장과 다목적경기장은 예약 후 사용 가능하다. 
+아이들을 위한 공간으로 유아숲체험원과 모험 놀이터가 준비되어 있다. 유아숲체험은  오전 9시부터 오후 4시까지로 산림교육 전문가의 지도에 따라 이루어진다. 모험 놀이터는 밧줄 오르기, 암벽 오르기, 그물 오르기, 미끄럼틀, 거미줄 건너기 등 아이들이 자연과 함께 신나게 즐길 수 있는 놀이터이다. 또한, 이곳은 반려견 출입이 가능해서 목줄과 배설물 봉투를 지참하고 반려견과 산책을 할 수 있다. 
+지하철 5호선 오금역에 인접해 있으며, 가락동 송파경찰서 대각선 방향, 오금동 송파우체국 건너편에 자리하고 있다.','서울특별시 송파구 오금로 363(오금동)','연중개방','연중개방','37.5052557863','127.1316810347','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg',2,1);
+--행 18
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'관악산 생태공원','2007년 12월 개원한 관악산 생태공원은 미성동 일대 76,521m²의 면적으로 조성되었다. 지형 여건을 최대한 살려 상부는 생태숲 구역으로, 물길이 모이는 하부 쪽은 생태연못 구역으로 각각 나누었다. 생태숲 구역은 활엽수림으로 복원했고, 생태연못 구역에는 수생식물과 다양한 수서생물이 살 수 있도록 하였다. 생태연못 및 야외학습장은 개구리, 청설모, 딱따구리 등 다양한 동, 식물을 관찰하고 느티나무, 자작나무, 낙우송 등 나무 그늘에서 쉴 수 있는 공간이 마련되어 있다. 또한, 생태학습장과 비를 피할 수 있는 정자를 만들어 다양한 생태학습이 가능하도록 조성하였다. 생태공원 옆으로 유아숲체험원이 있어 어린아이들이 숲속교실, 숲속동물원, 나무암벽, 통나무건너기 등 숲속에서 다양한 경험과 놀이를 할 수 있다. 
+관악산생태공원안에는 선우체육관, 테니스장 등의 운동시설과 산책로가 있어 가벼운 산책과 운동을 즐길 수도 있다.','서울특별시 관악구 석수동','연중무휴','연중무휴','37.4208230076','126.9260354605','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg',2,1);
+--행 19
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'관악산공원 야외식물원','관악산공원 입구에서 5분 정도 걸어 들어가면 관악산공원 야외식물원을 만날 수 있다. 등산로 초입에 야생화 학습장이 있어 신기한 꽃들과 사진도 찍고 푯말에 표기된 꽃들의 이름을 외우는 재미도 있다. 계곡 옆 자연학습장에 조성된 1,000㎡ 규모 휴식 공간에는 19종의 농작물과 1,630본의 식재가 있어 농촌풍경을 그대로 옮겨 놓은 듯하다. 5월 말~6월에는 장미농원에서 장미 오감 체험도 할 수 있다. 식물원 중앙의 장미원을 비롯한 초화원, 관목원, 철쭉동산, 자연학습당, 벚나무쉼터, 물놀이데크, 간이퇴비장, 건강쉼터 등이 있다. 또 정자, 그늘막, 원두막 같은 조형물을 만들어 두었다. 상류 쪽으로 1km에 이르는 구간에는 어른 허리까지 물이 차는 자연형 수영장이 있으며, 관악산공원 정문을 통해 야외식물원 쪽으로 올라가면 신림계곡이 있다. 이곳에서 둘레길 2구간인 호압사 방향의 관악산 도란도란 걷는 길로 올라갈 수 있다.','서울 관악구 대학동 203번지 일대','연중무휴','연중무휴','37.4585690064','126.9472963541','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',2,1);
+--행 20
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'강서습지생태공원','방화대교 남쪽 끝에서 행주대교 남쪽 끝 사이 한강 둔치에 있는 생태공원이다. 서울시 생태관광명소 30개소 중 하나로 선정된 강서습지생태공원은 담수지·저습지 등을 조성하고 습생·수생식물을 심은 습지 공원으로 2002년 7월에 개원되었다. 
+물억새 등 습지식물을 식재하여 새들이 휴식을 취할 수 있도록 하였으며 하중도, 자연관찰로, 습초지 등 습지 생태계를 복원하여 하천의 자연정화 기능을 극대화하고 있다. 습지를 가로질러 두 곳의 탐방로와 조류 조망대 등이 있는데 조류전망대에서는 행주대교와 방화대교, 한강을 한눈에 볼 수 있다. 또한 방화대교 하부, 가족 피크닉장 앞, 행주대교 하부에는 체력단련기구 등을 갖춰 시민의 여가 활동과 스포츠 공간으로의 기능을 하고 있다. 한강을 따라 자전거길과 산책로가 조성되어 있어 다양한 방법으로 강서습지생태공원을 즐길 수 있다.
+강서습지생태공원은 생태학습프로그램도 운영하고 있으므로 아이들과 함께 습지생태공원의 프로그램을 참여하여 자연을 공부해 보는 것도 좋다. 생태학습프로그램 참여는 [서울시 공공서비스예약사이트]접속>교육강좌>자연과학>[공원명]으로 검새>프로그램 예약신청을 하면 된다.','서울특별시 강서구 양천로27길 279-23(방화동)','연중무휴','연중무휴','37.5860879769','126.8171490732','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg',2,1);
+
+--서울, 카페
+--행 1
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'도선사(서울)','강북구 북한산 능선에 자리 잡은 도선사는 대한불교조계종 직할교구 본사인 조계사의 말사이다. 호국참회 본찰 도선사는 경문왕 2년(862) 도선국사가 창건하였다고 전한다. 신라말의 도선국사가 명산승지를 답사하다가 산세가 절묘하고 풍경이 청수하여 1,000년 뒤의 말법시대에 불법을 다시 일으킬 곳이라고 예견하고 건립한 사찰이다. 그 뒤 조선 후기까지의 중건·중수에 관한 기록은 전하지 않으나 북한산성을 쌓을 때는 승병들이 이 절에서 방번(보초 임무)을 서기도 한 기록이 전해지고 있다.
+도선사 명부전에는 생전 인연이 깊었던 고 박정희 대통령과 고 육영수 여사(대덕화), 고 정주영 현대그룹 회장의 영정이 봉안되어 있으며, 명부전 앞뜰에는 200여 년 전 어떤 고승이 인도에서 가져와 심었다는 보리수가 고목이 되어 있고, 12세 소년이 썼다는 기록이 새겨진 대웅전 현판 글씨는 보는 이들의 감탄을 자아내게 한다. 천불전으로 오르는 길옆 연못 청담 심지에서는 참배객들이 동전을 던지며 소원을 빌기도 한다. 
+도선사까지 도착하는 셔틀버스를 운영하므로 지하철을 이용하여 이곳을 방문할 경우 홈페이지>종무행정>오시는길 내용을 참조하면 된다.','서울특별시 강북구 삼양로173길 504(우이동)','연중개방','연중개방','37.6552274686','126.9897341460','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',3,1);
+--행 2
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'관악산 낙성대공원','낙성대공원은 고려의 명장 인헌공 강감찬 장군(948년∼1031년)을 기리기 위해 조성된 곳이다. 낙성대는 강감찬 장군이 태어난 곳으로 장군이 태어날 때 출생지에 큰 별이 떨어졌다는 전설에 따라 붙은 이름이다. 1973년 서울특별시에서 주변 지역을 정돈하여 사당과 부속건물을 조성하였다. 공원 동쪽에 사당을 지어 안국사라 하여 장군의 영정을 모셨고 정면에는 외삼문인 안국문과 내삼문을 세웠다. 안국사는 고려시대 목조 건축양식을 대표하는 영주 부석사 무량수전을 본떠 세웠으며 팔각 청기와 지붕이 올려져 있어 웅장한 느낌을 준다. 문 안에는 낙성대 3층석탑을 강감찬 장군 생가터에서 옮겨왔으며, 탑 맞은편에는 사적비를 세워놓았다. 
+낙성대공원은 울창한 숲을 이루고 계절 따라 꽃이 피고, 가을에는 단풍으로 물들어 풍광이 아름다운 곳이다. 자작나무숲, 소나무숲, 참나무숲, 사시나무 군락지, 전나무숲 등이 형성되어 있으며 산책로의 길이는 총 3km에 이른다. 그 외에도 연못과 야외놀이마당, 야외예식장도 있다. 위치가 서울대학교 후문으로 통하는 길과 인접해 있기 때문에 찾는 사람이 많아 서울 남부지역의 명소가 되고 있다.','서울특별시 관악구 낙성대로 77','연중무휴','연중무휴','37.4711316683','126.9602475997','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg',3,1);
+--행 3
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'서울 방이동 고분군','서울 방이동 고분군은 1975년 잠실지구 토지구획정리사업을 하다가 발견된 고분 유적이다. 이곳에서 1976년까지 8기의 고분이 조사되었고 1983년에 복원 공사를 시행하여 공원으로 만들었다. 고분이 있는 방이동 일대는 원래 해발 30~50m 가량의 나지막한 구릉이었으나 개발로 인해 지금은 평지가 되었다. 
+1~6호 무덤은 같은 구릉에 있고 7호와 8호 무덤은 조금 떨어진 구릉에 있다. 모든 무덤의 봉분은 원형이다. 무덤의 내부에는 생토면 위에 다듬은 돌을 이용해 방형 또는, 장방형의 널방을 쌓고 널길을 만들었으나, 세부적으로는 무덤마다 조금씩 차이가 있다. 대부분의 무덤은 도굴당하였으나, 일부 무덤에서 회청색 경질의 굽접시와 항아리 등이 출토되었다. 발굴될 당시 이들 유물을 백제시대의 것으로 추정하여 백제 고분군으로 이름 지었으나, 지금은 통일신라시대의 것으로 보고 있다.
+방이동 백제고분군 인접한 곳에 올림픽공원, 석촌호수 등이 있어 연계해서 즐기는 것도 좋다. 수도권 지하철 9호선 송파나루역 3번 출구에서 600m에 위치하고 있다.','서울특별시 송파구 오금로 219(방이동)','연중무휴','연중무휴','37.5081579775','127.1178488772','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',3,1);
+--행 4
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'관음사(서울)','관음사는 관악산 주봉에서 북동쪽으로 뻗어있는 마지막 봉우리의 기슭에 있는 사찰이다. 대한불교조계종 직할교구 본사인 조계사의 말사이다. 신라 제51대 진성여왕 9년(895)에 도선국사가 창건한 비보사찰의 하나다. 비보사찰은 명당에 절을 세우고 기도하면 나라가 융성하게 된다는 불교의 호국 사상에서 비롯되었다. 
+천여 년 동안 기도의 도량으로 사용되어 오다가 1924년 주지 석주가 증축하였다. 1974년 진선당 박종하 스님이 주지로 부임하여 중건하기 시작하여 대웅전, 용왕각, 종각, 즉심시불의 비문석탑을 세웠다. 항간에 조선 고종 20년경에 봉은사의 스님들이 개창했던 것이라고 하지만 실제로는 그 당시 중건되었던 사실이 와전된 것으로 생각된다. 
+세간의 소리를 듣고 있다가 곧바로 구제해 준다는 관세음보살을 모시고 있기에, 관음사라고 부르게 되었다고 한다.','서울특별시 관악구 승방1길 109-80(남현동)','연중무휴','연중무휴','37.4676601403','126.9765239933','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg',3,1);
+--행 5
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'서울 신림동 굴참나무','서울 신림동 굴참나무는 남부순환로 난곡사거리에서 약 1.5km 정도 거리에 위치한 2차 건영아파트 단지 내에 있다. 이 나무는 참나무과에 속한 낙엽교목이며 참나무류는 우리나라 전역에서 잘 자라는 수종이다. 우리나라에서는 전통적으로 숯을 참나무로 구웠으며, 자연 번식으로는 그 수요를 충당하지 못하였기 때문에 신림동 굴참나무와 같이 수형이 좋고 수관폭이 방대한 노거수는 남아있는 것이 매우 드문 실정이다. 이 나무는 높이 17m, 가슴높이 둘레 2.5m, 나무 밑부분의 둘레가 2.9m에 달하며, 오랜 세월 동안 조상들의 관심과 보살핌 가운데 살아온 나무로 민속적, 생물학적 자료로서의 가치가 높아 천연기념물로 지정, 보호하고 있다.
+전설에 의하면 약 1,000년 전에 강감찬 장군이 이곳을 지나가다가 지팡이를 꽂아 놓은 것이 자라서 현재와 같은 커다란 나무가 되었다고 한다. 실제 수령은 약 250살 정도 되었을 것으로 추정한다. 인근에는 장군이 별당으로 사용하였다는 칠불사가 있으며, 연 2회 음력 7월 1일과 10월 1일 수명 보존(목신)과 동리의 평안을 위하여 고사를 지내고 있다.','서울특별시 관악구 난곡로35길 28-7','','','37.4710197967','126.9169737649','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg',3,1);
+--행 6
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'양천향교','강서구 가양동에 있는 양천향교는 서울에 유일하게 남은 향교로, 서울특별시 기념물로 지정된 곳이다. 조선조 태종 12년(1411)에 건립됐으며 1963년 경기도 김포군 가양리에서 서울특별시로 편입되면서 서울에 남아있는 유일한 향교가 되었다. 양천향교는 과거 일제 강점기 일제의 압박 속에서도 제향을 한 번도 거르지 않았다고 한다.
+건물로는 대성전, 명륜당, 전사청, 동재, 서재, 내삼문, 외삼문과 부속건물 등 8동이 있다. 현재 양천향교에서는 봄과 가을 2회에 걸쳐 석전을 봉행하고 있으며, 지역주민과 초, 중학생을 대상으로 한문과 서예 및 사군자 등을 가르치는 등 청소년의 인성교육 및 옛 전통문화 재현에 노력하고 있다. 양천향교 외삼문 앞에 있는 유예당은 2007년 강서구청에서 신축한 것으로 유예당 놀이마당에서는 문화행사와 각종 민속놀이를 공연한다.
+주변의 겸재정선미술관, 궁산땅굴역사전시관, 궁산근린공원, 소악루, 고성지 등과 연계 방문이 가능하며 서울도보해설관광 양천로 겸재정선 코스에 포함되어 있다. 
+양천향교는 수도권 지하철 9호선 양천향교역 2번 출구에서 약 500m 떨어진 곳에 위치하고 있다.','서울특별시 강서구 양천로47나길 53','매주 월요일','매주 월요일','37.5729593554','126.8400029129','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg',3,1);
+--행 7
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'서울 양천고성지','양천고성지는 조선시대 양천현의 주산인 궁산(宮山)에 있는 테뫼식 산성터이다. 궁산은 한강변에 있는 약 74m의 나지막한 봉우리이다. 궁산의 남쪽에 안양천이 흘러 한강과 만나고 한강 건너편 북쪽에는 행주산성이 있다. 양천 고성은 궁산의 정상부에 있은 둘레 200m 정도의 평지를 둘러 만든 것으로 보인다. 기록에 의하면 성벽의 길이는 218m이다. 돌로 기초를 만들고 그 위에 흙을 쌓은 토석혼축성으로 추정된다.
+신증동국여지승람, 여지도서, 대동지지 등 문헌 기록에 등장하며, 축성 시기는 언제인지 알 수 없다. 그러나, 몇 차례의 지표조사에서 통일신라의 토기조각과 기와 조각이 많이 나왔고, 강 건너에 있는 행주산성이 통일신라 때에 지어진 것으로 볼 때, 양천 고성도 통일신라 때에 만들어진 것으로 보인다. 또한, 임진왜란 당시 김천일 장군 등이 의병을 이끌고 이 성에 주둔하였다가 권율 장군을 도와 행주대첩에 참가하기도 했다. 1994년에는 산 정상 동편에 예부터 전해 내려오는 소악루가 아름답게 복원되어 강서구민들의 관광 휴식처가 되고 있다. 
+서울 양천고성지는 수도권 지하철 양천향교역 2번 출구에서 약 500m 떨어진 곳에 위치하고 있다.','서울특별시 강서구 가양동','연중개방','연중개방','37.5740425776','126.8408278075','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',3,1);
+--행 8
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'천호공원','강동지역의 대표적 근린공원인 천호공원은 강동구 천호동에 위치한 공원으로 음악 분수, 야외무대, 체력단련시설을 갖추고 시민들의 여가생활 및 노년층의 휴식공간으로 각광을 받고 있다. 1998년 서울특별시가 공장이적지 공원화 사업의 일환으로 조성된 이 공원의 규모는 작지만, 1998년 개장 이후 인근 주민들의 산책, 운동, 나들이 공간으로 이용되었다. 2007년에는 해공도서관이 들어서 문화공간으로 한 단계 수준을 향상시켰고, 최근에는 음악분수, 야외무대 등 주요 시설이 오래되고 낡아 주민의 시설 현대화 요구에 따라 음악 분수와 야외무대, 각종 체육시설, 편의시설을 재정비하여 쾌적하고 문화가 가득한 공원으로 재조성하였다. 
+특히, 새로 설치된 음악 분수는 음악에 맞추어 워터스크린형, 원형 멀티 벡터형, 안개형, 시간차형 등 다양한 모양으로 연출되는 아름다운 분수를 감상할 수 있도록 하였다. 이 외에도 윗몸일으키기, 다리운동, 버터플라이 등의 체력단련시설과 족구, 배드민턴, 농구 등의 운동시설뿐만 아니라 공원 곳곳에 벤치와 육각정, 산책로 등 다양한 편의시설을 개선, 보완하여 주민들에게 보다 많은 사랑을 받고 있다.','서울특별시 강동구 올림픽로 702(천호동)','연중개방','연중개방','37.5447233407','127.1269358994','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg',3,1);
+--행 9
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'강동예찬시비','강동예찬시비는 서울 정도 600년을 기념하기 위하여, 조선 초기의 서거정이 지은 해 질 무렵의 한강변과 강동지역의 아름다운 전원충경을 노래한 시를 옛 광나루였던 광진교 입구에 한강의 쌍돛배의 모습으로 건립한 것이다. 
+일찍이 6,000년 전에 선사시대의 조상들이 살았으며 삼국시대에 국가의 요충지로 중요시되었던 광나루는, 조선시대에 한강의 5대 나루터의 하나로 번성하였으며 한양에서 한양 뱃길을 건너 구천면 길을 지나는 왕의 능 참배길로도 이용되었다. 이처럼 광나루는 역사적 의미가 클 뿐만 아니라 주변 경관이 수려하여 많은 시민, 묵객 등이 즐겨 찾던 곳이다. 따라서 강동예찬시비는 한강을 조망하는 훌륭한 쉼터이자 지방자치시대를 맞아 지역주민들이 고장에 대한 자긍심과 애향심을 간직할 수 있는 한강변의 문화명소이다.','서울특별시 강동구 천호동','','','37.5426873535','127.1207004140','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',3,1);
+--행 10
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'삼각산','서울시 북쪽 외곽에 병풍을 친 듯이 솟아 있는 삼각산은 우이동 종점에서 오를 수 있다. 삼각산은 북한산의 핵심을 이루고 있는 산봉으로 산의 최고봉인 백운대, 인수봉, 만경대(국망봉)의 높은 세 봉우리가 뿔처럼 높이 서 있어서 붙여진 이름이다. 세 봉우리 중에서 가장 높은 백운대는 해발 836.5m로 정상에 오르면 사방이 탁 트여서 전망 폭이 넓고, 봉 위에는 많은 사람이 앉을 수 있는 넓은 암반이 있기도 하다. 동북쪽으로는 산맥이 서로 통하는 도봉산의 연봉이 줄을 잇고, 아래로 강북, 도봉, 노원구가 한눈에 내려다보인다. 남쪽으로 눈을 돌리면 한강 건너 옆으로 뻗어나간 남한산을 바라볼 수 있고 서남쪽으로는 관악산이 눈에 들어온다. 
+삼각산 일대의 지질기반은 중생대말의 화강암으로 구성되어 있다. 다른 지역에서는 보기 드문 담조색을 띠고 있는데 장구한 세월에 걸친 지반의 상승과 침식작용으로 지표에 노출되고 다시 절리와 표면에 생긴 풍화작용으로 오늘날과 같은 산모양이 된 것이다. 따라서 높이에 비해 산세가 험준하고 경사가 심하며 암벽으로 된 바위 봉우리들이 주축을 이루고 있다.','서울특별시 강북구 삼양로173길 460(탐방지원센터)','','','37.6582465830','126.9909006206','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg',3,1);
+--행 11
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'호국충혼위령비','서울 지하철 9호선 개화역에서 15분 거리에 개화산호국공원안에 호국충혼위령비가 있다. 1950년 6월 25일 북한의 무력 남침으로 조국의 운명이 위태로워지자, 육군 제1사단 11, 12, 15연대 소속 장병 1,100여 명은 김포지구로 후퇴하여 6월 26일부터 30일까지 개화산에 최후의 방어진을 치고 적의 대병력을 맞아 전투를 벌였다. 그러나 안타깝게도 본부와 통신이 두절되고 탄약과 보급이 끊긴 채 북한군의 수와 화력에 밀려 부대원 전원이 개화산 골짜기에서 장렬히 산화하는 비운을 맞이하였다. 조국과 민족을 위해 목숨을 바친 이들의 넋을 위로하기 위해 1994년 개화산에 위령비를 건립하였다. 4.7m 높이의 위령비는 팔각형 비석 받침이 가지런히 모은 두 손 모양과 연꽃을 형상화한 비석 위에 올려진 형태이다. 위령비를 중심으로 좌측에는 1,100여 명의 전사자 이름이, 우측에는 참전유공자와 무공수훈자, 생존자 이름이 새겨져 있다.  매년 6월 28일 이곳에서 위령제를 지내고 있다.','서울특별시 강서구 개화동로13길 56-33(개화동)','','','37.5807272474','126.8036199031','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg',3,1);
+--행 12
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'서울 삼전도비','조선 병자호란 때 청에 패배해 굴욕적인 강화협정을 맺고, 청태종의 요구에 따라 그의 공덕을 적은 비석이다. 조선 인조 17년(1639)에 세워진 비석으로 높이 3.95m, 폭 1.4m이고, 제목은 [대청황제공덕비(大淸皇帝功德碑)]로 되어 있다. 조선 전기까지 조선에 조공을 바쳐오던 여진족은 명나라가 어지러운 틈을 타 급속히 성장하여 후금을 건국하고, 더욱더 세력을 확장하여 조선을 침략하는 등 압력을 행사하면서 조선과의 관계가 원만하지 못하였다. 나라의 이름을 청으로 바꾼 여진족이 조선에게 신하로서의 예를 갖출 것을 요구하자 두 나라의 관계가 단절되었다.
+결국 인조 14년(1636) 청나라 태종은 10만의 군사를 이끌고 직접 조선에 쳐들어와 병자호란을 일으켰다. 남한산성에 머물며 항전하던 인조가 결국 청나라의 군대가 머물고 있는 한강가의 삼전도 나루터에서 항복을 하면서 부끄러운 강화협정을 맺게 되었다. 병자호란이 끝난 뒤 청태종은 자신의 공덕을 새긴 기념비를 세우도록 조선에 강요했고 그 결과 삼전도비가 세워졌다. 비문은 이경석이 짓고 글씨는 오준이 썼으며, [대청황제 공덕비]라는 제목은 여이징이 썼다. 비석 앞면의 왼쪽에는 몽골 글자, 오른쪽에는 만주 글자, 뒷면에는 한자로 쓰여져 있어 만주어 및 몽골어를 연구하는데도 중요한 자료이다.
+송파나루공원의 석촌호수 동호와 서호 사이에 이 비가 서있다.','서울특별시 송파구 잠실로 148','','','37.5102657658','127.1011836669','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg',3,1);
+--행 13
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'올림픽대교','올림픽대교는 서울 광진구 구의동과 송파구 풍납동을 연결하는 다리로 대한민국 세계화의 시발점인 제24회 서울올림픽을 영구히 기념하고 올림픽 경기장 주변 교통처리를 위해 건설된 다리이다.
+국내 최초의 콘크리트 사장교이며 길이는 1.5km에 이른다. 88서울올림픽을 뜻하는 높이 88m의 주탑 4개가 서 있으며, 주탑은 올림픽 성화대 모양을 형상화하였다. 4개의 주탑은 연·월·일·시의 4주와 4계절, 4방향을 의미하며, 케이블 24개는 제24회 서울 올림픽 경기를 의미하며 그 예술성이 우수하다. 올림픽대교 건설과 함께 남단 고수부지에는 2,500평 규모의 도로공원과 지구촌의 화합을 상징하는 지름 6m의 5륜과 24개의 기념 조형물이 조성되었다.
+올림픽대교는 서울올림픽개최를 기념하기 위해 건설되었고 현상공모에 의하여 교량형식이 선정된 국내 최초의 콘크리트 사장교라는 점에서 우리나라 교량사에 많은 기록을 남긴 다리이다.','서울특별시 송파구 신천동','','','37.5324160470','127.1053604352','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',3,1);
+--행 14
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'방화대교','방화대교는 인천국제공항이 21세기 동북아시아 허브 공항의 역할을 수행할 수 있도록 건설된 한강대교 중 하나이다. 길이 2.6㎞로 한강 교량 중 가장 긴 교량이며, 국내 최초로 장경간 아치 트러스 구조로 설계, 시공된 한강의 27번째 교량으로 예술성과 기능성이 우수하다. 다리의 아치는 전통 사찰과 기와집 처마의 부드러운 이미지를 차용하여 개화산 봉우리, 덕양산 봉우리에 이어 인위적인 세 번째 봉우리가 되었다. 이륙하려는 듯한 거대한 항공기를 연상시키는 기하학적인 형상과 밤이면 한강 물결에 비치는 황홀한 야경이 보는 이로 하여금 감탄을 자아내게 한다. 다리의 조명이 켜지는 시간은 대략 저녁 19:00에서 23:30분까지이므로 다리와 한국의 야경을 감상하며 드라이브를 즐기기에 시간적 여유가 있다. 야경도 아름답지만, 해 질 녘 방화대교 너머로 지는 태양이 방화대교의 아치와 어우러지는 모습은 절로 감탄이 나오는 절경이다.
+방화대교 자체가 서울의 외곽에 위치해 있어 답답한 도심에서 벗어나 여유로운 기분으로 자전거길이나 산책길을 즐길 수 있다.','서울특별시 강서구 방화동','','','37.5876685005','126.8256843610','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg',3,1);
+--행 15
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'키즈오토파크','키즈오토파크는 서울 어린이대공원 내 상상나라 뒤편에 있는 어린이교통안전체험관이다. 어린이들이 체험을 통해 교통안전을 쉽고 재미있게 배울 수 있도록 교육함으로 선진 교통 시민을 육성하고자 NGO(한국생활안전연합)와 기업(현대자동차그룹)과 지자체(서울특별시)가 함께 설립하였다. 3,000㎡ 부지에 운전 코스와 신호등 등을 배치해 어린이들이 자동차를 운전하며 교통문화를 체험할 수 있는 시설이 마련되어 있다. 이곳에는 오토 가상체험시설, 보행교육장, 주행교육장, 교통안전 면허시험장, 오토부스 등 다양한 시설을 갖추고 있다. 입체 동영상을 통해서 가상 체험, 안전띠 체험, 보행 실습 등 다양한 교육프로그램을 체험할 수 있다. 키즈오토파크에서는 현대자동차의 과거 차종을 모델로 하여 안정적이고 편안하게 주행할 수 있도록 제작된 체험차를 이용하여 프로그램을 운영한다. 키즈오토파크를 방문하기 전 홈페이지에서 사전 예약은 필수이다.
+[초등 체험교육]을 수료한 초등학생 1학년~4학년 어린이들에게는 시험(필기 시험, 보행 시험, 주행 시험)을 치른 후 어린이 교통안전 면허증를 발급해 준다.','서울특별시 광진구 능동로 216(능동)','월요일','월요일','37.5493607781','127.0762931559','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',3,1);
+--행 16
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'신선경과 류인호 묘역','신선경과 류인호 묘역은 조선 전기 문신인 신선경과 사위 류인호의 묘역이다. 신선경은 세조 대 원종공신 2등으로 사헌부 장령, 성종 대 동지중추부사 등을 두루 거쳤으며 덕종의 후궁 숙의 신씨의 아버지이다. 류인호는 신선경의 사위로 성종 대에서 중종대에 걸쳐 사헌부 장령, 공조참의 등을 지냈다.
+신선경과 부인 청주 한씨의 쌍분묘 옆에 사위인 류인호와 거창 신씨의 합장묘가 나란히 조성되어 있고 그 앞에는 후손인 수사공 류장구의 묘소가 있다. 신선경 부부의 묘에는 묘표와 상석, 문인석을 세웠고 류인호 부부 묘에는 묘표와 상석, 망주석을 세웠다.
+신선경와 류인호 묘는 조선 전기의 묘제를 잘 보여주는 중요한 사례이다. 사위인 거창 신씨 묘역에는 사위와 외손자의 무덤이 함께 조성되어 있어 처가살이를 비롯하여 아들, 딸에게 재산을 고르게 나누어 주던 조선 전기 사회상을 짐작할 수 있다. 
+수도권 지하철 5호선 개롱역 1번 출구에서 650m에 위치하고 있다.','서울특별시 송파구 동남로 263(오금동)','연중무휴','연중무휴','37.5027894247','127.1327087891','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg',3,1);
+--행 17
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'오금공원','오금공원은 해발 200m의 야산을 친환경적으로 조성한 공원으로 갖가지 나무와 꽃, 잔디가 어우러져 있다. 33년간 닫혀있던 오금배수지를 새롭게 재조성한 열린 공간으로 송파 전경을 한눈에 내려다볼 수 있는 여가 쉼터이자 전망 명소다.  산책로, 주민 건강을 위한 각종 운동기구, 배드민턴장과 테니스장 등의 체육 시설을 다양하게 갖추고 있다. 넓은 공간으로 잘 정리된 론볼링장과 다목적경기장은 예약 후 사용 가능하다. 
+아이들을 위한 공간으로 유아숲체험원과 모험 놀이터가 준비되어 있다. 유아숲체험은  오전 9시부터 오후 4시까지로 산림교육 전문가의 지도에 따라 이루어진다. 모험 놀이터는 밧줄 오르기, 암벽 오르기, 그물 오르기, 미끄럼틀, 거미줄 건너기 등 아이들이 자연과 함께 신나게 즐길 수 있는 놀이터이다. 또한, 이곳은 반려견 출입이 가능해서 목줄과 배설물 봉투를 지참하고 반려견과 산책을 할 수 있다. 
+지하철 5호선 오금역에 인접해 있으며, 가락동 송파경찰서 대각선 방향, 오금동 송파우체국 건너편에 자리하고 있다.','서울특별시 송파구 오금로 363(오금동)','연중개방','연중개방','37.5052557863','127.1316810347','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg',3,1);
+--행 18
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'관악산 생태공원','2007년 12월 개원한 관악산 생태공원은 미성동 일대 76,521m²의 면적으로 조성되었다. 지형 여건을 최대한 살려 상부는 생태숲 구역으로, 물길이 모이는 하부 쪽은 생태연못 구역으로 각각 나누었다. 생태숲 구역은 활엽수림으로 복원했고, 생태연못 구역에는 수생식물과 다양한 수서생물이 살 수 있도록 하였다. 생태연못 및 야외학습장은 개구리, 청설모, 딱따구리 등 다양한 동, 식물을 관찰하고 느티나무, 자작나무, 낙우송 등 나무 그늘에서 쉴 수 있는 공간이 마련되어 있다. 또한, 생태학습장과 비를 피할 수 있는 정자를 만들어 다양한 생태학습이 가능하도록 조성하였다. 생태공원 옆으로 유아숲체험원이 있어 어린아이들이 숲속교실, 숲속동물원, 나무암벽, 통나무건너기 등 숲속에서 다양한 경험과 놀이를 할 수 있다. 
+관악산생태공원안에는 선우체육관, 테니스장 등의 운동시설과 산책로가 있어 가벼운 산책과 운동을 즐길 수도 있다.','서울특별시 관악구 석수동','연중무휴','연중무휴','37.4208230076','126.9260354605','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg',3,1);
+--행 19
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'관악산공원 야외식물원','관악산공원 입구에서 5분 정도 걸어 들어가면 관악산공원 야외식물원을 만날 수 있다. 등산로 초입에 야생화 학습장이 있어 신기한 꽃들과 사진도 찍고 푯말에 표기된 꽃들의 이름을 외우는 재미도 있다. 계곡 옆 자연학습장에 조성된 1,000㎡ 규모 휴식 공간에는 19종의 농작물과 1,630본의 식재가 있어 농촌풍경을 그대로 옮겨 놓은 듯하다. 5월 말~6월에는 장미농원에서 장미 오감 체험도 할 수 있다. 식물원 중앙의 장미원을 비롯한 초화원, 관목원, 철쭉동산, 자연학습당, 벚나무쉼터, 물놀이데크, 간이퇴비장, 건강쉼터 등이 있다. 또 정자, 그늘막, 원두막 같은 조형물을 만들어 두었다. 상류 쪽으로 1km에 이르는 구간에는 어른 허리까지 물이 차는 자연형 수영장이 있으며, 관악산공원 정문을 통해 야외식물원 쪽으로 올라가면 신림계곡이 있다. 이곳에서 둘레길 2구간인 호압사 방향의 관악산 도란도란 걷는 길로 올라갈 수 있다.','서울 관악구 대학동 203번지 일대','연중무휴','연중무휴','37.4585690064','126.9472963541','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',3,1);
+--행 20
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'강서습지생태공원','방화대교 남쪽 끝에서 행주대교 남쪽 끝 사이 한강 둔치에 있는 생태공원이다. 서울시 생태관광명소 30개소 중 하나로 선정된 강서습지생태공원은 담수지·저습지 등을 조성하고 습생·수생식물을 심은 습지 공원으로 2002년 7월에 개원되었다. 
+물억새 등 습지식물을 식재하여 새들이 휴식을 취할 수 있도록 하였으며 하중도, 자연관찰로, 습초지 등 습지 생태계를 복원하여 하천의 자연정화 기능을 극대화하고 있다. 습지를 가로질러 두 곳의 탐방로와 조류 조망대 등이 있는데 조류전망대에서는 행주대교와 방화대교, 한강을 한눈에 볼 수 있다. 또한 방화대교 하부, 가족 피크닉장 앞, 행주대교 하부에는 체력단련기구 등을 갖춰 시민의 여가 활동과 스포츠 공간으로의 기능을 하고 있다. 한강을 따라 자전거길과 산책로가 조성되어 있어 다양한 방법으로 강서습지생태공원을 즐길 수 있다.
+강서습지생태공원은 생태학습프로그램도 운영하고 있으므로 아이들과 함께 습지생태공원의 프로그램을 참여하여 자연을 공부해 보는 것도 좋다. 생태학습프로그램 참여는 [서울시 공공서비스예약사이트]접속>교육강좌>자연과학>[공원명]으로 검새>프로그램 예약신청을 하면 된다.','서울특별시 강서구 양천로27길 279-23(방화동)','연중무휴','연중무휴','37.5860879769','126.8171490732','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg',3,1);
+
+--서울,숙소
+--행 1
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'도선사(서울)','강북구 북한산 능선에 자리 잡은 도선사는 대한불교조계종 직할교구 본사인 조계사의 말사이다. 호국참회 본찰 도선사는 경문왕 2년(862) 도선국사가 창건하였다고 전한다. 신라말의 도선국사가 명산승지를 답사하다가 산세가 절묘하고 풍경이 청수하여 1,000년 뒤의 말법시대에 불법을 다시 일으킬 곳이라고 예견하고 건립한 사찰이다. 그 뒤 조선 후기까지의 중건·중수에 관한 기록은 전하지 않으나 북한산성을 쌓을 때는 승병들이 이 절에서 방번(보초 임무)을 서기도 한 기록이 전해지고 있다.
+도선사 명부전에는 생전 인연이 깊었던 고 박정희 대통령과 고 육영수 여사(대덕화), 고 정주영 현대그룹 회장의 영정이 봉안되어 있으며, 명부전 앞뜰에는 200여 년 전 어떤 고승이 인도에서 가져와 심었다는 보리수가 고목이 되어 있고, 12세 소년이 썼다는 기록이 새겨진 대웅전 현판 글씨는 보는 이들의 감탄을 자아내게 한다. 천불전으로 오르는 길옆 연못 청담 심지에서는 참배객들이 동전을 던지며 소원을 빌기도 한다. 
+도선사까지 도착하는 셔틀버스를 운영하므로 지하철을 이용하여 이곳을 방문할 경우 홈페이지>종무행정>오시는길 내용을 참조하면 된다.','서울특별시 강북구 삼양로173길 504(우이동)','연중개방','연중개방','37.6552274686','126.9897341460','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',4,1);
+--행 2
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'관악산 낙성대공원','낙성대공원은 고려의 명장 인헌공 강감찬 장군(948년∼1031년)을 기리기 위해 조성된 곳이다. 낙성대는 강감찬 장군이 태어난 곳으로 장군이 태어날 때 출생지에 큰 별이 떨어졌다는 전설에 따라 붙은 이름이다. 1973년 서울특별시에서 주변 지역을 정돈하여 사당과 부속건물을 조성하였다. 공원 동쪽에 사당을 지어 안국사라 하여 장군의 영정을 모셨고 정면에는 외삼문인 안국문과 내삼문을 세웠다. 안국사는 고려시대 목조 건축양식을 대표하는 영주 부석사 무량수전을 본떠 세웠으며 팔각 청기와 지붕이 올려져 있어 웅장한 느낌을 준다. 문 안에는 낙성대 3층석탑을 강감찬 장군 생가터에서 옮겨왔으며, 탑 맞은편에는 사적비를 세워놓았다. 
+낙성대공원은 울창한 숲을 이루고 계절 따라 꽃이 피고, 가을에는 단풍으로 물들어 풍광이 아름다운 곳이다. 자작나무숲, 소나무숲, 참나무숲, 사시나무 군락지, 전나무숲 등이 형성되어 있으며 산책로의 길이는 총 3km에 이른다. 그 외에도 연못과 야외놀이마당, 야외예식장도 있다. 위치가 서울대학교 후문으로 통하는 길과 인접해 있기 때문에 찾는 사람이 많아 서울 남부지역의 명소가 되고 있다.','서울특별시 관악구 낙성대로 77','연중무휴','연중무휴','37.4711316683','126.9602475997','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg',4,1);
+--행 3
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'서울 방이동 고분군','서울 방이동 고분군은 1975년 잠실지구 토지구획정리사업을 하다가 발견된 고분 유적이다. 이곳에서 1976년까지 8기의 고분이 조사되었고 1983년에 복원 공사를 시행하여 공원으로 만들었다. 고분이 있는 방이동 일대는 원래 해발 30~50m 가량의 나지막한 구릉이었으나 개발로 인해 지금은 평지가 되었다. 
+1~6호 무덤은 같은 구릉에 있고 7호와 8호 무덤은 조금 떨어진 구릉에 있다. 모든 무덤의 봉분은 원형이다. 무덤의 내부에는 생토면 위에 다듬은 돌을 이용해 방형 또는, 장방형의 널방을 쌓고 널길을 만들었으나, 세부적으로는 무덤마다 조금씩 차이가 있다. 대부분의 무덤은 도굴당하였으나, 일부 무덤에서 회청색 경질의 굽접시와 항아리 등이 출토되었다. 발굴될 당시 이들 유물을 백제시대의 것으로 추정하여 백제 고분군으로 이름 지었으나, 지금은 통일신라시대의 것으로 보고 있다.
+방이동 백제고분군 인접한 곳에 올림픽공원, 석촌호수 등이 있어 연계해서 즐기는 것도 좋다. 수도권 지하철 9호선 송파나루역 3번 출구에서 600m에 위치하고 있다.','서울특별시 송파구 오금로 219(방이동)','연중무휴','연중무휴','37.5081579775','127.1178488772','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',4,1);
+--행 4
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'관음사(서울)','관음사는 관악산 주봉에서 북동쪽으로 뻗어있는 마지막 봉우리의 기슭에 있는 사찰이다. 대한불교조계종 직할교구 본사인 조계사의 말사이다. 신라 제51대 진성여왕 9년(895)에 도선국사가 창건한 비보사찰의 하나다. 비보사찰은 명당에 절을 세우고 기도하면 나라가 융성하게 된다는 불교의 호국 사상에서 비롯되었다. 
+천여 년 동안 기도의 도량으로 사용되어 오다가 1924년 주지 석주가 증축하였다. 1974년 진선당 박종하 스님이 주지로 부임하여 중건하기 시작하여 대웅전, 용왕각, 종각, 즉심시불의 비문석탑을 세웠다. 항간에 조선 고종 20년경에 봉은사의 스님들이 개창했던 것이라고 하지만 실제로는 그 당시 중건되었던 사실이 와전된 것으로 생각된다. 
+세간의 소리를 듣고 있다가 곧바로 구제해 준다는 관세음보살을 모시고 있기에, 관음사라고 부르게 되었다고 한다.','서울특별시 관악구 승방1길 109-80(남현동)','연중무휴','연중무휴','37.4676601403','126.9765239933','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg',4,1);
+--행 5
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'서울 신림동 굴참나무','서울 신림동 굴참나무는 남부순환로 난곡사거리에서 약 1.5km 정도 거리에 위치한 2차 건영아파트 단지 내에 있다. 이 나무는 참나무과에 속한 낙엽교목이며 참나무류는 우리나라 전역에서 잘 자라는 수종이다. 우리나라에서는 전통적으로 숯을 참나무로 구웠으며, 자연 번식으로는 그 수요를 충당하지 못하였기 때문에 신림동 굴참나무와 같이 수형이 좋고 수관폭이 방대한 노거수는 남아있는 것이 매우 드문 실정이다. 이 나무는 높이 17m, 가슴높이 둘레 2.5m, 나무 밑부분의 둘레가 2.9m에 달하며, 오랜 세월 동안 조상들의 관심과 보살핌 가운데 살아온 나무로 민속적, 생물학적 자료로서의 가치가 높아 천연기념물로 지정, 보호하고 있다.
+전설에 의하면 약 1,000년 전에 강감찬 장군이 이곳을 지나가다가 지팡이를 꽂아 놓은 것이 자라서 현재와 같은 커다란 나무가 되었다고 한다. 실제 수령은 약 250살 정도 되었을 것으로 추정한다. 인근에는 장군이 별당으로 사용하였다는 칠불사가 있으며, 연 2회 음력 7월 1일과 10월 1일 수명 보존(목신)과 동리의 평안을 위하여 고사를 지내고 있다.','서울특별시 관악구 난곡로35길 28-7','','','37.4710197967','126.9169737649','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg',4,1);
+--행 6
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'양천향교','강서구 가양동에 있는 양천향교는 서울에 유일하게 남은 향교로, 서울특별시 기념물로 지정된 곳이다. 조선조 태종 12년(1411)에 건립됐으며 1963년 경기도 김포군 가양리에서 서울특별시로 편입되면서 서울에 남아있는 유일한 향교가 되었다. 양천향교는 과거 일제 강점기 일제의 압박 속에서도 제향을 한 번도 거르지 않았다고 한다.
+건물로는 대성전, 명륜당, 전사청, 동재, 서재, 내삼문, 외삼문과 부속건물 등 8동이 있다. 현재 양천향교에서는 봄과 가을 2회에 걸쳐 석전을 봉행하고 있으며, 지역주민과 초, 중학생을 대상으로 한문과 서예 및 사군자 등을 가르치는 등 청소년의 인성교육 및 옛 전통문화 재현에 노력하고 있다. 양천향교 외삼문 앞에 있는 유예당은 2007년 강서구청에서 신축한 것으로 유예당 놀이마당에서는 문화행사와 각종 민속놀이를 공연한다.
+주변의 겸재정선미술관, 궁산땅굴역사전시관, 궁산근린공원, 소악루, 고성지 등과 연계 방문이 가능하며 서울도보해설관광 양천로 겸재정선 코스에 포함되어 있다. 
+양천향교는 수도권 지하철 9호선 양천향교역 2번 출구에서 약 500m 떨어진 곳에 위치하고 있다.','서울특별시 강서구 양천로47나길 53','매주 월요일','매주 월요일','37.5729593554','126.8400029129','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg',4,1);
+--행 7
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'서울 양천고성지','양천고성지는 조선시대 양천현의 주산인 궁산(宮山)에 있는 테뫼식 산성터이다. 궁산은 한강변에 있는 약 74m의 나지막한 봉우리이다. 궁산의 남쪽에 안양천이 흘러 한강과 만나고 한강 건너편 북쪽에는 행주산성이 있다. 양천 고성은 궁산의 정상부에 있은 둘레 200m 정도의 평지를 둘러 만든 것으로 보인다. 기록에 의하면 성벽의 길이는 218m이다. 돌로 기초를 만들고 그 위에 흙을 쌓은 토석혼축성으로 추정된다.
+신증동국여지승람, 여지도서, 대동지지 등 문헌 기록에 등장하며, 축성 시기는 언제인지 알 수 없다. 그러나, 몇 차례의 지표조사에서 통일신라의 토기조각과 기와 조각이 많이 나왔고, 강 건너에 있는 행주산성이 통일신라 때에 지어진 것으로 볼 때, 양천 고성도 통일신라 때에 만들어진 것으로 보인다. 또한, 임진왜란 당시 김천일 장군 등이 의병을 이끌고 이 성에 주둔하였다가 권율 장군을 도와 행주대첩에 참가하기도 했다. 1994년에는 산 정상 동편에 예부터 전해 내려오는 소악루가 아름답게 복원되어 강서구민들의 관광 휴식처가 되고 있다. 
+서울 양천고성지는 수도권 지하철 양천향교역 2번 출구에서 약 500m 떨어진 곳에 위치하고 있다.','서울특별시 강서구 가양동','연중개방','연중개방','37.5740425776','126.8408278075','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',4,1);
+--행 8
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'천호공원','강동지역의 대표적 근린공원인 천호공원은 강동구 천호동에 위치한 공원으로 음악 분수, 야외무대, 체력단련시설을 갖추고 시민들의 여가생활 및 노년층의 휴식공간으로 각광을 받고 있다. 1998년 서울특별시가 공장이적지 공원화 사업의 일환으로 조성된 이 공원의 규모는 작지만, 1998년 개장 이후 인근 주민들의 산책, 운동, 나들이 공간으로 이용되었다. 2007년에는 해공도서관이 들어서 문화공간으로 한 단계 수준을 향상시켰고, 최근에는 음악분수, 야외무대 등 주요 시설이 오래되고 낡아 주민의 시설 현대화 요구에 따라 음악 분수와 야외무대, 각종 체육시설, 편의시설을 재정비하여 쾌적하고 문화가 가득한 공원으로 재조성하였다. 
+특히, 새로 설치된 음악 분수는 음악에 맞추어 워터스크린형, 원형 멀티 벡터형, 안개형, 시간차형 등 다양한 모양으로 연출되는 아름다운 분수를 감상할 수 있도록 하였다. 이 외에도 윗몸일으키기, 다리운동, 버터플라이 등의 체력단련시설과 족구, 배드민턴, 농구 등의 운동시설뿐만 아니라 공원 곳곳에 벤치와 육각정, 산책로 등 다양한 편의시설을 개선, 보완하여 주민들에게 보다 많은 사랑을 받고 있다.','서울특별시 강동구 올림픽로 702(천호동)','연중개방','연중개방','37.5447233407','127.1269358994','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg',4,1);
+--행 9
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'강동예찬시비','강동예찬시비는 서울 정도 600년을 기념하기 위하여, 조선 초기의 서거정이 지은 해 질 무렵의 한강변과 강동지역의 아름다운 전원충경을 노래한 시를 옛 광나루였던 광진교 입구에 한강의 쌍돛배의 모습으로 건립한 것이다. 
+일찍이 6,000년 전에 선사시대의 조상들이 살았으며 삼국시대에 국가의 요충지로 중요시되었던 광나루는, 조선시대에 한강의 5대 나루터의 하나로 번성하였으며 한양에서 한양 뱃길을 건너 구천면 길을 지나는 왕의 능 참배길로도 이용되었다. 이처럼 광나루는 역사적 의미가 클 뿐만 아니라 주변 경관이 수려하여 많은 시민, 묵객 등이 즐겨 찾던 곳이다. 따라서 강동예찬시비는 한강을 조망하는 훌륭한 쉼터이자 지방자치시대를 맞아 지역주민들이 고장에 대한 자긍심과 애향심을 간직할 수 있는 한강변의 문화명소이다.','서울특별시 강동구 천호동','','','37.5426873535','127.1207004140','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',4,1);
+--행 10
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'삼각산','서울시 북쪽 외곽에 병풍을 친 듯이 솟아 있는 삼각산은 우이동 종점에서 오를 수 있다. 삼각산은 북한산의 핵심을 이루고 있는 산봉으로 산의 최고봉인 백운대, 인수봉, 만경대(국망봉)의 높은 세 봉우리가 뿔처럼 높이 서 있어서 붙여진 이름이다. 세 봉우리 중에서 가장 높은 백운대는 해발 836.5m로 정상에 오르면 사방이 탁 트여서 전망 폭이 넓고, 봉 위에는 많은 사람이 앉을 수 있는 넓은 암반이 있기도 하다. 동북쪽으로는 산맥이 서로 통하는 도봉산의 연봉이 줄을 잇고, 아래로 강북, 도봉, 노원구가 한눈에 내려다보인다. 남쪽으로 눈을 돌리면 한강 건너 옆으로 뻗어나간 남한산을 바라볼 수 있고 서남쪽으로는 관악산이 눈에 들어온다. 
+삼각산 일대의 지질기반은 중생대말의 화강암으로 구성되어 있다. 다른 지역에서는 보기 드문 담조색을 띠고 있는데 장구한 세월에 걸친 지반의 상승과 침식작용으로 지표에 노출되고 다시 절리와 표면에 생긴 풍화작용으로 오늘날과 같은 산모양이 된 것이다. 따라서 높이에 비해 산세가 험준하고 경사가 심하며 암벽으로 된 바위 봉우리들이 주축을 이루고 있다.','서울특별시 강북구 삼양로173길 460(탐방지원센터)','','','37.6582465830','126.9909006206','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg',4,1);
+--행 11
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'호국충혼위령비','서울 지하철 9호선 개화역에서 15분 거리에 개화산호국공원안에 호국충혼위령비가 있다. 1950년 6월 25일 북한의 무력 남침으로 조국의 운명이 위태로워지자, 육군 제1사단 11, 12, 15연대 소속 장병 1,100여 명은 김포지구로 후퇴하여 6월 26일부터 30일까지 개화산에 최후의 방어진을 치고 적의 대병력을 맞아 전투를 벌였다. 그러나 안타깝게도 본부와 통신이 두절되고 탄약과 보급이 끊긴 채 북한군의 수와 화력에 밀려 부대원 전원이 개화산 골짜기에서 장렬히 산화하는 비운을 맞이하였다. 조국과 민족을 위해 목숨을 바친 이들의 넋을 위로하기 위해 1994년 개화산에 위령비를 건립하였다. 4.7m 높이의 위령비는 팔각형 비석 받침이 가지런히 모은 두 손 모양과 연꽃을 형상화한 비석 위에 올려진 형태이다. 위령비를 중심으로 좌측에는 1,100여 명의 전사자 이름이, 우측에는 참전유공자와 무공수훈자, 생존자 이름이 새겨져 있다.  매년 6월 28일 이곳에서 위령제를 지내고 있다.','서울특별시 강서구 개화동로13길 56-33(개화동)','','','37.5807272474','126.8036199031','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg',4,1);
+--행 12
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'서울 삼전도비','조선 병자호란 때 청에 패배해 굴욕적인 강화협정을 맺고, 청태종의 요구에 따라 그의 공덕을 적은 비석이다. 조선 인조 17년(1639)에 세워진 비석으로 높이 3.95m, 폭 1.4m이고, 제목은 [대청황제공덕비(大淸皇帝功德碑)]로 되어 있다. 조선 전기까지 조선에 조공을 바쳐오던 여진족은 명나라가 어지러운 틈을 타 급속히 성장하여 후금을 건국하고, 더욱더 세력을 확장하여 조선을 침략하는 등 압력을 행사하면서 조선과의 관계가 원만하지 못하였다. 나라의 이름을 청으로 바꾼 여진족이 조선에게 신하로서의 예를 갖출 것을 요구하자 두 나라의 관계가 단절되었다.
+결국 인조 14년(1636) 청나라 태종은 10만의 군사를 이끌고 직접 조선에 쳐들어와 병자호란을 일으켰다. 남한산성에 머물며 항전하던 인조가 결국 청나라의 군대가 머물고 있는 한강가의 삼전도 나루터에서 항복을 하면서 부끄러운 강화협정을 맺게 되었다. 병자호란이 끝난 뒤 청태종은 자신의 공덕을 새긴 기념비를 세우도록 조선에 강요했고 그 결과 삼전도비가 세워졌다. 비문은 이경석이 짓고 글씨는 오준이 썼으며, [대청황제 공덕비]라는 제목은 여이징이 썼다. 비석 앞면의 왼쪽에는 몽골 글자, 오른쪽에는 만주 글자, 뒷면에는 한자로 쓰여져 있어 만주어 및 몽골어를 연구하는데도 중요한 자료이다.
+송파나루공원의 석촌호수 동호와 서호 사이에 이 비가 서있다.','서울특별시 송파구 잠실로 148','','','37.5102657658','127.1011836669','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg',4,1);
+--행 13
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'올림픽대교','올림픽대교는 서울 광진구 구의동과 송파구 풍납동을 연결하는 다리로 대한민국 세계화의 시발점인 제24회 서울올림픽을 영구히 기념하고 올림픽 경기장 주변 교통처리를 위해 건설된 다리이다.
+국내 최초의 콘크리트 사장교이며 길이는 1.5km에 이른다. 88서울올림픽을 뜻하는 높이 88m의 주탑 4개가 서 있으며, 주탑은 올림픽 성화대 모양을 형상화하였다. 4개의 주탑은 연·월·일·시의 4주와 4계절, 4방향을 의미하며, 케이블 24개는 제24회 서울 올림픽 경기를 의미하며 그 예술성이 우수하다. 올림픽대교 건설과 함께 남단 고수부지에는 2,500평 규모의 도로공원과 지구촌의 화합을 상징하는 지름 6m의 5륜과 24개의 기념 조형물이 조성되었다.
+올림픽대교는 서울올림픽개최를 기념하기 위해 건설되었고 현상공모에 의하여 교량형식이 선정된 국내 최초의 콘크리트 사장교라는 점에서 우리나라 교량사에 많은 기록을 남긴 다리이다.','서울특별시 송파구 신천동','','','37.5324160470','127.1053604352','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',4,1);
+--행 14
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'방화대교','방화대교는 인천국제공항이 21세기 동북아시아 허브 공항의 역할을 수행할 수 있도록 건설된 한강대교 중 하나이다. 길이 2.6㎞로 한강 교량 중 가장 긴 교량이며, 국내 최초로 장경간 아치 트러스 구조로 설계, 시공된 한강의 27번째 교량으로 예술성과 기능성이 우수하다. 다리의 아치는 전통 사찰과 기와집 처마의 부드러운 이미지를 차용하여 개화산 봉우리, 덕양산 봉우리에 이어 인위적인 세 번째 봉우리가 되었다. 이륙하려는 듯한 거대한 항공기를 연상시키는 기하학적인 형상과 밤이면 한강 물결에 비치는 황홀한 야경이 보는 이로 하여금 감탄을 자아내게 한다. 다리의 조명이 켜지는 시간은 대략 저녁 19:00에서 23:30분까지이므로 다리와 한국의 야경을 감상하며 드라이브를 즐기기에 시간적 여유가 있다. 야경도 아름답지만, 해 질 녘 방화대교 너머로 지는 태양이 방화대교의 아치와 어우러지는 모습은 절로 감탄이 나오는 절경이다.
+방화대교 자체가 서울의 외곽에 위치해 있어 답답한 도심에서 벗어나 여유로운 기분으로 자전거길이나 산책길을 즐길 수 있다.','서울특별시 강서구 방화동','','','37.5876685005','126.8256843610','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg',4,1);
+--행 15
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'키즈오토파크','키즈오토파크는 서울 어린이대공원 내 상상나라 뒤편에 있는 어린이교통안전체험관이다. 어린이들이 체험을 통해 교통안전을 쉽고 재미있게 배울 수 있도록 교육함으로 선진 교통 시민을 육성하고자 NGO(한국생활안전연합)와 기업(현대자동차그룹)과 지자체(서울특별시)가 함께 설립하였다. 3,000㎡ 부지에 운전 코스와 신호등 등을 배치해 어린이들이 자동차를 운전하며 교통문화를 체험할 수 있는 시설이 마련되어 있다. 이곳에는 오토 가상체험시설, 보행교육장, 주행교육장, 교통안전 면허시험장, 오토부스 등 다양한 시설을 갖추고 있다. 입체 동영상을 통해서 가상 체험, 안전띠 체험, 보행 실습 등 다양한 교육프로그램을 체험할 수 있다. 키즈오토파크에서는 현대자동차의 과거 차종을 모델로 하여 안정적이고 편안하게 주행할 수 있도록 제작된 체험차를 이용하여 프로그램을 운영한다. 키즈오토파크를 방문하기 전 홈페이지에서 사전 예약은 필수이다.
+[초등 체험교육]을 수료한 초등학생 1학년~4학년 어린이들에게는 시험(필기 시험, 보행 시험, 주행 시험)을 치른 후 어린이 교통안전 면허증를 발급해 준다.','서울특별시 광진구 능동로 216(능동)','월요일','월요일','37.5493607781','127.0762931559','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',4,1);
+--행 16
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'신선경과 류인호 묘역','신선경과 류인호 묘역은 조선 전기 문신인 신선경과 사위 류인호의 묘역이다. 신선경은 세조 대 원종공신 2등으로 사헌부 장령, 성종 대 동지중추부사 등을 두루 거쳤으며 덕종의 후궁 숙의 신씨의 아버지이다. 류인호는 신선경의 사위로 성종 대에서 중종대에 걸쳐 사헌부 장령, 공조참의 등을 지냈다.
+신선경과 부인 청주 한씨의 쌍분묘 옆에 사위인 류인호와 거창 신씨의 합장묘가 나란히 조성되어 있고 그 앞에는 후손인 수사공 류장구의 묘소가 있다. 신선경 부부의 묘에는 묘표와 상석, 문인석을 세웠고 류인호 부부 묘에는 묘표와 상석, 망주석을 세웠다.
+신선경와 류인호 묘는 조선 전기의 묘제를 잘 보여주는 중요한 사례이다. 사위인 거창 신씨 묘역에는 사위와 외손자의 무덤이 함께 조성되어 있어 처가살이를 비롯하여 아들, 딸에게 재산을 고르게 나누어 주던 조선 전기 사회상을 짐작할 수 있다. 
+수도권 지하철 5호선 개롱역 1번 출구에서 650m에 위치하고 있다.','서울특별시 송파구 동남로 263(오금동)','연중무휴','연중무휴','37.5027894247','127.1327087891','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/03/566503_image2_1.jpg',4,1);
+--행 17
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'오금공원','오금공원은 해발 200m의 야산을 친환경적으로 조성한 공원으로 갖가지 나무와 꽃, 잔디가 어우러져 있다. 33년간 닫혀있던 오금배수지를 새롭게 재조성한 열린 공간으로 송파 전경을 한눈에 내려다볼 수 있는 여가 쉼터이자 전망 명소다.  산책로, 주민 건강을 위한 각종 운동기구, 배드민턴장과 테니스장 등의 체육 시설을 다양하게 갖추고 있다. 넓은 공간으로 잘 정리된 론볼링장과 다목적경기장은 예약 후 사용 가능하다. 
+아이들을 위한 공간으로 유아숲체험원과 모험 놀이터가 준비되어 있다. 유아숲체험은  오전 9시부터 오후 4시까지로 산림교육 전문가의 지도에 따라 이루어진다. 모험 놀이터는 밧줄 오르기, 암벽 오르기, 그물 오르기, 미끄럼틀, 거미줄 건너기 등 아이들이 자연과 함께 신나게 즐길 수 있는 놀이터이다. 또한, 이곳은 반려견 출입이 가능해서 목줄과 배설물 봉투를 지참하고 반려견과 산책을 할 수 있다. 
+지하철 5호선 오금역에 인접해 있으며, 가락동 송파경찰서 대각선 방향, 오금동 송파우체국 건너편에 자리하고 있다.','서울특별시 송파구 오금로 363(오금동)','연중개방','연중개방','37.5052557863','127.1316810347','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/23/1903023_image2_1.jpg',4,1);
+--행 18
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'관악산 생태공원','2007년 12월 개원한 관악산 생태공원은 미성동 일대 76,521m²의 면적으로 조성되었다. 지형 여건을 최대한 살려 상부는 생태숲 구역으로, 물길이 모이는 하부 쪽은 생태연못 구역으로 각각 나누었다. 생태숲 구역은 활엽수림으로 복원했고, 생태연못 구역에는 수생식물과 다양한 수서생물이 살 수 있도록 하였다. 생태연못 및 야외학습장은 개구리, 청설모, 딱따구리 등 다양한 동, 식물을 관찰하고 느티나무, 자작나무, 낙우송 등 나무 그늘에서 쉴 수 있는 공간이 마련되어 있다. 또한, 생태학습장과 비를 피할 수 있는 정자를 만들어 다양한 생태학습이 가능하도록 조성하였다. 생태공원 옆으로 유아숲체험원이 있어 어린아이들이 숲속교실, 숲속동물원, 나무암벽, 통나무건너기 등 숲속에서 다양한 경험과 놀이를 할 수 있다. 
+관악산생태공원안에는 선우체육관, 테니스장 등의 운동시설과 산책로가 있어 가벼운 산책과 운동을 즐길 수도 있다.','서울특별시 관악구 석수동','연중무휴','연중무휴','37.4208230076','126.9260354605','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/18/2661818_image2_1.jpg',4,1);
+--행 19
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'관악산공원 야외식물원','관악산공원 입구에서 5분 정도 걸어 들어가면 관악산공원 야외식물원을 만날 수 있다. 등산로 초입에 야생화 학습장이 있어 신기한 꽃들과 사진도 찍고 푯말에 표기된 꽃들의 이름을 외우는 재미도 있다. 계곡 옆 자연학습장에 조성된 1,000㎡ 규모 휴식 공간에는 19종의 농작물과 1,630본의 식재가 있어 농촌풍경을 그대로 옮겨 놓은 듯하다. 5월 말~6월에는 장미농원에서 장미 오감 체험도 할 수 있다. 식물원 중앙의 장미원을 비롯한 초화원, 관목원, 철쭉동산, 자연학습당, 벚나무쉼터, 물놀이데크, 간이퇴비장, 건강쉼터 등이 있다. 또 정자, 그늘막, 원두막 같은 조형물을 만들어 두었다. 상류 쪽으로 1km에 이르는 구간에는 어른 허리까지 물이 차는 자연형 수영장이 있으며, 관악산공원 정문을 통해 야외식물원 쪽으로 올라가면 신림계곡이 있다. 이곳에서 둘레길 2구간인 호압사 방향의 관악산 도란도란 걷는 길로 올라갈 수 있다.','서울 관악구 대학동 203번지 일대','연중무휴','연중무휴','37.4585690064','126.9472963541','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg','http://tong.visitkorea.or.kr/cms/resource/11/1567811_image2_1.jpg',4,1);
+--행 20
+INSERT INTO ATTRACTION (ATTRACTION_NO, ATTRACTION_NAME, ATTRACTION_MEMO, ATTRACTION_ADDRESS, ATTRACTION_IN, ATTRACTION_OUT, ATTRACTION_X, ATTRACTION_Y, ATTRACTION_ORIGIN_NAME_IMG, ATTRACTION_CHANGE_NAME_IMG, ATTRACTION_CATEGORY_NO, ATTRACTION_REGION_NO) VALUES (SEQ_ARTNO.NEXTVAL,'강서습지생태공원','방화대교 남쪽 끝에서 행주대교 남쪽 끝 사이 한강 둔치에 있는 생태공원이다. 서울시 생태관광명소 30개소 중 하나로 선정된 강서습지생태공원은 담수지·저습지 등을 조성하고 습생·수생식물을 심은 습지 공원으로 2002년 7월에 개원되었다. 
+물억새 등 습지식물을 식재하여 새들이 휴식을 취할 수 있도록 하였으며 하중도, 자연관찰로, 습초지 등 습지 생태계를 복원하여 하천의 자연정화 기능을 극대화하고 있다. 습지를 가로질러 두 곳의 탐방로와 조류 조망대 등이 있는데 조류전망대에서는 행주대교와 방화대교, 한강을 한눈에 볼 수 있다. 또한 방화대교 하부, 가족 피크닉장 앞, 행주대교 하부에는 체력단련기구 등을 갖춰 시민의 여가 활동과 스포츠 공간으로의 기능을 하고 있다. 한강을 따라 자전거길과 산책로가 조성되어 있어 다양한 방법으로 강서습지생태공원을 즐길 수 있다.
+강서습지생태공원은 생태학습프로그램도 운영하고 있으므로 아이들과 함께 습지생태공원의 프로그램을 참여하여 자연을 공부해 보는 것도 좋다. 생태학습프로그램 참여는 [서울시 공공서비스예약사이트]접속>교육강좌>자연과학>[공원명]으로 검새>프로그램 예약신청을 하면 된다.','서울특별시 강서구 양천로27길 279-23(방화동)','연중무휴','연중무휴','37.5860879769','126.8171490732','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg','http://tong.visitkorea.or.kr/cms/resource/25/1570725_image3_1.jpg',4,1);
+
+
+
+INSERT INTO TRANSPORTATION
+VALUES (SEQ_TTNO.NEXTVAL, '대중교통');
+INSERT INTO TRANSPORTATION
+VALUES (SEQ_TTNO.NEXTVAL, '자동차');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO RECOMMEND_BOARD
+VALUES (SEQ_RBNO.NEXTVAL, '국내 대표 어린이청소년 예술공연 축제 2024 서울 아시테지 겨울축제','설명',SYSDATE,SYSDATE,'서울특별시','resources/images/recommend/recommend_01.jpg');
+INSERT INTO RECOMMEND_BOARD
+VALUES (SEQ_RBNO.NEXTVAL, '네이처파크 미라클 크리스마스','설명',SYSDATE,SYSDATE,'대구광역시','resources/images/recommend/recommend_02.jpg');
+INSERT INTO RECOMMEND_BOARD
+VALUES (SEQ_RBNO.NEXTVAL, 'Happy New Year 2024 새해 맞이 불꽃쇼 소원 풍선 날리기 축제','설명',SYSDATE,SYSDATE,'강원특별자치도','resources/images/recommend/recommend_03.jpg');
+INSERT INTO RECOMMEND_BOARD
+VALUES (SEQ_RBNO.NEXTVAL, '국립생태원 개원 10주년 기념 기획전 사라져 가는 친구들','설명',SYSDATE,SYSDATE,'경상남도','resources/images/recommend/recommend_04.jpg');
+
+
+
+
+
+
+
+
+
+CREATE OR REPLACE TRIGGER AFTER_FRIENDSHIP_INSERT
+AFTER INSERT ON FRIEND
+FOR EACH ROW
+BEGIN
+    UPDATE FRIEND_LOG
+    SET LOG_STATUS = 2
+    WHERE FROM_MEMBER_NO = :NEW.MEMBER_NO
+    AND TO_MEMBER_NO = :NEW.FRIEND_MEMBER_NO;
+END;
+/
+
+
+INSERT INTO FRIEND
+VALUES (2, 1, SYSDATE, DEFAULT);
+
+INSERT INTO FRIEND
+VALUES (1, 2, SYSDATE, DEFAULT);
+
+INSERT INTO FRIEND
+VALUES (2, 3, SYSDATE, DEFAULT);
+
+INSERT INTO FRIEND
+VALUES (3, 2, SYSDATE, DEFAULT);
+
+
+
+
+COMMIT;
+
+
+
+
+ 		select DISTINCT TRIP_PLAN_NO
+				,TRIP_PLAN_TITLE
+		        ,TRIP_START_DATE
+		        ,TRIP_END_DATE
+                ,REGION_NO
+                ,REGION_NAME
+                ,REGION_IMG
+		from TRIP_PLAN
+		join member on (TRIP_PLANNER_NO = MEMBER_NO)
+        join location using (TRIP_PLAN_NO)
+        join ATTRACTION on (LOCATION_ATTRACTION_NO = ATTRACTION_NO)
+        join REGION on(ATTRACTION_REGION_NO =REGION_NO)
+		where TRIP_PLANNER_NO = 2
+        
+        
+        		select  BOARD_NO
+				,BOARD_TITLE
+		        ,BOARD_CONTENT
+		        ,BOARD_WRITER
+		        ,TO_CHAR(BOARD_MODIFY_DATE, 'YYYY-MM-DD') AS BOARD_MODIFY_DATE       
+		        ,TRIP_START_DATE       
+		        ,TRIP_END_DATE   
+                ,REGION_IMG
+		from board
+		join member on (BOARD_WRITER = MEMBER_NO)
+		JOIN TRIP_PLAN ON(BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
+        JOIN REGION ON (BOARD_REGION_NO = REGION_NO)
+		where BOARD_CATEGORY = 2
+			AND BOARD_WRITER = #{memberNo}
+		ORDER BY BOARD_NO DESC
+  
+
+
+		SELECT FRIEND_MEMBER_NO
+	        ,MEMBER_NICKNAME
+	        ,MEMBER_PROFILE_IMG
+		FROM(
+		    SELECT *
+		    FROM FRIEND 
+		    WHERE MEMBER_NO = 2
+                and friend_status = 'Y')
+		JOIN MEMBER M ON (FRIEND_MEMBER_NO = M.MEMBER_NO)
+
+
+
+		SELECT FRIEND_MEMBER_NO as MEMBER_NO
+	        ,MEMBER_NICKNAME
+	        ,MEMBER_PROFILE_IMG
+		FROM(
+		    SELECT FRIEND_MEMBER_NO
+		    FROM FRIEND 
+		    JOIN MEMBER  using (MEMBER_NO)
+		    WHERE MEMBER_NO = 2
+                and friend_status = 'Y')
+		JOIN MEMBER ON (FRIEND_MEMBER_NO = MEMBER_NO)
+
+
+
+ 		SELECT COUNT(*)
+		    FROM CHAT
+    WHERE CHAT_CHECK = 2 and you_no = 1
+
+
+
+
+
+
+
+	
