@@ -40,14 +40,14 @@ Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
             <div class="dropdown">
                 <c:choose>
                     <c:when test="${not empty loginUser.memberProfileImg}">
-                    <button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown"><img class="title-img" src="${loginUser.memberProfileImg}" alt=""></button>
+                    <button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown" style="display: none;"><img class="title-img" src="${loginUser.memberProfileImg}" alt=""></button>
                     </c:when>
                     <c:otherwise>
-                    <button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown"><img src="/mapping/resources/images/profile.png" alt=""></button>
+                    <button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown" style="display: none;"><img src="/mapping/resources/images/profile.png" alt=""></button>
                     </c:otherwise>	   
                 </c:choose>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">1:1 채팅</a></li>
+                    <li><a class="dropdown-item" href="">1:1 채팅</a></li>
                     <li><a class="dropdown-item" href="mypage.me">마이페이지</a></li>
                     <li><a class="dropdown-item" href="logout.me">로그아웃</a></li>
                 </ul>
@@ -79,7 +79,7 @@ Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
                                 <div class="modal-body">
                                     <div class="layer-contents" id="snsCont">
                                         <div class="sns-share">
-                                            <button type="button" title="새창"><img src="resources/images/logo_001.png" alt="mapping logo" style="width: 100px; height: 48px; padding: 10px;">QR공유</button>
+                                            <button type="button" title="새창"><img src="resources/images/logo_001.png" alt="mapping logo" style="width: 100px; height: 48px; padding: 10px;" onclick="goToQr()">QR공유</button>
                                             <button type="button" title="새창"><a id="kakaotalk-sharing-btn" href="javascript:shareMessage(${list[0].tripPlanNo})"><i class="ico-kakao"></i></a>카카오톡</button>
                                             <button type="button" onclick="shareFacebook()" title="새창"><i class="ico-facebook"></i>페이스북</button>
                                             <button type="button" onclick="shareNaverblog()" title="새창"><i class="ico-blog"></i>네이버 블로그</button>

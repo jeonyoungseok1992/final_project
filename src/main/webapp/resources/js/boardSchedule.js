@@ -554,7 +554,7 @@ function selectLocation(scheduleInfo) {
     category.className = 'category';
     tabContent1.appendChild(category);
     const recommendedPlace = toggleButtonUnit({
-        //className: "toggle",
+        className: "toggle",
         innerText: "추천 장소",
     });
     //recommendedPlace.setAttribute('data-filter', 'all');

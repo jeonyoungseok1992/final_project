@@ -34,7 +34,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
         <div class="header-fixed">
             <a href="${pageContext.request.contextPath}" class="logo"><img src="./resources/images/logo_001.png" alt=""></a>
             <div class="dropdown">
-                <button type="button" class="btn btn-primary dropdown-toggle profile" data-bs-toggle="dropdown"><img src="./resources/images/profile.png" alt=""></button>
+                <button type="button" class="btn btn-primary dropdown-toggle profile" data-bs-toggle="dropdown" style="display: none;"><img src="./resources/images/profile.png" alt=""></button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">1:1 채팅</a></li>
                     <li><a class="dropdown-item" href="#">마이페이지</a></li>
