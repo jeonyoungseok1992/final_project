@@ -32,6 +32,8 @@
 		<result column="MEMBER_PROFILE_IMG" property="memberProfileImg"/>
 		<result column="FROM_MEMBER_NO" property="fromMemberNo"/>
 		<result column="REGION_IMG" property="regionImg"/>
+		<result column="REGION_NAME" property="regionName"/>
+		<result column="MEMBER_NICKNAME" property="memberNickname"/>
 	</resultMap>
 
 	<resultMap type="Reply" id="replyResult">
@@ -361,12 +363,14 @@
  		select   BOARD_NO
 				,BOARD_TITLE
 		        ,BOARD_CONTENT
-		        ,MEMBER_ID
+		        ,MEMBER_NICKNAME
 				,TO_CHAR(BOARD_CREATE_DATE, 'YYYY/MM/DD') AS "BOARD_CREATE_DATE"
-                ,TRIP_PLAN_THUMBNAIL
+		        ,REGION_NAME   
+                ,REGION_IMG
 		from board
 		join member on (BOARD_WRITER = MEMBER_NO)
-        join TRIP_PLAN on (BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
+		JOIN TRIP_PLAN ON(BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
+        JOIN REGION ON (BOARD_REGION_NO = REGION_NO)
 		where BOARD_CATEGORY = 2
 		AND BOARD_STATUS = 'Y'
 		ORDER BY BOARD_NO DESC
@@ -374,34 +378,35 @@
 	
 	<!-- 같이가요 게시글 키워드 검색 쿼리문 -->
 	<select id="togetherSearchList" resultMap="boardResult">
-		select  B.BOARD_NO
-				,B.BOARD_TITLE
-		        ,B.BOARD_CONTENT
-		        ,M.MEMBER_ID
-		        ,TO_CHAR(B.BOARD_CREATE_DATE, 'YYYY/MM/DD') AS "BOARD_CREATE_DATE"
-		        ,T.TRIP_PLAN_THUMBNAIL
-		from board B
-		join member M on (B.BOARD_WRITER = M.MEMBER_NO)
-		join TRIP_PLAN T on (B.BOARD_TRIP_PLAN_NO = T.TRIP_PLAN_NO)
-		join REGION R on (R.REGION_NO = B.BOARD_REGION_NO)
-		where B.BOARD_CATEGORY = 2
-		AND B.BOARD_STATUS = 'Y'
+		select  BOARD_NO
+				,BOARD_TITLE
+		        ,BOARD_CONTENT
+		        ,MEMBER_NICKNAME
+		        ,TO_CHAR(BOARD_CREATE_DATE, 'YYYY/MM/DD') AS "BOARD_CREATE_DATE"
+		        ,REGION_NAME   
+                ,REGION_IMG
+		from board
+		join member on (BOARD_WRITER = MEMBER_NO)
+		JOIN TRIP_PLAN ON(BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
+        JOIN REGION ON (BOARD_REGION_NO = REGION_NO)
+		where BOARD_CATEGORY = 2
+		AND BOARD_STATUS = 'Y'
 		<choose>
 			<when test="condition == 'writer'">
-	  		AND M.MEMBER_ID 
+	  		AND MEMBER_ID 
 	  		</when>
 	  		<when test="condition == 'title'">
-	        AND B.BOARD_TITLE  
+	        AND BOARD_TITLE  
 	        </when>
 	        <when test="condition == 'region'">
-	        AND R.REGION_NAME
+	        AND REGION_NAME
 	        </when>
 	        <otherwise>
-	        AND B.BOARD_CONTENT
+	        AND BOARD_CONTENT
       	 	</otherwise>
         </choose>
         LIKE '%' || #{keyword} || '%'
-        ORDER BY B.BOARD_NO DESC
+        ORDER BY BOARD_NO DESC
 	</select>
 	
 	<!-- 글쓰기 누르면 ajax 로 가져올 일정호출 -->
@@ -417,6 +422,7 @@
                 ,ATTRACTION_CHANGE_NAME_IMG
                 ,REGION_NO
                 ,REGION_NAME
+                ,REGION_IMG
                 ,TRIP_N_DAY
 		from TRIP_PLAN
 		join member on (TRIP_PLANNER_NO = MEMBER_NO)
@@ -687,12 +693,14 @@
 		SELECT   BOARD_NO
 				,BOARD_TITLE
 		        ,BOARD_CONTENT
-		        ,MEMBER_ID
+		        ,MEMBER_NICKNAME
 		        ,TO_CHAR(BOARD_CREATE_DATE, 'YYYY/MM/DD') AS "BOARD_CREATE_DATE"
-		        ,TRIP_PLAN_THUMBNAIL
-		FROM 	BOARD
+		        ,REGION_NAME   
+                ,REGION_IMG
+		from board
 		join member on (BOARD_WRITER = MEMBER_NO)
-		join TRIP_PLAN on (BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
+		JOIN TRIP_PLAN ON(BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
+        JOIN REGION ON (BOARD_REGION_NO = REGION_NO)
 		where BOARD_CATEGORY = 1
 		AND BOARD_STATUS = 'Y'
 		ORDER BY BOARD_NO DESC
@@ -704,9 +712,10 @@
 			select   B.BOARD_NO
 					,B.BOARD_TITLE
 			        ,B.BOARD_CONTENT
-			        ,M.MEMBER_ID
+			        ,M.MEMBER_NICKNAME
 			        ,TO_CHAR(B.BOARD_CREATE_DATE, 'YYYY/MM/DD') AS "BOARD_CREATE_DATE"
-			        ,T.TRIP_PLAN_THUMBNAIL 
+			       	,R.REGION_NAME   
+                	,R.REGION_IMG
 			FROM BOARD B
 			JOIN MEMBER M ON (B.BOARD_WRITER = M.MEMBER_NO)
 			JOIN REGION R ON (B.BOARD_REGION_NO= R.REGION_NO)
@@ -882,6 +891,7 @@
 		                ,CATEGORY_NAME
 		                ,REGION_NO
 		                ,REGION_NAME
+		                ,REGION_IMG
 		                ,TRIP_N_DAY
 				FROM 	TRIP_PLAN
 				

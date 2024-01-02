@@ -553,14 +553,15 @@ function selectLocation(scheduleInfo) {
     const category = document.createElement('div');
     category.className = 'category';
     tabContent1.appendChild(category);
-    const recommendedPlace = toggleButtonUnit({
-        className: "toggle",
-        innerText: "추천 장소",
-    });
-    //recommendedPlace.setAttribute('data-filter', 'all');
-    category.appendChild(recommendedPlace);
+    // const recommendedPlace = toggleButtonUnit({
+    //     className: "toggle",
+    //     innerText: "추천 장소",
+    // });
+    // //recommendedPlace.setAttribute('data-filter', 'all');
+    // category.appendChild(recommendedPlace);
 
     const sights = toggleButtonUnit({
+        className: "toggle",
         innerText: "명소", //명소
     });
     sights.setAttribute('data-filter', '명소');
