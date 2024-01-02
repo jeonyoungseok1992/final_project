@@ -390,10 +390,10 @@ public class MemberServiceImpl implements MemberService{
 	//핸드폰 인증할 때 번호 체크
 	public void certifiedPhoneNumber(String userPhoneNumber, int randomNumber) {
 		System.out.println("왔어요");
-		String api_key = "NCSLBVD7LLNVRKXS";
-	    String api_secret = "U5YW5JZGJ5OGYADOGUD4NKV5TCU98RYS";
+		String api_key = "NCSEZITHDN92CHU0";
+	    String api_secret = "SDIEAKCSXQYKQLNIPMMTXCLJWQRHAE6X";
 	    Message coolsms = new Message(api_key, api_secret);
-
+	    System.out.println(userPhoneNumber);
 	    // 4 params(to, from, type, text) are mandatory. must be filled
 	    HashMap<String, String> params = new HashMap<String, String>();
 	    params.put("to", userPhoneNumber);    // 수신전화번호

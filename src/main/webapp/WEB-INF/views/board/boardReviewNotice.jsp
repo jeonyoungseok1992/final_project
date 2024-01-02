@@ -122,7 +122,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
             <div class="cards">
                <a href="detail.bo?boardNo=${b.boardNo}">
                   <div class="card-photo ">
-                    <img src="${b.tripPlanThumbnail}">
+                    <img src="${b.regionImg}">
                 </div>
                <div class="card-desc">
                   <h2 class="card-title">${b.boardTitle}</h2>
@@ -135,7 +135,7 @@ integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="ano
         </script>
                   <div class="card-counts">
                       <span>
-                        ${b.boardWriter}
+                        ${b.memberNickname}
                       </span>
                       <span style="padding: 0 1px;">|</span>
                       <span>

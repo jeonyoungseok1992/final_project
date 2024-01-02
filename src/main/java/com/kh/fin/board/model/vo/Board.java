@@ -48,6 +48,8 @@ public class Board {
 	private String memberProfileImg;
 	private int fromMemberNo;
 	private String regionImg;
+	private String regionName;
+	private String memberNickname;
 	
 	
 }

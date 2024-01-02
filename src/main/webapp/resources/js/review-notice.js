@@ -51,7 +51,7 @@ function transScheduleList(list){
         } else {
             tmpList.push({
                 tripPlanNo : plan.tripPlanNo,
-                tripPlanThumbnail : plan.tripPlanThumbnail,
+                regionImg : plan.regionImg,
                 tripStartDate : plan.tripStartDate,
                 tripEndDate : plan.tripEndDate,
                 regionName : plan.regionName,
@@ -72,10 +72,11 @@ function transScheduleList(list){
 
 //큰 플랜 버튼 그리는 함수
 function drawPlan(tmpList){
+    console.log(tmpList);
     let str1 ="";
     for(let i in tmpList){
         str1 += `<button index="`+i+`" role="tab" aria-selected="true" aria-controls="tabPanel1" id="tab1" class="active"><div class="travel-list-text" >
-        <p>${tmpList[i].tripStartDate.substring(0,10)}-${tmpList[i].tripEndDate.substring(0,10)}</p><h3>${tmpList[i].regionName}</h3></div><img src="${tmpList[i].tripPlanThumbnail}" alt=""></button>`
+        <p>${tmpList[i].tripStartDate.substring(0,10)}-${tmpList[i].tripEndDate.substring(0,10)}</p><h3>${tmpList[i].regionName}</h3></div><img src="${tmpList[i].regionImg}" alt=""></button>`
     }
     
     $(".tab-menu.button-group.button-type").html(str1);
