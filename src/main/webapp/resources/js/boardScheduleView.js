@@ -46,3 +46,7 @@ function shareMessage(num) {
     var shareURL = "https://share.naver.com/web/shareView?url=" + url + "&title=" + title;
     document.location = shareURL;
   }
+  function goToQr(){
+    const url2 = document.URL;
+    window.open('http://chart.apis.google.com/chart?cht=qr&chs=350x350&chl='+url2);
+  }
