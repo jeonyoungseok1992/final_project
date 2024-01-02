@@ -48,7 +48,7 @@ $(document).ready(function () {
     //socket연결로부터 데이터가 도착했을때
     //서버로부터 데이터가 도착했을때
     socket.onmessage = function(ev){
-        const receive = JSON.parse(ev.data);		//String을 다시 json으로 받은거
+        const receive = JSON.parse(ev.data);      //String을 다시 json으로 받은거
 
        
         

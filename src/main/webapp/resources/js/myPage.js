@@ -32,6 +32,7 @@ $(document).ready(function () {
                console.log(p)
                 str += `
                 <div class="mySchedule">
+                <a class="list-aTag" href="finalPlan.bo?tripPlanNo=${p.tripPlanNo}">
                     <div ><img id="mainImg" style="width: 180px; height: 180px;" src="${p.regionImg}" alt="전주사진"></div>
 
                     <div class="mySchedule-content">
@@ -48,7 +49,7 @@ $(document).ready(function () {
                         
                         </ul>
                     </div>
-
+                </a>
                 </div>
                 `
             }
@@ -268,6 +269,7 @@ function together(memberNo) {
             for (b of obb.list) {
                 str3 += `
                     <div class="tripBoard">
+                    <a class="list-aTag" href="togetherDetail.bo?boardNo=${b.boardNo}">
                     <div style="width: 180px; height: 180px;"><img id="mainImg" src="${b.regionImg}" alt="전주사진"></div>
 
                     <div class="mySchedule-content">
@@ -277,13 +279,14 @@ function together(memberNo) {
                     </div>
 
                     <div class="dropdown">
-                            <img class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" src="resources/images/moreIcons.png" alt="더보기" style="transform:rotate(90deg) translateY(50%); width: 30px; height: 30px; cursor: pointer;">
+                        <img class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" src="resources/images/moreIcons.png" alt="더보기" >
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <li><a class="dropdown-item" href="#">공유</a></li>
-                          <li><a class="dropdown-item" href="#">삭제</a></li>
-                          
+                        <li><button type="button" data-bs-toggle="modal" data-bs-target="#shareModal">친구공유</button></li>
+                        <li><a class="dropdown-item" href="#">삭제</a></li>
+                        
                         </ul>
-                      </div>
+                    </div>
+                      </a>
                 </div>
                 `
             }
@@ -335,10 +338,11 @@ function review(memberNo) {
         },
         success: function (obj) {
             console.log('ajax성공');
-            let str = "";
+            let str = "";   
             for (b of obj.list) {
                 str += `
                     <div class="tripBoard">
+                    <a class="list-aTag" href="detail.bo?boardNo=${b.boardNo}">
                     <div style="width: 180px; height: 180px;"><img id="mainImg" src="${b.regionImg}" alt="전주사진"></div>
 
                     <div class="mySchedule-content">
@@ -355,6 +359,7 @@ function review(memberNo) {
                           
                         </ul>
                       </div>
+                      </a>
                 </div>
                 `
             }

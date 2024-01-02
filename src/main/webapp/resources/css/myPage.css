@@ -95,6 +95,7 @@ body{
     justify-content: space-around;
     height: 120px;
     flex: 1;
+    margin-top: 10px;
 }
 
 
@@ -183,3 +184,9 @@ body{
 
 
 
+.list-aTag{
+    color: inherit;
+    -webkit-tap-highlight-color: inherit;
+    width: 100%;
+    display: flex;
+}

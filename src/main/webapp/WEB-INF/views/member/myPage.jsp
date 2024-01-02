@@ -18,11 +18,19 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="./resources/js/myPage.js"></script>
-
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js"
+  integrity="sha384-6MFdIr0zOira1CHQkedUqJVql0YtcZA1P0nbPrQYJXVJZUkTk/oX4U9GhUIs3/z8" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="./resources/css/myPage.css">
 <link rel="stylesheet" href="./resources/css/board-card.css">
 <link rel="stylesheet" href="./resources/css/schedule-view.css">
-
+<script src="./resources/js/boardScheduleView.js"></script>
+<!-- You can use Open Graph tags to customize link previews.
+Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
+<meta property="og:url"           content="http://localhost:8009/mapping/finalPlan.bo?tripPlanNo=${list[0].tripPlanNo}"/>
+<meta property="og:type"          content="website" />
+<meta property="og:title"         content="Mapping" />
+<meta property="og:description"   content="#함께하면 더욱 즐거운 여행, 같이가요 우리" />
+<meta property="og:image"         content="https://img.freepik.com/premium-photo/bukchon-hanok-village-with-seoul-city-skyline-cityscape-of-south-korea_255553-4703.jpg" />
 
 
 </head>
