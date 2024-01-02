@@ -521,10 +521,20 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.pageFriend(sqlSession, boardNo, m);
 	}
 	
+	@Override
+	public int chatCheck(MsgVo vo) {
+		
+		return memberDao.chatCheck(sqlSession, vo);
+
+	}
 	
 	
-	
-	
+	//채팅  insert
+	@Override
+	public int readChat(MsgVo vo) {
+		return memberDao.readChat(sqlSession, vo);
+
+	}
 	
 	
 	
@@ -562,5 +572,8 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.memberInfor(sqlSession);
 
 	}
+
+
+
 
 }

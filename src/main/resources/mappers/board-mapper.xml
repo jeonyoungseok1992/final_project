@@ -31,6 +31,7 @@
 		<result column="CATEGORY_NAME" property="categoryName"/>
 		<result column="MEMBER_PROFILE_IMG" property="memberProfileImg"/>
 		<result column="FROM_MEMBER_NO" property="fromMemberNo"/>
+		<result column="REGION_IMG" property="regionImg"/>
 	</resultMap>
 
 	<resultMap type="Reply" id="replyResult">
@@ -70,6 +71,7 @@
 		<result column="TRIP_N_DAY" property="tripNday"/>
 		<result column="ATTRACTION_X" property="attractionX"/>
 		<result column="ATTRACTION_Y" property="attractionY"/>
+		<result column="REGION_IMG" property="regionImg"/>
 		
 	</resultMap>
 	
@@ -1220,14 +1222,16 @@
 		        ,BOARD_WRITER
 		        ,TO_CHAR(BOARD_MODIFY_DATE, 'YYYY-MM-DD') AS BOARD_MODIFY_DATE       
 		        ,TRIP_START_DATE       
-		        ,TRIP_END_DATE       
+		        ,TRIP_END_DATE
+		        ,REGION_NAME   
+                ,REGION_IMG
 		from board
 		join member on (BOARD_WRITER = MEMBER_NO)
 		JOIN TRIP_PLAN ON(BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
+        JOIN REGION ON (BOARD_REGION_NO = REGION_NO)
 		where BOARD_CATEGORY = 2
 			AND BOARD_WRITER = #{memberNo}
 		ORDER BY BOARD_NO DESC
-
 	</select>
 	
 	
@@ -1252,9 +1256,12 @@
 		        ,TO_CHAR(BOARD_MODIFY_DATE, 'YYYY-MM-DD') AS BOARD_MODIFY_DATE       
 		        ,TRIP_START_DATE       
 		        ,TRIP_END_DATE
+		        ,REGION_NAME   
+		        ,REGION_IMG
 		from board
 		join member on (BOARD_WRITER = MEMBER_NO)
 		JOIN TRIP_PLAN ON(BOARD_TRIP_PLAN_NO = TRIP_PLAN_NO)
+		JOIN REGION ON (BOARD_REGION_NO = REGION_NO)
 		where BOARD_CATEGORY = 1
 			AND BOARD_WRITER = #{memberNo}
 		ORDER BY BOARD_NO DESC
@@ -1334,15 +1341,19 @@
 	
 	<!--내가 짠 나의 일정list -->
 	<select id="myTripPlanList" resultMap="planResult">
-		select 
-			TRIP_PLAN_NO
-			,TRIP_PLANNER_NO
-			,TRIP_PLAN_TITLE
-	        ,SUBSTR(TRIP_START_DATE, 1, INSTR(TRIP_START_DATE, 'T') - 1) AS TRIP_START_DATE
-        	,SUBSTR(TRIP_END_DATE, 1, INSTR(TRIP_END_DATE, 'T') - 1) AS TRIP_END_DATE
-            ,TRIP_PLAN_THUMBNAIL
+		select DISTINCT TRIP_PLAN_NO
+				,TRIP_PLAN_TITLE
+		        ,SUBSTR(TRIP_START_DATE, 1, INSTR(TRIP_START_DATE, 'T') - 1) AS TRIP_START_DATE
+        		,SUBSTR(TRIP_END_DATE, 1, INSTR(TRIP_END_DATE, 'T') - 1) AS TRIP_END_DATE
+                ,REGION_NO
+                ,REGION_NAME
+                ,REGION_IMG
 		from TRIP_PLAN
-		where TRIP_PLANner_no = #{memberNo}
+		join member on (TRIP_PLANNER_NO = MEMBER_NO)
+        join location using (TRIP_PLAN_NO)
+        join ATTRACTION on (LOCATION_ATTRACTION_NO = ATTRACTION_NO)
+        join REGION on(ATTRACTION_REGION_NO =REGION_NO)
+		where TRIP_PLANNER_NO = #{memberNo}
 	</select>
 	
 	

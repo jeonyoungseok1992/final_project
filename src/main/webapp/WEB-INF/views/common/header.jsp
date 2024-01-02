@@ -58,14 +58,14 @@
 					   <div class="dropdown">
 					   <c:choose>
 						   <c:when test="${not empty loginUser.memberProfileImg}">
-						   <button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown"><img class="title-img" src="${loginUser.memberProfileImg}" alt=""></button>
+						   <button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown"><img class="title-img" src="${loginUser.memberProfileImg}" alt="" onclick="frList(${loginUser.memberNo})"></button>
 						   </c:when>
 						   <c:otherwise>
-						   <button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown"><img src="/mapping/resources/images/profile.png" alt=""></button>
+						   <button type="button" class="dropdown-toggle profile" data-bs-toggle="dropdown"><img src="/mapping/resources/images/profile.png" alt="" onclick="frList(${loginUser.memberNo})" ></button>
 						   </c:otherwise>	   
 					   </c:choose>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="chat.me">1:1 채팅</a></li>
+							<li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#chatModal">1:1 채팅</a></li>
 							<li><a class="dropdown-item" href="mypage.me">마이페이지</a></li>
 							<c:choose>
                                 <c:when test ="${loginUser.memberGrade eq 2}">
@@ -224,6 +224,35 @@
 	        })
 	    });
     </script>
+
+
+
+
+    <!-- 1:1채팅 클릭 시 뜨는 모달 -->    		
+	<div class="modal fade" id="chatModal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+		
+				<!-- Modal Header -->
+			   <div class="modal-header" style="border-bottom: none;padding: 30px;display: block;">
+					<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 20px;">
+						 <h1 align="center"><img src="resources/images/logo_001.png" alt="mapping logo" style="width:100px"> <span class="sr-only"><span></a></h1>
+						 <h4 class="modal-title updatest">친구목록</h4>
+					</div>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" style="position: absolute; top: 20px; right: 20px;"></button>
+				</div>
+				<!-- Modal body -->
+				<div id="modal-body-chat" align="center" style="padding: 24px; ">
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
     
 
 

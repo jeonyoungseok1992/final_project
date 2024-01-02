@@ -32,18 +32,17 @@ public class ChatServer extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		int myNo = (int)session.getAttributes().get("myNo");
+		int youNo = (int)session.getAttributes().get("youNo");
 		Integer myNo2 = (Integer) session.getAttributes().get("myNo");
 		Member mem = ((Member)session.getAttributes().get("loginUser"));
         WebSocketSession existingSession = userSessions.get(myNo);
-        
+        //String senderId = getMemberId(session);
         if (existingSession != null && existingSession.isOpen()) {
             // 이미 세션이 존재하면 해당 세션을 종료시킴
             existingSession.close();
         }
-		
-		System.out.println(session.getAttributes().get("nick"));
 		if(myNo2 != null) {
-		System.out.println("연결됨!!");
+		System.out.println("afterConnectionEstablished 연결됨!!");
 		log.info("{} 연결됨", myNo);
 
 		userSessions.put(myNo, session);
@@ -62,11 +61,11 @@ public class ChatServer extends TextWebSocketHandler {
 		vo.setYouNo(obj.get("target").getAsInt());
 		vo.setTime(new Date());
 		vo.setMemberProfileImg(mem.getMemberProfileImg());
-		System.out.println(myNo);
-		System.out.println(obj.get("target").getAsInt());
+		vo.setChatCheck(myNo);
+
 		
 		memberService.insertChat(vo);
-	
+		
 		sendMessageToUser(vo);
 	}
 	
@@ -74,20 +73,16 @@ public class ChatServer extends TextWebSocketHandler {
 		System.out.println("send핸들러 연결됨");
 		WebSocketSession targetSession = userSessions.get(vo.getYouNo());
 		WebSocketSession mySession = userSessions.get(vo.getMyNo());
-		System.out.println(vo.getYouNo());
-		System.out.println(vo.getMyNo());
-		System.out.println(targetSession);
-		System.out.println(mySession);
 		
-		
-		
+
 			String  str = new Gson().toJson(vo);
 			TextMessage msg = new TextMessage(str);
 			mySession.sendMessage(msg);
-
+			
 			
 			if(targetSession != null && targetSession.isOpen()) {
 				targetSession.sendMessage(msg);
+				System.out.println("타겟연결됨");
 			}
 			
 			

@@ -23,4 +23,5 @@ public class MsgVo {
 	private int youNo;
 	private String memberProfileImg;
 	private String memberNickName;
+	private int chatCheck;
 }

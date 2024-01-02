@@ -22,6 +22,7 @@ function init(memberNo, frMemberList) {
 
 $(document).ready(function () {
 
+    //나의 일정 LIST
     $.ajax({
         url: "myTripPlanList.bo",
         success: function (list) {
@@ -31,11 +32,12 @@ $(document).ready(function () {
                console.log(p)
                 str += `
                 <div class="mySchedule">
-                    <div ><img id="mainImg" style="width: 180px; height: 180px;" src="${p.tripPlanThumbnail}" alt="전주사진"></div>
+                    <div ><img id="mainImg" style="width: 180px; height: 180px;" src="${p.regionImg}" alt="전주사진"></div>
 
                     <div class="mySchedule-content">
                         <span>${p.tripPlanTitle}</span>
-                        <span style="font-size: 18px; font-weight: 600; display: flex; justify-content: space-between;">${p.tripStartDate} ~ ${p.tripEndDate}</span>									
+                        <span style="font-size: 14px; font-weight: 400; color: gray;">${p.regionName}</span>
+                        <span style="font-size: 16px; font-weight: 600; display: flex; justify-content: space-between;">${p.tripStartDate} ~ ${p.tripEndDate}</span>									
                     </div>
 
                     <div class="dropdown">
@@ -266,12 +268,12 @@ function together(memberNo) {
             for (b of obb.list) {
                 str3 += `
                     <div class="tripBoard">
-                    <div style="width: 180px; height: 180px;"><img id="mainImg" src="resources/images/Jeonju.jpeg" alt="전주사진"></div>
+                    <div style="width: 180px; height: 180px;"><img id="mainImg" src="${b.regionImg}" alt="전주사진"></div>
 
                     <div class="mySchedule-content">
                         <span>${b.boardTitle}</span>
-                        <!-- <span style="font-size: 14px; font-weight: 400; color: gray;">전주</span> -->
-                        <span style="font-size: 18px; font-weight: 600; display: flex; justify-content: space-between;">${b.tripStartDate.substring(0,10)}~${b.tripEndDate.substring(0,10)}<span style="font-size: 13px; color: gray;">최근 수정일 ${b.boardModifyDate}</span></span>									
+                        <span style="font-size: 14px; font-weight: 400; color: gray;">${p.regionName}</span>
+                        <span style="font-size: 16px; font-weight: 600; display: flex; justify-content: space-between;">${b.tripStartDate.substring(0,10)}~${b.tripEndDate.substring(0,10)}<span style="font-size: 13px; color: gray;">최근 수정일 ${b.boardModifyDate}</span></span>									
                     </div>
 
                     <div class="dropdown">
@@ -337,12 +339,12 @@ function review(memberNo) {
             for (b of obj.list) {
                 str += `
                     <div class="tripBoard">
-                    <div style="width: 180px; height: 180px;"><img id="mainImg" src="resources/images/Jeonju.jpeg" alt="전주사진"></div>
+                    <div style="width: 180px; height: 180px;"><img id="mainImg" src="${b.regionImg}" alt="전주사진"></div>
 
                     <div class="mySchedule-content">
                         <span>${b.boardTitle}</span>
-                        <!-- <span style="font-size: 14px; font-weight: 400; color: gray;">전주</span> -->
-                        <span style="font-size: 18px; font-weight: 600; display: flex; justify-content: space-between;">${b.tripStartDate.substring(0,10)}~${b.tripEndDate.substring(0,10)}<span style="font-size: 13px; color: gray;">최근 수정일 ${b.boardModifyDate}</span></span>									
+                        <span style="font-size: 14px; font-weight: 400; color: gray;">${p.regionName}</span>
+                        <span style="font-size: 16px; font-weight: 600; display: flex; justify-content: space-between;">${b.tripStartDate.substring(0,10)}~${b.tripEndDate.substring(0,10)}<span style="font-size: 13px; color: gray;">최근 수정일 ${b.boardModifyDate}</span></span>									
                     </div>
 
                     <div class="dropdown">
@@ -417,8 +419,8 @@ function fdList(memberNo) {
                         <span style="font-size: 20px; margin-left: 10px;">${m.memberNickName}</span>
                     </div>
                     <div>
-                        <a href="chat.me?youNo=${m.memberNo}"><img src="resources/images/talkIcons.png" alt="채팅" style="width: 30px; height: 30px;"></a>
-                        <a name="mmodal" data-bs-toggle="modal" data-bs-target="#myModal" onclick="myPageValue.memberNo=${m.memberNo}"><img src="resources/images/xIcons.png" alt="x" style="width: 30px; height: 30px;"></a>
+                        <a href="chat.me?youNo=${m.friendMemberNo}"><img src="resources/images/talkIcons.png" alt="채팅" style="width: 30px; height: 30px;"></a>
+                        <a name="mmodal" data-bs-toggle="modal" data-bs-target="#myModal" onclick="myPageValue.memberNo=${m.friendMemberNo}"><img src="resources/images/xIcons.png" alt="x" style="width: 30px; height: 30px;"></a>
                         
                         
                         </div>	
@@ -441,7 +443,6 @@ function fdList(memberNo) {
 
 //받은 친구요청 리스트
 function fdRequest(no) {
-    console.log(friendList);
     $.ajax({
         url: "friendRequest.me",
         data: {

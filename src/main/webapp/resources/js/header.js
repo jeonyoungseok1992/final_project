@@ -72,9 +72,6 @@ $("#phoneChk2").click(function(){
 
 
 
-
-
-
 });
 
 
@@ -108,3 +105,94 @@ function idNext(){
 
 
 
+
+function frList(myNo){
+    console.log(myNo);
+	$.ajax({
+        url:"friendList.me",
+        data: {
+            memberNo: myNo
+        },
+        success:function(list){
+			console.log(list)
+            let str = "";
+            if (list.length == 0) {
+                str = '<div style="font-size: 20px; margin-bottom: 20px;">등록 된 친구가 없습니다</div>';
+                console.log(str);
+            } else{
+            for (m of list) {
+
+                let profileImg = m.memberProfileImg ? m.memberProfileImg : "/mapping/resources/images/profile.png";
+                console.log(m)
+                str += `
+                <div class="myfriend">
+                <div style="display: flex; align-items: center;">
+                    <img class="title-img2" src="${profileImg}" >
+                    <span style="font-size: 20px; margin-left: 10px;">${m.memberNickName}</span>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <a href="chat.me?youNo=${m.friendMemberNo}"><img src="resources/images/talkIcons.png" alt="채팅" style="width: 30px; height: 30px;">
+                    <span id="chat-count${m.friendMemberNo}" class="chatCount" style="font-size: 30px; margin: 5px; padding-right: 20px; color:red;"></span>
+                    </a>
+                    
+                </div>
+            </div>
+                `
+        }
+
+
+        
+
+
+
+
+
+    }
+        
+		document.querySelector("#modal-body-chat").innerHTML = str;
+        chatCheck22(myNo);
+    
+	},
+        error: function(){
+            console.log("phoneIdCheck ajax통신 실패");
+            }
+    });
+}
+
+
+
+async function chatCheck22(myNo) {
+    console.log("chatCheck 도착");
+    
+    const list = await $.ajax({
+        url: "friendList.me",
+        data: {
+            memberNo: myNo
+        },
+    });
+    console.log(list);
+    for (const c of list) {
+ 
+
+        try {
+            const count = await $.ajax({
+                url: "chatCheck2.ch",
+                data: {
+                    youNo: c.friendMemberNo,
+                    myNo: myNo,
+                }
+            });
+
+            let str = "&nbsp&nbsp";
+            console.log(count);
+
+            if(count !== 0){
+                str = count;
+            }
+
+            document.querySelector("#chat-count" + c.friendMemberNo).innerHTML = str;
+        } catch (error) {
+            console.log("chatCheck 통신 실패");
+        }
+    }
+}

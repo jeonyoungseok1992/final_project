@@ -422,7 +422,7 @@ public class MemberController {
 
 
 		if (upfile != null && !upfile.getOriginalFilename().equals("")) {
-			System.out.println(m.getMemberProfileImg());
+
 			
 			if(m.getMemberProfileImg() != null) {
 				deletePreviousProfilePic(m.getMemberProfileImg(), session);
@@ -507,7 +507,7 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value="phoneIdCheck.me", produces="application/json; charset=UTF-8")
 	public Member phoneIdCheck(Member m) {
-		System.out.println(memberService.phoneIdCheck(m));
+
 		return memberService.phoneIdCheck(m);
 	}
 
@@ -519,6 +519,7 @@ public class MemberController {
 	public ArrayList<Member> friendList(Member m, HttpSession session) {
 		
 		ArrayList<Member> friendList = memberService.friendList(m);
+
 		session.setAttribute("friendList", friendList);
 		return memberService.friendList(m);
 	}
@@ -528,7 +529,7 @@ public class MemberController {
 	@RequestMapping(value="friendRequest.me", produces="application/json; charset=UTF-8")
 	public ArrayList<Member> friendRequest(Member m) {
 
-		
+
 		return memberService.friendRequest(m);
 	}
 	
@@ -555,7 +556,7 @@ public class MemberController {
 		m.setMemberPwd(encPwd);
 	
 		int result= memberService.updateMember(m);
-		System.out.println(m);
+
 			if(result > 0) {
 				session.setAttribute("alertMsg", "성공적으로 회원정보가 수정되었습니다.");
 				Member loginUser = memberService.reloginMember(memberId);
@@ -572,10 +573,10 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value="rejectFriend.me")
 	public int rejectFriend(int friendNo, HttpSession session) {
-		System.out.println(friendNo);
+
 		Member m = ((Member)session.getAttribute("loginUser"));
 		int result = memberService.rejectFriend(m, friendNo);
-		System.out.println(result);
+
 		return result > 0 ? m.getMemberNo() : 0;
 		
 		
@@ -586,13 +587,12 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value="acceptFriend.me")
 	public int acceptFriend(int friendNo, HttpSession session) {
-		System.out.println(friendNo);
+		
 		Member m = ((Member)session.getAttribute("loginUser"));
 		int result = memberService.acceptFriend(m, friendNo);
 		int result2 = memberService.insertFriend(m, friendNo);
 		int result3 = memberService.reverseInsertFriend(m, friendNo);
-		System.out.println(result);
-		System.out.println(result2);
+
 		return result*result2*result3 > 0 ? m.getMemberNo() : 0;
 	}
 	
@@ -600,7 +600,7 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value="requestFriend.me")
 	public String requestFriend(int friendNo, HttpSession session) {
-		System.out.println(friendNo);
+		
 		Member m = ((Member)session.getAttribute("loginUser"));
 		int result = memberService.requestFriend(m, friendNo);
 		
@@ -660,7 +660,7 @@ public class MemberController {
 			vo.setMyNo(myNo);
 			vo.setYouNo(youNo);
 				
-
+			
 			System.out.println(memberService.leftChatList(vo));
 			return memberService.leftChatList(vo);
 		}
@@ -671,7 +671,10 @@ public class MemberController {
 		public ArrayList<MsgVo> chatList(HttpSession session) {
 			int myNo = (int)session.getAttribute("myNo");
 			int youNo = (int)session.getAttribute("youNo");
-
+			MsgVo vo = new MsgVo();
+			vo.setMyNo(myNo);
+			vo.setYouNo(youNo);
+			System.out.println("채팅목록 : "+memberService.chatList(myNo));		
 			return memberService.chatList(myNo);
 		}
 	
@@ -680,21 +683,61 @@ public class MemberController {
 		@ResponseBody
 		@RequestMapping(value="goChat.ch", produces="application/json; charset=UTF-8")
 		public ArrayList<MsgVo> goChat(HttpSession session, int youNo) {
+			System.out.println("goChat 시작");
+		
 			int myNo = (int)session.getAttribute("myNo");
+			//session.setAttribute("youNo", youNo);
 			MsgVo vo = new MsgVo();
 			vo.setMyNo(myNo);
 			vo.setYouNo(youNo);
 				
-
-			System.out.println(memberService.leftChatList(vo));
+			
+		
 			return memberService.leftChatList(vo);
+		}
+		
+		//안읽은 메세지 갯수체크
+		@ResponseBody
+		@RequestMapping(value="chatCheck.ch", produces="application/json; charset=UTF-8")
+		public int chatCheck(HttpSession session, int youNo) {
+			int myNo = (int)session.getAttribute("myNo");
+			MsgVo vo = new MsgVo();
+			vo.setMyNo(myNo);
+			vo.setYouNo(youNo);
+			System.out.println("안읽은메시지 갯수 메서드 시작");
+			System.out.println(youNo);
+			return memberService.chatCheck(vo);
+		}
+		
+		//안읽은 메세지 갯수체크
+		@ResponseBody
+		@RequestMapping(value="chatCheck2.ch", produces="application/json; charset=UTF-8")
+		public int chatCheck(HttpSession session, int youNo, int myNo) {
+		
+			MsgVo vo = new MsgVo();
+			vo.setMyNo(myNo);
+			vo.setYouNo(youNo);
+			System.out.println("안읽은메시지 갯수 메서드 시작");
+			System.out.println(youNo);
+			return memberService.chatCheck(vo);
 		}
 		
 
 		
 		
 		
-		
+		@ResponseBody
+		@RequestMapping(value="readChat.ch", produces="application/json; charset=UTF-8")
+		public void readChat(HttpSession session, int youNo) {
+			int myNo = (int)session.getAttribute("myNo");
+			MsgVo vo = new MsgVo();
+			vo.setMyNo(myNo);
+			vo.setYouNo(youNo);
+			System.out.println("읽음메서드 시작");
+			memberService.readChat(vo);
+			
+
+		}
 		
 		
 		
@@ -736,7 +779,7 @@ public class MemberController {
 		@ResponseBody
 		@RequestMapping(value="memberInfor.me", produces="application/json; charset=UTF-8")
 		public String memberInfor() {
-			System.out.println(memberService.memberInfor());
+
 		    return new Gson().toJson(memberService.memberInfor());
 		}
 		

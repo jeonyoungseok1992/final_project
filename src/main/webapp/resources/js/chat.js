@@ -2,7 +2,7 @@ let socket;
 let youNo;
 let sendNo
 $(document).ready(function () {
-
+    scrollChatToBottom();
     youNo = document.getElementById("plz").value;
     sendNo = document.getElementById("plz2").value;
 
@@ -26,8 +26,13 @@ $(document).ready(function () {
         console.log("웹소켓 연결 ok...");
         console.log(typeof youNo);
         console.log(typeof sendNo);
+        scrollChatToBottom();
+        window.scrollTo(0, 99999);
+        mainChat();
+        readChat(youNo);
         chatList();
-        leftChat();
+        chatCheck();
+
     }
     //socket 연결 끊어졌을 시 
     socket.onclose = function(){
@@ -44,7 +49,7 @@ $(document).ready(function () {
     //서버로부터 데이터가 도착했을때
     socket.onmessage = function(ev){
         const receive = JSON.parse(ev.data);		//String을 다시 json으로 받은거
-        console.log(receive)
+
        
         
         const msgContainer =  document.querySelector("#chat-main");
@@ -105,37 +110,40 @@ $(document).ready(function () {
         
     //     msgContainer.innerHTML += str;
     
-  
+ 
+    readChat(receive.youNo);
+    chatList();
+    chatCheck();
     
     
     }
 
 
 
-    setInterval(function(){
+    // setInterval(function(){
 
-        chatList();
+    //     chatList();
 
-    },5000);
+    // },5000);
     
 
 
 
-
-
-
+ 
+   
 
 });
 
 
 
 
-    function sendMsg(youNo){
+    function sendMsg(yyno){
         const msgData = {
             message : document.querySelector("input[name=chatting]").value,
-            target : youNo
+            target : yyno
         }
-        console.log(msgData);
+
+       
         socket.send(JSON.stringify(msgData));
         $('#chat-msg-input').val('');
 
@@ -144,13 +152,16 @@ $(document).ready(function () {
     }
 
 
-    function leftChat(){
+    function mainChat(){
+        // chatCheck();
+        // readChat(youNo);
+
         $.ajax({
             url: "leftChat.ch",
             success: function (list) {
                 
           
-                console.log(list);
+             
                 
     
                 let str = "";
@@ -177,10 +188,7 @@ $(document).ready(function () {
  
                 for (c of list) {
                     
-                    console.log(typeof c.myNo);
-                    console.log(youNo);
-                    console.log(sendNo);
-                    console.log(typeof sendNo);
+          
 
                     let profileImg = c.memberProfileImg ? c.memberProfileImg : "/mapping/resources/images/profile.png";
                     if (parseInt(c.myNo) !== parseInt(sendNo)) {
@@ -212,9 +220,10 @@ $(document).ready(function () {
 
                 document.querySelector("#chat-main").innerHTML = str;
                document.querySelector("#chat-msg").innerHTML = str2;
+               scrollChatToBottom();
             },
             error: function () {
-                console.log("채팅 화면 통신 실패");
+                console.log("mainChat 통신 실패");
             }
         })
 
@@ -226,24 +235,23 @@ $(document).ready(function () {
             url: "chatList.ch",
             success: function (list) {
                 
-          
-                console.log(list);
-                
     
                 let str = "";
                 for (c of list) {
-                    console.log('채팅목록시작');
-                    console.log(c.youNo);
+
+                    
+                    
                     let profileImg = c.memberProfileImg ? c.memberProfileImg : "/mapping/resources/images/profile.png";
 
                     str +=`
                     <div class="chat-list" onclick="goChat(${c.youNo})">
                         <img src="${profileImg}" alt="sunil">
+                        <div id="chat-count${c.youNo}" style="font-size: 30px; font-weight: bold; margin: -6px 10px; color:red; margin-left:-5px " ></div> 
                         <div class="list-user">
                             <h5>${c.memberNickName} <span class="chat_date">${c.time}</span></h5>
                             <p>${c.message}</p>
                         </div>    
-                        <div class="chat-count">new</div> 
+                        
                     </div>
                     `
                 
@@ -251,26 +259,29 @@ $(document).ready(function () {
 
                 }
                 document.querySelector("#section1-list").innerHTML = str;
-    
+
+
             },
             error: function () {
-                console.log("채팅 목록 통신 실패");
+                console.log("chatList 통신 실패");
             }
         })
 
     }
 
-    function goChat(youNo) {
+    function goChat(yyNo) {
+        chatList();
+        chatCheck();
+        readChat(yyNo);
 
         $.ajax({
             url: "goChat.ch",
             data: {
-                youNo: youNo
+                youNo: yyNo
             },
-            async: false,
             success: function (list) {
                 
-                console.log(list);
+              
 
                 let str = "";
                 let str2 = "";
@@ -279,7 +290,7 @@ $(document).ready(function () {
                         <input name="chatting" id="chat-msg-input" type="text" placeholder="메세지를 입력해주세요." required>
                         </input>                          
                     </div>
-                    <button id="send-button" onclick="sendMsg('${youNo}')" disabled >전송</button>
+                    <button id="send-button" onclick="sendMsg('${yyNo}')" disabled >전송</button>
                 `;
                 $(document).on('input', '#chat-msg-input', function () {
                     let inputValue = $(this).val();
@@ -295,10 +306,9 @@ $(document).ready(function () {
                 
                 for (c of list) {
                     let profileImg = c.memberProfileImg ? c.memberProfileImg : "/mapping/resources/images/profile.png";
-                    if (c.youNo !== youNo) {
+                    if (c.youNo !== yyNo) {
                         str += `
                             <div class="left" align="left">
-                            <div id="hiddenNo" type="hidden" value="youNo"></div>
                                 <div>
                                     <img class="title-img2" src="${profileImg}" >
                                     <span style="font-size: 20px; margin-left: 10px;">${c.message}</span>
@@ -309,12 +319,11 @@ $(document).ready(function () {
                     } else {
                         str += `
                             <div class="right" align="right">
-                            <div id="hiddenNo" type="hidden" value="youNo"></div>
                                 <div> 
-                                <span style="font-size: 10px; margin-left: 10px;">${c.time}</span> 
+                                <span style="font-size: 10px; margin-left: 10px;">${c.time}</span>  
                                     <span style="font-size: 20px; margin-left: 10px;">${c.message}</span>   
-                                 
-                                    <img class="title-img2" src="${profileImg}" >       
+                                   
+                                    <img class="title-img2" src="${profileImg}" >      
                                 </div>
                             </div>
                         `;
@@ -323,9 +332,10 @@ $(document).ready(function () {
 
                 document.querySelector("#chat-main").innerHTML = str;
                 document.querySelector("#chat-msg").innerHTML = str2;
+                scrollChatToBottom();
             },
             error: function () {
-                console.log("채팅 화면 통신 실패");
+                console.log("goChat 통신 실패");
             }
         });
     }
@@ -333,6 +343,67 @@ $(document).ready(function () {
 
 
     function scrollChatToBottom() {
+        console.log("스크롤내리기")
         var chatMain = document.getElementById("section2");
         chatMain.scrollTop = chatMain.scrollHeight;
+    }
+
+
+
+
+    function readChat(yyNo){
+        console.log("readChat 도착")
+        $.ajax({
+            url: "readChat.ch",
+            data: {
+                youNo: yyNo
+            },
+            success: function (res) {
+                if(res > 0){
+                    console.log("읽음처리 성공")
+                }
+                
+            },
+            error: function () {
+                console.log("readChat 통신 실패");
+            }
+        })
+
+    }
+
+
+
+
+
+
+    async function chatCheck() {
+        console.log("chatCheck 도착");
+        
+        const list = await $.ajax({
+            url: "chatList.ch",
+        });
+    
+        for (const c of list) {
+            console.log(c.youNo);
+    
+            try {
+                const count = await $.ajax({
+                    url: "chatCheck.ch",
+                    data: {
+                        youNo: c.youNo
+                    }
+                });
+    
+                let str = "&nbsp&nbsp";
+                console.log(count);
+    
+                if(count !== 0){
+                    str = count;
+                }
+    
+                document.querySelector("#chat-count" + c.youNo).innerHTML = str;
+            } catch (error) {
+                console.log("chatCheck 통신 실패");
+            }
+        }
     }
