@@ -75,7 +75,6 @@ https://github.com/jeonyoungseok1992/final_project
   + 일차별장소 간 경로 표출
   + 드래그를 이용한 자유로운 장소추가 및 수정
   + 여행 플랜 공유기능 (카카오톡,네이버블로그, 페이스북, QR코드)
-  + ![Uploading image.png…]()
 
 
 + 마이페이지
